@@ -1,2 +1,2 @@
 # ERDSL
-Repositório da DSL para Modelagem de Projeto de Banco de Dados.
+Repositório da DSL para Modelagem e Projeto de Banco de Dados.
