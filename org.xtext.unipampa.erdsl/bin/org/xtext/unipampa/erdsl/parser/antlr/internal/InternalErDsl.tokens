@@ -11,9 +11,9 @@
 'double'=27
 'file'=32
 'int'=26
+'isA'=18
 'isIdentifier'=17
-'is_Related_With'=23
-'is_a'=18
+'isRelatedWith'=23
 'many'=34
 'money'=28
 'one'=33

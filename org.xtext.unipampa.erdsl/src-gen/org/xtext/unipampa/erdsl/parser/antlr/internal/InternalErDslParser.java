@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalErDslParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "';'", "'Entities{'", "'};'", "'Relationships{'", "'Domain'", "':'", "'isIdentifier'", "'is_a'", "'{'", "','", "'}'", "'['", "'is_Related_With'", "']'", "'zero'", "'int'", "'double'", "'money'", "'string'", "'boolean'", "'datetime'", "'file'", "'one'", "'many'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER", "';'", "'Entities{'", "'};'", "'Relationships{'", "'Domain'", "':'", "'isIdentifier'", "'isA'", "'{'", "','", "'}'", "'['", "'isRelatedWith'", "']'", "'zero'", "'int'", "'double'", "'money'", "'string'", "'boolean'", "'datetime'", "'file'", "'one'", "'many'"
     };
     public static final int RULE_STRING=6;
     public static final int RULE_SL_COMMENT=8;
@@ -651,7 +651,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleEntity"
-    // InternalErDsl.g:283:1: ruleEntity returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? ) ;
+    // InternalErDsl.g:283:1: ruleEntity returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? ) ;
     public final EObject ruleEntity() throws RecognitionException {
         EObject current = null;
 
@@ -670,11 +670,11 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDsl.g:289:2: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? ) )
-            // InternalErDsl.g:290:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? )
+            // InternalErDsl.g:289:2: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? ) )
+            // InternalErDsl.g:290:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? )
             {
-            // InternalErDsl.g:290:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? )
-            // InternalErDsl.g:291:3: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )?
+            // InternalErDsl.g:290:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )? )
+            // InternalErDsl.g:291:3: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )* (otherlv_3= '{' ( (lv_attributes_4_0= ruleAttribute ) ) (otherlv_5= ',' ( (lv_attributes_6_0= ruleAttribute ) ) )* otherlv_7= '}' )?
             {
             // InternalErDsl.g:291:3: ( (lv_name_0_0= RULE_ID ) )
             // InternalErDsl.g:292:4: (lv_name_0_0= RULE_ID )
@@ -702,7 +702,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalErDsl.g:309:3: (otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) ) )*
+            // InternalErDsl.g:309:3: (otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) ) )*
             loop4:
             do {
                 int alt4=2;
@@ -715,11 +715,11 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
                 switch (alt4) {
             	case 1 :
-            	    // InternalErDsl.g:310:4: otherlv_1= 'is_a' ( (otherlv_2= RULE_ID ) )
+            	    // InternalErDsl.g:310:4: otherlv_1= 'isA' ( (otherlv_2= RULE_ID ) )
             	    {
             	    otherlv_1=(Token)match(input,18,FOLLOW_5); 
 
-            	    				newLeafNode(otherlv_1, grammarAccess.getEntityAccess().getIs_aKeyword_1_0());
+            	    				newLeafNode(otherlv_1, grammarAccess.getEntityAccess().getIsAKeyword_1_0());
             	    			
             	    // InternalErDsl.g:314:4: ( (otherlv_2= RULE_ID ) )
             	    // InternalErDsl.g:315:5: (otherlv_2= RULE_ID )
@@ -925,7 +925,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRelation"
-    // InternalErDsl.g:393:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* ) ;
+    // InternalErDsl.g:393:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* ) ;
     public final EObject ruleRelation() throws RecognitionException {
         EObject current = null;
 
@@ -949,11 +949,11 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDsl.g:399:2: ( ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* ) )
-            // InternalErDsl.g:400:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* )
+            // InternalErDsl.g:399:2: ( ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* ) )
+            // InternalErDsl.g:400:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* )
             {
-            // InternalErDsl.g:400:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* )
-            // InternalErDsl.g:401:3: ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )*
+            // InternalErDsl.g:400:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )* )
+            // InternalErDsl.g:401:3: ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' ) (otherlv_6= '{' ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= ',' ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= '}' )*
             {
             // InternalErDsl.g:401:3: ( (lv_name_0_0= RULE_ID ) )?
             int alt7=2;
@@ -992,8 +992,8 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalErDsl.g:419:3: (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' )
-            // InternalErDsl.g:420:4: otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'is_Related_With' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']'
+            // InternalErDsl.g:419:3: (otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']' )
+            // InternalErDsl.g:420:4: otherlv_1= '[' ( (lv_leftEnding_2_0= ruleRelationSide ) ) otherlv_3= 'isRelatedWith' ( (lv_rightEnding_4_0= ruleRelationSide ) ) otherlv_5= ']'
             {
             otherlv_1=(Token)match(input,22,FOLLOW_15); 
 
@@ -1032,7 +1032,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             otherlv_3=(Token)match(input,23,FOLLOW_15); 
 
-            				newLeafNode(otherlv_3, grammarAccess.getRelationAccess().getIs_Related_WithKeyword_1_2());
+            				newLeafNode(otherlv_3, grammarAccess.getRelationAccess().getIsRelatedWithKeyword_1_2());
             			
             // InternalErDsl.g:447:4: ( (lv_rightEnding_4_0= ruleRelationSide ) )
             // InternalErDsl.g:448:5: (lv_rightEnding_4_0= ruleRelationSide )
@@ -1253,12 +1253,13 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRelationSide"
-    // InternalErDsl.g:536:1: ruleRelationSide returns [EObject current=null] : ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) ;
+    // InternalErDsl.g:536:1: ruleRelationSide returns [EObject current=null] : ( ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) | ( (otherlv_3= RULE_ID ) ) ) ;
     public final EObject ruleRelationSide() throws RecognitionException {
         EObject current = null;
 
         Token lv_minimalCardinality_0_0=null;
         Token otherlv_2=null;
+        Token otherlv_3=null;
         Enumerator lv_maximumCardinality_1_0 = null;
 
 
@@ -1266,97 +1267,150 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDsl.g:542:2: ( ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) )
-            // InternalErDsl.g:543:2: ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) )
+            // InternalErDsl.g:542:2: ( ( ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) | ( (otherlv_3= RULE_ID ) ) ) )
+            // InternalErDsl.g:543:2: ( ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) | ( (otherlv_3= RULE_ID ) ) )
             {
-            // InternalErDsl.g:543:2: ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) )
-            // InternalErDsl.g:544:3: ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) )
-            {
-            // InternalErDsl.g:544:3: ( (lv_minimalCardinality_0_0= 'zero' ) )?
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            // InternalErDsl.g:543:2: ( ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) ) | ( (otherlv_3= RULE_ID ) ) )
+            int alt11=2;
+            int LA11_0 = input.LA(1);
 
-            if ( (LA10_0==25) ) {
-                alt10=1;
+            if ( (LA11_0==25||(LA11_0>=33 && LA11_0<=34)) ) {
+                alt11=1;
             }
-            switch (alt10) {
+            else if ( (LA11_0==RULE_ID) ) {
+                alt11=2;
+            }
+            else {
+                NoViableAltException nvae =
+                    new NoViableAltException("", 11, 0, input);
+
+                throw nvae;
+            }
+            switch (alt11) {
                 case 1 :
-                    // InternalErDsl.g:545:4: (lv_minimalCardinality_0_0= 'zero' )
+                    // InternalErDsl.g:544:3: ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) )
                     {
-                    // InternalErDsl.g:545:4: (lv_minimalCardinality_0_0= 'zero' )
-                    // InternalErDsl.g:546:5: lv_minimalCardinality_0_0= 'zero'
+                    // InternalErDsl.g:544:3: ( ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) ) )
+                    // InternalErDsl.g:545:4: ( (lv_minimalCardinality_0_0= 'zero' ) )? ( (lv_maximumCardinality_1_0= ruleCardinalityType ) ) ( (otherlv_2= RULE_ID ) )
                     {
-                    lv_minimalCardinality_0_0=(Token)match(input,25,FOLLOW_15); 
+                    // InternalErDsl.g:545:4: ( (lv_minimalCardinality_0_0= 'zero' ) )?
+                    int alt10=2;
+                    int LA10_0 = input.LA(1);
 
-                    					newLeafNode(lv_minimalCardinality_0_0, grammarAccess.getRelationSideAccess().getMinimalCardinalityZeroKeyword_0_0());
-                    				
+                    if ( (LA10_0==25) ) {
+                        alt10=1;
+                    }
+                    switch (alt10) {
+                        case 1 :
+                            // InternalErDsl.g:546:5: (lv_minimalCardinality_0_0= 'zero' )
+                            {
+                            // InternalErDsl.g:546:5: (lv_minimalCardinality_0_0= 'zero' )
+                            // InternalErDsl.g:547:6: lv_minimalCardinality_0_0= 'zero'
+                            {
+                            lv_minimalCardinality_0_0=(Token)match(input,25,FOLLOW_19); 
 
-                    					if (current==null) {
-                    						current = createModelElement(grammarAccess.getRelationSideRule());
-                    					}
-                    					setWithLastConsumed(current, "minimalCardinality", true, "zero");
-                    				
+                            						newLeafNode(lv_minimalCardinality_0_0, grammarAccess.getRelationSideAccess().getMinimalCardinalityZeroKeyword_0_0_0());
+                            					
+
+                            						if (current==null) {
+                            							current = createModelElement(grammarAccess.getRelationSideRule());
+                            						}
+                            						setWithLastConsumed(current, "minimalCardinality", true, "zero");
+                            					
+
+                            }
+
+
+                            }
+                            break;
+
+                    }
+
+                    // InternalErDsl.g:559:4: ( (lv_maximumCardinality_1_0= ruleCardinalityType ) )
+                    // InternalErDsl.g:560:5: (lv_maximumCardinality_1_0= ruleCardinalityType )
+                    {
+                    // InternalErDsl.g:560:5: (lv_maximumCardinality_1_0= ruleCardinalityType )
+                    // InternalErDsl.g:561:6: lv_maximumCardinality_1_0= ruleCardinalityType
+                    {
+
+                    						newCompositeNode(grammarAccess.getRelationSideAccess().getMaximumCardinalityCardinalityTypeEnumRuleCall_0_1_0());
+                    					
+                    pushFollow(FOLLOW_5);
+                    lv_maximumCardinality_1_0=ruleCardinalityType();
+
+                    state._fsp--;
+
+
+                    						if (current==null) {
+                    							current = createModelElementForParent(grammarAccess.getRelationSideRule());
+                    						}
+                    						set(
+                    							current,
+                    							"maximumCardinality",
+                    							lv_maximumCardinality_1_0,
+                    							"org.xtext.unipampa.erdsl.ErDsl.CardinalityType");
+                    						afterParserOrEnumRuleCall();
+                    					
+
+                    }
+
+
+                    }
+
+                    // InternalErDsl.g:578:4: ( (otherlv_2= RULE_ID ) )
+                    // InternalErDsl.g:579:5: (otherlv_2= RULE_ID )
+                    {
+                    // InternalErDsl.g:579:5: (otherlv_2= RULE_ID )
+                    // InternalErDsl.g:580:6: otherlv_2= RULE_ID
+                    {
+
+                    						if (current==null) {
+                    							current = createModelElement(grammarAccess.getRelationSideRule());
+                    						}
+                    					
+                    otherlv_2=(Token)match(input,RULE_ID,FOLLOW_2); 
+
+                    						newLeafNode(otherlv_2, grammarAccess.getRelationSideAccess().getTargetEntityCrossReference_0_2_0());
+                    					
+
+                    }
+
+
+                    }
+
 
                     }
 
 
                     }
                     break;
+                case 2 :
+                    // InternalErDsl.g:593:3: ( (otherlv_3= RULE_ID ) )
+                    {
+                    // InternalErDsl.g:593:3: ( (otherlv_3= RULE_ID ) )
+                    // InternalErDsl.g:594:4: (otherlv_3= RULE_ID )
+                    {
+                    // InternalErDsl.g:594:4: (otherlv_3= RULE_ID )
+                    // InternalErDsl.g:595:5: otherlv_3= RULE_ID
+                    {
 
-            }
+                    					if (current==null) {
+                    						current = createModelElement(grammarAccess.getRelationSideRule());
+                    					}
+                    				
+                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_2); 
 
-            // InternalErDsl.g:558:3: ( (lv_maximumCardinality_1_0= ruleCardinalityType ) )
-            // InternalErDsl.g:559:4: (lv_maximumCardinality_1_0= ruleCardinalityType )
-            {
-            // InternalErDsl.g:559:4: (lv_maximumCardinality_1_0= ruleCardinalityType )
-            // InternalErDsl.g:560:5: lv_maximumCardinality_1_0= ruleCardinalityType
-            {
+                    					newLeafNode(otherlv_3, grammarAccess.getRelationSideAccess().getTargetRelationCrossReference_1_0());
+                    				
 
-            					newCompositeNode(grammarAccess.getRelationSideAccess().getMaximumCardinalityCardinalityTypeEnumRuleCall_1_0());
-            				
-            pushFollow(FOLLOW_5);
-            lv_maximumCardinality_1_0=ruleCardinalityType();
-
-            state._fsp--;
-
-
-            					if (current==null) {
-            						current = createModelElementForParent(grammarAccess.getRelationSideRule());
-            					}
-            					set(
-            						current,
-            						"maximumCardinality",
-            						lv_maximumCardinality_1_0,
-            						"org.xtext.unipampa.erdsl.ErDsl.CardinalityType");
-            					afterParserOrEnumRuleCall();
-            				
-
-            }
+                    }
 
 
-            }
-
-            // InternalErDsl.g:577:3: ( (otherlv_2= RULE_ID ) )
-            // InternalErDsl.g:578:4: (otherlv_2= RULE_ID )
-            {
-            // InternalErDsl.g:578:4: (otherlv_2= RULE_ID )
-            // InternalErDsl.g:579:5: otherlv_2= RULE_ID
-            {
-
-            					if (current==null) {
-            						current = createModelElement(grammarAccess.getRelationSideRule());
-            					}
-            				
-            otherlv_2=(Token)match(input,RULE_ID,FOLLOW_2); 
-
-            					newLeafNode(otherlv_2, grammarAccess.getRelationSideAccess().getTargetEntityCrossReference_2_0());
-            				
-
-            }
+                    }
 
 
-            }
-
+                    }
+                    break;
 
             }
 
@@ -1380,7 +1434,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleDataType"
-    // InternalErDsl.g:594:1: ruleDataType returns [Enumerator current=null] : ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) ) ;
+    // InternalErDsl.g:610:1: ruleDataType returns [Enumerator current=null] : ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) ) ;
     public final Enumerator ruleDataType() throws RecognitionException {
         Enumerator current = null;
 
@@ -1396,60 +1450,60 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDsl.g:600:2: ( ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) ) )
-            // InternalErDsl.g:601:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) )
+            // InternalErDsl.g:616:2: ( ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) ) )
+            // InternalErDsl.g:617:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) )
             {
-            // InternalErDsl.g:601:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) )
-            int alt11=7;
+            // InternalErDsl.g:617:2: ( (enumLiteral_0= 'int' ) | (enumLiteral_1= 'double' ) | (enumLiteral_2= 'money' ) | (enumLiteral_3= 'string' ) | (enumLiteral_4= 'boolean' ) | (enumLiteral_5= 'datetime' ) | (enumLiteral_6= 'file' ) )
+            int alt12=7;
             switch ( input.LA(1) ) {
             case 26:
                 {
-                alt11=1;
+                alt12=1;
                 }
                 break;
             case 27:
                 {
-                alt11=2;
+                alt12=2;
                 }
                 break;
             case 28:
                 {
-                alt11=3;
+                alt12=3;
                 }
                 break;
             case 29:
                 {
-                alt11=4;
+                alt12=4;
                 }
                 break;
             case 30:
                 {
-                alt11=5;
+                alt12=5;
                 }
                 break;
             case 31:
                 {
-                alt11=6;
+                alt12=6;
                 }
                 break;
             case 32:
                 {
-                alt11=7;
+                alt12=7;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 11, 0, input);
+                    new NoViableAltException("", 12, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt11) {
+            switch (alt12) {
                 case 1 :
-                    // InternalErDsl.g:602:3: (enumLiteral_0= 'int' )
+                    // InternalErDsl.g:618:3: (enumLiteral_0= 'int' )
                     {
-                    // InternalErDsl.g:602:3: (enumLiteral_0= 'int' )
-                    // InternalErDsl.g:603:4: enumLiteral_0= 'int'
+                    // InternalErDsl.g:618:3: (enumLiteral_0= 'int' )
+                    // InternalErDsl.g:619:4: enumLiteral_0= 'int'
                     {
                     enumLiteral_0=(Token)match(input,26,FOLLOW_2); 
 
@@ -1463,10 +1517,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalErDsl.g:610:3: (enumLiteral_1= 'double' )
+                    // InternalErDsl.g:626:3: (enumLiteral_1= 'double' )
                     {
-                    // InternalErDsl.g:610:3: (enumLiteral_1= 'double' )
-                    // InternalErDsl.g:611:4: enumLiteral_1= 'double'
+                    // InternalErDsl.g:626:3: (enumLiteral_1= 'double' )
+                    // InternalErDsl.g:627:4: enumLiteral_1= 'double'
                     {
                     enumLiteral_1=(Token)match(input,27,FOLLOW_2); 
 
@@ -1480,10 +1534,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalErDsl.g:618:3: (enumLiteral_2= 'money' )
+                    // InternalErDsl.g:634:3: (enumLiteral_2= 'money' )
                     {
-                    // InternalErDsl.g:618:3: (enumLiteral_2= 'money' )
-                    // InternalErDsl.g:619:4: enumLiteral_2= 'money'
+                    // InternalErDsl.g:634:3: (enumLiteral_2= 'money' )
+                    // InternalErDsl.g:635:4: enumLiteral_2= 'money'
                     {
                     enumLiteral_2=(Token)match(input,28,FOLLOW_2); 
 
@@ -1497,10 +1551,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalErDsl.g:626:3: (enumLiteral_3= 'string' )
+                    // InternalErDsl.g:642:3: (enumLiteral_3= 'string' )
                     {
-                    // InternalErDsl.g:626:3: (enumLiteral_3= 'string' )
-                    // InternalErDsl.g:627:4: enumLiteral_3= 'string'
+                    // InternalErDsl.g:642:3: (enumLiteral_3= 'string' )
+                    // InternalErDsl.g:643:4: enumLiteral_3= 'string'
                     {
                     enumLiteral_3=(Token)match(input,29,FOLLOW_2); 
 
@@ -1514,10 +1568,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalErDsl.g:634:3: (enumLiteral_4= 'boolean' )
+                    // InternalErDsl.g:650:3: (enumLiteral_4= 'boolean' )
                     {
-                    // InternalErDsl.g:634:3: (enumLiteral_4= 'boolean' )
-                    // InternalErDsl.g:635:4: enumLiteral_4= 'boolean'
+                    // InternalErDsl.g:650:3: (enumLiteral_4= 'boolean' )
+                    // InternalErDsl.g:651:4: enumLiteral_4= 'boolean'
                     {
                     enumLiteral_4=(Token)match(input,30,FOLLOW_2); 
 
@@ -1531,10 +1585,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalErDsl.g:642:3: (enumLiteral_5= 'datetime' )
+                    // InternalErDsl.g:658:3: (enumLiteral_5= 'datetime' )
                     {
-                    // InternalErDsl.g:642:3: (enumLiteral_5= 'datetime' )
-                    // InternalErDsl.g:643:4: enumLiteral_5= 'datetime'
+                    // InternalErDsl.g:658:3: (enumLiteral_5= 'datetime' )
+                    // InternalErDsl.g:659:4: enumLiteral_5= 'datetime'
                     {
                     enumLiteral_5=(Token)match(input,31,FOLLOW_2); 
 
@@ -1548,10 +1602,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalErDsl.g:650:3: (enumLiteral_6= 'file' )
+                    // InternalErDsl.g:666:3: (enumLiteral_6= 'file' )
                     {
-                    // InternalErDsl.g:650:3: (enumLiteral_6= 'file' )
-                    // InternalErDsl.g:651:4: enumLiteral_6= 'file'
+                    // InternalErDsl.g:666:3: (enumLiteral_6= 'file' )
+                    // InternalErDsl.g:667:4: enumLiteral_6= 'file'
                     {
                     enumLiteral_6=(Token)match(input,32,FOLLOW_2); 
 
@@ -1587,7 +1641,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCardinalityType"
-    // InternalErDsl.g:661:1: ruleCardinalityType returns [Enumerator current=null] : ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) ) ;
+    // InternalErDsl.g:677:1: ruleCardinalityType returns [Enumerator current=null] : ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) ) ;
     public final Enumerator ruleCardinalityType() throws RecognitionException {
         Enumerator current = null;
 
@@ -1598,31 +1652,31 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDsl.g:667:2: ( ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) ) )
-            // InternalErDsl.g:668:2: ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) )
+            // InternalErDsl.g:683:2: ( ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) ) )
+            // InternalErDsl.g:684:2: ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) )
             {
-            // InternalErDsl.g:668:2: ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) )
-            int alt12=2;
-            int LA12_0 = input.LA(1);
+            // InternalErDsl.g:684:2: ( (enumLiteral_0= 'one' ) | (enumLiteral_1= 'many' ) )
+            int alt13=2;
+            int LA13_0 = input.LA(1);
 
-            if ( (LA12_0==33) ) {
-                alt12=1;
+            if ( (LA13_0==33) ) {
+                alt13=1;
             }
-            else if ( (LA12_0==34) ) {
-                alt12=2;
+            else if ( (LA13_0==34) ) {
+                alt13=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 12, 0, input);
+                    new NoViableAltException("", 13, 0, input);
 
                 throw nvae;
             }
-            switch (alt12) {
+            switch (alt13) {
                 case 1 :
-                    // InternalErDsl.g:669:3: (enumLiteral_0= 'one' )
+                    // InternalErDsl.g:685:3: (enumLiteral_0= 'one' )
                     {
-                    // InternalErDsl.g:669:3: (enumLiteral_0= 'one' )
-                    // InternalErDsl.g:670:4: enumLiteral_0= 'one'
+                    // InternalErDsl.g:685:3: (enumLiteral_0= 'one' )
+                    // InternalErDsl.g:686:4: enumLiteral_0= 'one'
                     {
                     enumLiteral_0=(Token)match(input,33,FOLLOW_2); 
 
@@ -1636,10 +1690,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalErDsl.g:677:3: (enumLiteral_1= 'many' )
+                    // InternalErDsl.g:693:3: (enumLiteral_1= 'many' )
                     {
-                    // InternalErDsl.g:677:3: (enumLiteral_1= 'many' )
-                    // InternalErDsl.g:678:4: enumLiteral_1= 'many'
+                    // InternalErDsl.g:693:3: (enumLiteral_1= 'many' )
+                    // InternalErDsl.g:694:4: enumLiteral_1= 'many'
                     {
                     enumLiteral_1=(Token)match(input,34,FOLLOW_2); 
 
@@ -1692,9 +1746,10 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x00000000000C0002L});
     public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000300000L});
     public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000000400000L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000602000000L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000602000010L});
     public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000800000L});
     public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000001000000L});
     public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000000080002L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000602000000L});
 
 }

@@ -11,5 +11,6 @@ Require-Bundle: org.xtext.unipampa.erdsl,
  org.eclipse.xtext.xbase.ide,
  org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.xtext.unipampa.erdsl.ide.contentassist.antlr,
+Export-Package: org.xtext.unipampa.erdsl.ide,
+ org.xtext.unipampa.erdsl.ide.contentassist.antlr,
  org.xtext.unipampa.erdsl.ide.contentassist.antlr.internal

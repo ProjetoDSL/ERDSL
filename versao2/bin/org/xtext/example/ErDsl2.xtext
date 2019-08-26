@@ -11,7 +11,7 @@ Domain:
 	'Domain' name=ID;
 
 Attribute:
-	(isKey?='*')? name=ID type=DataType; //*
+	(isKey?='*')? name=ID type=DataType;
 
 enum DataType:
 	INT='int' | DOUBLE='double' | MONEY='money' | STRING='string' | BOOLEAN='boolean' | DATETIME='datetime' | BLOB='file';
@@ -25,5 +25,5 @@ Relation:
 	attributes+=Attribute (',' attributes+=Attribute)* '}')*;
 
 RelationSide:
-	Cardinality=('(0,1)' | '(1,1)' | '(0,N)' | '(1,N)') target=[Entity] /*| target=[Relation] AMBIGUIDADE, PRECISA ENCONTRAR OUTRA MANEIRA OU ASSUMIR UM FORMATO ESPECIAL PARA A RELACAO*/;
+	Cardinality=('(0,1)' | '(1,1)' | '(0,N)' | '(1,N)') target=[Entity] | target=[Relation];
 

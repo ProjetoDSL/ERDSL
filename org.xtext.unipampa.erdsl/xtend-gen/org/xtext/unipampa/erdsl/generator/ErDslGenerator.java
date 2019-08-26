@@ -10,8 +10,8 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
+import org.xtext.unipampa.erdsl.erDsl.CardinalityType;
 import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
@@ -29,21 +29,10 @@ public class ErDslGenerator extends AbstractGenerator {
     EObject _get = resource.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("================================================");
-    _builder.newLine();
     _builder.append("DATABASE ");
     String _name = modeloER.getDomain().getName();
     _builder.append(_name);
     _builder.newLineIfNotEmpty();
-    _builder.append("================================================");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("================================================");
-    _builder.newLine();
-    _builder.append("Tables");
-    _builder.newLine();
-    _builder.append("================================================");
-    _builder.newLine();
     {
       EList<Entity> _entities = modeloER.getEntities();
       boolean _hasElements = false;
@@ -51,74 +40,108 @@ public class ErDslGenerator extends AbstractGenerator {
         if (!_hasElements) {
           _hasElements = true;
         } else {
-          _builder.appendImmediate(",", "\t");
+          _builder.appendImmediate(",", "");
         }
-        _builder.append("\t");
+        _builder.newLine();
+        _builder.append("TABLE ");
         String _name_1 = entity.getName();
-        _builder.append(_name_1, "\t");
-        _builder.append(" is a? ");
+        _builder.append(_name_1);
         {
           EList<Entity> _isA = entity.getIsA();
-          boolean _hasElements_1 = false;
           for(final Entity parent : _isA) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder.appendImmediate(",", "\t");
+            {
+              EList<Entity> _isA_1 = entity.getIsA();
+              boolean _tripleNotEquals = (_isA_1 != null);
+              if (_tripleNotEquals) {
+                _builder.append(" is a ");
+              }
             }
             String _name_2 = parent.getName();
-            _builder.append(_name_2, "\t");
+            _builder.append(_name_2);
           }
         }
         _builder.newLineIfNotEmpty();
         {
           EList<Attribute> _attributes = entity.getAttributes();
-          boolean _hasElements_2 = false;
+          boolean _hasElements_1 = false;
           for(final Attribute attribute : _attributes) {
-            if (!_hasElements_2) {
-              _hasElements_2 = true;
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
             } else {
-              _builder.appendImmediate(",", "\t\t\t");
+              _builder.appendImmediate(",", "\t");
             }
             _builder.append("\t");
-            _builder.append("\t\t");
-            _builder.append("attribute: ");
             String _name_3 = attribute.getName();
-            _builder.append(_name_3, "\t\t\t");
+            _builder.append(_name_3, "\t");
             _builder.append(" ");
             DataType _type = attribute.getType();
-            _builder.append(_type, "\t\t\t");
-            _builder.append(" is a key? ");
-            boolean _isIsKey = attribute.isIsKey();
-            _builder.append(_isIsKey, "\t\t\t");
+            _builder.append(_type, "\t");
+            _builder.append(" ");
+            {
+              boolean _isIsKey = attribute.isIsKey();
+              if (_isIsKey) {
+                _builder.append("is a key");
+              }
+            }
             _builder.newLineIfNotEmpty();
           }
         }
       }
     }
-    _builder.append("================================================");
+    _builder.append("\t\t\t\t");
     _builder.newLine();
-    _builder.append("Relations");
+    _builder.append("#################");
     _builder.newLine();
-    _builder.append("================================================");
+    _builder.append("### Relations ###");
+    _builder.newLine();
+    _builder.append("#################");
+    _builder.newLine();
     _builder.newLine();
     {
       EList<Relation> _relations = modeloER.getRelations();
-      boolean _hasElements_3 = false;
       for(final Relation relation : _relations) {
-        if (!_hasElements_3) {
-          _hasElements_3 = true;
-        } else {
-          _builder.appendImmediate(",", "\t");
-        }
         _builder.append("\t");
         String _name_4 = relation.getName();
         _builder.append(_name_4, "\t");
+        _builder.append(" ");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("(");
+        boolean _isMinimalCardinality = relation.getLeftEnding().isMinimalCardinality();
+        _builder.append(_isMinimalCardinality, "\t");
+        _builder.append(" , ");
+        CardinalityType _maximumCardinality = relation.getLeftEnding().getMaximumCardinality();
+        _builder.append(_maximumCardinality, "\t");
+        _builder.append(") ");
+        String _name_5 = relation.getLeftEnding().getTarget().eClass().getName();
+        _builder.append(_name_5, "\t");
+        _builder.append(" relates ");
+        String _name_6 = relation.getRightEnding().getTarget().eClass().getName();
+        _builder.append(_name_6, "\t");
+        _builder.append(" (");
+        boolean _isMinimalCardinality_1 = relation.getLeftEnding().isMinimalCardinality();
+        _builder.append(_isMinimalCardinality_1, "\t");
+        _builder.append(" \', ");
+        CardinalityType _maximumCardinality_1 = relation.getLeftEnding().getMaximumCardinality();
+        _builder.append(_maximumCardinality_1, "\t");
+        _builder.append(")");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.newLine();
+        _builder.append("\t");
+        EObject _target = relation.getLeftEnding().getTarget();
+        _builder.append(_target, "\t");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        EObject _target_1 = relation.getRightEnding().getTarget();
+        _builder.append(_target_1, "\t");
         _builder.append("\t");
         _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("\t\t\t\t\t\t");
+        _builder.newLine();
       }
     }
     fsa.generateFile("LogicalSchema.txt", _builder);
-    InputOutput.<String>println("OLA MUNDO!");
   }
 }

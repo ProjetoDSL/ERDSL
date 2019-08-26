@@ -17,16 +17,15 @@ enum DataType:
 	INT='int' | DOUBLE='double' | MONEY='money' | STRING='string' | BOOLEAN='boolean' | DATETIME='datetime' | BLOB='file';
 
 Entity:
-	name=ID ('is_a' isA+=[Entity])*
+	name=ID ('isA' isA+=[Entity])*
 	('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
 
 Relation:
-	(name=ID)? ('[' leftEnding=RelationSide 'is_Related_With' rightEnding=RelationSide ']') ('{'
+	(name=ID)? ('[' leftEnding=RelationSide 'isRelatedWith' rightEnding=RelationSide ']') ('{'
 	attributes+=Attribute (',' attributes+=Attribute)* '}')*;
 
 RelationSide:
-	((minimalCardinality?='zero')?) maximumCardinality=CardinalityType target=[Entity];
-	/*| target=[Relation] AMBIGUIDADE, PRECISA ENCONTRAR OUTRA MANEIRA OU ASSUMIR UM FORMATO ESPECIAL PARA A RELACAO*/
+	((minimalCardinality?='zero')?) maximumCardinality=CardinalityType target=[Entity] | target=[Relation];
 
 enum CardinalityType:
 	One='one' | Many='many';

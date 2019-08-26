@@ -45,7 +45,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="RelationSide">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="minimalCardinality" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="maximumCardinality" eType="#//CardinalityType"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="#//Entity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="CardinalityType">
     <eLiterals name="One" literal="one"/>
