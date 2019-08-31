@@ -272,10 +272,8 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (name: ");
+    StringBuilder result = new StringBuilder();
     result.append(name);
-    result.append(')');
     return result.toString();
   }
 

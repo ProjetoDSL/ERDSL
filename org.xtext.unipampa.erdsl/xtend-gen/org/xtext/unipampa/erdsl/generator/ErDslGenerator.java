@@ -11,7 +11,6 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
-import org.xtext.unipampa.erdsl.erDsl.CardinalityType;
 import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
@@ -85,6 +84,9 @@ public class ErDslGenerator extends AbstractGenerator {
             }
             _builder.newLineIfNotEmpty();
           }
+          if (_hasElements_1) {
+            _builder.append(";", "\t");
+          }
         }
       }
     }
@@ -101,44 +103,22 @@ public class ErDslGenerator extends AbstractGenerator {
       EList<Relation> _relations = modeloER.getRelations();
       for(final Relation relation : _relations) {
         _builder.append("\t");
+        _builder.append("Relation name: ");
         String _name_4 = relation.getName();
         _builder.append(_name_4, "\t");
         _builder.append(" ");
         _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("(");
-        boolean _isMinimalCardinality = relation.getLeftEnding().isMinimalCardinality();
-        _builder.append(_isMinimalCardinality, "\t");
-        _builder.append(" , ");
-        CardinalityType _maximumCardinality = relation.getLeftEnding().getMaximumCardinality();
-        _builder.append(_maximumCardinality, "\t");
-        _builder.append(") ");
-        String _name_5 = relation.getLeftEnding().getTarget().eClass().getName();
-        _builder.append(_name_5, "\t");
-        _builder.append(" relates ");
-        String _name_6 = relation.getRightEnding().getTarget().eClass().getName();
-        _builder.append(_name_6, "\t");
-        _builder.append(" (");
-        boolean _isMinimalCardinality_1 = relation.getLeftEnding().isMinimalCardinality();
-        _builder.append(_isMinimalCardinality_1, "\t");
-        _builder.append(" \', ");
-        CardinalityType _maximumCardinality_1 = relation.getLeftEnding().getMaximumCardinality();
-        _builder.append(_maximumCardinality_1, "\t");
-        _builder.append(")");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
         _builder.newLine();
         _builder.append("\t");
+        _builder.append("Esquerda: ");
         EObject _target = relation.getLeftEnding().getTarget();
         _builder.append(_target, "\t");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
+        _builder.append("Direita : ");
         EObject _target_1 = relation.getRightEnding().getTarget();
         _builder.append(_target_1, "\t");
-        _builder.append("\t");
         _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("\t\t\t\t\t\t");
         _builder.newLine();
       }
     }

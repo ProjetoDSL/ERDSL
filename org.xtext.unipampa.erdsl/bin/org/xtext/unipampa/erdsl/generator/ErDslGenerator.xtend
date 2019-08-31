@@ -29,7 +29,7 @@ val modeloER = resource.contents.get(0) as ERModel
 			«FOR entity : modeloER.entities SEPARATOR ','»
 			
 			TABLE «entity.name»«FOR parent : entity.isA»«IF entity.isA !== null» is a «ENDIF»«parent.name»«ENDFOR»
-				«FOR attribute : entity.attributes SEPARATOR ','»
+				«FOR attribute : entity.attributes SEPARATOR ',' AFTER ';'»
 					«attribute.name» «attribute.type» «IF attribute.isIsKey»is a key«ENDIF»
 				«ENDFOR»
 			«ENDFOR»
@@ -39,12 +39,12 @@ val modeloER = resource.contents.get(0) as ERModel
 			#################
 			
 				«FOR relation : modeloER.relations»
-					«relation.name» 
-					(«relation.leftEnding.minimalCardinality» , «relation.leftEnding.maximumCardinality») «relation.leftEnding.target.eClass.name» relates «relation.rightEnding.target.eClass.name» («relation.leftEnding.minimalCardinality» ', «relation.leftEnding.maximumCardinality»)
-					
-					«relation.leftEnding.target»
-					«relation.rightEnding.target»	
-											
+					Relation name: «relation.name» 
+«««					(«relation.leftEnding.minimalCardinality» , «relation.leftEnding.maximumCardinality») «relation.leftEnding.target.eClass.name» relates «relation.rightEnding.target.eClass.name» («relation.leftEnding.minimalCardinality» ', «relation.leftEnding.maximumCardinality»)
+
+					Esquerda: «relation.leftEnding.target»
+					Direita : «relation.rightEnding.target»
+
 				«ENDFOR»
 			'''
 		)
