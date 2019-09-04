@@ -198,13 +198,13 @@ public interface ErDslPackage extends EPackage
   int ENTITY__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Is A</b></em>' reference list.
+   * The feature id for the '<em><b>Is</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ENTITY__IS_A = 1;
+  int ENTITY__IS = 1;
 
   /**
    * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -290,22 +290,13 @@ public interface ErDslPackage extends EPackage
   int RELATION_SIDE = 5;
 
   /**
-   * The feature id for the '<em><b>Minimal Cardinality</b></em>' attribute.
+   * The feature id for the '<em><b>Cardinality</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RELATION_SIDE__MINIMAL_CARDINALITY = 0;
-
-  /**
-   * The feature id for the '<em><b>Maximum Cardinality</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int RELATION_SIDE__MAXIMUM_CARDINALITY = 1;
+  int RELATION_SIDE__CARDINALITY = 0;
 
   /**
    * The feature id for the '<em><b>Target</b></em>' reference.
@@ -314,7 +305,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RELATION_SIDE__TARGET = 2;
+  int RELATION_SIDE__TARGET = 1;
 
   /**
    * The number of structural features of the '<em>Relation Side</em>' class.
@@ -323,7 +314,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int RELATION_SIDE_FEATURE_COUNT = 3;
+  int RELATION_SIDE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.DataType <em>Data Type</em>}' enum.
@@ -334,16 +325,6 @@ public interface ErDslPackage extends EPackage
    * @generated
    */
   int DATA_TYPE = 6;
-
-  /**
-   * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.CardinalityType <em>Cardinality Type</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.unipampa.erdsl.erDsl.CardinalityType
-   * @see org.xtext.unipampa.erdsl.erDsl.impl.ErDslPackageImpl#getCardinalityType()
-   * @generated
-   */
-  int CARDINALITY_TYPE = 7;
 
 
   /**
@@ -475,15 +456,15 @@ public interface ErDslPackage extends EPackage
   EAttribute getEntity_Name();
 
   /**
-   * Returns the meta object for the reference list '{@link org.xtext.unipampa.erdsl.erDsl.Entity#getIsA <em>Is A</em>}'.
+   * Returns the meta object for the reference list '{@link org.xtext.unipampa.erdsl.erDsl.Entity#getIs <em>Is</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the reference list '<em>Is A</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.Entity#getIsA()
+   * @return the meta object for the reference list '<em>Is</em>'.
+   * @see org.xtext.unipampa.erdsl.erDsl.Entity#getIs()
    * @see #getEntity()
    * @generated
    */
-  EReference getEntity_IsA();
+  EReference getEntity_Is();
 
   /**
    * Returns the meta object for the containment reference list '{@link org.xtext.unipampa.erdsl.erDsl.Entity#getAttributes <em>Attributes</em>}'.
@@ -561,26 +542,15 @@ public interface ErDslPackage extends EPackage
   EClass getRelationSide();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#isMinimalCardinality <em>Minimal Cardinality</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getCardinality <em>Cardinality</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Minimal Cardinality</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.RelationSide#isMinimalCardinality()
+   * @return the meta object for the attribute '<em>Cardinality</em>'.
+   * @see org.xtext.unipampa.erdsl.erDsl.RelationSide#getCardinality()
    * @see #getRelationSide()
    * @generated
    */
-  EAttribute getRelationSide_MinimalCardinality();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getMaximumCardinality <em>Maximum Cardinality</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Maximum Cardinality</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.RelationSide#getMaximumCardinality()
-   * @see #getRelationSide()
-   * @generated
-   */
-  EAttribute getRelationSide_MaximumCardinality();
+  EAttribute getRelationSide_Cardinality();
 
   /**
    * Returns the meta object for the reference '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getTarget <em>Target</em>}'.
@@ -602,16 +572,6 @@ public interface ErDslPackage extends EPackage
    * @generated
    */
   EEnum getDataType();
-
-  /**
-   * Returns the meta object for enum '{@link org.xtext.unipampa.erdsl.erDsl.CardinalityType <em>Cardinality Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for enum '<em>Cardinality Type</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.CardinalityType
-   * @generated
-   */
-  EEnum getCardinalityType();
 
   /**
    * Returns the factory that creates the instances of the model.
@@ -741,12 +701,12 @@ public interface ErDslPackage extends EPackage
     EAttribute ENTITY__NAME = eINSTANCE.getEntity_Name();
 
     /**
-     * The meta object literal for the '<em><b>Is A</b></em>' reference list feature.
+     * The meta object literal for the '<em><b>Is</b></em>' reference list feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference ENTITY__IS_A = eINSTANCE.getEntity_IsA();
+    EReference ENTITY__IS = eINSTANCE.getEntity_Is();
 
     /**
      * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
@@ -809,20 +769,12 @@ public interface ErDslPackage extends EPackage
     EClass RELATION_SIDE = eINSTANCE.getRelationSide();
 
     /**
-     * The meta object literal for the '<em><b>Minimal Cardinality</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Cardinality</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute RELATION_SIDE__MINIMAL_CARDINALITY = eINSTANCE.getRelationSide_MinimalCardinality();
-
-    /**
-     * The meta object literal for the '<em><b>Maximum Cardinality</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute RELATION_SIDE__MAXIMUM_CARDINALITY = eINSTANCE.getRelationSide_MaximumCardinality();
+    EAttribute RELATION_SIDE__CARDINALITY = eINSTANCE.getRelationSide_Cardinality();
 
     /**
      * The meta object literal for the '<em><b>Target</b></em>' reference feature.
@@ -841,16 +793,6 @@ public interface ErDslPackage extends EPackage
      * @generated
      */
     EEnum DATA_TYPE = eINSTANCE.getDataType();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.unipampa.erdsl.erDsl.CardinalityType <em>Cardinality Type</em>}' enum.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.unipampa.erdsl.erDsl.CardinalityType
-     * @see org.xtext.unipampa.erdsl.erDsl.impl.ErDslPackageImpl#getCardinalityType()
-     * @generated
-     */
-    EEnum CARDINALITY_TYPE = eINSTANCE.getCardinalityType();
 
   }
 

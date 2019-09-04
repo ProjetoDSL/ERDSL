@@ -14,8 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#isMinimalCardinality <em>Minimal Cardinality</em>}</li>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getMaximumCardinality <em>Maximum Cardinality</em>}</li>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getCardinality <em>Cardinality</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getTarget <em>Target</em>}</li>
  * </ul>
  *
@@ -26,51 +25,26 @@ import org.eclipse.emf.ecore.EObject;
 public interface RelationSide extends EObject
 {
   /**
-   * Returns the value of the '<em><b>Minimal Cardinality</b></em>' attribute.
+   * Returns the value of the '<em><b>Cardinality</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Minimal Cardinality</em>' attribute.
-   * @see #setMinimalCardinality(boolean)
-   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getRelationSide_MinimalCardinality()
+   * @return the value of the '<em>Cardinality</em>' attribute.
+   * @see #setCardinality(String)
+   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getRelationSide_Cardinality()
    * @model
    * @generated
    */
-  boolean isMinimalCardinality();
+  String getCardinality();
 
   /**
-   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#isMinimalCardinality <em>Minimal Cardinality</em>}' attribute.
+   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getCardinality <em>Cardinality</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Minimal Cardinality</em>' attribute.
-   * @see #isMinimalCardinality()
+   * @param value the new value of the '<em>Cardinality</em>' attribute.
+   * @see #getCardinality()
    * @generated
    */
-  void setMinimalCardinality(boolean value);
-
-  /**
-   * Returns the value of the '<em><b>Maximum Cardinality</b></em>' attribute.
-   * The literals are from the enumeration {@link org.xtext.unipampa.erdsl.erDsl.CardinalityType}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Maximum Cardinality</em>' attribute.
-   * @see org.xtext.unipampa.erdsl.erDsl.CardinalityType
-   * @see #setMaximumCardinality(CardinalityType)
-   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getRelationSide_MaximumCardinality()
-   * @model
-   * @generated
-   */
-  CardinalityType getMaximumCardinality();
-
-  /**
-   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.RelationSide#getMaximumCardinality <em>Maximum Cardinality</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Maximum Cardinality</em>' attribute.
-   * @see org.xtext.unipampa.erdsl.erDsl.CardinalityType
-   * @see #getMaximumCardinality()
-   * @generated
-   */
-  void setMaximumCardinality(CardinalityType value);
+  void setCardinality(String value);
 
   /**
    * Returns the value of the '<em><b>Target</b></em>' reference.

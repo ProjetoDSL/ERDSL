@@ -3,6 +3,7 @@
  */
 package org.xtext.unipampa.erdsl.generator;
 
+import com.google.common.base.Objects;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -28,10 +29,15 @@ public class ErDslGenerator extends AbstractGenerator {
     EObject _get = resource.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("DATABASE ");
+    _builder.append("DOMINIO ");
     String _name = modeloER.getDomain().getName();
     _builder.append(_name);
     _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("ENTIDADES");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.newLine();
     {
       EList<Entity> _entities = modeloER.getEntities();
       boolean _hasElements = false;
@@ -39,27 +45,26 @@ public class ErDslGenerator extends AbstractGenerator {
         if (!_hasElements) {
           _hasElements = true;
         } else {
-          _builder.appendImmediate(",", "");
+          _builder.appendImmediate(")\n", "");
         }
-        _builder.newLine();
-        _builder.append("TABLE ");
         String _name_1 = entity.getName();
         _builder.append(_name_1);
+        _builder.append(" ");
         {
-          EList<Entity> _isA = entity.getIsA();
-          for(final Entity parent : _isA) {
+          EList<Entity> _is = entity.getIs();
+          for(final Entity parent : _is) {
             {
-              EList<Entity> _isA_1 = entity.getIsA();
-              boolean _tripleNotEquals = (_isA_1 != null);
+              EList<Entity> _is_1 = entity.getIs();
+              boolean _tripleNotEquals = (_is_1 != null);
               if (_tripleNotEquals) {
-                _builder.append(" is a ");
+                _builder.append(" isA");
               }
             }
             String _name_2 = parent.getName();
             _builder.append(_name_2);
           }
         }
-        _builder.newLineIfNotEmpty();
+        _builder.append("(");
         {
           EList<Attribute> _attributes = entity.getAttributes();
           boolean _hasElements_1 = false;
@@ -67,61 +72,482 @@ public class ErDslGenerator extends AbstractGenerator {
             if (!_hasElements_1) {
               _hasElements_1 = true;
             } else {
-              _builder.appendImmediate(",", "\t");
+              _builder.appendImmediate(", ", "");
             }
-            _builder.append("\t");
             String _name_3 = attribute.getName();
-            _builder.append(_name_3, "\t");
+            _builder.append(_name_3);
             _builder.append(" ");
             DataType _type = attribute.getType();
-            _builder.append(_type, "\t");
-            _builder.append(" ");
+            _builder.append(_type);
             {
               boolean _isIsKey = attribute.isIsKey();
               if (_isIsKey) {
-                _builder.append("is a key");
+                _builder.append(" PK ");
               }
             }
-            _builder.newLineIfNotEmpty();
           }
-          if (_hasElements_1) {
-            _builder.append(";", "\t");
+        }
+        _builder.newLineIfNotEmpty();
+        {
+          EList<Relation> _relations = modeloER.getRelations();
+          for(final Relation relationAux : _relations) {
+            {
+              if (((Objects.equal(relationAux.getLeftEnding().getCardinality(), "(0:1)") || Objects.equal(relationAux.getLeftEnding().getCardinality(), "(1:1)")) && (Objects.equal(relationAux.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux.getRightEnding().getCardinality(), "(1:N)")))) {
+                {
+                  EList<Entity> _entities_1 = modeloER.getEntities();
+                  for(final Entity entityAux : _entities_1) {
+                    {
+                      if ((entityAux.getName().equalsIgnoreCase(relationAux.getRightEnding().getTarget().toString()) && entityAux.getName().equalsIgnoreCase(entity.getName().toString()))) {
+                        {
+                          EList<Entity> _entities_2 = modeloER.getEntities();
+                          for(final Entity entityMapeada : _entities_2) {
+                            {
+                              boolean _equalsIgnoreCase = entityMapeada.getName().equalsIgnoreCase(relationAux.getLeftEnding().getTarget().toString());
+                              if (_equalsIgnoreCase) {
+                                {
+                                  EList<Attribute> _attributes_1 = entityMapeada.getAttributes();
+                                  for(final Attribute attributeAux : _attributes_1) {
+                                    {
+                                      boolean _isIsKey_1 = attributeAux.isIsKey();
+                                      if (_isIsKey_1) {
+                                        _builder.append(", ");
+                                        String _name_4 = attributeAux.getName();
+                                        _builder.append(_name_4);
+                                        _builder.append("_FK");
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.newLineIfNotEmpty();
+                                {
+                                  EList<Attribute> _attributes_2 = relationAux.getAttributes();
+                                  boolean _tripleNotEquals_1 = (_attributes_2 != null);
+                                  if (_tripleNotEquals_1) {
+                                    {
+                                      EList<Attribute> _attributes_3 = relationAux.getAttributes();
+                                      for(final Attribute relationMapeada : _attributes_3) {
+                                        _builder.append(", ");
+                                        String _name_5 = relationMapeada.getName();
+                                        _builder.append(_name_5);
+                                        _builder.append(" ");
+                                        DataType _type_1 = relationMapeada.getType();
+                                        _builder.append(_type_1);
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            {
+              if (((Objects.equal(relationAux.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux.getLeftEnding().getCardinality(), "(1:N)")) && (Objects.equal(relationAux.getRightEnding().getCardinality(), "(0:1)") || Objects.equal(relationAux.getRightEnding().getCardinality(), "(1:1)")))) {
+                {
+                  EList<Entity> _entities_3 = modeloER.getEntities();
+                  for(final Entity entityAux_1 : _entities_3) {
+                    {
+                      if ((entityAux_1.getName().equalsIgnoreCase(relationAux.getLeftEnding().getTarget().toString()) && entityAux_1.getName().equalsIgnoreCase(entity.getName().toString()))) {
+                        {
+                          EList<Entity> _entities_4 = modeloER.getEntities();
+                          for(final Entity entityMapeada_1 : _entities_4) {
+                            {
+                              boolean _equalsIgnoreCase_1 = entityMapeada_1.getName().equalsIgnoreCase(relationAux.getRightEnding().getTarget().toString());
+                              if (_equalsIgnoreCase_1) {
+                                {
+                                  EList<Attribute> _attributes_4 = entityMapeada_1.getAttributes();
+                                  for(final Attribute attributeAux_1 : _attributes_4) {
+                                    {
+                                      boolean _isIsKey_2 = attributeAux_1.isIsKey();
+                                      if (_isIsKey_2) {
+                                        _builder.append(", ");
+                                        String _name_6 = attributeAux_1.getName();
+                                        _builder.append(_name_6);
+                                        _builder.append("_FK");
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.newLineIfNotEmpty();
+                                {
+                                  EList<Attribute> _attributes_5 = relationAux.getAttributes();
+                                  boolean _tripleNotEquals_2 = (_attributes_5 != null);
+                                  if (_tripleNotEquals_2) {
+                                    {
+                                      EList<Attribute> _attributes_6 = relationAux.getAttributes();
+                                      for(final Attribute relationMapeada_1 : _attributes_6) {
+                                        _builder.append(", ");
+                                        String _name_7 = relationMapeada_1.getName();
+                                        _builder.append(_name_7);
+                                        _builder.append(" ");
+                                        DataType _type_2 = relationMapeada_1.getType();
+                                        _builder.append(_type_2);
+                                      }
+                                    }
+                                  }
+                                }
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
-    _builder.append("\t\t\t\t");
-    _builder.newLine();
-    _builder.append("#################");
-    _builder.newLine();
-    _builder.append("### Relations ###");
-    _builder.newLine();
-    _builder.append("#################");
-    _builder.newLine();
-    _builder.newLine();
     {
-      EList<Relation> _relations = modeloER.getRelations();
-      for(final Relation relation : _relations) {
-        _builder.append("\t");
-        _builder.append("Relation name: ");
-        String _name_4 = relation.getName();
-        _builder.append(_name_4, "\t");
-        _builder.append(" ");
-        _builder.newLineIfNotEmpty();
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("Esquerda: ");
-        EObject _target = relation.getLeftEnding().getTarget();
-        _builder.append(_target, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("Direita : ");
-        EObject _target_1 = relation.getRightEnding().getTarget();
-        _builder.append(_target_1, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.newLine();
+      EList<Relation> _relations_1 = modeloER.getRelations();
+      boolean _hasElements_2 = false;
+      for(final Relation relationAux_1 : _relations_1) {
+        if (!_hasElements_2) {
+          _hasElements_2 = true;
+        } else {
+          _builder.appendImmediate(")\n", "");
+        }
+        {
+          if (((Objects.equal(relationAux_1.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux_1.getLeftEnding().getCardinality(), "(1:N)")) && (Objects.equal(relationAux_1.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux_1.getRightEnding().getCardinality(), "(1:N)")))) {
+            {
+              if ((Objects.equal(relationAux_1.getName(), "") || (relationAux_1.getName() == null))) {
+                EObject _target = relationAux_1.getLeftEnding().getTarget();
+                _builder.append(_target);
+                EObject _target_1 = relationAux_1.getRightEnding().getTarget();
+                _builder.append(_target_1);
+                _builder.append(" (");
+                _builder.newLineIfNotEmpty();
+                {
+                  EList<Entity> _entities_5 = modeloER.getEntities();
+                  for(final Entity entityAux_2 : _entities_5) {
+                    {
+                      boolean _equalsIgnoreCase_2 = entityAux_2.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_2) {
+                        {
+                          EList<Attribute> _attributes_7 = entityAux_2.getAttributes();
+                          for(final Attribute atributoAux : _attributes_7) {
+                            {
+                              boolean _isIsKey_3 = atributoAux.isIsKey();
+                              if (_isIsKey_3) {
+                                String _name_8 = atributoAux.getName();
+                                _builder.append(_name_8);
+                                _builder.append("_FK ");
+                                DataType _type_3 = atributoAux.getType();
+                                _builder.append(_type_3);
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    {
+                      boolean _equalsIgnoreCase_3 = entityAux_2.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_3) {
+                        {
+                          EList<Attribute> _attributes_8 = entityAux_2.getAttributes();
+                          for(final Attribute atributoAux_1 : _attributes_8) {
+                            {
+                              boolean _isIsKey_4 = atributoAux_1.isIsKey();
+                              if (_isIsKey_4) {
+                                String _name_9 = atributoAux_1.getName();
+                                _builder.append(_name_9);
+                                _builder.append("_FK ");
+                                DataType _type_4 = atributoAux_1.getType();
+                                _builder.append(_type_4);
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              } else {
+                String _name_10 = relationAux_1.getName();
+                _builder.append(_name_10);
+                _builder.append(" (");
+                _builder.newLineIfNotEmpty();
+                {
+                  EList<Entity> _entities_6 = modeloER.getEntities();
+                  for(final Entity entityAux_3 : _entities_6) {
+                    {
+                      boolean _equalsIgnoreCase_4 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_4) {
+                        {
+                          EList<Attribute> _attributes_9 = entityAux_3.getAttributes();
+                          for(final Attribute atributoAux_2 : _attributes_9) {
+                            {
+                              boolean _isIsKey_5 = atributoAux_2.isIsKey();
+                              if (_isIsKey_5) {
+                                String _name_11 = atributoAux_2.getName();
+                                _builder.append(_name_11);
+                                _builder.append("_FK ");
+                                DataType _type_5 = atributoAux_2.getType();
+                                _builder.append(_type_5);
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    {
+                      boolean _equalsIgnoreCase_5 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_5) {
+                        {
+                          EList<Attribute> _attributes_10 = entityAux_3.getAttributes();
+                          for(final Attribute atributoAux_3 : _attributes_10) {
+                            {
+                              boolean _isIsKey_6 = atributoAux_3.isIsKey();
+                              if (_isIsKey_6) {
+                                String _name_12 = atributoAux_3.getName();
+                                _builder.append(_name_12);
+                                _builder.append("_FK ");
+                                DataType _type_6 = atributoAux_3.getType();
+                                _builder.append(_type_6);
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            {
+              EList<Attribute> _attributes_11 = relationAux_1.getAttributes();
+              boolean _tripleNotEquals_3 = (_attributes_11 != null);
+              if (_tripleNotEquals_3) {
+                {
+                  EList<Attribute> _attributes_12 = relationAux_1.getAttributes();
+                  for(final Attribute atributoRelacaoMuitosParaMuitos : _attributes_12) {
+                    String _name_13 = atributoRelacaoMuitosParaMuitos.getName();
+                    _builder.append(_name_13);
+                    _builder.append(" ");
+                    DataType _type_7 = atributoRelacaoMuitosParaMuitos.getType();
+                    _builder.append(_type_7);
+                    _builder.append(" ");
+                    {
+                      boolean _isIsKey_7 = atributoRelacaoMuitosParaMuitos.isIsKey();
+                      if (_isIsKey_7) {
+                        _builder.append(" PK ");
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      if (_hasElements_2) {
+        _builder.append(";");
       }
     }
+    _builder.append("<---------------------------------------------------------------------->");
+    _builder.newLine();
+    {
+      EList<Relation> _relations_2 = modeloER.getRelations();
+      for(final Relation relation : _relations_2) {
+        {
+          if (((Objects.equal(relation.getLeftEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:1)")) && (Objects.equal(relation.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:N)")))) {
+            {
+              EList<Entity> _entities_7 = modeloER.getEntities();
+              for(final Entity entity_1 : _entities_7) {
+                {
+                  boolean _equalsIgnoreCase_6 = entity_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_6) {
+                    {
+                      EList<Attribute> _attributes_13 = entity_1.getAttributes();
+                      for(final Attribute attribute_1 : _attributes_13) {
+                        {
+                          boolean _isIsKey_8 = attribute_1.isIsKey();
+                          if (_isIsKey_8) {
+                            _builder.append("Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("Atributo \"");
+                            String _name_14 = attribute_1.getName();
+                            _builder.append(_name_14);
+                            _builder.append("_FK\" EM \"");
+                            String _string = relation.getRightEnding().getTarget().toString();
+                            _builder.append(_string);
+                            _builder.append("\" REFERENCIA \"");
+                            String _string_1 = relation.getLeftEnding().getTarget().toString();
+                            _builder.append(_string_1);
+                            _builder.append("\"");
+                          }
+                        }
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            _builder.append("<---------------------------------------------------------------------->");
+            _builder.newLine();
+          }
+        }
+        {
+          if (((Objects.equal(relation.getRightEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:1)")) && (Objects.equal(relation.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:N)")))) {
+            {
+              EList<Entity> _entities_8 = modeloER.getEntities();
+              for(final Entity entity_2 : _entities_8) {
+                {
+                  boolean _equalsIgnoreCase_7 = entity_2.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_7) {
+                    {
+                      EList<Attribute> _attributes_14 = entity_2.getAttributes();
+                      for(final Attribute attribute_2 : _attributes_14) {
+                        {
+                          boolean _isIsKey_9 = attribute_2.isIsKey();
+                          if (_isIsKey_9) {
+                            _builder.append("Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("Atributo \"");
+                            String _name_15 = attribute_2.getName();
+                            _builder.append(_name_15);
+                            _builder.append("_FK\" EM \"");
+                            String _string_2 = relation.getLeftEnding().getTarget().toString();
+                            _builder.append(_string_2);
+                            _builder.append("\" REFERENCIA \"");
+                            String _string_3 = relation.getRightEnding().getTarget().toString();
+                            _builder.append(_string_3);
+                            _builder.append("\"");
+                          }
+                        }
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            _builder.append("<---------------------------------------------------------------------->");
+            _builder.newLine();
+          }
+        }
+        {
+          if (((Objects.equal(relation.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:N)")) && (Objects.equal(relation.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:N)")))) {
+            {
+              EList<Entity> _entities_9 = modeloER.getEntities();
+              for(final Entity entity_3 : _entities_9) {
+                {
+                  boolean _equalsIgnoreCase_8 = entity_3.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_8) {
+                    {
+                      EList<Attribute> _attributes_15 = entity_3.getAttributes();
+                      for(final Attribute attribute_3 : _attributes_15) {
+                        {
+                          boolean _isIsKey_10 = attribute_3.isIsKey();
+                          if (_isIsKey_10) {
+                            _builder.append("Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("Atributo \"");
+                            String _name_16 = attribute_3.getName();
+                            _builder.append(_name_16);
+                            _builder.append("_FK\" EM ");
+                            {
+                              if (((relation.getName() != null) && (relation.getName() != ""))) {
+                                _builder.append("\"");
+                                String _name_17 = relation.getName();
+                                _builder.append(_name_17);
+                                _builder.append("\" REFERENCIA \"");
+                                String _string_4 = relation.getLeftEnding().getTarget().toString();
+                                _builder.append(_string_4);
+                                _builder.append("\"");
+                                _builder.newLineIfNotEmpty();
+                              } else {
+                                _builder.append("\"");
+                                String _string_5 = relation.getLeftEnding().getTarget().toString();
+                                _builder.append(_string_5);
+                                String _string_6 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_6);
+                                _builder.append("\" REFERENCIA \"");
+                                String _string_7 = relation.getLeftEnding().getTarget().toString();
+                                _builder.append(_string_7);
+                                _builder.append("\"");
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                    _builder.append("<---------------------------------------------------------------------->");
+                    _builder.newLine();
+                  }
+                }
+                {
+                  boolean _equalsIgnoreCase_9 = entity_3.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_9) {
+                    {
+                      EList<Attribute> _attributes_16 = entity_3.getAttributes();
+                      for(final Attribute attribute_4 : _attributes_16) {
+                        {
+                          boolean _isIsKey_11 = attribute_4.isIsKey();
+                          if (_isIsKey_11) {
+                            _builder.append("Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("Atributo \"");
+                            String _name_18 = attribute_4.getName();
+                            _builder.append(_name_18);
+                            _builder.append("_FK\" EM ");
+                            {
+                              if (((relation.getName() != null) && (relation.getName() != ""))) {
+                                _builder.append("\"");
+                                String _name_19 = relation.getName();
+                                _builder.append(_name_19);
+                                _builder.append("\" REFERENCIA \"");
+                                String _string_8 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_8);
+                                _builder.append("\"");
+                                _builder.newLineIfNotEmpty();
+                              } else {
+                                _builder.append("\"");
+                                String _string_9 = relation.getLeftEnding().getTarget().toString();
+                                _builder.append(_string_9);
+                                String _string_10 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_10);
+                                _builder.append("\" REFERENCIA \"");
+                                String _string_11 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_11);
+                                _builder.append("\"");
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            _builder.append("<---------------------------------------------------------------------->\t");
+            _builder.newLine();
+          }
+        }
+      }
+    }
+    _builder.append("\t\t\t\t\t\t");
+    _builder.newLine();
+    _builder.newLine();
     fsa.generateFile("LogicalSchema.txt", _builder);
   }
 }

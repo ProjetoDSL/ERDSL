@@ -15,10 +15,6 @@
       <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/DATETIME"/>
       <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/BLOB"/>
     </genEnums>
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ErDsl.ecore#//CardinalityType">
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//CardinalityType/One"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//CardinalityType/Many"/>
-    </genEnums>
     <genClasses ecoreClass="ErDsl.ecore#//ERModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/domain"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/entities"/>
@@ -34,7 +30,7 @@
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//Entity">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Entity/name"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Entity/isA"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Entity/is"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Entity/attributes"/>
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//Relation">
@@ -44,8 +40,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Relation/attributes"/>
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//RelationSide">
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//RelationSide/minimalCardinality"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//RelationSide/maximumCardinality"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//RelationSide/Cardinality"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ErDsl.ecore#//RelationSide/target"/>
     </genClasses>
   </genPackages>

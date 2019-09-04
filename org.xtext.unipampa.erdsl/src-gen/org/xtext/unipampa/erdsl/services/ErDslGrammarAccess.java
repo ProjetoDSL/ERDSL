@@ -150,10 +150,10 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
 		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Keyword cIsAKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final Assignment cIsAAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final CrossReference cIsAEntityCrossReference_1_1_0 = (CrossReference)cIsAAssignment_1_1.eContents().get(0);
-		private final RuleCall cIsAEntityIDTerminalRuleCall_1_1_0_1 = (RuleCall)cIsAEntityCrossReference_1_1_0.eContents().get(1);
+		private final Keyword cIsKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
+		private final Assignment cIsAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final CrossReference cIsEntityCrossReference_1_1_0 = (CrossReference)cIsAssignment_1_1.eContents().get(0);
+		private final RuleCall cIsEntityIDTerminalRuleCall_1_1_0_1 = (RuleCall)cIsEntityCrossReference_1_1_0.eContents().get(1);
 		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
 		private final Keyword cLeftCurlyBracketKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
 		private final Assignment cAttributesAssignment_2_1 = (Assignment)cGroup_2.eContents().get(1);
@@ -165,10 +165,10 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//Entity:
-		//	name=ID ('isA' isA+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
+		//	name=ID ('is' is+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID ('isA' isA+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?
+		//name=ID ('is' is+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -177,20 +177,20 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 		
-		//('isA' isA+=[Entity])*
+		//('is' is+=[Entity])*
 		public Group getGroup_1() { return cGroup_1; }
 		
-		//'isA'
-		public Keyword getIsAKeyword_1_0() { return cIsAKeyword_1_0; }
+		//'is'
+		public Keyword getIsKeyword_1_0() { return cIsKeyword_1_0; }
 		
-		//isA+=[Entity]
-		public Assignment getIsAAssignment_1_1() { return cIsAAssignment_1_1; }
+		//is+=[Entity]
+		public Assignment getIsAssignment_1_1() { return cIsAssignment_1_1; }
 		
 		//[Entity]
-		public CrossReference getIsAEntityCrossReference_1_1_0() { return cIsAEntityCrossReference_1_1_0; }
+		public CrossReference getIsEntityCrossReference_1_1_0() { return cIsEntityCrossReference_1_1_0; }
 		
 		//ID
-		public RuleCall getIsAEntityIDTerminalRuleCall_1_1_0_1() { return cIsAEntityIDTerminalRuleCall_1_1_0_1; }
+		public RuleCall getIsEntityIDTerminalRuleCall_1_1_0_1() { return cIsEntityIDTerminalRuleCall_1_1_0_1; }
 		
 		//('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?
 		public Group getGroup_2() { return cGroup_2; }
@@ -228,7 +228,7 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cLeftSquareBracketKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final Assignment cLeftEndingAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cLeftEndingRelationSideParserRuleCall_1_1_0 = (RuleCall)cLeftEndingAssignment_1_1.eContents().get(0);
-		private final Keyword cIsRelatedWithKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
+		private final Keyword cRelatesKeyword_1_2 = (Keyword)cGroup_1.eContents().get(2);
 		private final Assignment cRightEndingAssignment_1_3 = (Assignment)cGroup_1.eContents().get(3);
 		private final RuleCall cRightEndingRelationSideParserRuleCall_1_3_0 = (RuleCall)cRightEndingAssignment_1_3.eContents().get(0);
 		private final Keyword cRightSquareBracketKeyword_1_4 = (Keyword)cGroup_1.eContents().get(4);
@@ -243,11 +243,11 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//Relation:
-		//	name=ID? ('[' leftEnding=RelationSide 'isRelatedWith' rightEnding=RelationSide ']') ('{'
+		//	name=ID? ('[' leftEnding=RelationSide 'relates' rightEnding=RelationSide ']') ('{'
 		//	attributes+=Attribute (',' attributes+=Attribute)* '}')*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID? ('[' leftEnding=RelationSide 'isRelatedWith' rightEnding=RelationSide ']') ('{' attributes+=Attribute (','
+		//name=ID? ('[' leftEnding=RelationSide 'relates' rightEnding=RelationSide ']') ('{' attributes+=Attribute (','
 		//attributes+=Attribute)* '}')*
 		public Group getGroup() { return cGroup; }
 		
@@ -257,7 +257,7 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 		
-		//'[' leftEnding=RelationSide 'isRelatedWith' rightEnding=RelationSide ']'
+		//'[' leftEnding=RelationSide 'relates' rightEnding=RelationSide ']'
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//'['
@@ -269,8 +269,8 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//RelationSide
 		public RuleCall getLeftEndingRelationSideParserRuleCall_1_1_0() { return cLeftEndingRelationSideParserRuleCall_1_1_0; }
 		
-		//'isRelatedWith'
-		public Keyword getIsRelatedWithKeyword_1_2() { return cIsRelatedWithKeyword_1_2; }
+		//'relates'
+		public Keyword getRelatesKeyword_1_2() { return cRelatesKeyword_1_2; }
 		
 		//rightEnding=RelationSide
 		public Assignment getRightEndingAssignment_1_3() { return cRightEndingAssignment_1_3; }
@@ -312,47 +312,55 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.RelationSide");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
-		private final Assignment cMinimalCardinalityAssignment_0_0 = (Assignment)cGroup_0.eContents().get(0);
-		private final Keyword cMinimalCardinalityZeroKeyword_0_0_0 = (Keyword)cMinimalCardinalityAssignment_0_0.eContents().get(0);
-		private final Assignment cMaximumCardinalityAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
-		private final RuleCall cMaximumCardinalityCardinalityTypeEnumRuleCall_0_1_0 = (RuleCall)cMaximumCardinalityAssignment_0_1.eContents().get(0);
-		private final Assignment cTargetAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
-		private final CrossReference cTargetEntityCrossReference_0_2_0 = (CrossReference)cTargetAssignment_0_2.eContents().get(0);
-		private final RuleCall cTargetEntityIDTerminalRuleCall_0_2_0_1 = (RuleCall)cTargetEntityCrossReference_0_2_0.eContents().get(1);
+		private final Assignment cCardinalityAssignment_0_0 = (Assignment)cGroup_0.eContents().get(0);
+		private final Alternatives cCardinalityAlternatives_0_0_0 = (Alternatives)cCardinalityAssignment_0_0.eContents().get(0);
+		private final Keyword cCardinality01Keyword_0_0_0_0 = (Keyword)cCardinalityAlternatives_0_0_0.eContents().get(0);
+		private final Keyword cCardinality11Keyword_0_0_0_1 = (Keyword)cCardinalityAlternatives_0_0_0.eContents().get(1);
+		private final Keyword cCardinality0NKeyword_0_0_0_2 = (Keyword)cCardinalityAlternatives_0_0_0.eContents().get(2);
+		private final Keyword cCardinality1NKeyword_0_0_0_3 = (Keyword)cCardinalityAlternatives_0_0_0.eContents().get(3);
+		private final Assignment cTargetAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
+		private final CrossReference cTargetEntityCrossReference_0_1_0 = (CrossReference)cTargetAssignment_0_1.eContents().get(0);
+		private final RuleCall cTargetEntityIDTerminalRuleCall_0_1_0_1 = (RuleCall)cTargetEntityCrossReference_0_1_0.eContents().get(1);
 		private final Assignment cTargetAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final CrossReference cTargetRelationCrossReference_1_0 = (CrossReference)cTargetAssignment_1.eContents().get(0);
 		private final RuleCall cTargetRelationIDTerminalRuleCall_1_0_1 = (RuleCall)cTargetRelationCrossReference_1_0.eContents().get(1);
 		
 		//RelationSide:
-		//	minimalCardinality?='zero'? maximumCardinality=CardinalityType target=[Entity] | target=[Relation];
+		//	Cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)') target=[Entity] | target=[Relation];
 		@Override public ParserRule getRule() { return rule; }
 		
-		//minimalCardinality?='zero'? maximumCardinality=CardinalityType target=[Entity] | target=[Relation]
+		//Cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)') target=[Entity] | target=[Relation]
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//minimalCardinality?='zero'? maximumCardinality=CardinalityType target=[Entity]
+		//Cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)') target=[Entity]
 		public Group getGroup_0() { return cGroup_0; }
 		
-		//minimalCardinality?='zero'?
-		public Assignment getMinimalCardinalityAssignment_0_0() { return cMinimalCardinalityAssignment_0_0; }
+		//Cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)')
+		public Assignment getCardinalityAssignment_0_0() { return cCardinalityAssignment_0_0; }
 		
-		//'zero'
-		public Keyword getMinimalCardinalityZeroKeyword_0_0_0() { return cMinimalCardinalityZeroKeyword_0_0_0; }
+		//('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)')
+		public Alternatives getCardinalityAlternatives_0_0_0() { return cCardinalityAlternatives_0_0_0; }
 		
-		//maximumCardinality=CardinalityType
-		public Assignment getMaximumCardinalityAssignment_0_1() { return cMaximumCardinalityAssignment_0_1; }
+		//'(0:1)'
+		public Keyword getCardinality01Keyword_0_0_0_0() { return cCardinality01Keyword_0_0_0_0; }
 		
-		//CardinalityType
-		public RuleCall getMaximumCardinalityCardinalityTypeEnumRuleCall_0_1_0() { return cMaximumCardinalityCardinalityTypeEnumRuleCall_0_1_0; }
+		//'(1:1)'
+		public Keyword getCardinality11Keyword_0_0_0_1() { return cCardinality11Keyword_0_0_0_1; }
+		
+		//'(0:N)'
+		public Keyword getCardinality0NKeyword_0_0_0_2() { return cCardinality0NKeyword_0_0_0_2; }
+		
+		//'(1:N)'
+		public Keyword getCardinality1NKeyword_0_0_0_3() { return cCardinality1NKeyword_0_0_0_3; }
 		
 		//target=[Entity]
-		public Assignment getTargetAssignment_0_2() { return cTargetAssignment_0_2; }
+		public Assignment getTargetAssignment_0_1() { return cTargetAssignment_0_1; }
 		
 		//[Entity]
-		public CrossReference getTargetEntityCrossReference_0_2_0() { return cTargetEntityCrossReference_0_2_0; }
+		public CrossReference getTargetEntityCrossReference_0_1_0() { return cTargetEntityCrossReference_0_1_0; }
 		
 		//ID
-		public RuleCall getTargetEntityIDTerminalRuleCall_0_2_0_1() { return cTargetEntityIDTerminalRuleCall_0_2_0_1; }
+		public RuleCall getTargetEntityIDTerminalRuleCall_0_1_0_1() { return cTargetEntityIDTerminalRuleCall_0_1_0_1; }
 		
 		//target=[Relation]
 		public Assignment getTargetAssignment_1() { return cTargetAssignment_1; }
@@ -431,33 +439,6 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//'file'
 		public Keyword getBLOBFileKeyword_6_0() { return cBLOBFileKeyword_6_0; }
 	}
-	public class CardinalityTypeElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.CardinalityType");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cOneEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cOneOneKeyword_0_0 = (Keyword)cOneEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cManyEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cManyManyKeyword_1_0 = (Keyword)cManyEnumLiteralDeclaration_1.eContents().get(0);
-		
-		//enum CardinalityType:
-		//	One='one' | Many='many';
-		public EnumRule getRule() { return rule; }
-		
-		//One='one' | Many='many'
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//One='one'
-		public EnumLiteralDeclaration getOneEnumLiteralDeclaration_0() { return cOneEnumLiteralDeclaration_0; }
-		
-		//'one'
-		public Keyword getOneOneKeyword_0_0() { return cOneOneKeyword_0_0; }
-		
-		//Many='many'
-		public EnumLiteralDeclaration getManyEnumLiteralDeclaration_1() { return cManyEnumLiteralDeclaration_1; }
-		
-		//'many'
-		public Keyword getManyManyKeyword_1_0() { return cManyManyKeyword_1_0; }
-	}
 	
 	private final ERModelElements pERModel;
 	private final DomainElements pDomain;
@@ -466,7 +447,6 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 	private final EntityElements pEntity;
 	private final RelationElements pRelation;
 	private final RelationSideElements pRelationSide;
-	private final CardinalityTypeElements eCardinalityType;
 	
 	private final Grammar grammar;
 	
@@ -484,7 +464,6 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		this.pEntity = new EntityElements();
 		this.pRelation = new RelationElements();
 		this.pRelationSide = new RelationSideElements();
-		this.eCardinalityType = new CardinalityTypeElements();
 	}
 	
 	protected Grammar internalFindGrammar(GrammarProvider grammarProvider) {
@@ -556,7 +535,7 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Entity:
-	//	name=ID ('isA' isA+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
+	//	name=ID ('is' is+=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
 	public EntityElements getEntityAccess() {
 		return pEntity;
 	}
@@ -566,7 +545,7 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Relation:
-	//	name=ID? ('[' leftEnding=RelationSide 'isRelatedWith' rightEnding=RelationSide ']') ('{'
+	//	name=ID? ('[' leftEnding=RelationSide 'relates' rightEnding=RelationSide ']') ('{'
 	//	attributes+=Attribute (',' attributes+=Attribute)* '}')*;
 	public RelationElements getRelationAccess() {
 		return pRelation;
@@ -577,23 +556,13 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//RelationSide:
-	//	minimalCardinality?='zero'? maximumCardinality=CardinalityType target=[Entity] | target=[Relation];
+	//	Cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)') target=[Entity] | target=[Relation];
 	public RelationSideElements getRelationSideAccess() {
 		return pRelationSide;
 	}
 	
 	public ParserRule getRelationSideRule() {
 		return getRelationSideAccess().getRule();
-	}
-	
-	//enum CardinalityType:
-	//	One='one' | Many='many';
-	public CardinalityTypeElements getCardinalityTypeAccess() {
-		return eCardinalityType;
-	}
-	
-	public EnumRule getCardinalityTypeRule() {
-		return getCardinalityTypeAccess().getRule();
 	}
 	
 	//terminal ID:

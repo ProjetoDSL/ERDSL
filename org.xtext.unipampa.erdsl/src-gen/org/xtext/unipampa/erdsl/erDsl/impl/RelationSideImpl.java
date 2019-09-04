@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
-import org.xtext.unipampa.erdsl.erDsl.CardinalityType;
 import org.xtext.unipampa.erdsl.erDsl.ErDslPackage;
 import org.xtext.unipampa.erdsl.erDsl.RelationSide;
 
@@ -24,8 +23,7 @@ import org.xtext.unipampa.erdsl.erDsl.RelationSide;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideImpl#isMinimalCardinality <em>Minimal Cardinality</em>}</li>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideImpl#getMaximumCardinality <em>Maximum Cardinality</em>}</li>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideImpl#getCardinality <em>Cardinality</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
@@ -34,44 +32,24 @@ import org.xtext.unipampa.erdsl.erDsl.RelationSide;
 public class RelationSideImpl extends MinimalEObjectImpl.Container implements RelationSide
 {
   /**
-   * The default value of the '{@link #isMinimalCardinality() <em>Minimal Cardinality</em>}' attribute.
+   * The default value of the '{@link #getCardinality() <em>Cardinality</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isMinimalCardinality()
+   * @see #getCardinality()
    * @generated
    * @ordered
    */
-  protected static final boolean MINIMAL_CARDINALITY_EDEFAULT = false;
+  protected static final String CARDINALITY_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #isMinimalCardinality() <em>Minimal Cardinality</em>}' attribute.
+   * The cached value of the '{@link #getCardinality() <em>Cardinality</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #isMinimalCardinality()
+   * @see #getCardinality()
    * @generated
    * @ordered
    */
-  protected boolean minimalCardinality = MINIMAL_CARDINALITY_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getMaximumCardinality() <em>Maximum Cardinality</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getMaximumCardinality()
-   * @generated
-   * @ordered
-   */
-  protected static final CardinalityType MAXIMUM_CARDINALITY_EDEFAULT = CardinalityType.ONE;
-
-  /**
-   * The cached value of the '{@link #getMaximumCardinality() <em>Maximum Cardinality</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getMaximumCardinality()
-   * @generated
-   * @ordered
-   */
-  protected CardinalityType maximumCardinality = MAXIMUM_CARDINALITY_EDEFAULT;
+  protected String cardinality = CARDINALITY_EDEFAULT;
 
   /**
    * The cached value of the '{@link #getTarget() <em>Target</em>}' reference.
@@ -110,9 +88,9 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
    * @generated
    */
   @Override
-  public boolean isMinimalCardinality()
+  public String getCardinality()
   {
-    return minimalCardinality;
+    return cardinality;
   }
 
   /**
@@ -121,37 +99,12 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
    * @generated
    */
   @Override
-  public void setMinimalCardinality(boolean newMinimalCardinality)
+  public void setCardinality(String newCardinality)
   {
-    boolean oldMinimalCardinality = minimalCardinality;
-    minimalCardinality = newMinimalCardinality;
+    String oldCardinality = cardinality;
+    cardinality = newCardinality;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.RELATION_SIDE__MINIMAL_CARDINALITY, oldMinimalCardinality, minimalCardinality));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public CardinalityType getMaximumCardinality()
-  {
-    return maximumCardinality;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setMaximumCardinality(CardinalityType newMaximumCardinality)
-  {
-    CardinalityType oldMaximumCardinality = maximumCardinality;
-    maximumCardinality = newMaximumCardinality == null ? MAXIMUM_CARDINALITY_EDEFAULT : newMaximumCardinality;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.RELATION_SIDE__MAXIMUM_CARDINALITY, oldMaximumCardinality, maximumCardinality));
+      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.RELATION_SIDE__CARDINALITY, oldCardinality, cardinality));
   }
 
   /**
@@ -209,10 +162,8 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
   {
     switch (featureID)
     {
-      case ErDslPackage.RELATION_SIDE__MINIMAL_CARDINALITY:
-        return isMinimalCardinality();
-      case ErDslPackage.RELATION_SIDE__MAXIMUM_CARDINALITY:
-        return getMaximumCardinality();
+      case ErDslPackage.RELATION_SIDE__CARDINALITY:
+        return getCardinality();
       case ErDslPackage.RELATION_SIDE__TARGET:
         if (resolve) return getTarget();
         return basicGetTarget();
@@ -230,11 +181,8 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
   {
     switch (featureID)
     {
-      case ErDslPackage.RELATION_SIDE__MINIMAL_CARDINALITY:
-        setMinimalCardinality((Boolean)newValue);
-        return;
-      case ErDslPackage.RELATION_SIDE__MAXIMUM_CARDINALITY:
-        setMaximumCardinality((CardinalityType)newValue);
+      case ErDslPackage.RELATION_SIDE__CARDINALITY:
+        setCardinality((String)newValue);
         return;
       case ErDslPackage.RELATION_SIDE__TARGET:
         setTarget((EObject)newValue);
@@ -253,11 +201,8 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
   {
     switch (featureID)
     {
-      case ErDslPackage.RELATION_SIDE__MINIMAL_CARDINALITY:
-        setMinimalCardinality(MINIMAL_CARDINALITY_EDEFAULT);
-        return;
-      case ErDslPackage.RELATION_SIDE__MAXIMUM_CARDINALITY:
-        setMaximumCardinality(MAXIMUM_CARDINALITY_EDEFAULT);
+      case ErDslPackage.RELATION_SIDE__CARDINALITY:
+        setCardinality(CARDINALITY_EDEFAULT);
         return;
       case ErDslPackage.RELATION_SIDE__TARGET:
         setTarget((EObject)null);
@@ -276,10 +221,8 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
   {
     switch (featureID)
     {
-      case ErDslPackage.RELATION_SIDE__MINIMAL_CARDINALITY:
-        return minimalCardinality != MINIMAL_CARDINALITY_EDEFAULT;
-      case ErDslPackage.RELATION_SIDE__MAXIMUM_CARDINALITY:
-        return maximumCardinality != MAXIMUM_CARDINALITY_EDEFAULT;
+      case ErDslPackage.RELATION_SIDE__CARDINALITY:
+        return CARDINALITY_EDEFAULT == null ? cardinality != null : !CARDINALITY_EDEFAULT.equals(cardinality);
       case ErDslPackage.RELATION_SIDE__TARGET:
         return target != null;
     }
@@ -297,10 +240,8 @@ public class RelationSideImpl extends MinimalEObjectImpl.Container implements Re
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (minimalCardinality: ");
-    result.append(minimalCardinality);
-    result.append(", maximumCardinality: ");
-    result.append(maximumCardinality);
+    result.append(" (Cardinality: ");
+    result.append(cardinality);
     result.append(')');
     return result.toString();
   }

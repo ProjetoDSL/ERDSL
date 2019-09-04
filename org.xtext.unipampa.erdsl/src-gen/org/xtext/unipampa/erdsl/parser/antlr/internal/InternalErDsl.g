@@ -307,9 +307,9 @@ ruleEntity returns [EObject current=null]
 			)
 		)
 		(
-			otherlv_1='isA'
+			otherlv_1='is'
 			{
-				newLeafNode(otherlv_1, grammarAccess.getEntityAccess().getIsAKeyword_1_0());
+				newLeafNode(otherlv_1, grammarAccess.getEntityAccess().getIsKeyword_1_0());
 			}
 			(
 				(
@@ -320,7 +320,7 @@ ruleEntity returns [EObject current=null]
 					}
 					otherlv_2=RULE_ID
 					{
-						newLeafNode(otherlv_2, grammarAccess.getEntityAccess().getIsAEntityCrossReference_1_1_0());
+						newLeafNode(otherlv_2, grammarAccess.getEntityAccess().getIsEntityCrossReference_1_1_0());
 					}
 				)
 			)
@@ -440,9 +440,9 @@ ruleRelation returns [EObject current=null]
 					}
 				)
 			)
-			otherlv_3='isRelatedWith'
+			otherlv_3='relates'
 			{
-				newLeafNode(otherlv_3, grammarAccess.getRelationAccess().getIsRelatedWithKeyword_1_2());
+				newLeafNode(otherlv_3, grammarAccess.getRelationAccess().getRelatesKeyword_1_2());
 			}
 			(
 				(
@@ -544,35 +544,51 @@ ruleRelationSide returns [EObject current=null]
 		(
 			(
 				(
-					lv_minimalCardinality_0_0='zero'
-					{
-						newLeafNode(lv_minimalCardinality_0_0, grammarAccess.getRelationSideAccess().getMinimalCardinalityZeroKeyword_0_0_0());
-					}
-					{
-						if ($current==null) {
-							$current = createModelElement(grammarAccess.getRelationSideRule());
+					(
+						lv_Cardinality_0_1='(0:1)'
+						{
+							newLeafNode(lv_Cardinality_0_1, grammarAccess.getRelationSideAccess().getCardinality01Keyword_0_0_0_0());
 						}
-						setWithLastConsumed($current, "minimalCardinality", true, "zero");
-					}
-				)
-			)?
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getRelationSideAccess().getMaximumCardinalityCardinalityTypeEnumRuleCall_0_1_0());
-					}
-					lv_maximumCardinality_1_0=ruleCardinalityType
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getRelationSideRule());
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getRelationSideRule());
+							}
+							setWithLastConsumed($current, "Cardinality", lv_Cardinality_0_1, null);
 						}
-						set(
-							$current,
-							"maximumCardinality",
-							lv_maximumCardinality_1_0,
-							"org.xtext.unipampa.erdsl.ErDsl.CardinalityType");
-						afterParserOrEnumRuleCall();
-					}
+						    |
+						lv_Cardinality_0_2='(1:1)'
+						{
+							newLeafNode(lv_Cardinality_0_2, grammarAccess.getRelationSideAccess().getCardinality11Keyword_0_0_0_1());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getRelationSideRule());
+							}
+							setWithLastConsumed($current, "Cardinality", lv_Cardinality_0_2, null);
+						}
+						    |
+						lv_Cardinality_0_3='(0:N)'
+						{
+							newLeafNode(lv_Cardinality_0_3, grammarAccess.getRelationSideAccess().getCardinality0NKeyword_0_0_0_2());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getRelationSideRule());
+							}
+							setWithLastConsumed($current, "Cardinality", lv_Cardinality_0_3, null);
+						}
+						    |
+						lv_Cardinality_0_4='(1:N)'
+						{
+							newLeafNode(lv_Cardinality_0_4, grammarAccess.getRelationSideAccess().getCardinality1NKeyword_0_0_0_3());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getRelationSideRule());
+							}
+							setWithLastConsumed($current, "Cardinality", lv_Cardinality_0_4, null);
+						}
+					)
 				)
 			)
 			(
@@ -582,9 +598,9 @@ ruleRelationSide returns [EObject current=null]
 							$current = createModelElement(grammarAccess.getRelationSideRule());
 						}
 					}
-					otherlv_2=RULE_ID
+					otherlv_1=RULE_ID
 					{
-						newLeafNode(otherlv_2, grammarAccess.getRelationSideAccess().getTargetEntityCrossReference_0_2_0());
+						newLeafNode(otherlv_1, grammarAccess.getRelationSideAccess().getTargetEntityCrossReference_0_1_0());
 					}
 				)
 			)
@@ -597,9 +613,9 @@ ruleRelationSide returns [EObject current=null]
 						$current = createModelElement(grammarAccess.getRelationSideRule());
 					}
 				}
-				otherlv_3=RULE_ID
+				otherlv_2=RULE_ID
 				{
-					newLeafNode(otherlv_3, grammarAccess.getRelationSideAccess().getTargetRelationCrossReference_1_0());
+					newLeafNode(otherlv_2, grammarAccess.getRelationSideAccess().getTargetRelationCrossReference_1_0());
 				}
 			)
 		)
@@ -668,33 +684,6 @@ ruleDataType returns [Enumerator current=null]
 			{
 				$current = grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
 				newLeafNode(enumLiteral_6, grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6());
-			}
-		)
-	)
-;
-
-// Rule CardinalityType
-ruleCardinalityType returns [Enumerator current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			enumLiteral_0='one'
-			{
-				$current = grammarAccess.getCardinalityTypeAccess().getOneEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_0, grammarAccess.getCardinalityTypeAccess().getOneEnumLiteralDeclaration_0());
-			}
-		)
-		    |
-		(
-			enumLiteral_1='many'
-			{
-				$current = grammarAccess.getCardinalityTypeAccess().getManyEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_1, grammarAccess.getCardinalityTypeAccess().getManyEnumLiteralDeclaration_1());
 			}
 		)
 	)

@@ -33,7 +33,7 @@ import org.xtext.unipampa.erdsl.erDsl.ErDslPackage;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.EntityImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.EntityImpl#getIsA <em>Is A</em>}</li>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.EntityImpl#getIs <em>Is</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.EntityImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
  *
@@ -62,14 +62,14 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
   protected String name = NAME_EDEFAULT;
 
   /**
-   * The cached value of the '{@link #getIsA() <em>Is A</em>}' reference list.
+   * The cached value of the '{@link #getIs() <em>Is</em>}' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getIsA()
+   * @see #getIs()
    * @generated
    * @ordered
    */
-  protected EList<Entity> isA;
+  protected EList<Entity> is;
 
   /**
    * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
@@ -133,13 +133,13 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
    * @generated
    */
   @Override
-  public EList<Entity> getIsA()
+  public EList<Entity> getIs()
   {
-    if (isA == null)
+    if (is == null)
     {
-      isA = new EObjectResolvingEList<Entity>(Entity.class, this, ErDslPackage.ENTITY__IS_A);
+      is = new EObjectResolvingEList<Entity>(Entity.class, this, ErDslPackage.ENTITY__IS);
     }
-    return isA;
+    return is;
   }
 
   /**
@@ -185,8 +185,8 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
     {
       case ErDslPackage.ENTITY__NAME:
         return getName();
-      case ErDslPackage.ENTITY__IS_A:
-        return getIsA();
+      case ErDslPackage.ENTITY__IS:
+        return getIs();
       case ErDslPackage.ENTITY__ATTRIBUTES:
         return getAttributes();
     }
@@ -207,9 +207,9 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
       case ErDslPackage.ENTITY__NAME:
         setName((String)newValue);
         return;
-      case ErDslPackage.ENTITY__IS_A:
-        getIsA().clear();
-        getIsA().addAll((Collection<? extends Entity>)newValue);
+      case ErDslPackage.ENTITY__IS:
+        getIs().clear();
+        getIs().addAll((Collection<? extends Entity>)newValue);
         return;
       case ErDslPackage.ENTITY__ATTRIBUTES:
         getAttributes().clear();
@@ -232,8 +232,8 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
       case ErDslPackage.ENTITY__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case ErDslPackage.ENTITY__IS_A:
-        getIsA().clear();
+      case ErDslPackage.ENTITY__IS:
+        getIs().clear();
         return;
       case ErDslPackage.ENTITY__ATTRIBUTES:
         getAttributes().clear();
@@ -254,8 +254,8 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
     {
       case ErDslPackage.ENTITY__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ErDslPackage.ENTITY__IS_A:
-        return isA != null && !isA.isEmpty();
+      case ErDslPackage.ENTITY__IS:
+        return is != null && !is.isEmpty();
       case ErDslPackage.ENTITY__ATTRIBUTES:
         return attributes != null && !attributes.isEmpty();
     }

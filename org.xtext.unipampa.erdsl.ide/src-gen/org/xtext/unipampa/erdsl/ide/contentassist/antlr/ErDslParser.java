@@ -32,8 +32,8 @@ public class ErDslParser extends AbstractContentAssistParser {
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, ErDslGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getRelationSideAccess().getAlternatives(), "rule__RelationSide__Alternatives");
+			builder.put(grammarAccess.getRelationSideAccess().getCardinalityAlternatives_0_0_0(), "rule__RelationSide__CardinalityAlternatives_0_0_0");
 			builder.put(grammarAccess.getDataTypeAccess().getAlternatives(), "rule__DataType__Alternatives");
-			builder.put(grammarAccess.getCardinalityTypeAccess().getAlternatives(), "rule__CardinalityType__Alternatives");
 			builder.put(grammarAccess.getERModelAccess().getGroup(), "rule__ERModel__Group__0");
 			builder.put(grammarAccess.getDomainAccess().getGroup(), "rule__Domain__Group__0");
 			builder.put(grammarAccess.getAttributeAccess().getGroup(), "rule__Attribute__Group__0");
@@ -54,7 +54,7 @@ public class ErDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getAttributeAccess().getTypeAssignment_2(), "rule__Attribute__TypeAssignment_2");
 			builder.put(grammarAccess.getAttributeAccess().getIsKeyAssignment_3(), "rule__Attribute__IsKeyAssignment_3");
 			builder.put(grammarAccess.getEntityAccess().getNameAssignment_0(), "rule__Entity__NameAssignment_0");
-			builder.put(grammarAccess.getEntityAccess().getIsAAssignment_1_1(), "rule__Entity__IsAAssignment_1_1");
+			builder.put(grammarAccess.getEntityAccess().getIsAssignment_1_1(), "rule__Entity__IsAssignment_1_1");
 			builder.put(grammarAccess.getEntityAccess().getAttributesAssignment_2_1(), "rule__Entity__AttributesAssignment_2_1");
 			builder.put(grammarAccess.getEntityAccess().getAttributesAssignment_2_2_1(), "rule__Entity__AttributesAssignment_2_2_1");
 			builder.put(grammarAccess.getRelationAccess().getNameAssignment_0(), "rule__Relation__NameAssignment_0");
@@ -62,9 +62,8 @@ public class ErDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRelationAccess().getRightEndingAssignment_1_3(), "rule__Relation__RightEndingAssignment_1_3");
 			builder.put(grammarAccess.getRelationAccess().getAttributesAssignment_2_1(), "rule__Relation__AttributesAssignment_2_1");
 			builder.put(grammarAccess.getRelationAccess().getAttributesAssignment_2_2_1(), "rule__Relation__AttributesAssignment_2_2_1");
-			builder.put(grammarAccess.getRelationSideAccess().getMinimalCardinalityAssignment_0_0(), "rule__RelationSide__MinimalCardinalityAssignment_0_0");
-			builder.put(grammarAccess.getRelationSideAccess().getMaximumCardinalityAssignment_0_1(), "rule__RelationSide__MaximumCardinalityAssignment_0_1");
-			builder.put(grammarAccess.getRelationSideAccess().getTargetAssignment_0_2(), "rule__RelationSide__TargetAssignment_0_2");
+			builder.put(grammarAccess.getRelationSideAccess().getCardinalityAssignment_0_0(), "rule__RelationSide__CardinalityAssignment_0_0");
+			builder.put(grammarAccess.getRelationSideAccess().getTargetAssignment_0_1(), "rule__RelationSide__TargetAssignment_0_1");
 			builder.put(grammarAccess.getRelationSideAccess().getTargetAssignment_1(), "rule__RelationSide__TargetAssignment_1");
 		}
 	}

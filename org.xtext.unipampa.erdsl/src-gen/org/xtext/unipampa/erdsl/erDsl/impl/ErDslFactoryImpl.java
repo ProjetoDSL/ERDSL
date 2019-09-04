@@ -89,8 +89,6 @@ public class ErDslFactoryImpl extends EFactoryImpl implements ErDslFactory
     {
       case ErDslPackage.DATA_TYPE:
         return createDataTypeFromString(eDataType, initialValue);
-      case ErDslPackage.CARDINALITY_TYPE:
-        return createCardinalityTypeFromString(eDataType, initialValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -108,8 +106,6 @@ public class ErDslFactoryImpl extends EFactoryImpl implements ErDslFactory
     {
       case ErDslPackage.DATA_TYPE:
         return convertDataTypeToString(eDataType, instanceValue);
-      case ErDslPackage.CARDINALITY_TYPE:
-        return convertCardinalityTypeToString(eDataType, instanceValue);
       default:
         throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
     }
@@ -205,28 +201,6 @@ public class ErDslFactoryImpl extends EFactoryImpl implements ErDslFactory
    * @generated
    */
   public String convertDataTypeToString(EDataType eDataType, Object instanceValue)
-  {
-    return instanceValue == null ? null : instanceValue.toString();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public CardinalityType createCardinalityTypeFromString(EDataType eDataType, String initialValue)
-  {
-    CardinalityType result = CardinalityType.get(initialValue);
-    if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");
-    return result;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public String convertCardinalityTypeToString(EDataType eDataType, Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }

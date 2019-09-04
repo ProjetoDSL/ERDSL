@@ -107,7 +107,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     Entity returns Entity
 	 *
 	 * Constraint:
-	 *     (name=ID isA+=[Entity|ID]* (attributes+=Attribute attributes+=Attribute*)?)
+	 *     (name=ID is+=[Entity|ID]* (attributes+=Attribute attributes+=Attribute*)?)
 	 */
 	protected void sequence_Entity(ISerializationContext context, Entity semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -119,7 +119,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     RelationSide returns RelationSide
 	 *
 	 * Constraint:
-	 *     ((minimalCardinality?='zero'? maximumCardinality=CardinalityType target=[Entity|ID]) | target=[Relation|ID])
+	 *     (((Cardinality='(0:1)' | Cardinality='(1:1)' | Cardinality='(0:N)' | Cardinality='(1:N)') target=[Entity|ID]) | target=[Relation|ID])
 	 */
 	protected void sequence_RelationSide(ISerializationContext context, RelationSide semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

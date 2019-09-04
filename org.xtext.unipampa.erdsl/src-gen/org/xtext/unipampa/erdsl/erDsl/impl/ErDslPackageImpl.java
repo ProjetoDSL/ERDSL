@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
-import org.xtext.unipampa.erdsl.erDsl.CardinalityType;
 import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.Domain;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
@@ -78,13 +77,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   private EEnum dataTypeEEnum = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum cardinalityTypeEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -287,7 +279,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EReference getEntity_IsA()
+  public EReference getEntity_Is()
   {
     return (EReference)entityEClass.getEStructuralFeatures().get(1);
   }
@@ -375,7 +367,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EAttribute getRelationSide_MinimalCardinality()
+  public EAttribute getRelationSide_Cardinality()
   {
     return (EAttribute)relationSideEClass.getEStructuralFeatures().get(0);
   }
@@ -386,20 +378,9 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EAttribute getRelationSide_MaximumCardinality()
-  {
-    return (EAttribute)relationSideEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EReference getRelationSide_Target()
   {
-    return (EReference)relationSideEClass.getEStructuralFeatures().get(2);
+    return (EReference)relationSideEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -411,17 +392,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
   public EEnum getDataType()
   {
     return dataTypeEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EEnum getCardinalityType()
-  {
-    return cardinalityTypeEEnum;
   }
 
   /**
@@ -470,7 +440,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     entityEClass = createEClass(ENTITY);
     createEAttribute(entityEClass, ENTITY__NAME);
-    createEReference(entityEClass, ENTITY__IS_A);
+    createEReference(entityEClass, ENTITY__IS);
     createEReference(entityEClass, ENTITY__ATTRIBUTES);
 
     relationEClass = createEClass(RELATION);
@@ -480,13 +450,11 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     createEReference(relationEClass, RELATION__ATTRIBUTES);
 
     relationSideEClass = createEClass(RELATION_SIDE);
-    createEAttribute(relationSideEClass, RELATION_SIDE__MINIMAL_CARDINALITY);
-    createEAttribute(relationSideEClass, RELATION_SIDE__MAXIMUM_CARDINALITY);
+    createEAttribute(relationSideEClass, RELATION_SIDE__CARDINALITY);
     createEReference(relationSideEClass, RELATION_SIDE__TARGET);
 
     // Create enums
     dataTypeEEnum = createEEnum(DATA_TYPE);
-    cardinalityTypeEEnum = createEEnum(CARDINALITY_TYPE);
   }
 
   /**
@@ -535,7 +503,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     initEClass(entityEClass, Entity.class, "Entity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getEntity_Name(), ecorePackage.getEString(), "name", null, 0, 1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getEntity_IsA(), this.getEntity(), null, "isA", null, 0, -1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getEntity_Is(), this.getEntity(), null, "is", null, 0, -1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getEntity_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Entity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(relationEClass, Relation.class, "Relation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -545,8 +513,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     initEReference(getRelation_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(relationSideEClass, RelationSide.class, "RelationSide", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getRelationSide_MinimalCardinality(), ecorePackage.getEBoolean(), "minimalCardinality", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getRelationSide_MaximumCardinality(), this.getCardinalityType(), "maximumCardinality", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getRelationSide_Cardinality(), ecorePackage.getEString(), "Cardinality", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRelationSide_Target(), ecorePackage.getEObject(), null, "target", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     // Initialize enums and add enum literals
@@ -558,10 +525,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     addEEnumLiteral(dataTypeEEnum, DataType.BOOLEAN);
     addEEnumLiteral(dataTypeEEnum, DataType.DATETIME);
     addEEnumLiteral(dataTypeEEnum, DataType.BLOB);
-
-    initEEnum(cardinalityTypeEEnum, CardinalityType.class, "CardinalityType");
-    addEEnumLiteral(cardinalityTypeEEnum, CardinalityType.ONE);
-    addEEnumLiteral(cardinalityTypeEEnum, CardinalityType.MANY);
 
     // Create resource
     createResource(eNS_URI);
