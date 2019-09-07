@@ -9,8 +9,6 @@ import java.util.List;
 import org.eclipse.xtext.Alternatives;
 import org.eclipse.xtext.Assignment;
 import org.eclipse.xtext.CrossReference;
-import org.eclipse.xtext.EnumLiteralDeclaration;
-import org.eclipse.xtext.EnumRule;
 import org.eclipse.xtext.Grammar;
 import org.eclipse.xtext.GrammarUtil;
 import org.eclipse.xtext.Group;
@@ -19,7 +17,6 @@ import org.eclipse.xtext.ParserRule;
 import org.eclipse.xtext.RuleCall;
 import org.eclipse.xtext.TerminalRule;
 import org.eclipse.xtext.common.services.TerminalsGrammarAccess;
-import org.eclipse.xtext.service.AbstractElementFinder.AbstractEnumRuleElementFinder;
 import org.eclipse.xtext.service.AbstractElementFinder.AbstractGrammarElementFinder;
 import org.eclipse.xtext.service.GrammarProvider;
 
@@ -110,17 +107,14 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cNameIDTerminalRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
-		private final Keyword cColonKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
-		private final RuleCall cTypeDataTypeEnumRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
-		private final Assignment cIsKeyAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final Keyword cIsKeyIsIdentifierKeyword_3_0 = (Keyword)cIsKeyAssignment_3.eContents().get(0);
+		private final Assignment cIsKeyAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final Keyword cIsKeyIsIdentifierKeyword_1_0 = (Keyword)cIsKeyAssignment_1.eContents().get(0);
 		
 		//Attribute:
-		//	name=ID ':' type=DataType isKey?='isIdentifier'?;
+		//	name=ID isKey?='isIdentifier'?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID ':' type=DataType isKey?='isIdentifier'?
+		//name=ID isKey?='isIdentifier'?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -129,20 +123,11 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 		
-		//':'
-		public Keyword getColonKeyword_1() { return cColonKeyword_1; }
-		
-		//type=DataType
-		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
-		
-		//DataType
-		public RuleCall getTypeDataTypeEnumRuleCall_2_0() { return cTypeDataTypeEnumRuleCall_2_0; }
-		
 		//isKey?='isIdentifier'?
-		public Assignment getIsKeyAssignment_3() { return cIsKeyAssignment_3; }
+		public Assignment getIsKeyAssignment_1() { return cIsKeyAssignment_1; }
 		
 		//'isIdentifier'
-		public Keyword getIsKeyIsIdentifierKeyword_3_0() { return cIsKeyIsIdentifierKeyword_3_0; }
+		public Keyword getIsKeyIsIdentifierKeyword_1_0() { return cIsKeyIsIdentifierKeyword_1_0; }
 	}
 	public class EntityElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.Entity");
@@ -372,78 +357,10 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		public RuleCall getTargetRelationIDTerminalRuleCall_1_0_1() { return cTargetRelationIDTerminalRuleCall_1_0_1; }
 	}
 	
-	public class DataTypeElements extends AbstractEnumRuleElementFinder {
-		private final EnumRule rule = (EnumRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.DataType");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final EnumLiteralDeclaration cINTEnumLiteralDeclaration_0 = (EnumLiteralDeclaration)cAlternatives.eContents().get(0);
-		private final Keyword cINTIntKeyword_0_0 = (Keyword)cINTEnumLiteralDeclaration_0.eContents().get(0);
-		private final EnumLiteralDeclaration cDOUBLEEnumLiteralDeclaration_1 = (EnumLiteralDeclaration)cAlternatives.eContents().get(1);
-		private final Keyword cDOUBLEDoubleKeyword_1_0 = (Keyword)cDOUBLEEnumLiteralDeclaration_1.eContents().get(0);
-		private final EnumLiteralDeclaration cMONEYEnumLiteralDeclaration_2 = (EnumLiteralDeclaration)cAlternatives.eContents().get(2);
-		private final Keyword cMONEYMoneyKeyword_2_0 = (Keyword)cMONEYEnumLiteralDeclaration_2.eContents().get(0);
-		private final EnumLiteralDeclaration cSTRINGEnumLiteralDeclaration_3 = (EnumLiteralDeclaration)cAlternatives.eContents().get(3);
-		private final Keyword cSTRINGStringKeyword_3_0 = (Keyword)cSTRINGEnumLiteralDeclaration_3.eContents().get(0);
-		private final EnumLiteralDeclaration cBOOLEANEnumLiteralDeclaration_4 = (EnumLiteralDeclaration)cAlternatives.eContents().get(4);
-		private final Keyword cBOOLEANBooleanKeyword_4_0 = (Keyword)cBOOLEANEnumLiteralDeclaration_4.eContents().get(0);
-		private final EnumLiteralDeclaration cDATETIMEEnumLiteralDeclaration_5 = (EnumLiteralDeclaration)cAlternatives.eContents().get(5);
-		private final Keyword cDATETIMEDatetimeKeyword_5_0 = (Keyword)cDATETIMEEnumLiteralDeclaration_5.eContents().get(0);
-		private final EnumLiteralDeclaration cBLOBEnumLiteralDeclaration_6 = (EnumLiteralDeclaration)cAlternatives.eContents().get(6);
-		private final Keyword cBLOBFileKeyword_6_0 = (Keyword)cBLOBEnumLiteralDeclaration_6.eContents().get(0);
-		
-		//enum DataType:
-		//	INT='int' | DOUBLE='double' | MONEY='money' | STRING='string' | BOOLEAN='boolean' | DATETIME='datetime' | BLOB='file';
-		public EnumRule getRule() { return rule; }
-		
-		//INT='int' | DOUBLE='double' | MONEY='money' | STRING='string' | BOOLEAN='boolean' | DATETIME='datetime' | BLOB='file'
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//INT='int'
-		public EnumLiteralDeclaration getINTEnumLiteralDeclaration_0() { return cINTEnumLiteralDeclaration_0; }
-		
-		//'int'
-		public Keyword getINTIntKeyword_0_0() { return cINTIntKeyword_0_0; }
-		
-		//DOUBLE='double'
-		public EnumLiteralDeclaration getDOUBLEEnumLiteralDeclaration_1() { return cDOUBLEEnumLiteralDeclaration_1; }
-		
-		//'double'
-		public Keyword getDOUBLEDoubleKeyword_1_0() { return cDOUBLEDoubleKeyword_1_0; }
-		
-		//MONEY='money'
-		public EnumLiteralDeclaration getMONEYEnumLiteralDeclaration_2() { return cMONEYEnumLiteralDeclaration_2; }
-		
-		//'money'
-		public Keyword getMONEYMoneyKeyword_2_0() { return cMONEYMoneyKeyword_2_0; }
-		
-		//STRING='string'
-		public EnumLiteralDeclaration getSTRINGEnumLiteralDeclaration_3() { return cSTRINGEnumLiteralDeclaration_3; }
-		
-		//'string'
-		public Keyword getSTRINGStringKeyword_3_0() { return cSTRINGStringKeyword_3_0; }
-		
-		//BOOLEAN='boolean'
-		public EnumLiteralDeclaration getBOOLEANEnumLiteralDeclaration_4() { return cBOOLEANEnumLiteralDeclaration_4; }
-		
-		//'boolean'
-		public Keyword getBOOLEANBooleanKeyword_4_0() { return cBOOLEANBooleanKeyword_4_0; }
-		
-		//DATETIME='datetime'
-		public EnumLiteralDeclaration getDATETIMEEnumLiteralDeclaration_5() { return cDATETIMEEnumLiteralDeclaration_5; }
-		
-		//'datetime'
-		public Keyword getDATETIMEDatetimeKeyword_5_0() { return cDATETIMEDatetimeKeyword_5_0; }
-		
-		//BLOB='file'
-		public EnumLiteralDeclaration getBLOBEnumLiteralDeclaration_6() { return cBLOBEnumLiteralDeclaration_6; }
-		
-		//'file'
-		public Keyword getBLOBFileKeyword_6_0() { return cBLOBFileKeyword_6_0; }
-	}
 	
 	private final ERModelElements pERModel;
 	private final DomainElements pDomain;
 	private final AttributeElements pAttribute;
-	private final DataTypeElements eDataType;
 	private final EntityElements pEntity;
 	private final RelationElements pRelation;
 	private final RelationSideElements pRelationSide;
@@ -460,7 +377,6 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		this.pERModel = new ERModelElements();
 		this.pDomain = new DomainElements();
 		this.pAttribute = new AttributeElements();
-		this.eDataType = new DataTypeElements();
 		this.pEntity = new EntityElements();
 		this.pRelation = new RelationElements();
 		this.pRelationSide = new RelationSideElements();
@@ -515,23 +431,13 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 	}
 	
 	//Attribute:
-	//	name=ID ':' type=DataType isKey?='isIdentifier'?;
+	//	name=ID isKey?='isIdentifier'?;
 	public AttributeElements getAttributeAccess() {
 		return pAttribute;
 	}
 	
 	public ParserRule getAttributeRule() {
 		return getAttributeAccess().getRule();
-	}
-	
-	//enum DataType:
-	//	INT='int' | DOUBLE='double' | MONEY='money' | STRING='string' | BOOLEAN='boolean' | DATETIME='datetime' | BLOB='file';
-	public DataTypeElements getDataTypeAccess() {
-		return eDataType;
-	}
-	
-	public EnumRule getDataTypeRule() {
-		return getDataTypeAccess().getRule();
 	}
 	
 	//Entity:

@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
-import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.ErDslPackage;
 
 /**
@@ -23,7 +22,6 @@ import org.xtext.unipampa.erdsl.erDsl.ErDslPackage;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.AttributeImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.AttributeImpl#getType <em>Type</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.AttributeImpl#isIsKey <em>Is Key</em>}</li>
  * </ul>
  *
@@ -50,26 +48,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #getType() <em>Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getType()
-   * @generated
-   * @ordered
-   */
-  protected static final DataType TYPE_EDEFAULT = DataType.INT;
-
-  /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getType()
-   * @generated
-   * @ordered
-   */
-  protected DataType type = TYPE_EDEFAULT;
 
   /**
    * The default value of the '{@link #isIsKey() <em>Is Key</em>}' attribute.
@@ -143,31 +121,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
    * @generated
    */
   @Override
-  public DataType getType()
-  {
-    return type;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setType(DataType newType)
-  {
-    DataType oldType = type;
-    type = newType == null ? TYPE_EDEFAULT : newType;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.ATTRIBUTE__TYPE, oldType, type));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public boolean isIsKey()
   {
     return isKey;
@@ -199,8 +152,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     {
       case ErDslPackage.ATTRIBUTE__NAME:
         return getName();
-      case ErDslPackage.ATTRIBUTE__TYPE:
-        return getType();
       case ErDslPackage.ATTRIBUTE__IS_KEY:
         return isIsKey();
     }
@@ -219,9 +170,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     {
       case ErDslPackage.ATTRIBUTE__NAME:
         setName((String)newValue);
-        return;
-      case ErDslPackage.ATTRIBUTE__TYPE:
-        setType((DataType)newValue);
         return;
       case ErDslPackage.ATTRIBUTE__IS_KEY:
         setIsKey((Boolean)newValue);
@@ -243,9 +191,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
       case ErDslPackage.ATTRIBUTE__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case ErDslPackage.ATTRIBUTE__TYPE:
-        setType(TYPE_EDEFAULT);
-        return;
       case ErDslPackage.ATTRIBUTE__IS_KEY:
         setIsKey(IS_KEY_EDEFAULT);
         return;
@@ -265,8 +210,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     {
       case ErDslPackage.ATTRIBUTE__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ErDslPackage.ATTRIBUTE__TYPE:
-        return type != TYPE_EDEFAULT;
       case ErDslPackage.ATTRIBUTE__IS_KEY:
         return isKey != IS_KEY_EDEFAULT;
     }
@@ -286,8 +229,6 @@ public class AttributeImpl extends MinimalEObjectImpl.Container implements Attri
     StringBuilder result = new StringBuilder(super.toString());
     result.append(" (name: ");
     result.append(name);
-    result.append(", type: ");
-    result.append(type);
     result.append(", isKey: ");
     result.append(isKey);
     result.append(')');

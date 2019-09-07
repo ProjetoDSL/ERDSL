@@ -12,7 +12,6 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
-import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
 import org.xtext.unipampa.erdsl.erDsl.Relation;
@@ -76,13 +75,10 @@ public class ErDslGenerator extends AbstractGenerator {
             }
             String _name_3 = attribute.getName();
             _builder.append(_name_3);
-            _builder.append(" ");
-            DataType _type = attribute.getType();
-            _builder.append(_type);
             {
               boolean _isIsKey = attribute.isIsKey();
               if (_isIsKey) {
-                _builder.append(" PK ");
+                _builder.append("_PK ");
               }
             }
           }
@@ -130,8 +126,6 @@ public class ErDslGenerator extends AbstractGenerator {
                                         String _name_5 = relationMapeada.getName();
                                         _builder.append(_name_5);
                                         _builder.append(" ");
-                                        DataType _type_1 = relationMapeada.getType();
-                                        _builder.append(_type_1);
                                       }
                                     }
                                   }
@@ -186,13 +180,65 @@ public class ErDslGenerator extends AbstractGenerator {
                                         String _name_7 = relationMapeada_1.getName();
                                         _builder.append(_name_7);
                                         _builder.append(" ");
-                                        DataType _type_2 = relationMapeada_1.getType();
-                                        _builder.append(_type_2);
                                       }
                                     }
                                   }
                                 }
                                 _builder.newLineIfNotEmpty();
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            {
+              if (((Objects.equal(relationAux.getLeftEnding().getCardinality(), "(0:1)") || Objects.equal(relationAux.getLeftEnding().getCardinality(), "(1:1)")) && (Objects.equal(relationAux.getRightEnding().getCardinality(), "(0:1)") || Objects.equal(relationAux.getRightEnding().getCardinality(), "(1:1)")))) {
+                {
+                  EList<Entity> _entities_5 = modeloER.getEntities();
+                  for(final Entity entityAux_2 : _entities_5) {
+                    {
+                      if ((entityAux_2.getName().equalsIgnoreCase(relationAux.getLeftEnding().getTarget().toString()) && entityAux_2.getName().equalsIgnoreCase(entity.getName().toString()))) {
+                        {
+                          EList<Entity> _entities_6 = modeloER.getEntities();
+                          for(final Entity entityMapeada_2 : _entities_6) {
+                            {
+                              boolean _equalsIgnoreCase_2 = entityMapeada_2.getName().equalsIgnoreCase(relationAux.getRightEnding().getTarget().toString());
+                              if (_equalsIgnoreCase_2) {
+                                {
+                                  EList<Attribute> _attributes_7 = entityMapeada_2.getAttributes();
+                                  for(final Attribute attributeAux_2 : _attributes_7) {
+                                    {
+                                      boolean _isIsKey_3 = attributeAux_2.isIsKey();
+                                      if (_isIsKey_3) {
+                                        _builder.append(", ");
+                                        String _name_8 = attributeAux_2.getName();
+                                        _builder.append(_name_8);
+                                        _builder.append("_FK ");
+                                        _builder.newLineIfNotEmpty();
+                                      }
+                                    }
+                                  }
+                                }
+                                {
+                                  EList<Attribute> _attributes_8 = relationAux.getAttributes();
+                                  boolean _tripleNotEquals_3 = (_attributes_8 != null);
+                                  if (_tripleNotEquals_3) {
+                                    {
+                                      EList<Attribute> _attributes_9 = relationAux.getAttributes();
+                                      for(final Attribute relationMapeada_2 : _attributes_9) {
+                                        _builder.append(", ");
+                                        String _name_9 = relationMapeada_2.getName();
+                                        _builder.append(_name_9);
+                                        _builder.append(" ");
+                                        _builder.newLineIfNotEmpty();
+                                      }
+                                    }
+                                  }
+                                }
                               }
                             }
                           }
@@ -227,22 +273,20 @@ public class ErDslGenerator extends AbstractGenerator {
                 _builder.append(" (");
                 _builder.newLineIfNotEmpty();
                 {
-                  EList<Entity> _entities_5 = modeloER.getEntities();
-                  for(final Entity entityAux_2 : _entities_5) {
+                  EList<Entity> _entities_7 = modeloER.getEntities();
+                  for(final Entity entityAux_3 : _entities_7) {
                     {
-                      boolean _equalsIgnoreCase_2 = entityAux_2.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
-                      if (_equalsIgnoreCase_2) {
+                      boolean _equalsIgnoreCase_3 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_3) {
                         {
-                          EList<Attribute> _attributes_7 = entityAux_2.getAttributes();
-                          for(final Attribute atributoAux : _attributes_7) {
+                          EList<Attribute> _attributes_10 = entityAux_3.getAttributes();
+                          for(final Attribute atributoAux : _attributes_10) {
                             {
-                              boolean _isIsKey_3 = atributoAux.isIsKey();
-                              if (_isIsKey_3) {
-                                String _name_8 = atributoAux.getName();
-                                _builder.append(_name_8);
-                                _builder.append("_FK ");
-                                DataType _type_3 = atributoAux.getType();
-                                _builder.append(_type_3);
+                              boolean _isIsKey_4 = atributoAux.isIsKey();
+                              if (_isIsKey_4) {
+                                String _name_10 = atributoAux.getName();
+                                _builder.append(_name_10);
+                                _builder.append("_FK");
                                 _builder.newLineIfNotEmpty();
                               }
                             }
@@ -251,19 +295,17 @@ public class ErDslGenerator extends AbstractGenerator {
                       }
                     }
                     {
-                      boolean _equalsIgnoreCase_3 = entityAux_2.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
-                      if (_equalsIgnoreCase_3) {
+                      boolean _equalsIgnoreCase_4 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_4) {
                         {
-                          EList<Attribute> _attributes_8 = entityAux_2.getAttributes();
-                          for(final Attribute atributoAux_1 : _attributes_8) {
+                          EList<Attribute> _attributes_11 = entityAux_3.getAttributes();
+                          for(final Attribute atributoAux_1 : _attributes_11) {
                             {
-                              boolean _isIsKey_4 = atributoAux_1.isIsKey();
-                              if (_isIsKey_4) {
-                                String _name_9 = atributoAux_1.getName();
-                                _builder.append(_name_9);
-                                _builder.append("_FK ");
-                                DataType _type_4 = atributoAux_1.getType();
-                                _builder.append(_type_4);
+                              boolean _isIsKey_5 = atributoAux_1.isIsKey();
+                              if (_isIsKey_5) {
+                                String _name_11 = atributoAux_1.getName();
+                                _builder.append(_name_11);
+                                _builder.append("_FK");
                                 _builder.newLineIfNotEmpty();
                               }
                             }
@@ -274,27 +316,25 @@ public class ErDslGenerator extends AbstractGenerator {
                   }
                 }
               } else {
-                String _name_10 = relationAux_1.getName();
-                _builder.append(_name_10);
+                String _name_12 = relationAux_1.getName();
+                _builder.append(_name_12);
                 _builder.append(" (");
                 _builder.newLineIfNotEmpty();
                 {
-                  EList<Entity> _entities_6 = modeloER.getEntities();
-                  for(final Entity entityAux_3 : _entities_6) {
+                  EList<Entity> _entities_8 = modeloER.getEntities();
+                  for(final Entity entityAux_4 : _entities_8) {
                     {
-                      boolean _equalsIgnoreCase_4 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
-                      if (_equalsIgnoreCase_4) {
+                      boolean _equalsIgnoreCase_5 = entityAux_4.getName().equalsIgnoreCase(relationAux_1.getLeftEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_5) {
                         {
-                          EList<Attribute> _attributes_9 = entityAux_3.getAttributes();
-                          for(final Attribute atributoAux_2 : _attributes_9) {
+                          EList<Attribute> _attributes_12 = entityAux_4.getAttributes();
+                          for(final Attribute atributoAux_2 : _attributes_12) {
                             {
-                              boolean _isIsKey_5 = atributoAux_2.isIsKey();
-                              if (_isIsKey_5) {
-                                String _name_11 = atributoAux_2.getName();
-                                _builder.append(_name_11);
-                                _builder.append("_FK ");
-                                DataType _type_5 = atributoAux_2.getType();
-                                _builder.append(_type_5);
+                              boolean _isIsKey_6 = atributoAux_2.isIsKey();
+                              if (_isIsKey_6) {
+                                String _name_13 = atributoAux_2.getName();
+                                _builder.append(_name_13);
+                                _builder.append("_FK");
                                 _builder.newLineIfNotEmpty();
                               }
                             }
@@ -303,19 +343,17 @@ public class ErDslGenerator extends AbstractGenerator {
                       }
                     }
                     {
-                      boolean _equalsIgnoreCase_5 = entityAux_3.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
-                      if (_equalsIgnoreCase_5) {
+                      boolean _equalsIgnoreCase_6 = entityAux_4.getName().equalsIgnoreCase(relationAux_1.getRightEnding().getTarget().toString());
+                      if (_equalsIgnoreCase_6) {
                         {
-                          EList<Attribute> _attributes_10 = entityAux_3.getAttributes();
-                          for(final Attribute atributoAux_3 : _attributes_10) {
+                          EList<Attribute> _attributes_13 = entityAux_4.getAttributes();
+                          for(final Attribute atributoAux_3 : _attributes_13) {
                             {
-                              boolean _isIsKey_6 = atributoAux_3.isIsKey();
-                              if (_isIsKey_6) {
-                                String _name_12 = atributoAux_3.getName();
-                                _builder.append(_name_12);
-                                _builder.append("_FK ");
-                                DataType _type_6 = atributoAux_3.getType();
-                                _builder.append(_type_6);
+                              boolean _isIsKey_7 = atributoAux_3.isIsKey();
+                              if (_isIsKey_7) {
+                                String _name_14 = atributoAux_3.getName();
+                                _builder.append(_name_14);
+                                _builder.append("_FK");
                                 _builder.newLineIfNotEmpty();
                               }
                             }
@@ -328,21 +366,18 @@ public class ErDslGenerator extends AbstractGenerator {
               }
             }
             {
-              EList<Attribute> _attributes_11 = relationAux_1.getAttributes();
-              boolean _tripleNotEquals_3 = (_attributes_11 != null);
-              if (_tripleNotEquals_3) {
+              EList<Attribute> _attributes_14 = relationAux_1.getAttributes();
+              boolean _tripleNotEquals_4 = (_attributes_14 != null);
+              if (_tripleNotEquals_4) {
                 {
-                  EList<Attribute> _attributes_12 = relationAux_1.getAttributes();
-                  for(final Attribute atributoRelacaoMuitosParaMuitos : _attributes_12) {
-                    String _name_13 = atributoRelacaoMuitosParaMuitos.getName();
-                    _builder.append(_name_13);
-                    _builder.append(" ");
-                    DataType _type_7 = atributoRelacaoMuitosParaMuitos.getType();
-                    _builder.append(_type_7);
+                  EList<Attribute> _attributes_15 = relationAux_1.getAttributes();
+                  for(final Attribute atributoRelacaoMuitosParaMuitos : _attributes_15) {
+                    String _name_15 = atributoRelacaoMuitosParaMuitos.getName();
+                    _builder.append(_name_15);
                     _builder.append(" ");
                     {
-                      boolean _isIsKey_7 = atributoRelacaoMuitosParaMuitos.isIsKey();
-                      if (_isIsKey_7) {
+                      boolean _isIsKey_8 = atributoRelacaoMuitosParaMuitos.isIsKey();
+                      if (_isIsKey_8) {
                         _builder.append(" PK ");
                       }
                     }
@@ -355,11 +390,8 @@ public class ErDslGenerator extends AbstractGenerator {
           }
         }
       }
-      if (_hasElements_2) {
-        _builder.append(";");
-      }
     }
-    _builder.append("<---------------------------------------------------------------------->");
+    _builder.newLine();
     _builder.newLine();
     {
       EList<Relation> _relations_2 = modeloER.getRelations();
@@ -367,22 +399,20 @@ public class ErDslGenerator extends AbstractGenerator {
         {
           if (((Objects.equal(relation.getLeftEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:1)")) && (Objects.equal(relation.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:N)")))) {
             {
-              EList<Entity> _entities_7 = modeloER.getEntities();
-              for(final Entity entity_1 : _entities_7) {
+              EList<Entity> _entities_9 = modeloER.getEntities();
+              for(final Entity entity_1 : _entities_9) {
                 {
-                  boolean _equalsIgnoreCase_6 = entity_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_6) {
+                  boolean _equalsIgnoreCase_7 = entity_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_7) {
                     {
-                      EList<Attribute> _attributes_13 = entity_1.getAttributes();
-                      for(final Attribute attribute_1 : _attributes_13) {
+                      EList<Attribute> _attributes_16 = entity_1.getAttributes();
+                      for(final Attribute attribute_1 : _attributes_16) {
                         {
-                          boolean _isIsKey_8 = attribute_1.isIsKey();
-                          if (_isIsKey_8) {
-                            _builder.append("Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N");
-                            _builder.newLineIfNotEmpty();
+                          boolean _isIsKey_9 = attribute_1.isIsKey();
+                          if (_isIsKey_9) {
                             _builder.append("Atributo \"");
-                            String _name_14 = attribute_1.getName();
-                            _builder.append(_name_14);
+                            String _name_16 = attribute_1.getName();
+                            _builder.append(_name_16);
                             _builder.append("_FK\" EM \"");
                             String _string = relation.getRightEnding().getTarget().toString();
                             _builder.append(_string);
@@ -399,29 +429,26 @@ public class ErDslGenerator extends AbstractGenerator {
                 }
               }
             }
-            _builder.append("<---------------------------------------------------------------------->");
             _builder.newLine();
           }
         }
         {
           if (((Objects.equal(relation.getRightEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:1)")) && (Objects.equal(relation.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:N)")))) {
             {
-              EList<Entity> _entities_8 = modeloER.getEntities();
-              for(final Entity entity_2 : _entities_8) {
+              EList<Entity> _entities_10 = modeloER.getEntities();
+              for(final Entity entity_2 : _entities_10) {
                 {
-                  boolean _equalsIgnoreCase_7 = entity_2.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_7) {
+                  boolean _equalsIgnoreCase_8 = entity_2.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_8) {
                     {
-                      EList<Attribute> _attributes_14 = entity_2.getAttributes();
-                      for(final Attribute attribute_2 : _attributes_14) {
+                      EList<Attribute> _attributes_17 = entity_2.getAttributes();
+                      for(final Attribute attribute_2 : _attributes_17) {
                         {
-                          boolean _isIsKey_9 = attribute_2.isIsKey();
-                          if (_isIsKey_9) {
-                            _builder.append("Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N");
-                            _builder.newLineIfNotEmpty();
+                          boolean _isIsKey_10 = attribute_2.isIsKey();
+                          if (_isIsKey_10) {
                             _builder.append("Atributo \"");
-                            String _name_15 = attribute_2.getName();
-                            _builder.append(_name_15);
+                            String _name_17 = attribute_2.getName();
+                            _builder.append(_name_17);
                             _builder.append("_FK\" EM \"");
                             String _string_2 = relation.getLeftEnding().getTarget().toString();
                             _builder.append(_string_2);
@@ -438,35 +465,33 @@ public class ErDslGenerator extends AbstractGenerator {
                 }
               }
             }
-            _builder.append("<---------------------------------------------------------------------->");
             _builder.newLine();
           }
         }
         {
           if (((Objects.equal(relation.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:N)")) && (Objects.equal(relation.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:N)")))) {
             {
-              EList<Entity> _entities_9 = modeloER.getEntities();
-              for(final Entity entity_3 : _entities_9) {
+              EList<Entity> _entities_11 = modeloER.getEntities();
+              for(final Entity entity_3 : _entities_11) {
                 {
-                  boolean _equalsIgnoreCase_8 = entity_3.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_8) {
+                  boolean _equalsIgnoreCase_9 = entity_3.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_9) {
                     {
-                      EList<Attribute> _attributes_15 = entity_3.getAttributes();
-                      for(final Attribute attribute_3 : _attributes_15) {
+                      EList<Attribute> _attributes_18 = entity_3.getAttributes();
+                      for(final Attribute attribute_3 : _attributes_18) {
                         {
-                          boolean _isIsKey_10 = attribute_3.isIsKey();
-                          if (_isIsKey_10) {
-                            _builder.append("Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N");
-                            _builder.newLineIfNotEmpty();
+                          boolean _isIsKey_11 = attribute_3.isIsKey();
+                          if (_isIsKey_11) {
                             _builder.append("Atributo \"");
-                            String _name_16 = attribute_3.getName();
-                            _builder.append(_name_16);
+                            String _name_18 = attribute_3.getName();
+                            _builder.append(_name_18);
                             _builder.append("_FK\" EM ");
+                            _builder.newLineIfNotEmpty();
                             {
                               if (((relation.getName() != null) && (relation.getName() != ""))) {
                                 _builder.append("\"");
-                                String _name_17 = relation.getName();
-                                _builder.append(_name_17);
+                                String _name_19 = relation.getName();
+                                _builder.append(_name_19);
                                 _builder.append("\" REFERENCIA \"");
                                 String _string_4 = relation.getLeftEnding().getTarget().toString();
                                 _builder.append(_string_4);
@@ -489,30 +514,29 @@ public class ErDslGenerator extends AbstractGenerator {
                         }
                       }
                     }
-                    _builder.append("<---------------------------------------------------------------------->");
+                    _builder.append("\t");
                     _builder.newLine();
                   }
                 }
                 {
-                  boolean _equalsIgnoreCase_9 = entity_3.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_9) {
+                  boolean _equalsIgnoreCase_10 = entity_3.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_10) {
                     {
-                      EList<Attribute> _attributes_16 = entity_3.getAttributes();
-                      for(final Attribute attribute_4 : _attributes_16) {
+                      EList<Attribute> _attributes_19 = entity_3.getAttributes();
+                      for(final Attribute attribute_4 : _attributes_19) {
                         {
-                          boolean _isIsKey_11 = attribute_4.isIsKey();
-                          if (_isIsKey_11) {
-                            _builder.append("Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N");
-                            _builder.newLineIfNotEmpty();
+                          boolean _isIsKey_12 = attribute_4.isIsKey();
+                          if (_isIsKey_12) {
                             _builder.append("Atributo \"");
-                            String _name_18 = attribute_4.getName();
-                            _builder.append(_name_18);
+                            String _name_20 = attribute_4.getName();
+                            _builder.append(_name_20);
                             _builder.append("_FK\" EM ");
+                            _builder.newLineIfNotEmpty();
                             {
                               if (((relation.getName() != null) && (relation.getName() != ""))) {
                                 _builder.append("\"");
-                                String _name_19 = relation.getName();
-                                _builder.append(_name_19);
+                                String _name_21 = relation.getName();
+                                _builder.append(_name_21);
                                 _builder.append("\" REFERENCIA \"");
                                 String _string_8 = relation.getRightEnding().getTarget().toString();
                                 _builder.append(_string_8);
@@ -539,14 +563,45 @@ public class ErDslGenerator extends AbstractGenerator {
                 }
               }
             }
-            _builder.append("<---------------------------------------------------------------------->\t");
-            _builder.newLine();
+          }
+        }
+        {
+          if (((Objects.equal(relation.getLeftEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getLeftEnding().getCardinality(), "(1:1)")) && (Objects.equal(relation.getRightEnding().getCardinality(), "(0:1)") || Objects.equal(relation.getRightEnding().getCardinality(), "(1:1)")))) {
+            {
+              EList<Entity> _entities_12 = modeloER.getEntities();
+              for(final Entity entity_4 : _entities_12) {
+                {
+                  boolean _equalsIgnoreCase_11 = entity_4.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_11) {
+                    {
+                      EList<Attribute> _attributes_20 = entity_4.getAttributes();
+                      for(final Attribute attribute_5 : _attributes_20) {
+                        {
+                          boolean _isIsKey_13 = attribute_5.isIsKey();
+                          if (_isIsKey_13) {
+                            _builder.append("Atributo \"");
+                            String _name_22 = attribute_5.getName();
+                            _builder.append(_name_22);
+                            _builder.append("_FK\" EM \"");
+                            String _string_12 = relation.getLeftEnding().getTarget().toString();
+                            _builder.append(_string_12);
+                            _builder.append("\" REFERENCIA \"");
+                            String _string_13 = relation.getRightEnding().getTarget().toString();
+                            _builder.append(_string_13);
+                            _builder.append("\"");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
     }
-    _builder.append("\t\t\t\t\t\t");
-    _builder.newLine();
     _builder.newLine();
     fsa.generateFile("LogicalSchema.txt", _builder);
   }

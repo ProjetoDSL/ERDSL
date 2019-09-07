@@ -65,7 +65,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     Attribute returns Attribute
 	 *
 	 * Constraint:
-	 *     (name=ID type=DataType isKey?='isIdentifier'?)
+	 *     (name=ID isKey?='isIdentifier'?)
 	 */
 	protected void sequence_Attribute(ISerializationContext context, Attribute semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

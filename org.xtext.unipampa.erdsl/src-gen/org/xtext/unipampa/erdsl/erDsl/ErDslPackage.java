@@ -5,7 +5,6 @@ package org.xtext.unipampa.erdsl.erDsl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -152,22 +151,13 @@ public interface ErDslPackage extends EPackage
   int ATTRIBUTE__NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Type</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int ATTRIBUTE__TYPE = 1;
-
-  /**
    * The feature id for the '<em><b>Is Key</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ATTRIBUTE__IS_KEY = 2;
+  int ATTRIBUTE__IS_KEY = 1;
 
   /**
    * The number of structural features of the '<em>Attribute</em>' class.
@@ -176,7 +166,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ATTRIBUTE_FEATURE_COUNT = 3;
+  int ATTRIBUTE_FEATURE_COUNT = 2;
 
   /**
    * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.impl.EntityImpl <em>Entity</em>}' class.
@@ -316,16 +306,6 @@ public interface ErDslPackage extends EPackage
    */
   int RELATION_SIDE_FEATURE_COUNT = 2;
 
-  /**
-   * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.DataType <em>Data Type</em>}' enum.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see org.xtext.unipampa.erdsl.erDsl.DataType
-   * @see org.xtext.unipampa.erdsl.erDsl.impl.ErDslPackageImpl#getDataType()
-   * @generated
-   */
-  int DATA_TYPE = 6;
-
 
   /**
    * Returns the meta object for class '{@link org.xtext.unipampa.erdsl.erDsl.ERModel <em>ER Model</em>}'.
@@ -411,17 +391,6 @@ public interface ErDslPackage extends EPackage
    * @generated
    */
   EAttribute getAttribute_Name();
-
-  /**
-   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.Attribute#getType <em>Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Type</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.Attribute#getType()
-   * @see #getAttribute()
-   * @generated
-   */
-  EAttribute getAttribute_Type();
 
   /**
    * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.Attribute#isIsKey <em>Is Key</em>}'.
@@ -564,16 +533,6 @@ public interface ErDslPackage extends EPackage
   EReference getRelationSide_Target();
 
   /**
-   * Returns the meta object for enum '{@link org.xtext.unipampa.erdsl.erDsl.DataType <em>Data Type</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for enum '<em>Data Type</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.DataType
-   * @generated
-   */
-  EEnum getDataType();
-
-  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -665,14 +624,6 @@ public interface ErDslPackage extends EPackage
      * @generated
      */
     EAttribute ATTRIBUTE__NAME = eINSTANCE.getAttribute_Name();
-
-    /**
-     * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EAttribute ATTRIBUTE__TYPE = eINSTANCE.getAttribute_Type();
 
     /**
      * The meta object literal for the '<em><b>Is Key</b></em>' attribute feature.
@@ -783,16 +734,6 @@ public interface ErDslPackage extends EPackage
      * @generated
      */
     EReference RELATION_SIDE__TARGET = eINSTANCE.getRelationSide_Target();
-
-    /**
-     * The meta object literal for the '{@link org.xtext.unipampa.erdsl.erDsl.DataType <em>Data Type</em>}' enum.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see org.xtext.unipampa.erdsl.erDsl.DataType
-     * @see org.xtext.unipampa.erdsl.erDsl.impl.ErDslPackageImpl#getDataType()
-     * @generated
-     */
-    EEnum DATA_TYPE = eINSTANCE.getDataType();
 
   }
 

@@ -33,7 +33,6 @@ public class ErDslParser extends AbstractContentAssistParser {
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, ErDslGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getRelationSideAccess().getAlternatives(), "rule__RelationSide__Alternatives");
 			builder.put(grammarAccess.getRelationSideAccess().getCardinalityAlternatives_0_0_0(), "rule__RelationSide__CardinalityAlternatives_0_0_0");
-			builder.put(grammarAccess.getDataTypeAccess().getAlternatives(), "rule__DataType__Alternatives");
 			builder.put(grammarAccess.getERModelAccess().getGroup(), "rule__ERModel__Group__0");
 			builder.put(grammarAccess.getDomainAccess().getGroup(), "rule__Domain__Group__0");
 			builder.put(grammarAccess.getAttributeAccess().getGroup(), "rule__Attribute__Group__0");
@@ -51,8 +50,7 @@ public class ErDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getERModelAccess().getRelationsAssignment_6(), "rule__ERModel__RelationsAssignment_6");
 			builder.put(grammarAccess.getDomainAccess().getNameAssignment_1(), "rule__Domain__NameAssignment_1");
 			builder.put(grammarAccess.getAttributeAccess().getNameAssignment_0(), "rule__Attribute__NameAssignment_0");
-			builder.put(grammarAccess.getAttributeAccess().getTypeAssignment_2(), "rule__Attribute__TypeAssignment_2");
-			builder.put(grammarAccess.getAttributeAccess().getIsKeyAssignment_3(), "rule__Attribute__IsKeyAssignment_3");
+			builder.put(grammarAccess.getAttributeAccess().getIsKeyAssignment_1(), "rule__Attribute__IsKeyAssignment_1");
 			builder.put(grammarAccess.getEntityAccess().getNameAssignment_0(), "rule__Entity__NameAssignment_0");
 			builder.put(grammarAccess.getEntityAccess().getIsAssignment_1_1(), "rule__Entity__IsAssignment_1_1");
 			builder.put(grammarAccess.getEntityAccess().getAttributesAssignment_2_1(), "rule__Entity__AttributesAssignment_2_1");

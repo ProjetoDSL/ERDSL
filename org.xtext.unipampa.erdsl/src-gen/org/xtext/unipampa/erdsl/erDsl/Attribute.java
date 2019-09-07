@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Attribute#getName <em>Name</em>}</li>
- *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Attribute#getType <em>Type</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Attribute#isIsKey <em>Is Key</em>}</li>
  * </ul>
  *
@@ -46,31 +45,6 @@ public interface Attribute extends EObject
    * @generated
    */
   void setName(String value);
-
-  /**
-   * Returns the value of the '<em><b>Type</b></em>' attribute.
-   * The literals are from the enumeration {@link org.xtext.unipampa.erdsl.erDsl.DataType}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' attribute.
-   * @see org.xtext.unipampa.erdsl.erDsl.DataType
-   * @see #setType(DataType)
-   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getAttribute_Type()
-   * @model
-   * @generated
-   */
-  DataType getType();
-
-  /**
-   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.Attribute#getType <em>Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' attribute.
-   * @see org.xtext.unipampa.erdsl.erDsl.DataType
-   * @see #getType()
-   * @generated
-   */
-  void setType(DataType value);
 
   /**
    * Returns the value of the '<em><b>Is Key</b></em>' attribute.

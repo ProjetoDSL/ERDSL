@@ -5,14 +5,12 @@ package org.xtext.unipampa.erdsl.erDsl.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
-import org.xtext.unipampa.erdsl.erDsl.DataType;
 import org.xtext.unipampa.erdsl.erDsl.Domain;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
@@ -70,13 +68,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   private EClass relationSideEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EEnum dataTypeEEnum = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -235,20 +226,9 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EAttribute getAttribute_Type()
-  {
-    return (EAttribute)attributeEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EAttribute getAttribute_IsKey()
   {
-    return (EAttribute)attributeEClass.getEStructuralFeatures().get(2);
+    return (EAttribute)attributeEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -389,17 +369,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EEnum getDataType()
-  {
-    return dataTypeEEnum;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public ErDslFactory getErDslFactory()
   {
     return (ErDslFactory)getEFactoryInstance();
@@ -435,7 +404,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     attributeEClass = createEClass(ATTRIBUTE);
     createEAttribute(attributeEClass, ATTRIBUTE__NAME);
-    createEAttribute(attributeEClass, ATTRIBUTE__TYPE);
     createEAttribute(attributeEClass, ATTRIBUTE__IS_KEY);
 
     entityEClass = createEClass(ENTITY);
@@ -452,9 +420,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     relationSideEClass = createEClass(RELATION_SIDE);
     createEAttribute(relationSideEClass, RELATION_SIDE__CARDINALITY);
     createEReference(relationSideEClass, RELATION_SIDE__TARGET);
-
-    // Create enums
-    dataTypeEEnum = createEEnum(DATA_TYPE);
   }
 
   /**
@@ -498,7 +463,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getAttribute_Name(), ecorePackage.getEString(), "name", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getAttribute_Type(), this.getDataType(), "type", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEAttribute(getAttribute_IsKey(), ecorePackage.getEBoolean(), "isKey", null, 0, 1, Attribute.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(entityEClass, Entity.class, "Entity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -515,16 +479,6 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     initEClass(relationSideEClass, RelationSide.class, "RelationSide", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRelationSide_Cardinality(), ecorePackage.getEString(), "Cardinality", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRelationSide_Target(), ecorePackage.getEObject(), null, "target", null, 0, 1, RelationSide.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    // Initialize enums and add enum literals
-    initEEnum(dataTypeEEnum, DataType.class, "DataType");
-    addEEnumLiteral(dataTypeEEnum, DataType.INT);
-    addEEnumLiteral(dataTypeEEnum, DataType.DOUBLE);
-    addEEnumLiteral(dataTypeEEnum, DataType.MONEY);
-    addEEnumLiteral(dataTypeEEnum, DataType.STRING);
-    addEEnumLiteral(dataTypeEEnum, DataType.BOOLEAN);
-    addEEnumLiteral(dataTypeEEnum, DataType.DATETIME);
-    addEEnumLiteral(dataTypeEEnum, DataType.BLOB);
 
     // Create resource
     createResource(eNS_URI);

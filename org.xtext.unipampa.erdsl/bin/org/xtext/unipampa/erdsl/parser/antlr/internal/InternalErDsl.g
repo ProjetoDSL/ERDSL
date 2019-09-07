@@ -23,7 +23,6 @@ import org.eclipse.xtext.parser.*;
 import org.eclipse.xtext.parser.impl.*;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.common.util.Enumerator;
 import org.eclipse.xtext.parser.antlr.AbstractInternalAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream.HiddenTokens;
@@ -232,34 +231,11 @@ ruleAttribute returns [EObject current=null]
 				}
 			)
 		)
-		otherlv_1=':'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getAttributeAccess().getColonKeyword_1());
-		}
 		(
 			(
+				lv_isKey_1_0='isIdentifier'
 				{
-					newCompositeNode(grammarAccess.getAttributeAccess().getTypeDataTypeEnumRuleCall_2_0());
-				}
-				lv_type_2_0=ruleDataType
-				{
-					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getAttributeRule());
-					}
-					set(
-						$current,
-						"type",
-						lv_type_2_0,
-						"org.xtext.unipampa.erdsl.ErDsl.DataType");
-					afterParserOrEnumRuleCall();
-				}
-			)
-		)
-		(
-			(
-				lv_isKey_3_0='isIdentifier'
-				{
-					newLeafNode(lv_isKey_3_0, grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_3_0());
+					newLeafNode(lv_isKey_1_0, grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_1_0());
 				}
 				{
 					if ($current==null) {
@@ -618,73 +594,6 @@ ruleRelationSide returns [EObject current=null]
 					newLeafNode(otherlv_2, grammarAccess.getRelationSideAccess().getTargetRelationCrossReference_1_0());
 				}
 			)
-		)
-	)
-;
-
-// Rule DataType
-ruleDataType returns [Enumerator current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			enumLiteral_0='int'
-			{
-				$current = grammarAccess.getDataTypeAccess().getINTEnumLiteralDeclaration_0().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_0, grammarAccess.getDataTypeAccess().getINTEnumLiteralDeclaration_0());
-			}
-		)
-		    |
-		(
-			enumLiteral_1='double'
-			{
-				$current = grammarAccess.getDataTypeAccess().getDOUBLEEnumLiteralDeclaration_1().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_1, grammarAccess.getDataTypeAccess().getDOUBLEEnumLiteralDeclaration_1());
-			}
-		)
-		    |
-		(
-			enumLiteral_2='money'
-			{
-				$current = grammarAccess.getDataTypeAccess().getMONEYEnumLiteralDeclaration_2().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_2, grammarAccess.getDataTypeAccess().getMONEYEnumLiteralDeclaration_2());
-			}
-		)
-		    |
-		(
-			enumLiteral_3='string'
-			{
-				$current = grammarAccess.getDataTypeAccess().getSTRINGEnumLiteralDeclaration_3().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_3, grammarAccess.getDataTypeAccess().getSTRINGEnumLiteralDeclaration_3());
-			}
-		)
-		    |
-		(
-			enumLiteral_4='boolean'
-			{
-				$current = grammarAccess.getDataTypeAccess().getBOOLEANEnumLiteralDeclaration_4().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_4, grammarAccess.getDataTypeAccess().getBOOLEANEnumLiteralDeclaration_4());
-			}
-		)
-		    |
-		(
-			enumLiteral_5='datetime'
-			{
-				$current = grammarAccess.getDataTypeAccess().getDATETIMEEnumLiteralDeclaration_5().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_5, grammarAccess.getDataTypeAccess().getDATETIMEEnumLiteralDeclaration_5());
-			}
-		)
-		    |
-		(
-			enumLiteral_6='file'
-			{
-				$current = grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_6, grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6());
-			}
 		)
 	)
 ;

@@ -199,22 +199,6 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-// Rule DataType
-ruleDataType
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getDataTypeAccess().getAlternatives()); }
-		(rule__DataType__Alternatives)
-		{ after(grammarAccess.getDataTypeAccess().getAlternatives()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
 rule__RelationSide__Alternatives
 	@init {
 		int stackSize = keepStackSize();
@@ -263,57 +247,6 @@ rule__RelationSide__CardinalityAlternatives_0_0_0
 		{ before(grammarAccess.getRelationSideAccess().getCardinality1NKeyword_0_0_0_3()); }
 		'(1:N)'
 		{ after(grammarAccess.getRelationSideAccess().getCardinality1NKeyword_0_0_0_3()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__DataType__Alternatives
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getDataTypeAccess().getINTEnumLiteralDeclaration_0()); }
-		('int')
-		{ after(grammarAccess.getDataTypeAccess().getINTEnumLiteralDeclaration_0()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getDOUBLEEnumLiteralDeclaration_1()); }
-		('double')
-		{ after(grammarAccess.getDataTypeAccess().getDOUBLEEnumLiteralDeclaration_1()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getMONEYEnumLiteralDeclaration_2()); }
-		('money')
-		{ after(grammarAccess.getDataTypeAccess().getMONEYEnumLiteralDeclaration_2()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getSTRINGEnumLiteralDeclaration_3()); }
-		('string')
-		{ after(grammarAccess.getDataTypeAccess().getSTRINGEnumLiteralDeclaration_3()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getBOOLEANEnumLiteralDeclaration_4()); }
-		('boolean')
-		{ after(grammarAccess.getDataTypeAccess().getBOOLEANEnumLiteralDeclaration_4()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getDATETIMEEnumLiteralDeclaration_5()); }
-		('datetime')
-		{ after(grammarAccess.getDataTypeAccess().getDATETIMEEnumLiteralDeclaration_5()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6()); }
-		('file')
-		{ after(grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6()); }
 	)
 ;
 finally {
@@ -630,7 +563,6 @@ rule__Attribute__Group__1
 	}
 :
 	rule__Attribute__Group__1__Impl
-	rule__Attribute__Group__2
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -642,62 +574,9 @@ rule__Attribute__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getAttributeAccess().getColonKeyword_1()); }
-	':'
-	{ after(grammarAccess.getAttributeAccess().getColonKeyword_1()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Attribute__Group__2
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__Attribute__Group__2__Impl
-	rule__Attribute__Group__3
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Attribute__Group__2__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getAttributeAccess().getTypeAssignment_2()); }
-	(rule__Attribute__TypeAssignment_2)
-	{ after(grammarAccess.getAttributeAccess().getTypeAssignment_2()); }
-)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Attribute__Group__3
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	rule__Attribute__Group__3__Impl
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Attribute__Group__3__Impl
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-(
-	{ before(grammarAccess.getAttributeAccess().getIsKeyAssignment_3()); }
-	(rule__Attribute__IsKeyAssignment_3)?
-	{ after(grammarAccess.getAttributeAccess().getIsKeyAssignment_3()); }
+	{ before(grammarAccess.getAttributeAccess().getIsKeyAssignment_1()); }
+	(rule__Attribute__IsKeyAssignment_1)?
+	{ after(grammarAccess.getAttributeAccess().getIsKeyAssignment_1()); }
 )
 ;
 finally {
@@ -1509,34 +1388,19 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Attribute__TypeAssignment_2
+rule__Attribute__IsKeyAssignment_1
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getAttributeAccess().getTypeDataTypeEnumRuleCall_2_0()); }
-		ruleDataType
-		{ after(grammarAccess.getAttributeAccess().getTypeDataTypeEnumRuleCall_2_0()); }
-	)
-;
-finally {
-	restoreStackSize(stackSize);
-}
-
-rule__Attribute__IsKeyAssignment_3
-	@init {
-		int stackSize = keepStackSize();
-	}
-:
-	(
-		{ before(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_3_0()); }
+		{ before(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_1_0()); }
 		(
-			{ before(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_3_0()); }
+			{ before(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_1_0()); }
 			'isIdentifier'
-			{ after(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_3_0()); }
+			{ after(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_1_0()); }
 		)
-		{ after(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_3_0()); }
+		{ after(grammarAccess.getAttributeAccess().getIsKeyIsIdentifierKeyword_1_0()); }
 	)
 ;
 finally {

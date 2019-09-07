@@ -6,15 +6,6 @@
     complianceLevel="6.0" copyrightFields="false" runtimeVersion="2.18">
   <genPackages prefix="ErDsl" basePackage="org.xtext.unipampa.erdsl" disposableProviderFactory="true"
       fileExtensions="erdsl" ecorePackage="ErDsl.ecore#/">
-    <genEnums typeSafeEnumCompatible="false" ecoreEnum="ErDsl.ecore#//DataType">
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/INT"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/DOUBLE"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/MONEY"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/STRING"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/BOOLEAN"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/DATETIME"/>
-      <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/BLOB"/>
-    </genEnums>
     <genClasses ecoreClass="ErDsl.ecore#//ERModel">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/domain"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/entities"/>
@@ -25,7 +16,6 @@
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//Attribute">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Attribute/name"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Attribute/type"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Attribute/isKey"/>
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//Entity">
