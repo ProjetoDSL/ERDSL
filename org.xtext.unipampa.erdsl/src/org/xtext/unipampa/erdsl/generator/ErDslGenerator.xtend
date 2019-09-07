@@ -232,6 +232,7 @@ Atributo "«attribute.name»_FK" EM "«relation.leftEnding.target.toString»" RE
 	«ENDIF»	
 «ENDFOR»
 
+
 ««««FOR relation : modeloER.relations»
 «««RELAÇÃO
 ««««relation.name»

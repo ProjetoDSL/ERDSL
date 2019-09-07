@@ -603,6 +603,7 @@ public class ErDslGenerator extends AbstractGenerator {
       }
     }
     _builder.newLine();
+    _builder.newLine();
     fsa.generateFile("LogicalSchema.txt", _builder);
   }
 }
