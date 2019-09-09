@@ -23,17 +23,22 @@ class ErDslGenerator extends AbstractGenerator {
 //				.map[name]
 //				.join(', '))
 val modeloER = resource.contents.get(0) as ERModel
-		fsa.generateFile('LogicalSchema.txt', 
+		fsa.generateFile('LogicalSchema.html', 
 			'''
-DOMINIO «modeloER.domain.name»
+<!DOCTYPE html>
+<html>
+<body> 
+<h2>DOMÍNIO</h2></br>
+«modeloER.domain.name»
 
-ENTIDADES
-			
-«FOR entity : modeloER.entities SEPARATOR ')\n'»
-	«entity.name» «FOR parent : entity.is»«IF entity.is !== null» isA«ENDIF»«parent.name»«ENDFOR»(«FOR attribute : entity.attributes SEPARATOR ', '»«attribute.name»«IF attribute.isIsKey»_PK «ENDIF»«ENDFOR»
+<h2>TABELAS</h2></br>			
+«FOR entity : modeloER.entities SEPARATOR ')</br>' AFTER ')</br>'»«entity.name» (
+	«FOR parent : entity.is»«IF entity.is !== null»«FOR chavePai : parent.attributes»«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»*</b></font> [Referência para: «parent.name»], «ENDIF»«ENDFOR»«ENDIF»«ENDFOR»
+	«FOR attribute : entity.attributes SEPARATOR ', '»
+	«IF attribute.isIsKey»<font color="red"><b>«attribute.name»*</b></font>«ELSE»«attribute.name»«ENDIF»«ENDFOR»
 «««############################################################################################################################################
 «««############################################################################################################################################
-«««			AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS UM PARA MUITOS E MUITOS PARA UM
+««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS UM PARA MUITOS E MUITOS PARA UM
 «««############################################################################################################################################
 «««############################################################################################################################################
 	«FOR relationAux : modeloER.relations»
@@ -42,8 +47,19 @@ ENTIDADES
 				«IF (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
 					«FOR entityMapeada : modeloER.entities»
 						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.leftEnding.target.toString))»
-							«FOR attributeAux : entityMapeada.attributes»«IF attributeAux.isIsKey», «attributeAux.name»_FK«ENDIF»«ENDFOR»
-							«IF relationAux.attributes !== null»«FOR relationMapeada : relationAux.attributes», «relationMapeada.name» «ENDFOR»«ENDIF»
+							«FOR attributeAux : entityMapeada.attributes SEPARATOR ','»
+								«IF attributeAux.isIsKey»«attributeAux.name»«ENDIF»
+							«ENDFOR»
+							«FOR entityMapeadaPai : entityMapeada.is»
+								«FOR atributoPai: entityMapeadaPai.attributes SEPARATOR ','»
+								«IF atributoPai.isIsKey»
+									«atributoPai.name»«entityMapeada.name»
+								«ENDIF»
+								«ENDFOR»
+							«ENDFOR»									
+							«IF relationAux.attributes !== null»
+								«FOR relationMapeada : relationAux.attributes SEPARATOR ','»«relationMapeada.name»«ENDFOR»
+							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -54,193 +70,355 @@ ENTIDADES
 				«IF (entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
 					«FOR entityMapeada : modeloER.entities»
 						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.rightEnding.target.toString))»
-							«FOR attributeAux : entityMapeada.attributes»«IF attributeAux.isIsKey», «attributeAux.name»_FK«ENDIF»«ENDFOR»
-							«IF relationAux.attributes !== null»«FOR relationMapeada : relationAux.attributes», «relationMapeada.name» «ENDFOR»«ENDIF»
-						«ENDIF»
-					«ENDFOR»
-				«ENDIF»
-			«ENDFOR»
-		«ENDIF»
-«««############################################################################################################################################
-«««############################################################################################################################################
-«««			AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS 0:1 && 1:1 || 0:1 && 1:1 (ADIÇÃO DE COLUNA) 		
-«««############################################################################################################################################
-«««############################################################################################################################################
-		«IF (relationAux.leftEnding.cardinality == "(0:1)" || relationAux.leftEnding.cardinality == "(1:1)") && (relationAux.rightEnding.cardinality == "(0:1)" || relationAux.rightEnding.cardinality == "(1:1)")»
-			«FOR entityAux : modeloER.entities»
-				«IF (entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
-					«FOR entityMapeada : modeloER.entities»
-						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.rightEnding.target.toString))»
-							«FOR attributeAux : entityMapeada.attributes»
-								«IF attributeAux.isIsKey», «attributeAux.name»_FK 
-«««								«ELSE»
-«««									«IF (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
-«««										«FOR entityMapeada2 : modeloER.entities»
-«««											«IF (entityMapeada.name.equalsIgnoreCase(relationAux.leftEnding.target.toString))»
-«««												«FOR attributeAux2 : entityMapeada.attributes»
-«««													«IF attributeAux.isIsKey», «attributeAux.name»_FK 2 
-«««													«ENDIF»
-«««												«ENDFOR»
-«««											«ENDIF»
-«««										«ENDFOR»
-«««									«ENDIF»
-								«ENDIF»
+							«FOR attributeAux : entityMapeada.attributes SEPARATOR ','»
+								«IF attributeAux.isIsKey», «attributeAux.name»«ENDIF»
 							«ENDFOR»
+							«FOR entityMapeadaPai : entityMapeada.is»
+								«FOR atributoPai: entityMapeadaPai.attributes SEPARATOR ','»
+									«IF atributoPai.isIsKey»
+									«atributoPai.name»«entityMapeada.name»
+									«ENDIF»
+								«ENDFOR»
+							«ENDFOR»									
 							«IF relationAux.attributes !== null»
-								«FOR relationMapeada : relationAux.attributes», «relationMapeada.name» 
+								«FOR relationMapeada : relationAux.attributes SEPARATOR ','»«relationMapeada.name» 
 								«ENDFOR»
 							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 			«ENDFOR»
-		«ENDIF»	
+		«ENDIF»
+	«ENDFOR»
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS 0:1 && 1:1 || 1:1 && 0:1 (ADIÇÃO DE COLUNA) 		
+«««############################################################################################################################################
+«««############################################################################################################################################
+	«FOR relationAux : modeloER.relations»
+		«IF (relationAux.leftEnding.cardinality == "(0:1)" && relationAux.rightEnding.cardinality == "(1:1)")»
+			«FOR entityAux : modeloER.entities»
+				«IF (relationAux.leftEnding.target.toString.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+				«relationAux.name»
+				«ELSEIF (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+					«FOR entityMapeada : modeloER.entities»
+						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.leftEnding.target.toString))»
+							«FOR attributeAux : entityMapeada.attributes SEPARATOR ','»
+								«IF attributeAux.isIsKey»«attributeAux.name»
+								«ENDIF»
+							«ENDFOR»
+							«FOR entityMapeadaPai : entityMapeada.is»
+								«FOR atributoPai: entityMapeadaPai.attributes SEPARATOR ','»
+									«IF atributoPai.isIsKey» «atributoPai.name»«entityMapeada.name»
+									«ENDIF»
+								«ENDFOR»
+							«ENDFOR»									
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ELSEIF (relationAux.leftEnding.cardinality == "(1:1)" && relationAux.rightEnding.cardinality == "(0:1)")»
+			«FOR entityAux : modeloER.entities»
+				«IF (relationAux.leftEnding.target.toString.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+				«relationAux.name»
+				«ELSEIF (entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+					«FOR entityMapeada : modeloER.entities»
+						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.rightEnding.target.toString))»
+							«FOR attributeAux : entityMapeada.attributes SEPARATOR ','»
+								«IF attributeAux.isIsKey», «attributeAux.name»
+								«ENDIF»
+							«ENDFOR»
+								«FOR entityMapeadaPai : entityMapeada.is»
+									«FOR atributoPai: entityMapeadaPai.attributes SEPARATOR ','»
+										«IF atributoPai.isIsKey» «atributoPai.name»«entityMapeada.name»
+										«ENDIF»
+									«ENDFOR»
+								«ENDFOR»									
+							«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ELSEIF (relationAux.leftEnding.cardinality == "(0:1)" && relationAux.rightEnding.cardinality == "(0:1)")»
+			«FOR entityAux : modeloER.entities»
+				«IF (relationAux.leftEnding.target.toString.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+				«relationAux.name»
+				«ELSEIF (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+					«FOR entityMapeada : modeloER.entities»
+						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.leftEnding.target.toString))»
+							«FOR attributeAux : entityMapeada.attributes»
+								«IF attributeAux.isIsKey», «attributeAux.name»
+								«ENDIF»
+							«ENDFOR»
+							«FOR entityMapeadaPai : entityMapeada.is»
+								«FOR atributoPai: entityMapeadaPai.attributes»
+									«IF atributoPai.isIsKey», «atributoPai.name»«entityMapeada.name»
+									«ENDIF»
+								«ENDFOR»
+							«ENDFOR»									
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ELSEIF (relationAux.leftEnding.cardinality == "(1:1)" && relationAux.rightEnding.cardinality == "(1:1)")»
+			«FOR entityAux : modeloER.entities»
+				«IF (relationAux.leftEnding.target.toString.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+				«relationAux.name»
+				«ELSEIF (entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)) && (entityAux.name.equalsIgnoreCase(entity.name.toString))»
+					«FOR entityMapeada : modeloER.entities»
+						«IF (entityMapeada.name.equalsIgnoreCase(relationAux.leftEnding.target.toString))»
+							«FOR attributeAux : entityMapeada.attributes»
+								«IF attributeAux.isIsKey», «attributeAux.name»
+								«ENDIF»
+							«ENDFOR»
+							«FOR entityMapeadaPai : entityMapeada.is»
+								«FOR atributoPai: entityMapeadaPai.attributes»
+									«IF atributoPai.isIsKey», «atributoPai.name»«entityMapeada.name»
+									«ENDIF»
+								«ENDFOR»
+							«ENDFOR»									
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
 	«ENDFOR»
 «ENDFOR»
 «««############################################################################################################################################
 «««############################################################################################################################################
-«««			AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS MUITOS PARA MUITOS			
+««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS MUITOS PARA MUITOS			
 «««############################################################################################################################################
 «««############################################################################################################################################
-«FOR relationAux : modeloER.relations SEPARATOR ')\n'»
-	«IF (relationAux.leftEnding.cardinality == "(0:N)" || relationAux.leftEnding.cardinality == "(1:N)") && (relationAux.rightEnding.cardinality == "(0:N)" || relationAux.rightEnding.cardinality == "(1:N)")»
-		«IF (relationAux.name == '' || relationAux.name === null)»
-			«relationAux.leftEnding.target»«relationAux.rightEnding.target» (
+«FOR relationAux : modeloER.relations AFTER ')\n'»
+	«IF ((relationAux.leftEnding.cardinality == "(0:N)" || relationAux.leftEnding.cardinality == "(1:N)") 
+		&& (relationAux.rightEnding.cardinality == "(0:N)" || relationAux.rightEnding.cardinality == "(1:N)"))»
+		«IF (relationAux.name == '' || relationAux.name === null) »
+«relationAux.leftEnding.target»«relationAux.rightEnding.target» (
 			«FOR entityAux : modeloER.entities»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes»
-						«IF atributoAux.isIsKey»
-							«atributoAux.name»_FK
+					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«ENDFOR»
+					«FOR parent : entityAux.is»
+						«IF entityAux.is !== null»
+							«FOR chavePai : parent.attributes SEPARATOR ','»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
+							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes»
-						«IF atributoAux.isIsKey»
-							«atributoAux.name»_FK
+					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«ENDFOR»
+					«FOR parent : entityAux.is»
+						«IF entityAux.is !== null»
+							«FOR chavePai : parent.attributes SEPARATOR ','»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.rightEnding.target.toString»*</b></font>«ENDIF»
+							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»							
 			«ENDFOR»
 		«ELSE»
-			«relationAux.name» (
+«relationAux.name» (
 			«FOR entityAux : modeloER.entities»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes»
-						«IF atributoAux.isIsKey»
-							«atributoAux.name»_FK
+					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«ENDFOR»
+					«FOR parent : entityAux.is»
+						«IF entityAux.is !== null»
+							«FOR chavePai : parent.attributes SEPARATOR ','»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
+							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes»
-						«IF atributoAux.isIsKey»
-							«atributoAux.name»_FK
+					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«ENDFOR»
+					«FOR parent : entityAux.is»
+						«IF entityAux.is !== null»
+							«FOR chavePai : parent.attributes SEPARATOR ','»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
+							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»							
 			«ENDFOR»
 		«ENDIF»
-		«IF (relationAux.attributes !== null) »
-			«FOR atributoRelacaoMuitosParaMuitos : relationAux.attributes»
-				«atributoRelacaoMuitosParaMuitos.name» «IF atributoRelacaoMuitosParaMuitos.isIsKey» PK «ENDIF»	
+		«IF (relationAux.attributes !== null)»
+			«FOR atributoRelacaoMuitosParaMuitos : relationAux.attributes SEPARATOR ','»«atributoRelacaoMuitosParaMuitos.name»
+				«IF atributoRelacaoMuitosParaMuitos.isIsKey»<font color="red"><b>*</b></font>«ENDIF»
 			«ENDFOR»
 		«ENDIF»
 	«ENDIF»
 «ENDFOR»
-
 «««############################################################################################################################################
 «««############################################################################################################################################
-«««			MAPEAMENTO DOS RELACIONAMENTOS
+««« 				MAPEAMENTO DAS REFERÊNCIAS DERIVADAS DOS RELACIONAMENTOS
 «««############################################################################################################################################
 «««############################################################################################################################################
-
+<h2>REFERÊNCIAS DERIVADAS DO MODELO CONCEITUAL</h2></br>
 «FOR relation : modeloER.relations»
-««« MAPEAMENTO DE RELAÇÃO 0:1 ou 1:1 PARA 0:N ou 1:N
-	«IF (relation.leftEnding.cardinality == "(0:1)" || relation.leftEnding.cardinality == "(1:1)") && (relation.rightEnding.cardinality == "(0:N)" || relation.rightEnding.cardinality == "(1:N)")»		
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				MAPEAMENTO DE RELAÇÃO 0:1 || 1:1 PARA 0:N || 1:N
+«««############################################################################################################################################
+«««############################################################################################################################################
+	«IF ((relation.leftEnding.cardinality == "(0:1)" || relation.leftEnding.cardinality == "(1:1)") && (relation.rightEnding.cardinality == "(0:N)" || relation.rightEnding.cardinality == "(1:N)"))»		
 	«FOR entity : modeloER.entities»
 		«IF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
 			«FOR attribute : entity.attributes»
-«IF attribute.isIsKey»
-«««Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N
-Atributo "«attribute.name»_FK" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"«ENDIF»
-			«ENDFOR»	
+				«IF attribute.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+				«ENDIF»
+			«ENDFOR»
+			«FOR parent : entity.is»
+				«IF entity.is !== null»
+					«FOR chavePai : parent.attributes»
+						«IF chavePai.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
 		«ENDIF»
 	«ENDFOR»
-
+	«ELSEIF ((relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)") && (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)"))»
+		«FOR entity : modeloER.entities»
+				«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
+					«FOR attribute : entity.attributes»
+						«IF attribute.isIsKey»				
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+						«ENDIF»
+					«ENDFOR»
+					«FOR parent : entity.is»
+						«IF entity.is !== null»
+							«FOR chavePai : parent.attributes»
+								«IF chavePai.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«parent.name»"
+								«ENDIF»
+							«ENDFOR»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
 	«ENDIF»
-««« MAPEAMENTO DE RELAÇÃO 0:N ou 1:N PARA 0:1 ou 1:1 
-	«IF (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)") && (relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)")»		
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				MAPEAMENTO DE RELAÇÃO 0:N ou 1:N PARA 0:1 ou 1:1 
+«««############################################################################################################################################
+«««############################################################################################################################################
+	«IF (relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)") && (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)")»		
 	«FOR entity : modeloER.entities»
 		«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
 			«FOR attribute : entity.attributes»
-«IF attribute.isIsKey»
-«««Mapeamento de Relação Binária 0:1|1:1 com 0:N|1:N
-Atributo "«attribute.name»_FK" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"«ENDIF»
+				«IF attribute.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"«ENDIF»
 			«ENDFOR»	
 		«ENDIF»
 	«ENDFOR»
-	
 	«ENDIF»	
-««« MAPEAMENTO DE ENTIDADE DA DIREITA EM RELACIONAMENTO MUITOS PARA MUITOS COM E SEM IDENTIFICADOR NA RELAÇÃO
-	«IF (relation.rightEnding.cardinality == "(0:N)" || relation.rightEnding.cardinality == "(1:N)") && (relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)")»		
+	«IF (relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)") && (relation.rightEnding.cardinality == "(0:N)" || relation.rightEnding.cardinality == "(1:N)")»		
 		«FOR entity : modeloER.entities»
 			«IF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
 				«FOR attribute : entity.attributes»
-«IF attribute.isIsKey»
-«««Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N
-Atributo "«attribute.name»_FK" EM 
-«IF (relation.name !== null && relation.name !== '')»"«relation.name»" REFERENCIA "«relation.leftEnding.target.toString»"
-«ELSE»"«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
-							«ENDIF»
+					«IF attribute.isIsKey»
+						«IF (relation.name !== null && relation.name !== '')»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.leftEnding.target.toString»"
+						«ELSE»
+</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+						«ENDIF»
 					«ENDIF»
-				«ENDFOR»	
-	
+				«ENDFOR»		
 			«ENDIF»
-««« MAPEAMENTO DE ENTIDADE DA ESQUERDA EM RELACIONAMENTO MUITOS PARA MUITOS COM E SEM IDENTIFICADOR NA RELAÇÃO
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				MAPEAMENTO DE ENTIDADE DA ESQUERDA EM RELACIONAMENTO MUITOS PARA MUITOS COM E SEM IDENTIFICADOR NA RELAÇÃO
+«««############################################################################################################################################
+«««############################################################################################################################################
 			«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
 				«FOR attribute : entity.attributes»
-«IF attribute.isIsKey»
-«««Mapeamento de Relação Binária 0:N|1:N com 0:N|1:N
-Atributo "«attribute.name»_FK" EM 
-«IF (relation.name !== null && relation.name !== '')»"«relation.name»" REFERENCIA "«relation.rightEnding.target.toString»"
-«ELSE»"«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
-							«ENDIF»
+					«IF attribute.isIsKey»
+						«IF (relation.name !== null && relation.name !== '')» 
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.rightEnding.target.toString»"
+						«ELSE»
+</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+						«ENDIF»
 					«ENDIF»
 				«ENDFOR»	
+				«FOR parent : entity.is»
+					«IF entity.is !== null»
+						«FOR chavePai : parent.attributes SEPARATOR ', '»
+							«IF chavePai.isIsKey»
+								«IF (relation.name !== null && relation.name !== '')»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
+								«ELSE»
+</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»] -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
+</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»] -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
+								«ENDIF»
+							«ENDIF»
+						«ENDFOR»
+					«ENDIF»
+				«ENDFOR»
 			«ENDIF»
 		«ENDFOR»
 	«ENDIF»
-««« MAPEAMENTO DE RELACIONAMENTO 0,1 PARA MUITOS COM E SEM IDENTIFICADOR NA RELAÇÃO
-	«IF (relation.leftEnding.cardinality == "(0:1)" || relation.leftEnding.cardinality == "(1:1)") && (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)")»		
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				MAPEAMENTO DE AUTORELACIONAMENTO
+«««############################################################################################################################################
+«««############################################################################################################################################
+	«IF (relation.leftEnding.cardinality == "(0:1)" || relation.leftEnding.cardinality == "(1:1)") && (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)")»	
 		«FOR entity : modeloER.entities»
-			«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
+			«IF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString) && entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
 				«FOR attribute : entity.attributes»
-«IF attribute.isIsKey»
-«««Mapeamento de Relação Binária 0:1|0:1 DIREITA 1
-Atributo "«attribute.name»_FK" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
-«ENDIF»
+					«IF attribute.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+					«ENDIF»
+				«ENDFOR»
+				«FOR parent : entity.is»
+					«IF entity.is !== null»
+						«FOR chavePai : parent.attributes»
+							«IF chavePai.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+							«ENDIF»
+						«ENDFOR»
+					«ENDIF»
+				«ENDFOR»	
+			«ELSEIF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString) && !(entity.name.equalsIgnoreCase(relation.rightEnding.target.toString))»
+				«FOR attribute : entity.attributes»
+					«IF attribute.isIsKey»
+						«IF relation.name == null || relation.name == ''»
+</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+						«ELSE»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+						«ENDIF»
+					«ENDIF»
+				«ENDFOR»
+				«FOR parent : entity.is»
+					«IF entity.is !== null»
+						«FOR chavePai : parent.attributes»
+							«IF chavePai.isIsKey»
+</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+							«ENDIF»
+						«ENDFOR»
+					«ENDIF»
 				«ENDFOR»	
 			«ENDIF»
-«««			«ELSEIF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
-«««				«FOR attribute : entity.attributes»
-««««IF attribute.isIsKey»Mapeamento de Relação Binária 0:1|0:1 ESQUERDA 2
-«««Atributo "«attribute.name»_FK" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"«ENDIF»
-«««				«ENDFOR»	
-«««			«ENDIF»
 		«ENDFOR»
 	«ENDIF»	
 «ENDFOR»
 
-
-««««FOR relation : modeloER.relations»
-«««RELAÇÃO
-««««relation.name»
-««««relation.leftEnding.cardinality» «relation.leftEnding.target» relates «relation.rightEnding.target» «relation.rightEnding.cardinality»
-«««	«FOR atributosRelacao : relation.attributes»
-«««		«atributosRelacao.name» «atributosRelacao.type»
-«««	«ENDFOR»
-««««ENDFOR»
+<h2>RELAÇÕES MODELADAS</h2>
+«FOR relation : modeloER.relations»
+</br>[«relation.name»] «relation.leftEnding.cardinality» «relation.leftEnding.target» relates «relation.rightEnding.target» «relation.rightEnding.cardinality»
+«ENDFOR»
+</body>
+</html>
 			'''
 		)
 		
