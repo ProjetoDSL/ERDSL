@@ -28,7 +28,8 @@ public class ErDslGenerator extends AbstractGenerator {
     EObject _get = resource.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
     String _name = modeloER.getDomain().getName();
-    String _plus = (_name + ".html");
+    String _plus = ("LogicalSchema_" + _name);
+    String _plus_1 = (_plus + ".html");
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<!DOCTYPE html>");
     _builder.newLine();
@@ -41,8 +42,7 @@ public class ErDslGenerator extends AbstractGenerator {
     String _name_1 = modeloER.getDomain().getName();
     _builder.append(_name_1);
     _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("<h2>TABELAS</h2></br>\t\t\t");
+    _builder.append("<h2>TABELAS LÓGICAS</h2></br>\t\t\t");
     _builder.newLine();
     {
       EList<Entity> _entities = modeloER.getEntities();
@@ -609,13 +609,7 @@ public class ErDslGenerator extends AbstractGenerator {
                       if (_equalsIgnoreCase_6) {
                         {
                           EList<Attribute> _attributes_18 = entityAux_6.getAttributes();
-                          boolean _hasElements_13 = false;
                           for(final Attribute atributoAux : _attributes_18) {
-                            if (!_hasElements_13) {
-                              _hasElements_13 = true;
-                            } else {
-                              _builder.appendImmediate(",", "\t");
-                            }
                             _builder.append("\t");
                             {
                               boolean _isIsKey_14 = atributoAux.isIsKey();
@@ -623,7 +617,7 @@ public class ErDslGenerator extends AbstractGenerator {
                                 _builder.append("<font color=\"red\"><b>");
                                 String _name_31 = atributoAux.getName();
                                 _builder.append(_name_31, "\t");
-                                _builder.append("*</b></font>");
+                                _builder.append("*!</b></font>");
                               }
                             }
                             _builder.newLineIfNotEmpty();
@@ -638,13 +632,7 @@ public class ErDslGenerator extends AbstractGenerator {
                               if (_tripleNotEquals_3) {
                                 {
                                   EList<Attribute> _attributes_19 = parent_1.getAttributes();
-                                  boolean _hasElements_14 = false;
                                   for(final Attribute chavePai_1 : _attributes_19) {
-                                    if (!_hasElements_14) {
-                                      _hasElements_14 = true;
-                                    } else {
-                                      _builder.appendImmediate(",", "\t");
-                                    }
                                     _builder.append("\t");
                                     {
                                       boolean _isIsKey_15 = chavePai_1.isIsKey();
@@ -654,7 +642,7 @@ public class ErDslGenerator extends AbstractGenerator {
                                         _builder.append(_name_32, "\t");
                                         String _string = relationAux_2.getLeftEnding().getTarget().toString();
                                         _builder.append(_string, "\t");
-                                        _builder.append("*</b></font>");
+                                        _builder.append("*@</b></font>");
                                       }
                                     }
                                     _builder.newLineIfNotEmpty();
@@ -671,13 +659,7 @@ public class ErDslGenerator extends AbstractGenerator {
                       if (_equalsIgnoreCase_7) {
                         {
                           EList<Attribute> _attributes_20 = entityAux_6.getAttributes();
-                          boolean _hasElements_15 = false;
                           for(final Attribute atributoAux_1 : _attributes_20) {
-                            if (!_hasElements_15) {
-                              _hasElements_15 = true;
-                            } else {
-                              _builder.appendImmediate(",", "\t");
-                            }
                             _builder.append("\t");
                             {
                               boolean _isIsKey_16 = atributoAux_1.isIsKey();
@@ -685,7 +667,7 @@ public class ErDslGenerator extends AbstractGenerator {
                                 _builder.append("<font color=\"red\"><b>");
                                 String _name_33 = atributoAux_1.getName();
                                 _builder.append(_name_33, "\t");
-                                _builder.append("*</b></font>");
+                                _builder.append("*#</b></font>");
                               }
                             }
                             _builder.newLineIfNotEmpty();
@@ -700,13 +682,7 @@ public class ErDslGenerator extends AbstractGenerator {
                               if (_tripleNotEquals_4) {
                                 {
                                   EList<Attribute> _attributes_21 = parent_2.getAttributes();
-                                  boolean _hasElements_16 = false;
                                   for(final Attribute chavePai_2 : _attributes_21) {
-                                    if (!_hasElements_16) {
-                                      _hasElements_16 = true;
-                                    } else {
-                                      _builder.appendImmediate(",", "\t");
-                                    }
                                     _builder.append("\t");
                                     {
                                       boolean _isIsKey_17 = chavePai_2.isIsKey();
@@ -716,7 +692,7 @@ public class ErDslGenerator extends AbstractGenerator {
                                         _builder.append(_name_34, "\t");
                                         String _string_1 = relationAux_2.getRightEnding().getTarget().toString();
                                         _builder.append(_string_1, "\t");
-                                        _builder.append("*</b></font>");
+                                        _builder.append("*$</b></font>");
                                       }
                                     }
                                     _builder.newLineIfNotEmpty();
@@ -743,13 +719,7 @@ public class ErDslGenerator extends AbstractGenerator {
                       if (_equalsIgnoreCase_8) {
                         {
                           EList<Attribute> _attributes_22 = entityAux_7.getAttributes();
-                          boolean _hasElements_17 = false;
                           for(final Attribute atributoAux_2 : _attributes_22) {
-                            if (!_hasElements_17) {
-                              _hasElements_17 = true;
-                            } else {
-                              _builder.appendImmediate(",", "\t");
-                            }
                             _builder.append("\t");
                             {
                               boolean _isIsKey_18 = atributoAux_2.isIsKey();
@@ -772,13 +742,7 @@ public class ErDslGenerator extends AbstractGenerator {
                               if (_tripleNotEquals_5) {
                                 {
                                   EList<Attribute> _attributes_23 = parent_3.getAttributes();
-                                  boolean _hasElements_18 = false;
                                   for(final Attribute chavePai_3 : _attributes_23) {
-                                    if (!_hasElements_18) {
-                                      _hasElements_18 = true;
-                                    } else {
-                                      _builder.appendImmediate(",", "\t");
-                                    }
                                     _builder.append("\t");
                                     {
                                       boolean _isIsKey_19 = chavePai_3.isIsKey();
@@ -805,13 +769,7 @@ public class ErDslGenerator extends AbstractGenerator {
                       if (_equalsIgnoreCase_9) {
                         {
                           EList<Attribute> _attributes_24 = entityAux_7.getAttributes();
-                          boolean _hasElements_19 = false;
                           for(final Attribute atributoAux_3 : _attributes_24) {
-                            if (!_hasElements_19) {
-                              _hasElements_19 = true;
-                            } else {
-                              _builder.appendImmediate(",", "\t");
-                            }
                             _builder.append("\t");
                             {
                               boolean _isIsKey_20 = atributoAux_3.isIsKey();
@@ -834,13 +792,7 @@ public class ErDslGenerator extends AbstractGenerator {
                               if (_tripleNotEquals_6) {
                                 {
                                   EList<Attribute> _attributes_25 = parent_4.getAttributes();
-                                  boolean _hasElements_20 = false;
                                   for(final Attribute chavePai_4 : _attributes_25) {
-                                    if (!_hasElements_20) {
-                                      _hasElements_20 = true;
-                                    } else {
-                                      _builder.appendImmediate(",", "\t");
-                                    }
                                     _builder.append("\t");
                                     {
                                       boolean _isIsKey_21 = chavePai_4.isIsKey();
@@ -872,10 +824,10 @@ public class ErDslGenerator extends AbstractGenerator {
               if (_tripleNotEquals_7) {
                 {
                   EList<Attribute> _attributes_27 = relationAux_2.getAttributes();
-                  boolean _hasElements_21 = false;
+                  boolean _hasElements_13 = false;
                   for(final Attribute atributoRelacaoMuitosParaMuitos : _attributes_27) {
-                    if (!_hasElements_21) {
-                      _hasElements_21 = true;
+                    if (!_hasElements_13) {
+                      _hasElements_13 = true;
                     } else {
                       _builder.appendImmediate(",", "");
                     }
@@ -901,8 +853,7 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.append("</br>");
       }
     }
-    _builder.newLine();
-    _builder.append("<h2>REFERÊNCIAS DERIVADAS DO MODELO CONCEITUAL</h2></br>");
+    _builder.append("<h2>CHAVES REFERENCIAIS</h2></br>");
     _builder.newLine();
     {
       EList<Relation> _relations_3 = modeloER.getRelations();
@@ -921,12 +872,9 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_23 = attribute_1.isIsKey();
                           if (_isIsKey_23) {
-                            _builder.append("</br>$(");
-                            String _name_41 = relation.getName();
+                            _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                            String _name_41 = attribute_1.getName();
                             _builder.append(_name_41);
-                            _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                            String _name_42 = attribute_1.getName();
-                            _builder.append(_name_42);
                             _builder.append("</b></font>\" EM \"");
                             String _string_4 = relation.getRightEnding().getTarget().toString();
                             _builder.append(_string_4);
@@ -952,20 +900,17 @@ public class ErDslGenerator extends AbstractGenerator {
                                 {
                                   boolean _isIsKey_24 = chavePai_5.isIsKey();
                                   if (_isIsKey_24) {
-                                    _builder.append("</br>$(");
-                                    String _name_43 = relation.getName();
-                                    _builder.append(_name_43);
-                                    _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                    String _name_44 = chavePai_5.getName();
-                                    _builder.append(_name_44);
+                                    _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                    String _name_42 = chavePai_5.getName();
+                                    _builder.append(_name_42);
                                     String _string_6 = relation.getLeftEnding().getTarget().toString();
                                     _builder.append(_string_6);
                                     _builder.append("</b></font>\" EM \"");
                                     String _string_7 = relation.getRightEnding().getTarget().toString();
                                     _builder.append(_string_7);
                                     _builder.append("\" REFERENCIA \"");
-                                    String _name_45 = parent_5.getName();
-                                    _builder.append(_name_45);
+                                    String _name_43 = parent_5.getName();
+                                    _builder.append(_name_43);
                                     _builder.append("\"");
                                     _builder.newLineIfNotEmpty();
                                   }
@@ -994,12 +939,9 @@ public class ErDslGenerator extends AbstractGenerator {
                           {
                             boolean _isIsKey_25 = attribute_2.isIsKey();
                             if (_isIsKey_25) {
-                              _builder.append("</br>$(");
-                              String _name_46 = relation.getName();
-                              _builder.append(_name_46);
-                              _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                              String _name_47 = attribute_2.getName();
-                              _builder.append(_name_47);
+                              _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                              String _name_44 = attribute_2.getName();
+                              _builder.append(_name_44);
                               _builder.append("</b></font>\" EM \"");
                               String _string_8 = relation.getLeftEnding().getTarget().toString();
                               _builder.append(_string_8);
@@ -1025,20 +967,17 @@ public class ErDslGenerator extends AbstractGenerator {
                                   {
                                     boolean _isIsKey_26 = chavePai_6.isIsKey();
                                     if (_isIsKey_26) {
-                                      _builder.append("</br>$(");
-                                      String _name_48 = relation.getName();
-                                      _builder.append(_name_48);
-                                      _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                      String _name_49 = chavePai_6.getName();
-                                      _builder.append(_name_49);
+                                      _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                      String _name_45 = chavePai_6.getName();
+                                      _builder.append(_name_45);
                                       String _string_10 = relation.getRightEnding().getTarget().toString();
                                       _builder.append(_string_10);
                                       _builder.append("</b></font>\" EM \"");
                                       String _string_11 = relation.getLeftEnding().getTarget().toString();
                                       _builder.append(_string_11);
                                       _builder.append("\" REFERENCIA \"");
-                                      String _name_50 = parent_6.getName();
-                                      _builder.append(_name_50);
+                                      String _name_46 = parent_6.getName();
+                                      _builder.append(_name_46);
                                       _builder.append("\"");
                                       _builder.newLineIfNotEmpty();
                                     }
@@ -1062,20 +1001,16 @@ public class ErDslGenerator extends AbstractGenerator {
               EList<Entity> _entities_17 = modeloER.getEntities();
               for(final Entity entity_3 : _entities_17) {
                 {
-                  boolean _equalsIgnoreCase_12 = entity_3.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_12) {
+                  if ((entity_3.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString()) && (!Objects.equal(relation.getLeftEnding().getTarget().toString(), relation.getRightEnding().getTarget().toString())))) {
                     {
                       EList<Attribute> _attributes_32 = entity_3.getAttributes();
                       for(final Attribute attribute_3 : _attributes_32) {
                         {
                           boolean _isIsKey_27 = attribute_3.isIsKey();
                           if (_isIsKey_27) {
-                            _builder.append("</br>$(");
-                            String _name_51 = relation.getName();
-                            _builder.append(_name_51);
-                            _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                            String _name_52 = attribute_3.getName();
-                            _builder.append(_name_52);
+                            _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                            String _name_47 = attribute_3.getName();
+                            _builder.append(_name_47);
                             _builder.append("</b></font>\" EM \"");
                             String _string_12 = relation.getLeftEnding().getTarget().toString();
                             _builder.append(_string_12);
@@ -1100,8 +1035,8 @@ public class ErDslGenerator extends AbstractGenerator {
               EList<Entity> _entities_18 = modeloER.getEntities();
               for(final Entity entity_4 : _entities_18) {
                 {
-                  boolean _equalsIgnoreCase_13 = entity_4.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_13) {
+                  boolean _equalsIgnoreCase_12 = entity_4.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_12) {
                     {
                       EList<Attribute> _attributes_33 = entity_4.getAttributes();
                       for(final Attribute attribute_4 : _attributes_33) {
@@ -1110,37 +1045,29 @@ public class ErDslGenerator extends AbstractGenerator {
                           if (_isIsKey_28) {
                             {
                               if (((relation.getName() != null) && (relation.getName() != ""))) {
-                                _builder.append("</br>$(");
-                                String _name_53 = relation.getName();
-                                _builder.append(_name_53);
-                                _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                String _name_54 = attribute_4.getName();
-                                _builder.append(_name_54);
+                                _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                String _name_48 = attribute_4.getName();
+                                _builder.append(_name_48);
                                 _builder.append("</b></font>\" EM \"");
-                                String _name_55 = relation.getName();
-                                _builder.append(_name_55);
+                                String _name_49 = relation.getName();
+                                _builder.append(_name_49);
                                 _builder.append("\" REFERENCIA \"");
                                 String _string_14 = relation.getLeftEnding().getTarget().toString();
                                 _builder.append(_string_14);
                                 _builder.append("\"");
                                 _builder.newLineIfNotEmpty();
                               } else {
-                                _builder.append("</br>$(");
+                                _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                String _name_50 = attribute_4.getName();
+                                _builder.append(_name_50);
+                                _builder.append("</b></font>\" EM \"");
                                 String _string_15 = relation.getLeftEnding().getTarget().toString();
                                 _builder.append(_string_15);
                                 String _string_16 = relation.getRightEnding().getTarget().toString();
                                 _builder.append(_string_16);
-                                _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                String _name_56 = attribute_4.getName();
-                                _builder.append(_name_56);
-                                _builder.append("</b></font>\" EM \"");
+                                _builder.append("\" REFERENCIA \"");
                                 String _string_17 = relation.getLeftEnding().getTarget().toString();
                                 _builder.append(_string_17);
-                                String _string_18 = relation.getRightEnding().getTarget().toString();
-                                _builder.append(_string_18);
-                                _builder.append("\" REFERENCIA \"");
-                                String _string_19 = relation.getLeftEnding().getTarget().toString();
-                                _builder.append(_string_19);
                                 _builder.append("\"");
                                 _builder.newLineIfNotEmpty();
                               }
@@ -1152,8 +1079,8 @@ public class ErDslGenerator extends AbstractGenerator {
                   }
                 }
                 {
-                  boolean _equalsIgnoreCase_14 = entity_4.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                  if (_equalsIgnoreCase_14) {
+                  boolean _equalsIgnoreCase_13 = entity_4.getName().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_13) {
                     {
                       EList<Attribute> _attributes_34 = entity_4.getAttributes();
                       for(final Attribute attribute_5 : _attributes_34) {
@@ -1162,37 +1089,29 @@ public class ErDslGenerator extends AbstractGenerator {
                           if (_isIsKey_29) {
                             {
                               if (((relation.getName() != null) && (relation.getName() != ""))) {
-                                _builder.append("</br>$(");
-                                String _name_57 = relation.getName();
-                                _builder.append(_name_57);
-                                _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                String _name_58 = attribute_5.getName();
-                                _builder.append(_name_58);
+                                _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                String _name_51 = attribute_5.getName();
+                                _builder.append(_name_51);
                                 _builder.append("</b></font>\" EM \"");
-                                String _name_59 = relation.getName();
-                                _builder.append(_name_59);
+                                String _name_52 = relation.getName();
+                                _builder.append(_name_52);
                                 _builder.append("\" REFERENCIA \"");
-                                String _string_20 = relation.getRightEnding().getTarget().toString();
-                                _builder.append(_string_20);
+                                String _string_18 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_18);
                                 _builder.append("\"");
                                 _builder.newLineIfNotEmpty();
                               } else {
-                                _builder.append("</br>$(");
-                                String _string_21 = relation.getLeftEnding().getTarget().toString();
-                                _builder.append(_string_21);
-                                String _string_22 = relation.getRightEnding().getTarget().toString();
-                                _builder.append(_string_22);
-                                _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                String _name_60 = attribute_5.getName();
-                                _builder.append(_name_60);
+                                _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                String _name_53 = attribute_5.getName();
+                                _builder.append(_name_53);
                                 _builder.append("</b></font>\" EM \"");
-                                String _string_23 = relation.getLeftEnding().getTarget().toString();
-                                _builder.append(_string_23);
-                                String _string_24 = relation.getRightEnding().getTarget().toString();
-                                _builder.append(_string_24);
+                                String _string_19 = relation.getLeftEnding().getTarget().toString();
+                                _builder.append(_string_19);
+                                String _string_20 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_20);
                                 _builder.append("\" REFERENCIA \"");
-                                String _string_25 = relation.getRightEnding().getTarget().toString();
-                                _builder.append(_string_25);
+                                String _string_21 = relation.getRightEnding().getTarget().toString();
+                                _builder.append(_string_21);
                                 _builder.append("\"");
                                 _builder.newLineIfNotEmpty();
                               }
@@ -1210,10 +1129,10 @@ public class ErDslGenerator extends AbstractGenerator {
                           if (_tripleNotEquals_10) {
                             {
                               EList<Attribute> _attributes_35 = parent_7.getAttributes();
-                              boolean _hasElements_22 = false;
+                              boolean _hasElements_14 = false;
                               for(final Attribute chavePai_7 : _attributes_35) {
-                                if (!_hasElements_22) {
-                                  _hasElements_22 = true;
+                                if (!_hasElements_14) {
+                                  _hasElements_14 = true;
                                 } else {
                                   _builder.appendImmediate(", ", "");
                                 }
@@ -1222,77 +1141,61 @@ public class ErDslGenerator extends AbstractGenerator {
                                   if (_isIsKey_30) {
                                     {
                                       if (((relation.getName() != null) && (relation.getName() != ""))) {
-                                        _builder.append("</br>$(");
-                                        String _name_61 = relation.getName();
-                                        _builder.append(_name_61);
-                                        _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                        String _name_62 = chavePai_7.getName();
-                                        _builder.append(_name_62);
+                                        _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                        String _name_54 = chavePai_7.getName();
+                                        _builder.append(_name_54);
+                                        String _string_22 = relation.getLeftEnding().getTarget().toString();
+                                        _builder.append(_string_22);
+                                        _builder.append("</b></font>\" EM \"");
+                                        String _name_55 = relation.getName();
+                                        _builder.append(_name_55);
+                                        _builder.append("\" REFERENCIA \"");
+                                        String _string_23 = parent_7.getName().toString();
+                                        _builder.append(_string_23);
+                                        _builder.append("\"");
+                                        _builder.newLineIfNotEmpty();
+                                        _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                        String _name_56 = chavePai_7.getName();
+                                        _builder.append(_name_56);
+                                        String _string_24 = relation.getRightEnding().getTarget().toString();
+                                        _builder.append(_string_24);
+                                        _builder.append("</b></font>\" EM \"");
+                                        String _name_57 = relation.getName();
+                                        _builder.append(_name_57);
+                                        _builder.append("\" REFERENCIA \"");
+                                        String _string_25 = parent_7.getName().toString();
+                                        _builder.append(_string_25);
+                                        _builder.append("\"");
+                                        _builder.newLineIfNotEmpty();
+                                      } else {
+                                        _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                        String _name_58 = chavePai_7.getName();
+                                        _builder.append(_name_58);
                                         String _string_26 = relation.getLeftEnding().getTarget().toString();
                                         _builder.append(_string_26);
                                         _builder.append("</b></font>\" EM \"");
-                                        String _name_63 = relation.getName();
-                                        _builder.append(_name_63);
-                                        _builder.append("\" REFERENCIA \"");
-                                        String _string_27 = parent_7.getName().toString();
+                                        String _string_27 = relation.getLeftEnding().getTarget().toString();
                                         _builder.append(_string_27);
-                                        _builder.append("\"");
-                                        _builder.newLineIfNotEmpty();
-                                        _builder.append("</br>$(");
-                                        String _name_64 = relation.getName();
-                                        _builder.append(_name_64);
-                                        _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                        String _name_65 = chavePai_7.getName();
-                                        _builder.append(_name_65);
                                         String _string_28 = relation.getRightEnding().getTarget().toString();
                                         _builder.append(_string_28);
-                                        _builder.append("</b></font>\" EM \"");
-                                        String _name_66 = relation.getName();
-                                        _builder.append(_name_66);
                                         _builder.append("\" REFERENCIA \"");
                                         String _string_29 = parent_7.getName().toString();
                                         _builder.append(_string_29);
                                         _builder.append("\"");
                                         _builder.newLineIfNotEmpty();
-                                      } else {
-                                        _builder.append("</br>$(");
-                                        String _string_30 = relation.getLeftEnding().getTarget().toString();
+                                        _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                        String _name_59 = chavePai_7.getName();
+                                        _builder.append(_name_59);
+                                        String _string_30 = relation.getRightEnding().getTarget().toString();
                                         _builder.append(_string_30);
-                                        String _string_31 = relation.getRightEnding().getTarget().toString();
+                                        _builder.append("</b></font>\" EM \"");
+                                        String _string_31 = relation.getLeftEnding().getTarget().toString();
                                         _builder.append(_string_31);
-                                        _builder.append("] -> Atributo \"<font color=\"blue\"><b>");
-                                        String _name_67 = chavePai_7.getName();
-                                        _builder.append(_name_67);
-                                        String _string_32 = relation.getLeftEnding().getTarget().toString();
+                                        String _string_32 = relation.getRightEnding().getTarget().toString();
                                         _builder.append(_string_32);
-                                        _builder.append("</b></font>\" EM \"");
-                                        String _string_33 = relation.getLeftEnding().getTarget().toString();
+                                        _builder.append("\" REFERENCIA \"");
+                                        String _string_33 = parent_7.getName().toString();
                                         _builder.append(_string_33);
-                                        String _string_34 = relation.getRightEnding().getTarget().toString();
-                                        _builder.append(_string_34);
-                                        _builder.append("\" REFERENCIA \"");
-                                        String _string_35 = parent_7.getName().toString();
-                                        _builder.append(_string_35);
-                                        _builder.append("\"");
-                                        _builder.newLineIfNotEmpty();
-                                        _builder.append("</br>$(");
-                                        String _string_36 = relation.getLeftEnding().getTarget().toString();
-                                        _builder.append(_string_36);
-                                        String _string_37 = relation.getRightEnding().getTarget().toString();
-                                        _builder.append(_string_37);
-                                        _builder.append("] -> Atributo \"<font color=\"blue\"><b>");
-                                        String _name_68 = chavePai_7.getName();
-                                        _builder.append(_name_68);
-                                        String _string_38 = relation.getRightEnding().getTarget().toString();
-                                        _builder.append(_string_38);
-                                        _builder.append("</b></font>\" EM \"");
-                                        String _string_39 = relation.getLeftEnding().getTarget().toString();
-                                        _builder.append(_string_39);
-                                        String _string_40 = relation.getRightEnding().getTarget().toString();
-                                        _builder.append(_string_40);
-                                        _builder.append("\" REFERENCIA \"");
-                                        String _string_41 = parent_7.getName().toString();
-                                        _builder.append(_string_41);
                                         _builder.append("\"");
                                         _builder.newLineIfNotEmpty();
                                       }
@@ -1324,18 +1227,15 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_31 = attribute_6.isIsKey();
                           if (_isIsKey_31) {
-                            _builder.append("</br>$(");
-                            String _name_69 = relation.getName();
-                            _builder.append(_name_69);
-                            _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                            String _name_70 = relation.getName();
-                            _builder.append(_name_70);
+                            _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                            String _name_60 = relation.getName();
+                            _builder.append(_name_60);
                             _builder.append("</b></font>\" EM \"");
-                            String _string_42 = relation.getLeftEnding().getTarget().toString();
-                            _builder.append(_string_42);
+                            String _string_34 = relation.getLeftEnding().getTarget().toString();
+                            _builder.append(_string_34);
                             _builder.append("\" REFERENCIA \"");
-                            String _string_43 = relation.getRightEnding().getTarget().toString();
-                            _builder.append(_string_43);
+                            String _string_35 = relation.getRightEnding().getTarget().toString();
+                            _builder.append(_string_35);
                             _builder.append("\"");
                             _builder.newLineIfNotEmpty();
                           }
@@ -1355,18 +1255,15 @@ public class ErDslGenerator extends AbstractGenerator {
                                 {
                                   boolean _isIsKey_32 = chavePai_8.isIsKey();
                                   if (_isIsKey_32) {
-                                    _builder.append("</br>$(");
-                                    String _name_71 = relation.getName();
-                                    _builder.append(_name_71);
-                                    _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                    String _name_72 = relation.getName();
-                                    _builder.append(_name_72);
+                                    _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                    String _name_61 = relation.getName();
+                                    _builder.append(_name_61);
                                     _builder.append("</b></font>\" EM \"");
-                                    String _string_44 = relation.getRightEnding().getTarget().toString();
-                                    _builder.append(_string_44);
+                                    String _string_36 = relation.getRightEnding().getTarget().toString();
+                                    _builder.append(_string_36);
                                     _builder.append("\" REFERENCIA \"");
-                                    String _name_73 = parent_8.getName();
-                                    _builder.append(_name_73);
+                                    String _name_62 = parent_8.getName();
+                                    _builder.append(_name_62);
                                     _builder.append("\"");
                                     _builder.newLineIfNotEmpty();
                                   }
@@ -1387,35 +1284,27 @@ public class ErDslGenerator extends AbstractGenerator {
                             if (_isIsKey_33) {
                               {
                                 if (((relation.getName() == null) || Objects.equal(relation.getName(), ""))) {
-                                  _builder.append("</br>$(");
-                                  String _string_45 = relation.getLeftEnding().getTarget().toString();
-                                  _builder.append(_string_45);
-                                  String _string_46 = relation.getRightEnding().getTarget().toString();
-                                  _builder.append(_string_46);
-                                  _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                  String _name_74 = attribute_7.getName();
-                                  _builder.append(_name_74);
+                                  _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                  String _name_63 = attribute_7.getName();
+                                  _builder.append(_name_63);
                                   _builder.append("</b></font>\" EM \"");
-                                  String _string_47 = relation.getRightEnding().getTarget().toString();
-                                  _builder.append(_string_47);
+                                  String _string_37 = relation.getRightEnding().getTarget().toString();
+                                  _builder.append(_string_37);
                                   _builder.append("\" REFERENCIA \"");
-                                  String _string_48 = relation.getLeftEnding().getTarget().toString();
-                                  _builder.append(_string_48);
+                                  String _string_38 = relation.getLeftEnding().getTarget().toString();
+                                  _builder.append(_string_38);
                                   _builder.append("\"");
                                   _builder.newLineIfNotEmpty();
                                 } else {
-                                  _builder.append("</br>$(");
-                                  String _name_75 = relation.getName();
-                                  _builder.append(_name_75);
-                                  _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                  String _name_76 = attribute_7.getName();
-                                  _builder.append(_name_76);
+                                  _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                  String _name_64 = attribute_7.getName();
+                                  _builder.append(_name_64);
                                   _builder.append("</b></font>\" EM \"");
-                                  String _string_49 = relation.getRightEnding().getTarget().toString();
-                                  _builder.append(_string_49);
+                                  String _string_39 = relation.getRightEnding().getTarget().toString();
+                                  _builder.append(_string_39);
                                   _builder.append("\" REFERENCIA \"");
-                                  String _string_50 = relation.getLeftEnding().getTarget().toString();
-                                  _builder.append(_string_50);
+                                  String _string_40 = relation.getLeftEnding().getTarget().toString();
+                                  _builder.append(_string_40);
                                   _builder.append("\"");
                                   _builder.newLineIfNotEmpty();
                                 }
@@ -1437,20 +1326,17 @@ public class ErDslGenerator extends AbstractGenerator {
                                   {
                                     boolean _isIsKey_34 = chavePai_9.isIsKey();
                                     if (_isIsKey_34) {
-                                      _builder.append("</br>$(");
-                                      String _name_77 = relation.getName();
-                                      _builder.append(_name_77);
-                                      _builder.append(") -> Atributo \"<font color=\"blue\"><b>");
-                                      String _name_78 = chavePai_9.getName();
-                                      _builder.append(_name_78);
+                                      _builder.append("</br>Atributo \"<font color=\"blue\"><b>");
+                                      String _name_65 = chavePai_9.getName();
+                                      _builder.append(_name_65);
                                       EObject _target_2 = relation.getLeftEnding().getTarget();
                                       _builder.append(_target_2);
                                       _builder.append("</b></font>\" EM \"");
-                                      String _string_51 = relation.getRightEnding().getTarget().toString();
-                                      _builder.append(_string_51);
+                                      String _string_41 = relation.getRightEnding().getTarget().toString();
+                                      _builder.append(_string_41);
                                       _builder.append("\" REFERENCIA \"");
-                                      String _name_79 = parent_9.getName();
-                                      _builder.append(_name_79);
+                                      String _name_66 = parent_9.getName();
+                                      _builder.append(_name_66);
                                       _builder.append("\"");
                                       _builder.newLineIfNotEmpty();
                                     }
@@ -1470,34 +1356,6 @@ public class ErDslGenerator extends AbstractGenerator {
         }
       }
     }
-    _builder.newLine();
-    _builder.append("<h2>RELAÇÕES MODELADAS</h2>");
-    _builder.newLine();
-    {
-      EList<Relation> _relations_4 = modeloER.getRelations();
-      for(final Relation relation_1 : _relations_4) {
-        _builder.append("</br>[");
-        String _name_80 = relation_1.getName();
-        _builder.append(_name_80);
-        _builder.append("] ");
-        String _cardinality = relation_1.getLeftEnding().getCardinality();
-        _builder.append(_cardinality);
-        _builder.append(" ");
-        EObject _target_3 = relation_1.getLeftEnding().getTarget();
-        _builder.append(_target_3);
-        _builder.append(" relates ");
-        EObject _target_4 = relation_1.getRightEnding().getTarget();
-        _builder.append(_target_4);
-        _builder.append(" ");
-        String _cardinality_1 = relation_1.getRightEnding().getCardinality();
-        _builder.append(_cardinality_1);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("</body>");
-    _builder.newLine();
-    _builder.append("</html>");
-    _builder.newLine();
-    fsa.generateFile(_plus, _builder);
+    fsa.generateFile(_plus_1, _builder);
   }
 }

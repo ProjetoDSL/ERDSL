@@ -23,16 +23,15 @@ class ErDslGenerator extends AbstractGenerator {
 //				.map[name]
 //				.join(', '))
 val modeloER = resource.contents.get(0) as ERModel
-		fsa.generateFile(modeloER.domain.name+'.html', 
+		fsa.generateFile('LogicalSchema_'+modeloER.domain.name+'.html', 
 			'''
 <!DOCTYPE html>
 <html>
 <body> 
 <h2>DOMÍNIO</h2></br>
 «modeloER.domain.name»
-
-<h2>TABELAS</h2></br>			
-«FOR entity : modeloER.entities SEPARATOR ')</br>' AFTER ')</br>'»«entity.name» (
+<h2>TABELAS LÓGICAS</h2></br>			
+«FOR entity : modeloER.entities SEPARATOR ')</br>' AFTER ')</br>' »«entity.name» (
 	«FOR parent : entity.is»«IF entity.is !== null»«FOR chavePai : parent.attributes»«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»*</b></font> [Referência para: «parent.name»], «ENDIF»«ENDFOR»«ENDIF»«ENDFOR»
 	«FOR attribute : entity.attributes SEPARATOR ', '»
 	«IF attribute.isIsKey»<font color="red"><b>«attribute.name»*</b></font>«ELSE»«attribute.name»«ENDIF»«ENDFOR»
@@ -195,25 +194,25 @@ val modeloER = resource.contents.get(0) as ERModel
 «relationAux.leftEnding.target»«relationAux.rightEnding.target» (
 			«FOR entityAux : modeloER.entities»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
-						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«FOR atributoAux : entityAux.attributes»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*!</b></font>«ENDIF»
 					«ENDFOR»
 					«FOR parent : entityAux.is»
 						«IF entityAux.is !== null»
-							«FOR chavePai : parent.attributes SEPARATOR ','»
-								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
+							«FOR chavePai : parent.attributes»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*@</b></font>«ENDIF»
 							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
-						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
+					«FOR atributoAux : entityAux.attributes»
+						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*#</b></font>«ENDIF»
 					«ENDFOR»
 					«FOR parent : entityAux.is»
 						«IF entityAux.is !== null»
-							«FOR chavePai : parent.attributes SEPARATOR ','»
-								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.rightEnding.target.toString»*</b></font>«ENDIF»
+							«FOR chavePai : parent.attributes»
+								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.rightEnding.target.toString»*$</b></font>«ENDIF»
 							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
@@ -223,24 +222,24 @@ val modeloER = resource.contents.get(0) as ERModel
 «relationAux.name» (
 			«FOR entityAux : modeloER.entities»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.leftEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+					«FOR atributoAux : entityAux.attributes»
 						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
 					«ENDFOR»
 					«FOR parent : entityAux.is»
 						«IF entityAux.is !== null»
-							«FOR chavePai : parent.attributes SEPARATOR ','»
+							«FOR chavePai : parent.attributes»
 								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
 							«ENDFOR»
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 				«IF entityAux.name.equalsIgnoreCase(relationAux.rightEnding.target.toString)»
-					«FOR atributoAux : entityAux.attributes SEPARATOR ','»
+					«FOR atributoAux : entityAux.attributes»
 						«IF atributoAux.isIsKey»<font color="red"><b>«atributoAux.name»*</b></font>«ENDIF»
 					«ENDFOR»
 					«FOR parent : entityAux.is»
 						«IF entityAux.is !== null»
-							«FOR chavePai : parent.attributes SEPARATOR ','»
+							«FOR chavePai : parent.attributes»
 								«IF chavePai.isIsKey»<font color="red"><b>«chavePai.name»«relationAux.leftEnding.target.toString»*</b></font>«ENDIF»
 							«ENDFOR»
 						«ENDIF»
@@ -260,13 +259,12 @@ val modeloER = resource.contents.get(0) as ERModel
 ««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS TERNÁRIOS			
 «««############################################################################################################################################
 «««############################################################################################################################################
-
 «««############################################################################################################################################
 «««############################################################################################################################################
 ««« 				MAPEAMENTO DAS REFERÊNCIAS DERIVADAS DOS RELACIONAMENTOS
 «««############################################################################################################################################
 «««############################################################################################################################################
-<h2>REFERÊNCIAS DERIVADAS DO MODELO CONCEITUAL</h2></br>
+<h2>CHAVES REFERENCIAIS</h2></br>
 «FOR relation : modeloER.relations»
 «««############################################################################################################################################
 «««############################################################################################################################################
@@ -278,14 +276,14 @@ val modeloER = resource.contents.get(0) as ERModel
 		«IF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
 			«FOR attribute : entity.attributes»
 				«IF attribute.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
 				«ENDIF»
 			«ENDFOR»
 			«FOR parent : entity.is»
 				«IF entity.is !== null»
 					«FOR chavePai : parent.attributes»
 						«IF chavePai.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -297,14 +295,14 @@ val modeloER = resource.contents.get(0) as ERModel
 				«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»				
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
 						«ENDIF»
 					«ENDFOR»
 					«FOR parent : entity.is»
 						«IF entity.is !== null»
 							«FOR chavePai : parent.attributes»
 								«IF chavePai.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«parent.name»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«parent.name»"
 								«ENDIF»
 							«ENDFOR»
 						«ENDIF»
@@ -319,10 +317,10 @@ val modeloER = resource.contents.get(0) as ERModel
 «««############################################################################################################################################
 	«IF (relation.leftEnding.cardinality == "(0:N)" || relation.leftEnding.cardinality == "(1:N)") && (relation.rightEnding.cardinality == "(0:1)" || relation.rightEnding.cardinality == "(1:1)")»		
 	«FOR entity : modeloER.entities»
-		«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
+		«IF entity.name.equalsIgnoreCase(relation.rightEnding.target.toString) && (relation.leftEnding.target.toString != relation.rightEnding.target.toString)»
 			«FOR attribute : entity.attributes»
 				«IF attribute.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"«ENDIF»
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"«ENDIF»
 			«ENDFOR»	
 		«ENDIF»
 	«ENDFOR»
@@ -333,9 +331,9 @@ val modeloER = resource.contents.get(0) as ERModel
 				«FOR attribute : entity.attributes»
 					«IF attribute.isIsKey»
 						«IF (relation.name !== null && relation.name !== '')»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.leftEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.leftEnding.target.toString»"
 						«ELSE»
-</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
 						«ENDIF»
 					«ENDIF»
 				«ENDFOR»		
@@ -349,9 +347,9 @@ val modeloER = resource.contents.get(0) as ERModel
 				«FOR attribute : entity.attributes»
 					«IF attribute.isIsKey»
 						«IF (relation.name !== null && relation.name !== '')» 
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.rightEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.name»" REFERENCIA "«relation.rightEnding.target.toString»"
 						«ELSE»
-</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
 						«ENDIF»
 					«ENDIF»
 				«ENDFOR»	
@@ -360,11 +358,11 @@ val modeloER = resource.contents.get(0) as ERModel
 						«FOR chavePai : parent.attributes SEPARATOR ', '»
 							«IF chavePai.isIsKey»
 								«IF (relation.name !== null && relation.name !== '')»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.name»" REFERENCIA "«parent.name.toString»"
 								«ELSE»
-</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»] -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
-</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»] -> Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.rightEnding.target.toString»</b></font>" EM "«relation.leftEnding.target.toString»«relation.rightEnding.target.toString»" REFERENCIA "«parent.name.toString»"
 								«ENDIF»
 							«ENDIF»
 						«ENDFOR»
@@ -383,14 +381,14 @@ val modeloER = resource.contents.get(0) as ERModel
 			«IF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString) && entity.name.equalsIgnoreCase(relation.rightEnding.target.toString)»
 				«FOR attribute : entity.attributes»
 					«IF attribute.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.leftEnding.target.toString»" REFERENCIA "«relation.rightEnding.target.toString»"
 					«ENDIF»
 				«ENDFOR»
 				«FOR parent : entity.is»
 					«IF entity.is !== null»
 						«FOR chavePai : parent.attributes»
 							«IF chavePai.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+</br>Atributo "<font color="blue"><b>«relation.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
 							«ENDIF»
 						«ENDFOR»
 					«ENDIF»
@@ -399,9 +397,9 @@ val modeloER = resource.contents.get(0) as ERModel
 				«FOR attribute : entity.attributes»
 					«IF attribute.isIsKey»
 						«IF relation.name === null || relation.name == ''»
-</br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
 						«ELSE»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
+</br>Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
 						«ENDIF»
 					«ENDIF»
 				«ENDFOR»
@@ -409,7 +407,7 @@ val modeloER = resource.contents.get(0) as ERModel
 					«IF entity.is !== null»
 						«FOR chavePai : parent.attributes»
 							«IF chavePai.isIsKey»
-</br>$(«relation.name») -> Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
+</br>Atributo "<font color="blue"><b>«chavePai.name»«relation.leftEnding.target»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«parent.name»"
 							«ENDIF»
 						«ENDFOR»
 					«ENDIF»
@@ -418,15 +416,15 @@ val modeloER = resource.contents.get(0) as ERModel
 		«ENDFOR»
 	«ENDIF»	
 «ENDFOR»
-
-<h2>RELAÇÕES MODELADAS</h2>
-«FOR relation : modeloER.relations»
-</br>[«relation.name»] «relation.leftEnding.cardinality» «relation.leftEnding.target» relates «relation.rightEnding.target» «relation.rightEnding.cardinality»
-«ENDFOR»
-</body>
-</html>
+«««<h2>RELAÇÕES MODELADAS</h2>
+««««FOR relation : modeloER.relations»
+«««</br>[«relation.name»] «relation.leftEnding.cardinality» «relation.leftEnding.target» relates «relation.rightEnding.target» «relation.rightEnding.cardinality»
+««««ENDFOR»
+«««</body>
+«««</html>
 			'''
 		)
 		
 	}
 }
+
