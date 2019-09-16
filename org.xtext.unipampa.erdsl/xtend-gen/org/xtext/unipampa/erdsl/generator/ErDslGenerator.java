@@ -586,6 +586,8 @@ public class ErDslGenerator extends AbstractGenerator {
       for(final Relation relationAux_2 : _relations_2) {
         if (!_hasElements_12) {
           _hasElements_12 = true;
+        } else {
+          _builder.appendImmediate(")</br> ", "");
         }
         {
           if (((Objects.equal(relationAux_2.getLeftEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux_2.getLeftEnding().getCardinality(), "(1:N)")) && (Objects.equal(relationAux_2.getRightEnding().getCardinality(), "(0:N)") || Objects.equal(relationAux_2.getRightEnding().getCardinality(), "(1:N)")))) {
@@ -894,9 +896,10 @@ public class ErDslGenerator extends AbstractGenerator {
         }
       }
       if (_hasElements_12) {
-        _builder.append(")\n");
+        _builder.append("</br>");
       }
     }
+    _builder.newLine();
     _builder.append("<h2>REFERÊNCIAS DERIVADAS DO MODELO CONCEITUAL</h2></br>");
     _builder.newLine();
     {
@@ -1381,7 +1384,7 @@ public class ErDslGenerator extends AbstractGenerator {
                             boolean _isIsKey_33 = attribute_7.isIsKey();
                             if (_isIsKey_33) {
                               {
-                                if ((Objects.equal(relation.getName(), null) || Objects.equal(relation.getName(), ""))) {
+                                if (((relation.getName() == null) || Objects.equal(relation.getName(), ""))) {
                                   _builder.append("</br>$(");
                                   String _string_45 = relation.getLeftEnding().getTarget().toString();
                                   _builder.append(_string_45);

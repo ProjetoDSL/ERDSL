@@ -34,6 +34,10 @@ public class ErDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRelationSideAccess().getAlternatives(), "rule__RelationSide__Alternatives");
 			builder.put(grammarAccess.getRelationSideAccess().getCardinalityAlternatives_0_0_0(), "rule__RelationSide__CardinalityAlternatives_0_0_0");
 			builder.put(grammarAccess.getERModelAccess().getGroup(), "rule__ERModel__Group__0");
+			builder.put(grammarAccess.getERModelAccess().getGroup_2(), "rule__ERModel__Group_2__0");
+			builder.put(grammarAccess.getERModelAccess().getGroup_4(), "rule__ERModel__Group_4__0");
+			builder.put(grammarAccess.getERModelAccess().getGroup_5(), "rule__ERModel__Group_5__0");
+			builder.put(grammarAccess.getERModelAccess().getGroup_7(), "rule__ERModel__Group_7__0");
 			builder.put(grammarAccess.getDomainAccess().getGroup(), "rule__Domain__Group__0");
 			builder.put(grammarAccess.getAttributeAccess().getGroup(), "rule__Attribute__Group__0");
 			builder.put(grammarAccess.getEntityAccess().getGroup(), "rule__Entity__Group__0");

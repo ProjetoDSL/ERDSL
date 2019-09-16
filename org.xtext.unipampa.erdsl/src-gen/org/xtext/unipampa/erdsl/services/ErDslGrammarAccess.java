@@ -29,21 +29,28 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		private final Assignment cDomainAssignment_0 = (Assignment)cGroup.eContents().get(0);
 		private final RuleCall cDomainDomainParserRuleCall_0_0 = (RuleCall)cDomainAssignment_0.eContents().get(0);
 		private final Keyword cSemicolonKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Keyword cEntitiesKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
+		private final Keyword cEntitiesKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
 		private final Assignment cEntitiesAssignment_3 = (Assignment)cGroup.eContents().get(3);
 		private final RuleCall cEntitiesEntityParserRuleCall_3_0 = (RuleCall)cEntitiesAssignment_3.eContents().get(0);
-		private final Keyword cRightCurlyBracketSemicolonKeyword_4 = (Keyword)cGroup.eContents().get(4);
-		private final Keyword cRelationshipsKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
+		private final Keyword cRightCurlyBracketKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
+		private final Keyword cSemicolonKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
+		private final Keyword cRelationshipsKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
 		private final Assignment cRelationsAssignment_6 = (Assignment)cGroup.eContents().get(6);
 		private final RuleCall cRelationsRelationParserRuleCall_6_0 = (RuleCall)cRelationsAssignment_6.eContents().get(0);
-		private final Keyword cRightCurlyBracketSemicolonKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
+		private final Keyword cRightCurlyBracketKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
+		private final Keyword cSemicolonKeyword_7_1 = (Keyword)cGroup_7.eContents().get(1);
 		
 		//ERModel:
-		//	domain=Domain ';'
-		//	'Entities{' entities+=Entity+ '};' 'Relationships{' relations+=Relation* '};';
+		//	domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//domain=Domain ';' 'Entities{' entities+=Entity+ '};' 'Relationships{' relations+=Relation* '};'
+		//domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';')
 		public Group getGroup() { return cGroup; }
 		
 		//domain=Domain
@@ -55,8 +62,14 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//';'
 		public Keyword getSemicolonKeyword_1() { return cSemicolonKeyword_1; }
 		
-		//'Entities{'
-		public Keyword getEntitiesKeyword_2() { return cEntitiesKeyword_2; }
+		//'Entities' '{'
+		public Group getGroup_2() { return cGroup_2; }
+		
+		//'Entities'
+		public Keyword getEntitiesKeyword_2_0() { return cEntitiesKeyword_2_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_2_1() { return cLeftCurlyBracketKeyword_2_1; }
 		
 		//entities+=Entity+
 		public Assignment getEntitiesAssignment_3() { return cEntitiesAssignment_3; }
@@ -64,11 +77,23 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//Entity
 		public RuleCall getEntitiesEntityParserRuleCall_3_0() { return cEntitiesEntityParserRuleCall_3_0; }
 		
-		//'};'
-		public Keyword getRightCurlyBracketSemicolonKeyword_4() { return cRightCurlyBracketSemicolonKeyword_4; }
+		//'}' ';'
+		public Group getGroup_4() { return cGroup_4; }
 		
-		//'Relationships{'
-		public Keyword getRelationshipsKeyword_5() { return cRelationshipsKeyword_5; }
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_4_0() { return cRightCurlyBracketKeyword_4_0; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_4_1() { return cSemicolonKeyword_4_1; }
+		
+		//'Relationships' '{'
+		public Group getGroup_5() { return cGroup_5; }
+		
+		//'Relationships'
+		public Keyword getRelationshipsKeyword_5_0() { return cRelationshipsKeyword_5_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_5_1() { return cLeftCurlyBracketKeyword_5_1; }
 		
 		//relations+=Relation*
 		public Assignment getRelationsAssignment_6() { return cRelationsAssignment_6; }
@@ -76,8 +101,14 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 		//Relation
 		public RuleCall getRelationsRelationParserRuleCall_6_0() { return cRelationsRelationParserRuleCall_6_0; }
 		
-		//'};'
-		public Keyword getRightCurlyBracketSemicolonKeyword_7() { return cRightCurlyBracketSemicolonKeyword_7; }
+		//'}' ';'
+		public Group getGroup_7() { return cGroup_7; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_7_0() { return cRightCurlyBracketKeyword_7_0; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_7_1() { return cSemicolonKeyword_7_1; }
 	}
 	public class DomainElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.Domain");
@@ -410,8 +441,7 @@ public class ErDslGrammarAccess extends AbstractGrammarElementFinder {
 
 	
 	//ERModel:
-	//	domain=Domain ';'
-	//	'Entities{' entities+=Entity+ '};' 'Relationships{' relations+=Relation* '};';
+	//	domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';');
 	public ERModelElements getERModelAccess() {
 		return pERModel;
 	}

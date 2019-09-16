@@ -99,16 +99,22 @@ ruleERModel returns [EObject current=null]
 		{
 			newLeafNode(otherlv_1, grammarAccess.getERModelAccess().getSemicolonKeyword_1());
 		}
-		otherlv_2='Entities{'
-		{
-			newLeafNode(otherlv_2, grammarAccess.getERModelAccess().getEntitiesKeyword_2());
-		}
+		(
+			otherlv_2='Entities'
+			{
+				newLeafNode(otherlv_2, grammarAccess.getERModelAccess().getEntitiesKeyword_2_0());
+			}
+			otherlv_3='{'
+			{
+				newLeafNode(otherlv_3, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_2_1());
+			}
+		)
 		(
 			(
 				{
 					newCompositeNode(grammarAccess.getERModelAccess().getEntitiesEntityParserRuleCall_3_0());
 				}
-				lv_entities_3_0=ruleEntity
+				lv_entities_4_0=ruleEntity
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getERModelRule());
@@ -116,26 +122,38 @@ ruleERModel returns [EObject current=null]
 					add(
 						$current,
 						"entities",
-						lv_entities_3_0,
+						lv_entities_4_0,
 						"org.xtext.unipampa.erdsl.ErDsl.Entity");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)+
-		otherlv_4='};'
-		{
-			newLeafNode(otherlv_4, grammarAccess.getERModelAccess().getRightCurlyBracketSemicolonKeyword_4());
-		}
-		otherlv_5='Relationships{'
-		{
-			newLeafNode(otherlv_5, grammarAccess.getERModelAccess().getRelationshipsKeyword_5());
-		}
+		(
+			otherlv_5='}'
+			{
+				newLeafNode(otherlv_5, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_4_0());
+			}
+			otherlv_6=';'
+			{
+				newLeafNode(otherlv_6, grammarAccess.getERModelAccess().getSemicolonKeyword_4_1());
+			}
+		)
+		(
+			otherlv_7='Relationships'
+			{
+				newLeafNode(otherlv_7, grammarAccess.getERModelAccess().getRelationshipsKeyword_5_0());
+			}
+			otherlv_8='{'
+			{
+				newLeafNode(otherlv_8, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_5_1());
+			}
+		)
 		(
 			(
 				{
 					newCompositeNode(grammarAccess.getERModelAccess().getRelationsRelationParserRuleCall_6_0());
 				}
-				lv_relations_6_0=ruleRelation
+				lv_relations_9_0=ruleRelation
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getERModelRule());
@@ -143,16 +161,22 @@ ruleERModel returns [EObject current=null]
 					add(
 						$current,
 						"relations",
-						lv_relations_6_0,
+						lv_relations_9_0,
 						"org.xtext.unipampa.erdsl.ErDsl.Relation");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
-		otherlv_7='};'
-		{
-			newLeafNode(otherlv_7, grammarAccess.getERModelAccess().getRightCurlyBracketSemicolonKeyword_7());
-		}
+		(
+			otherlv_10='}'
+			{
+				newLeafNode(otherlv_10, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_7_0());
+			}
+			otherlv_11=';'
+			{
+				newLeafNode(otherlv_11, grammarAccess.getERModelAccess().getSemicolonKeyword_7_1());
+			}
+		)
 	)
 ;
 

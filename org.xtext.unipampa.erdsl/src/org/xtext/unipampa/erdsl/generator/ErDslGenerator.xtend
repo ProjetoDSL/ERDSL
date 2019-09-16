@@ -188,7 +188,7 @@ val modeloER = resource.contents.get(0) as ERModel
 ««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS BINÁRIOS MUITOS PARA MUITOS			
 «««############################################################################################################################################
 «««############################################################################################################################################
-«FOR relationAux : modeloER.relations AFTER ')\n'»
+«FOR relationAux : modeloER.relations SEPARATOR ')</br> 'AFTER '</br>'»
 	«IF ((relationAux.leftEnding.cardinality == "(0:N)" || relationAux.leftEnding.cardinality == "(1:N)") 
 		&& (relationAux.rightEnding.cardinality == "(0:N)" || relationAux.rightEnding.cardinality == "(1:N)"))»
 		«IF (relationAux.name == '' || relationAux.name === null) »
@@ -255,6 +255,12 @@ val modeloER = resource.contents.get(0) as ERModel
 		«ENDIF»
 	«ENDIF»
 «ENDFOR»
+«««############################################################################################################################################
+«««############################################################################################################################################
+««« 				AQUI SE RESOLVEM OS RELACIONAMENTOS TERNÁRIOS			
+«««############################################################################################################################################
+«««############################################################################################################################################
+
 «««############################################################################################################################################
 «««############################################################################################################################################
 ««« 				MAPEAMENTO DAS REFERÊNCIAS DERIVADAS DOS RELACIONAMENTOS
@@ -392,7 +398,7 @@ val modeloER = resource.contents.get(0) as ERModel
 			«ELSEIF entity.name.equalsIgnoreCase(relation.leftEnding.target.toString) && !(entity.name.equalsIgnoreCase(relation.rightEnding.target.toString))»
 				«FOR attribute : entity.attributes»
 					«IF attribute.isIsKey»
-						«IF relation.name == null || relation.name == ''»
+						«IF relation.name === null || relation.name == ''»
 </br>$(«relation.leftEnding.target.toString»«relation.rightEnding.target.toString») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
 						«ELSE»
 </br>$(«relation.name») -> Atributo "<font color="blue"><b>«attribute.name»</b></font>" EM "«relation.rightEnding.target.toString»" REFERENCIA "«relation.leftEnding.target.toString»"
