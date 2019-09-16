@@ -23,7 +23,7 @@ class ErDslGenerator extends AbstractGenerator {
 //				.map[name]
 //				.join(', '))
 val modeloER = resource.contents.get(0) as ERModel
-		fsa.generateFile('LogicalSchema.html', 
+		fsa.generateFile(modeloER.domain.name+'.html', 
 			'''
 <!DOCTYPE html>
 <html>
