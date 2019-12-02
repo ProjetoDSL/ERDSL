@@ -1,6 +1,6 @@
 # ERDSL ![](https://img.shields.io/badge/Eclipse%20IDE-2019‑09-blue) ![](https://img.shields.io/badge/Xtext-2.17.0-lightgrey)
 ____________________________
-Repositório da DSL para Modelagem e Projeto de Banco de Dados.
+Repositório da DSL (ERDSL) e da ferramenta ERText, para Modelagem e Projeto de Banco de Dados.
 
 ![](https://img.shields.io/github/last-commit/ProjetoDSL/ERDSL?style=for-the-badge)
 ____________________________
