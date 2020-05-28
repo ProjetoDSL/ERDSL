@@ -1,4 +1,5 @@
-# ERtext ![](https://img.shields.io/badge/Eclipse%20IDE-2020‑03-blue) ![](https://img.shields.io/badge/Xtext-2.18.0-lightgrey)
+# ERtext Tool
+![](https://img.shields.io/badge/Eclipse%20IDE-2020‑03-blue) ![](https://img.shields.io/badge/Xtext-2.18.0-lightgrey)
 ____________________________
 ERtext tool repository for Modeling and Database Design with textual approach.
 
