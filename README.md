@@ -3,6 +3,8 @@
 ____________________________
 Domain-Specific Language for Conceptual Models of Relational Databases
 
+Initially made by **[Jonnathan](https://jonnathanriquelmo.github.io)** of **[LESSE](http://lesse.com.br/site/)** research group.
+
 ![](https://img.shields.io/github/last-commit/ProjetoDSL/ERDSL?style=for-the-badge)
 ____________________________
 This project is licensed under the **[EPL-2.0](https://github.com/ProjetoDSL/ERDSL/blob/master/LICENSE "EPL-2.0")** license.
