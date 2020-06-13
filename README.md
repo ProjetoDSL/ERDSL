@@ -1,7 +1,7 @@
 # ERtext
 ![](https://img.shields.io/badge/Eclipse%20IDE-2020‑03-blue) ![](https://img.shields.io/badge/Xtext-2.18.0-lightgrey)
 ____________________________
-Domain-Specific Language for Conceptual Models of Relational Databases
+Domain-Specific Language Implementation for Conceptual Modelling of Relational Databases
 
 Initially made by **[Jonnathan](https://jonnathanriquelmo.github.io)** of **[LESSE](http://lesse.com.br/site/)** research group.
 
