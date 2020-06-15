@@ -164,7 +164,105 @@ public class ErDslGenerator extends AbstractGenerator {
           }
         }
         _builder.newLine();
+        {
+          EList<Relation> _relations = modeloER.getRelations();
+          for(final Relation relation : _relations) {
+            _builder.newLine();
+            {
+              if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
+                _builder.newLine();
+                {
+                  boolean _equalsIgnoreCase_1 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName());
+                  if (_equalsIgnoreCase_1) {
+                    {
+                      EList<Entity> _entities_2 = modeloER.getEntities();
+                      for(final Entity aux_1 : _entities_2) {
+                        {
+                          boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux_1.getName());
+                          if (_equalsIgnoreCase_2) {
+                            {
+                              Entity _is_1 = aux_1.getIs();
+                              boolean _tripleEquals_1 = (_is_1 == null);
+                              if (_tripleEquals_1) {
+                                _builder.append(", <font color=\"blue\"><b>FK_");
+                                String _name_4 = aux_1.getName();
+                                _builder.append(_name_4);
+                                _builder.append("</b></font>");
+                                _builder.newLineIfNotEmpty();
+                              } else {
+                                Entity _is_2 = aux_1.getIs();
+                                boolean _tripleEquals_2 = (_is_2 == null);
+                                boolean _not_2 = (!_tripleEquals_2);
+                                if (_not_2) {
+                                  _builder.append(", <font color=\"blue\"><b>FK_");
+                                  String _string = aux_1.getIs().toString();
+                                  _builder.append(_string);
+                                  _builder.append("</b></font>");
+                                  _builder.newLineIfNotEmpty();
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            _builder.newLine();
+          }
+        }
         _builder.newLine();
+        {
+          EList<Relation> _relations_1 = modeloER.getRelations();
+          for(final Relation relation_1 : _relations_1) {
+            _builder.newLine();
+            {
+              if ((((relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
+                _builder.newLine();
+                {
+                  boolean _equalsIgnoreCase_3 = relation_1.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName());
+                  if (_equalsIgnoreCase_3) {
+                    {
+                      EList<Entity> _entities_3 = modeloER.getEntities();
+                      for(final Entity aux_2 : _entities_3) {
+                        {
+                          boolean _equalsIgnoreCase_4 = relation_1.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux_2.getName());
+                          if (_equalsIgnoreCase_4) {
+                            {
+                              Entity _is_3 = aux_2.getIs();
+                              boolean _tripleEquals_3 = (_is_3 == null);
+                              if (_tripleEquals_3) {
+                                _builder.append(", <font color=\"blue\"><b>FK_");
+                                String _name_5 = aux_2.getName();
+                                _builder.append(_name_5);
+                                _builder.append("</b></font>");
+                                _builder.newLineIfNotEmpty();
+                              } else {
+                                Entity _is_4 = aux_2.getIs();
+                                boolean _tripleEquals_4 = (_is_4 == null);
+                                boolean _not_3 = (!_tripleEquals_4);
+                                if (_not_3) {
+                                  _builder.append(", <font color=\"blue\"><b>FK_");
+                                  String _string_1 = aux_2.getIs().toString();
+                                  _builder.append(_string_1);
+                                  _builder.append("</b></font>");
+                                  _builder.newLineIfNotEmpty();
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            _builder.newLine();
+          }
+        }
         _builder.newLine();
       }
       if (_hasElements) {
@@ -173,50 +271,69 @@ public class ErDslGenerator extends AbstractGenerator {
     }
     _builder.newLine();
     {
-      EList<Relation> _relations = modeloER.getRelations();
-      for(final Relation relation : _relations) {
+      EList<Relation> _relations_2 = modeloER.getRelations();
+      for(final Relation relation_2 : _relations_2) {
         {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
+          if (((relation_2.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_2.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_2.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_2.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
             _builder.newLine();
             {
-              boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(relation.getName());
+              boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(relation_2.getName());
               if (_isNullOrEmpty) {
+                _builder.append("\t");
                 _builder.append("</br>");
-                String _upperCase_2 = relation.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_2);
-                String _upperCase_3 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_3);
+                String _upperCase_2 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
+                _builder.append(_upperCase_2, "\t");
+                String _upperCase_3 = relation_2.getRightEnding().getTarget().toString().toUpperCase();
+                _builder.append(_upperCase_3, "\t");
                 _builder.append(" (");
                 _builder.newLineIfNotEmpty();
+                _builder.append("\t");
+                _builder.append("<font color=\"red\"><b>id");
+                String _upperCase_4 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
+                _builder.append(_upperCase_4, "\t");
+                String _string_2 = relation_2.getRightEnding().getTarget().toString();
+                _builder.append(_string_2, "\t");
+                _builder.append("*</b></font>,");
+                _builder.newLineIfNotEmpty();
               } else {
-                boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation.getName());
-                boolean _not_2 = (!_isNullOrEmpty_1);
-                if (_not_2) {
+                boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation_2.getName());
+                boolean _not_4 = (!_isNullOrEmpty_1);
+                if (_not_4) {
+                  _builder.append("\t");
                   _builder.append("</br>");
-                  String _upperCase_4 = relation.getName().toUpperCase();
-                  _builder.append(_upperCase_4);
+                  String _upperCase_5 = relation_2.getName().toUpperCase();
+                  _builder.append(_upperCase_5, "\t");
                   _builder.append(" (");
+                  _builder.newLineIfNotEmpty();
+                  _builder.append("\t");
+                  _builder.append("<font color=\"red\"><b>id");
+                  String _name_6 = relation_2.getName();
+                  _builder.append(_name_6, "\t");
+                  _builder.append("*</b></font>,");
                   _builder.newLineIfNotEmpty();
                 }
               }
             }
+            _builder.append("\t");
             _builder.newLine();
             {
-              EList<Entity> _entities_2 = modeloER.getEntities();
-              for(final Entity entity_1 : _entities_2) {
+              EList<Entity> _entities_4 = modeloER.getEntities();
+              for(final Entity entity_1 : _entities_4) {
+                _builder.append("\t");
+                _builder.newLine();
                 {
-                  boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName());
-                  if (_equalsIgnoreCase_1) {
+                  if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getLeftEnding().getTarget().toString() != relation_2.getRightEnding().getTarget().toString()))) {
                     {
                       EList<Attribute> _attributes_1 = entity_1.getAttributes();
                       for(final Attribute attribute_1 : _attributes_1) {
                         {
                           boolean _isIsKey_2 = attribute_1.isIsKey();
                           if (_isIsKey_2) {
-                            _builder.append("<font color=\"blue\"><b>");
-                            String _name_4 = attribute_1.getName();
-                            _builder.append(_name_4);
-                            _builder.append("</b></font><font color=\"red\"><b>*</b></font>,");
+                            _builder.append("\t");
+                            _builder.append("<font color=\"blue\"><b>FK_");
+                            String _name_7 = attribute_1.getName();
+                            _builder.append(_name_7, "\t");
+                            _builder.append("</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -224,21 +341,259 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
+                _builder.append("\t");
                 _builder.newLine();
                 {
-                  boolean _equalsIgnoreCase_2 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName());
-                  if (_equalsIgnoreCase_2) {
+                  if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getRightEnding().getTarget().toString() != relation_2.getLeftEnding().getTarget().toString()))) {
                     {
                       EList<Attribute> _attributes_2 = entity_1.getAttributes();
                       for(final Attribute attribute_2 : _attributes_2) {
                         {
                           boolean _isIsKey_3 = attribute_2.isIsKey();
                           if (_isIsKey_3) {
+                            _builder.append("\t");
+                            _builder.append("<font color=\"blue\"><b>FK_");
+                            String _name_8 = attribute_2.getName();
+                            _builder.append(_name_8, "\t");
+                            _builder.append("</b></font>");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                _builder.append("\t");
+                _builder.newLine();
+                _builder.append("\t");
+                _builder.append("\t\t\t\t");
+                _builder.newLine();
+                {
+                  if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation_2.getRightEnding().getTarget().toString()))) {
+                    _builder.append("\t");
+                    _builder.newLine();
+                    {
+                      EList<Attribute> _attributes_3 = entity_1.getAttributes();
+                      for(final Attribute attribute_3 : _attributes_3) {
+                        {
+                          boolean _isIsKey_4 = attribute_3.isIsKey();
+                          if (_isIsKey_4) {
+                            _builder.append("\t");
+                            _builder.append("<font color=\"blue\"><b>FK_");
+                            String _name_9 = attribute_3.getName();
+                            _builder.append(_name_9, "\t");
+                            _builder.append("_1</b></font>,");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                _builder.append("\t");
+                _builder.newLine();
+                {
+                  if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(relation_2.getLeftEnding().getTarget().toString()))) {
+                    {
+                      EList<Attribute> _attributes_4 = entity_1.getAttributes();
+                      for(final Attribute attribute_4 : _attributes_4) {
+                        {
+                          boolean _isIsKey_5 = attribute_4.isIsKey();
+                          if (_isIsKey_5) {
+                            _builder.append("\t");
+                            _builder.append("<font color=\"blue\"><b>FK_");
+                            String _name_10 = attribute_4.getName();
+                            _builder.append(_name_10, "\t");
+                            _builder.append("_2</b></font>");
+                            _builder.newLineIfNotEmpty();
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                _builder.append("\t");
+                _builder.append("\t\t");
+                _builder.newLine();
+              }
+            }
+            _builder.append("\t");
+            _builder.newLine();
+            _builder.append("\t\t\t\t");
+            _builder.newLine();
+            {
+              EList<Attribute> _attributes_5 = relation_2.getAttributes();
+              for(final Attribute attribute_5 : _attributes_5) {
+                {
+                  if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && attribute_5.isIsKey())) {
+                    _builder.append("\t");
+                    _builder.append(", <font color=\"red\"><b>");
+                    String _name_11 = attribute_5.getName();
+                    _builder.append(_name_11, "\t");
+                    _builder.append("*</b></font>");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.newLine();
+            {
+              EList<Attribute> _attributes_6 = relation_2.getAttributes();
+              for(final Attribute attribute_6 : _attributes_6) {
+                {
+                  if (((!StringExtensions.isNullOrEmpty(attribute_6.getName())) && (!attribute_6.isIsKey()))) {
+                    _builder.append("\t");
+                    _builder.append(", ");
+                    String _name_12 = attribute_6.getName();
+                    _builder.append(_name_12, "\t");
+                    _builder.newLineIfNotEmpty();
+                  }
+                }
+              }
+            }
+            _builder.append("\t\t\t");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.append(")</br>");
+            _builder.newLine();
+            _builder.append("\t");
+            _builder.newLine();
+          }
+        }
+      }
+    }
+    _builder.append("</br>");
+    _builder.newLine();
+    _builder.newLine();
+    {
+      EList<Relation> _relations_3 = modeloER.getRelations();
+      for(final Relation relation_3 : _relations_3) {
+        {
+          if (((relation_3.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_3.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_3.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_3.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
+            {
+              EList<Relation> _relations_4 = modeloER.getRelations();
+              for(final Relation aux_3 : _relations_4) {
+                {
+                  boolean _equals = relation_3.getName().equals(aux_3.getLeftEnding().getTarget().toString());
+                  if (_equals) {
+                    String _upperCase_6 = aux_3.getName().toUpperCase();
+                    _builder.append(_upperCase_6);
+                    _builder.append(" (");
+                    _builder.newLineIfNotEmpty();
+                    _builder.append("<font color=\"blue\"><b>");
+                    String _string_3 = aux_3.getLeftEnding().getTarget().toString();
+                    _builder.append(_string_3);
+                    _builder.append("</b></font><font color=\"red\"><b>*</b></font>,");
+                    _builder.newLineIfNotEmpty();
+                    {
+                      EList<Entity> _entities_5 = modeloER.getEntities();
+                      for(final Entity aux2 : _entities_5) {
+                        {
+                          boolean _equalsIgnoreCase_5 = aux_3.getRightEnding().getTarget().toString().equalsIgnoreCase(aux2.getName());
+                          if (_equalsIgnoreCase_5) {
+                            _builder.append("\t\t\t");
                             _builder.append("<font color=\"blue\"><b>");
-                            String _name_5 = attribute_2.getName();
-                            _builder.append(_name_5);
+                            _builder.append(aux2, "\t\t\t");
                             _builder.append("</b></font><font color=\"red\"><b>*</b></font>");
                             _builder.newLineIfNotEmpty();
+                            _builder.append("\t\t\t");
+                            _builder.newLine();
+                            {
+                              EList<Attribute> _attributes_7 = relation_3.getAttributes();
+                              for(final Attribute attribute_7 : _attributes_7) {
+                                {
+                                  if (((!StringExtensions.isNullOrEmpty(attribute_7.getName())) && attribute_7.isIsKey())) {
+                                    _builder.append("\t\t\t");
+                                    _builder.append(", <font color=\"red\"><b>");
+                                    String _name_13 = attribute_7.getName();
+                                    _builder.append(_name_13, "\t\t\t");
+                                    _builder.append("*</b></font>");
+                                    _builder.newLineIfNotEmpty();
+                                  }
+                                }
+                              }
+                            }
+                            _builder.newLine();
+                            {
+                              EList<Attribute> _attributes_8 = relation_3.getAttributes();
+                              for(final Attribute attribute_8 : _attributes_8) {
+                                {
+                                  if (((!StringExtensions.isNullOrEmpty(attribute_8.getName())) && (!attribute_8.isIsKey()))) {
+                                    _builder.append("\t\t\t");
+                                    _builder.append(", ");
+                                    String _name_14 = attribute_8.getName();
+                                    _builder.append(_name_14, "\t\t\t");
+                                    _builder.newLineIfNotEmpty();
+                                  }
+                                }
+                              }
+                            }
+                            _builder.append("\t\t\t");
+                            _builder.append(")</br>");
+                            _builder.newLine();
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    boolean _equals_1 = relation_3.getName().equals(aux_3.getRightEnding().getTarget().toString());
+                    if (_equals_1) {
+                      String _upperCase_7 = aux_3.getName().toUpperCase();
+                      _builder.append(_upperCase_7);
+                      _builder.append(" (");
+                      _builder.newLineIfNotEmpty();
+                      _builder.append("<font color=\"blue\"><b>");
+                      String _string_4 = aux_3.getRightEnding().getTarget().toString();
+                      _builder.append(_string_4);
+                      _builder.append("</b></font><font color=\"red\"><b>*</b></font>,");
+                      _builder.newLineIfNotEmpty();
+                      {
+                        EList<Entity> _entities_6 = modeloER.getEntities();
+                        for(final Entity aux2_1 : _entities_6) {
+                          {
+                            boolean _equalsIgnoreCase_6 = aux_3.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux2_1.getName());
+                            if (_equalsIgnoreCase_6) {
+                              _builder.append("\t\t\t");
+                              _builder.append("<font color=\"blue\"><b>");
+                              _builder.append(aux2_1, "\t\t\t");
+                              _builder.append("</b></font><font color=\"red\"><b>*</b></font>");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("\t\t\t");
+                              _builder.newLine();
+                              {
+                                EList<Attribute> _attributes_9 = relation_3.getAttributes();
+                                for(final Attribute attribute_9 : _attributes_9) {
+                                  {
+                                    if (((!StringExtensions.isNullOrEmpty(attribute_9.getName())) && attribute_9.isIsKey())) {
+                                      _builder.append("\t\t\t");
+                                      _builder.append(", <font color=\"red\"><b>");
+                                      String _name_15 = attribute_9.getName();
+                                      _builder.append(_name_15, "\t\t\t");
+                                      _builder.append("*</b></font>");
+                                      _builder.newLineIfNotEmpty();
+                                    }
+                                  }
+                                }
+                              }
+                              _builder.newLine();
+                              {
+                                EList<Attribute> _attributes_10 = relation_3.getAttributes();
+                                for(final Attribute attribute_10 : _attributes_10) {
+                                  {
+                                    if (((!StringExtensions.isNullOrEmpty(attribute_10.getName())) && (!attribute_10.isIsKey()))) {
+                                      _builder.append("\t\t\t");
+                                      _builder.append(", ");
+                                      String _name_16 = attribute_10.getName();
+                                      _builder.append(_name_16, "\t\t\t");
+                                      _builder.newLineIfNotEmpty();
+                                    }
+                                  }
+                                }
+                              }
+                              _builder.append("\t\t\t");
+                              _builder.append(")</br>");
+                              _builder.newLine();
+                            }
                           }
                         }
                       }
@@ -247,25 +602,6 @@ public class ErDslGenerator extends AbstractGenerator {
                 }
               }
             }
-            _builder.newLine();
-            {
-              EList<Attribute> _attributes_3 = relation.getAttributes();
-              for(final Attribute attribute_3 : _attributes_3) {
-                {
-                  boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(attribute_3.getName());
-                  boolean _not_3 = (!_isNullOrEmpty_2);
-                  if (_not_3) {
-                    _builder.append(", ");
-                    String _name_6 = attribute_3.getName();
-                    _builder.append(_name_6);
-                    _builder.newLineIfNotEmpty();
-                  }
-                }
-              }
-            }
-            _builder.append(")</br>");
-            _builder.newLine();
-            _builder.newLine();
           }
         }
       }
@@ -275,6 +611,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("</div>");
     _builder.newLine();
     _builder.newLine();
+    _builder.newLine();
     _builder.append("<div>");
     _builder.newLine();
     _builder.append("<p class=\"sstitle\">References</p>");
@@ -282,27 +619,27 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("<p class=\"field\">");
     _builder.newLine();
     {
-      EList<Relation> _relations_1 = modeloER.getRelations();
+      EList<Relation> _relations_5 = modeloER.getRelations();
       boolean _hasElements_2 = false;
-      for(final Relation relation_1 : _relations_1) {
+      for(final Relation relation_4 : _relations_5) {
         if (!_hasElements_2) {
           _hasElements_2 = true;
         } else {
           _builder.appendImmediate("</br></br>", "");
         }
-        String _name_7 = relation_1.getName();
-        _builder.append(_name_7);
+        String _name_17 = relation_4.getName();
+        _builder.append(_name_17);
         _builder.append(" >>> ");
-        String _string = relation_1.getLeftEnding().getCardinality().toString();
-        _builder.append(_string);
+        String _string_5 = relation_4.getLeftEnding().getCardinality().toString();
+        _builder.append(_string_5);
         _builder.append(" ");
-        EObject _target = relation_1.getLeftEnding().getTarget();
+        EObject _target = relation_4.getLeftEnding().getTarget();
         _builder.append(_target);
         _builder.append(" relates ");
-        String _string_1 = relation_1.getRightEnding().getTarget().toString();
-        _builder.append(_string_1);
+        String _string_6 = relation_4.getRightEnding().getTarget().toString();
+        _builder.append(_string_6);
         _builder.append(" ");
-        String _cardinality = relation_1.getRightEnding().getCardinality();
+        String _cardinality = relation_4.getRightEnding().getCardinality();
         _builder.append(_cardinality);
         _builder.newLineIfNotEmpty();
       }

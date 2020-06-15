@@ -81,11 +81,51 @@ class ErDslGenerator extends AbstractGenerator {
 			«ENDIF»	
 		«ENDFOR»	
 		
-		«/**
-		 *
-		 * 
-		 * 
-		 */»
+		«FOR relation : modeloER.relations»
+			
+			«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+			&& 
+			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
+				
+				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name)»
+					«FOR aux : modeloER.entities»
+						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
+							«IF aux.is === null»
+								, <font color="blue"><b>FK_«aux.name»</b></font>
+							«ELSEIF !(aux.is === null)»
+								, <font color="blue"><b>FK_«aux.is.toString»</b></font>
+							«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDIF»
+			
+		«ENDFOR»
+
+		«FOR relation : modeloER.relations»
+			
+			«IF (((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+			&& 
+			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))) 
+			||
+			(((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+			&& 
+			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))))			»
+				
+				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name)»
+					«FOR aux : modeloER.entities»
+						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
+							«IF aux.is === null»
+								, <font color="blue"><b>FK_«aux.name»</b></font>
+							«ELSEIF !(aux.is === null)»
+								, <font color="blue"><b>FK_«aux.is.toString»</b></font>
+							«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDIF»
+			
+		«ENDFOR»					
 		
 	«ENDFOR»
 	«/**
@@ -99,43 +139,147 @@ class ErDslGenerator extends AbstractGenerator {
 	«FOR relation : modeloER.relations»
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
 		&& 
-		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
-			
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»		
+		
 			«IF relation.name.nullOrEmpty»
 			</br>«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString.toUpperCase» (
+			<font color="red"><b>id«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString»*</b></font>,
 			«ELSEIF !relation.name.nullOrEmpty»
 			</br>«relation.name.toUpperCase» (
-			«ENDIF»
+			<font color="red"><b>id«relation.name»*</b></font>,
+			«ENDIF»			
 			
 			«FOR entity : modeloER.entities»
-				«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name)»
+				
+				«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString !== relation.rightEnding.target.toString)»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>«attribute.name»</b></font><font color="red"><b>*</b></font>,
+							<font color="blue"><b>FK_«attribute.name»</b></font>,
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
 				
-				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name)»
+				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString !== relation.leftEnding.target.toString)»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>«attribute.name»</b></font><font color="red"><b>*</b></font>
+							<font color="blue"><b>FK_«attribute.name»</b></font>
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+				
+				«/**
+				 *
+				 * Display of self-relationships N:N
+				 *  
+				 */»				
+				«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
+					
+					«FOR attribute : entity.attributes»
+						«IF attribute.isIsKey»
+							<font color="blue"><b>FK_«attribute.name»_1</b></font>,
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+				
+				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»
+					«FOR attribute : entity.attributes»
+						«IF attribute.isIsKey»
+							<font color="blue"><b>FK_«attribute.name»_2</b></font>
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»				
-			«ENDFOR»			
+						
+			«ENDFOR»	
 			
+			«/**
+			 *
+			 * Display of attributes of N: N relationships
+			 *  
+			 */»			
 			«FOR attribute : relation.attributes»
-				«IF !attribute.name.nullOrEmpty»
+				«IF !attribute.name.nullOrEmpty && attribute.isIsKey»
+					, <font color="red"><b>«attribute.name»*</b></font>
+				«ENDIF»
+			«ENDFOR»
+
+			«FOR attribute : relation.attributes»
+				«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»
 					, «attribute.name»
 				«ENDIF»
 			«ENDFOR»
+					
 			)</br>
 			
 		«ENDIF»
 	«ENDFOR»
+	</br>
+	«/**
+	 *	
+	 * Formation of entities from ternary relations
+	 *
+	 */»
+	«FOR relation : modeloER.relations»
+		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+		&& 
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
+			«FOR aux : modeloER.relations»
+				«IF relation.name.equals(aux.leftEnding.target.toString)»
+					«aux.name.toUpperCase» (
+					<font color="blue"><b>«aux.leftEnding.target.toString»</b></font><font color="red"><b>*</b></font>,
+					«FOR aux2 : modeloER.entities»
+						«IF aux.rightEnding.target.toString.equalsIgnoreCase(aux2.name)»
+							<font color="blue"><b>«aux2»</b></font><font color="red"><b>*</b></font>
+							«/**
+							  *	
+							  * Display attributes
+							  *
+							*/»
+							«FOR attribute : relation.attributes»
+								«IF !attribute.name.nullOrEmpty && attribute.isIsKey»
+									, <font color="red"><b>«attribute.name»*</b></font>
+								«ENDIF»
+							«ENDFOR»
+				
+							«FOR attribute : relation.attributes»
+								«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»
+									, «attribute.name»
+								«ENDIF»
+							«ENDFOR»							
+							)</br>
+						«ENDIF»
+					«ENDFOR»						
+				«ELSEIF relation.name.equals(aux.rightEnding.target.toString)»
+					«aux.name.toUpperCase» (
+					<font color="blue"><b>«aux.rightEnding.target.toString»</b></font><font color="red"><b>*</b></font>,
+					«FOR aux2 : modeloER.entities»
+						«IF aux.leftEnding.target.toString.equalsIgnoreCase(aux2.name)»
+							<font color="blue"><b>«aux2»</b></font><font color="red"><b>*</b></font>
+							«/**
+							  *	
+							  * Display attributes
+							  *
+							*/»
+							«FOR attribute : relation.attributes»
+								«IF !attribute.name.nullOrEmpty && attribute.isIsKey»
+									, <font color="red"><b>«attribute.name»*</b></font>
+								«ENDIF»
+							«ENDFOR»
+				
+							«FOR attribute : relation.attributes»
+								«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»
+									, «attribute.name»
+								«ENDIF»
+							«ENDFOR»							
+							)</br>
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»				
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
 	</p>
 	</div>
+	
 	«/**
 	 *	
 	 * Display of inferred references through modeled relationships (foreign keys)
