@@ -30,7 +30,7 @@ class ErDslGenerator extends AbstractGenerator {
 		    .title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}
 		    .stitle { font: bold 120% sans-serif; color: #0044DD; padding: 10px 0 10px 0 }
 		    .sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px; }
-		    .field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 1px solid black}
+		    .field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 0px solid black}
 		    .value  { font: 100% sans-serif; color: #505050 }
 		</style>
 	</head>
@@ -44,7 +44,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 *
 	 */»
 	<div>
-	<p class="sstitle">Domain</p> 
+	<p class="sstitle">Modeled Domain</p> 
 	<p class="field">«modeloER.domain.name.toUpperCase»</p>
 	</div>
 	«/**
@@ -53,7 +53,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 *
 	 */»
 	<div>
-	<p class="sstitle">Entities</p>
+	<p class="sstitle">Resulting Entities</p>
 	<p class="field">
 	«FOR entity : modeloER.entities SEPARATOR " )</br></br>" AFTER ")</br>"»
 		«entity.name.toUpperCase» (
@@ -91,7 +91,11 @@ class ErDslGenerator extends AbstractGenerator {
 					«FOR aux : modeloER.entities»
 						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
 							«IF aux.is === null»
-								, <font color="blue"><b>FK_«aux.name»</b></font>
+								«FOR aux2 : aux.attributes»
+									«IF aux2.isIsKey»
+										, <font color="blue"><b>FK_«aux2.name»</b></font>
+									«ENDIF»
+								«ENDFOR»
 							«ELSEIF !(aux.is === null)»
 								, <font color="blue"><b>FK_«aux.is.toString»</b></font>
 							«ENDIF»
@@ -107,7 +111,9 @@ class ErDslGenerator extends AbstractGenerator {
 			«IF (((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
 			&& 
 			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))) 
+			
 			||
+			
 			(((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
 			&& 
 			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))))			»
@@ -140,7 +146,6 @@ class ErDslGenerator extends AbstractGenerator {
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»		
-		
 			«IF relation.name.nullOrEmpty»
 			</br>«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString.toUpperCase» (
 			<font color="red"><b>id«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString»*</b></font>,
@@ -223,7 +228,9 @@ class ErDslGenerator extends AbstractGenerator {
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
 			«FOR aux : modeloER.relations»
-				«IF relation.name.equals(aux.leftEnding.target.toString)»
+				
+				
+				«IF (!relation.name.nullOrEmpty) && (relation.name.equals(aux.leftEnding.target.toString))»
 					«aux.name.toUpperCase» (
 					<font color="blue"><b>«aux.leftEnding.target.toString»</b></font><font color="red"><b>*</b></font>,
 					«FOR aux2 : modeloER.entities»
@@ -248,7 +255,7 @@ class ErDslGenerator extends AbstractGenerator {
 							)</br>
 						«ENDIF»
 					«ENDFOR»						
-				«ELSEIF relation.name.equals(aux.rightEnding.target.toString)»
+				«ELSEIF (!relation.name.nullOrEmpty) && (relation.name.equals(aux.rightEnding.target.toString))»
 					«aux.name.toUpperCase» (
 					<font color="blue"><b>«aux.rightEnding.target.toString»</b></font><font color="red"><b>*</b></font>,
 					«FOR aux2 : modeloER.entities»
@@ -273,7 +280,9 @@ class ErDslGenerator extends AbstractGenerator {
 							)</br>
 						«ENDIF»
 					«ENDFOR»
-				«ENDIF»				
+				«ENDIF»	
+				
+							
 			«ENDFOR»
 		«ENDIF»
 	«ENDFOR»
@@ -286,12 +295,17 @@ class ErDslGenerator extends AbstractGenerator {
 	 *
 	 */»
 	<div>
-	<p class="sstitle">References</p>
+	<p class="sstitle">Modelled Relationships</p>
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
-		«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
+		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» &#8614 «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
 	«ENDFOR»
 	</p>
+	</div>
+	
+	<div>
+	<p class="sstitle">Mapped References</p>
+	
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
 		«/**
@@ -302,7 +316,22 @@ class ErDslGenerator extends AbstractGenerator {
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
-			0:1 ou 1:1: = «relation.name»
+			<font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+			«FOR aux : modeloER.entities»
+				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+					«FOR aux2 : aux.attributes»
+						«IF !(aux.is === null) && !(aux2.isIsKey)»
+							Attribute "FK_«aux.is.toString»" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«aux.is.toString.toUpperCase»"</br>
+						«ELSEIF	((aux.is === null) && (aux2.isIsKey))»
+							Attribute "FK_«aux2.name»" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«relation.leftEnding.target.toString.toUpperCase»"</br>		
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»			
 		«ENDIF»
 		
 		«/**
@@ -340,7 +369,6 @@ class ErDslGenerator extends AbstractGenerator {
 		
 	«ENDFOR»
 	</p>
-	
 	</div>
 	</body>
 	</html>

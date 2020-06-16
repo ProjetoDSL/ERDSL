@@ -59,7 +59,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append(".sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px; }");
     _builder.newLine();
     _builder.append("\t    ");
-    _builder.append(".field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 1px solid black}");
+    _builder.append(".field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 0px solid black}");
     _builder.newLine();
     _builder.append("\t    ");
     _builder.append(".value  { font: 100% sans-serif; color: #505050 }");
@@ -80,7 +80,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<div>");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Domain</p> ");
+    _builder.append("<p class=\"sstitle\">Modeled Domain</p> ");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     String _upperCase = modeloER.getDomain().getName().toUpperCase();
@@ -92,7 +92,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<div>");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Entities</p>");
+    _builder.append("<p class=\"sstitle\">Resulting Entities</p>");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -184,11 +184,21 @@ public class ErDslGenerator extends AbstractGenerator {
                               Entity _is_1 = aux_1.getIs();
                               boolean _tripleEquals_1 = (_is_1 == null);
                               if (_tripleEquals_1) {
-                                _builder.append(", <font color=\"blue\"><b>FK_");
-                                String _name_4 = aux_1.getName();
-                                _builder.append(_name_4);
-                                _builder.append("</b></font>");
-                                _builder.newLineIfNotEmpty();
+                                {
+                                  EList<Attribute> _attributes_1 = aux_1.getAttributes();
+                                  for(final Attribute aux2 : _attributes_1) {
+                                    {
+                                      boolean _isIsKey_2 = aux2.isIsKey();
+                                      if (_isIsKey_2) {
+                                        _builder.append(", <font color=\"blue\"><b>FK_");
+                                        String _name_4 = aux2.getName();
+                                        _builder.append(_name_4);
+                                        _builder.append("</b></font>");
+                                        _builder.newLineIfNotEmpty();
+                                      }
+                                    }
+                                  }
+                                }
                               } else {
                                 Entity _is_2 = aux_1.getIs();
                                 boolean _tripleEquals_2 = (_is_2 == null);
@@ -275,64 +285,56 @@ public class ErDslGenerator extends AbstractGenerator {
       for(final Relation relation_2 : _relations_2) {
         {
           if (((relation_2.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_2.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_2.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_2.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.newLine();
             {
               boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(relation_2.getName());
               if (_isNullOrEmpty) {
-                _builder.append("\t");
                 _builder.append("</br>");
                 String _upperCase_2 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_2, "\t");
+                _builder.append(_upperCase_2);
                 String _upperCase_3 = relation_2.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_3, "\t");
+                _builder.append(_upperCase_3);
                 _builder.append(" (");
                 _builder.newLineIfNotEmpty();
-                _builder.append("\t");
                 _builder.append("<font color=\"red\"><b>id");
                 String _upperCase_4 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_4, "\t");
+                _builder.append(_upperCase_4);
                 String _string_2 = relation_2.getRightEnding().getTarget().toString();
-                _builder.append(_string_2, "\t");
+                _builder.append(_string_2);
                 _builder.append("*</b></font>,");
                 _builder.newLineIfNotEmpty();
               } else {
                 boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation_2.getName());
                 boolean _not_4 = (!_isNullOrEmpty_1);
                 if (_not_4) {
-                  _builder.append("\t");
                   _builder.append("</br>");
                   String _upperCase_5 = relation_2.getName().toUpperCase();
-                  _builder.append(_upperCase_5, "\t");
+                  _builder.append(_upperCase_5);
                   _builder.append(" (");
                   _builder.newLineIfNotEmpty();
-                  _builder.append("\t");
                   _builder.append("<font color=\"red\"><b>id");
                   String _name_6 = relation_2.getName();
-                  _builder.append(_name_6, "\t");
+                  _builder.append(_name_6);
                   _builder.append("*</b></font>,");
                   _builder.newLineIfNotEmpty();
                 }
               }
             }
-            _builder.append("\t");
             _builder.newLine();
             {
               EList<Entity> _entities_4 = modeloER.getEntities();
               for(final Entity entity_1 : _entities_4) {
-                _builder.append("\t");
                 _builder.newLine();
                 {
                   if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getLeftEnding().getTarget().toString() != relation_2.getRightEnding().getTarget().toString()))) {
                     {
-                      EList<Attribute> _attributes_1 = entity_1.getAttributes();
-                      for(final Attribute attribute_1 : _attributes_1) {
+                      EList<Attribute> _attributes_2 = entity_1.getAttributes();
+                      for(final Attribute attribute_1 : _attributes_2) {
                         {
-                          boolean _isIsKey_2 = attribute_1.isIsKey();
-                          if (_isIsKey_2) {
-                            _builder.append("\t");
+                          boolean _isIsKey_3 = attribute_1.isIsKey();
+                          if (_isIsKey_3) {
                             _builder.append("<font color=\"blue\"><b>FK_");
                             String _name_7 = attribute_1.getName();
-                            _builder.append(_name_7, "\t");
+                            _builder.append(_name_7);
                             _builder.append("</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
@@ -341,20 +343,18 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
-                _builder.append("\t");
                 _builder.newLine();
                 {
                   if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getRightEnding().getTarget().toString() != relation_2.getLeftEnding().getTarget().toString()))) {
                     {
-                      EList<Attribute> _attributes_2 = entity_1.getAttributes();
-                      for(final Attribute attribute_2 : _attributes_2) {
+                      EList<Attribute> _attributes_3 = entity_1.getAttributes();
+                      for(final Attribute attribute_2 : _attributes_3) {
                         {
-                          boolean _isIsKey_3 = attribute_2.isIsKey();
-                          if (_isIsKey_3) {
-                            _builder.append("\t");
+                          boolean _isIsKey_4 = attribute_2.isIsKey();
+                          if (_isIsKey_4) {
                             _builder.append("<font color=\"blue\"><b>FK_");
                             String _name_8 = attribute_2.getName();
-                            _builder.append(_name_8, "\t");
+                            _builder.append(_name_8);
                             _builder.append("</b></font>");
                             _builder.newLineIfNotEmpty();
                           }
@@ -363,25 +363,21 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
-                _builder.append("\t");
                 _builder.newLine();
-                _builder.append("\t");
                 _builder.append("\t\t\t\t");
                 _builder.newLine();
                 {
                   if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation_2.getRightEnding().getTarget().toString()))) {
-                    _builder.append("\t");
                     _builder.newLine();
                     {
-                      EList<Attribute> _attributes_3 = entity_1.getAttributes();
-                      for(final Attribute attribute_3 : _attributes_3) {
+                      EList<Attribute> _attributes_4 = entity_1.getAttributes();
+                      for(final Attribute attribute_3 : _attributes_4) {
                         {
-                          boolean _isIsKey_4 = attribute_3.isIsKey();
-                          if (_isIsKey_4) {
-                            _builder.append("\t");
+                          boolean _isIsKey_5 = attribute_3.isIsKey();
+                          if (_isIsKey_5) {
                             _builder.append("<font color=\"blue\"><b>FK_");
                             String _name_9 = attribute_3.getName();
-                            _builder.append(_name_9, "\t");
+                            _builder.append(_name_9);
                             _builder.append("_1</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
@@ -390,20 +386,18 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
-                _builder.append("\t");
                 _builder.newLine();
                 {
                   if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(relation_2.getLeftEnding().getTarget().toString()))) {
                     {
-                      EList<Attribute> _attributes_4 = entity_1.getAttributes();
-                      for(final Attribute attribute_4 : _attributes_4) {
+                      EList<Attribute> _attributes_5 = entity_1.getAttributes();
+                      for(final Attribute attribute_4 : _attributes_5) {
                         {
-                          boolean _isIsKey_5 = attribute_4.isIsKey();
-                          if (_isIsKey_5) {
-                            _builder.append("\t");
+                          boolean _isIsKey_6 = attribute_4.isIsKey();
+                          if (_isIsKey_6) {
                             _builder.append("<font color=\"blue\"><b>FK_");
                             String _name_10 = attribute_4.getName();
-                            _builder.append(_name_10, "\t");
+                            _builder.append(_name_10);
                             _builder.append("_2</b></font>");
                             _builder.newLineIfNotEmpty();
                           }
@@ -412,24 +406,21 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
-                _builder.append("\t");
                 _builder.append("\t\t");
                 _builder.newLine();
               }
             }
-            _builder.append("\t");
             _builder.newLine();
-            _builder.append("\t\t\t\t");
+            _builder.append("\t\t\t");
             _builder.newLine();
             {
-              EList<Attribute> _attributes_5 = relation_2.getAttributes();
-              for(final Attribute attribute_5 : _attributes_5) {
+              EList<Attribute> _attributes_6 = relation_2.getAttributes();
+              for(final Attribute attribute_5 : _attributes_6) {
                 {
                   if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && attribute_5.isIsKey())) {
-                    _builder.append("\t");
                     _builder.append(", <font color=\"red\"><b>");
                     String _name_11 = attribute_5.getName();
-                    _builder.append(_name_11, "\t");
+                    _builder.append(_name_11);
                     _builder.append("*</b></font>");
                     _builder.newLineIfNotEmpty();
                   }
@@ -438,25 +429,22 @@ public class ErDslGenerator extends AbstractGenerator {
             }
             _builder.newLine();
             {
-              EList<Attribute> _attributes_6 = relation_2.getAttributes();
-              for(final Attribute attribute_6 : _attributes_6) {
+              EList<Attribute> _attributes_7 = relation_2.getAttributes();
+              for(final Attribute attribute_6 : _attributes_7) {
                 {
                   if (((!StringExtensions.isNullOrEmpty(attribute_6.getName())) && (!attribute_6.isIsKey()))) {
-                    _builder.append("\t");
                     _builder.append(", ");
                     String _name_12 = attribute_6.getName();
-                    _builder.append(_name_12, "\t");
+                    _builder.append(_name_12);
                     _builder.newLineIfNotEmpty();
                   }
                 }
               }
             }
-            _builder.append("\t\t\t");
+            _builder.append("\t\t");
             _builder.newLine();
-            _builder.append("\t");
             _builder.append(")</br>");
             _builder.newLine();
-            _builder.append("\t");
             _builder.newLine();
           }
         }
@@ -473,9 +461,10 @@ public class ErDslGenerator extends AbstractGenerator {
             {
               EList<Relation> _relations_4 = modeloER.getRelations();
               for(final Relation aux_3 : _relations_4) {
+                _builder.newLine();
+                _builder.newLine();
                 {
-                  boolean _equals = relation_3.getName().equals(aux_3.getLeftEnding().getTarget().toString());
-                  if (_equals) {
+                  if (((!StringExtensions.isNullOrEmpty(relation_3.getName())) && relation_3.getName().equals(aux_3.getLeftEnding().getTarget().toString()))) {
                     String _upperCase_6 = aux_3.getName().toUpperCase();
                     _builder.append(_upperCase_6);
                     _builder.append(" (");
@@ -487,20 +476,20 @@ public class ErDslGenerator extends AbstractGenerator {
                     _builder.newLineIfNotEmpty();
                     {
                       EList<Entity> _entities_5 = modeloER.getEntities();
-                      for(final Entity aux2 : _entities_5) {
+                      for(final Entity aux2_1 : _entities_5) {
                         {
-                          boolean _equalsIgnoreCase_5 = aux_3.getRightEnding().getTarget().toString().equalsIgnoreCase(aux2.getName());
+                          boolean _equalsIgnoreCase_5 = aux_3.getRightEnding().getTarget().toString().equalsIgnoreCase(aux2_1.getName());
                           if (_equalsIgnoreCase_5) {
                             _builder.append("\t\t\t");
                             _builder.append("<font color=\"blue\"><b>");
-                            _builder.append(aux2, "\t\t\t");
+                            _builder.append(aux2_1, "\t\t\t");
                             _builder.append("</b></font><font color=\"red\"><b>*</b></font>");
                             _builder.newLineIfNotEmpty();
                             _builder.append("\t\t\t");
                             _builder.newLine();
                             {
-                              EList<Attribute> _attributes_7 = relation_3.getAttributes();
-                              for(final Attribute attribute_7 : _attributes_7) {
+                              EList<Attribute> _attributes_8 = relation_3.getAttributes();
+                              for(final Attribute attribute_7 : _attributes_8) {
                                 {
                                   if (((!StringExtensions.isNullOrEmpty(attribute_7.getName())) && attribute_7.isIsKey())) {
                                     _builder.append("\t\t\t");
@@ -515,8 +504,8 @@ public class ErDslGenerator extends AbstractGenerator {
                             }
                             _builder.newLine();
                             {
-                              EList<Attribute> _attributes_8 = relation_3.getAttributes();
-                              for(final Attribute attribute_8 : _attributes_8) {
+                              EList<Attribute> _attributes_9 = relation_3.getAttributes();
+                              for(final Attribute attribute_8 : _attributes_9) {
                                 {
                                   if (((!StringExtensions.isNullOrEmpty(attribute_8.getName())) && (!attribute_8.isIsKey()))) {
                                     _builder.append("\t\t\t");
@@ -536,8 +525,7 @@ public class ErDslGenerator extends AbstractGenerator {
                       }
                     }
                   } else {
-                    boolean _equals_1 = relation_3.getName().equals(aux_3.getRightEnding().getTarget().toString());
-                    if (_equals_1) {
+                    if (((!StringExtensions.isNullOrEmpty(relation_3.getName())) && relation_3.getName().equals(aux_3.getRightEnding().getTarget().toString()))) {
                       String _upperCase_7 = aux_3.getName().toUpperCase();
                       _builder.append(_upperCase_7);
                       _builder.append(" (");
@@ -549,20 +537,20 @@ public class ErDslGenerator extends AbstractGenerator {
                       _builder.newLineIfNotEmpty();
                       {
                         EList<Entity> _entities_6 = modeloER.getEntities();
-                        for(final Entity aux2_1 : _entities_6) {
+                        for(final Entity aux2_2 : _entities_6) {
                           {
-                            boolean _equalsIgnoreCase_6 = aux_3.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux2_1.getName());
+                            boolean _equalsIgnoreCase_6 = aux_3.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux2_2.getName());
                             if (_equalsIgnoreCase_6) {
                               _builder.append("\t\t\t");
                               _builder.append("<font color=\"blue\"><b>");
-                              _builder.append(aux2_1, "\t\t\t");
+                              _builder.append(aux2_2, "\t\t\t");
                               _builder.append("</b></font><font color=\"red\"><b>*</b></font>");
                               _builder.newLineIfNotEmpty();
                               _builder.append("\t\t\t");
                               _builder.newLine();
                               {
-                                EList<Attribute> _attributes_9 = relation_3.getAttributes();
-                                for(final Attribute attribute_9 : _attributes_9) {
+                                EList<Attribute> _attributes_10 = relation_3.getAttributes();
+                                for(final Attribute attribute_9 : _attributes_10) {
                                   {
                                     if (((!StringExtensions.isNullOrEmpty(attribute_9.getName())) && attribute_9.isIsKey())) {
                                       _builder.append("\t\t\t");
@@ -577,8 +565,8 @@ public class ErDslGenerator extends AbstractGenerator {
                               }
                               _builder.newLine();
                               {
-                                EList<Attribute> _attributes_10 = relation_3.getAttributes();
-                                for(final Attribute attribute_10 : _attributes_10) {
+                                EList<Attribute> _attributes_11 = relation_3.getAttributes();
+                                for(final Attribute attribute_10 : _attributes_11) {
                                   {
                                     if (((!StringExtensions.isNullOrEmpty(attribute_10.getName())) && (!attribute_10.isIsKey()))) {
                                       _builder.append("\t\t\t");
@@ -600,6 +588,9 @@ public class ErDslGenerator extends AbstractGenerator {
                     }
                   }
                 }
+                _builder.newLine();
+                _builder.append("\t\t\t");
+                _builder.newLine();
               }
             }
           }
@@ -614,7 +605,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<div>");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">References</p>");
+    _builder.append("<p class=\"sstitle\">Modelled Relationships</p>");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -627,9 +618,20 @@ public class ErDslGenerator extends AbstractGenerator {
         } else {
           _builder.appendImmediate("</br>", "");
         }
-        String _name_17 = relation_4.getName();
-        _builder.append(_name_17);
-        _builder.append(" >>> ");
+        {
+          boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation_4.getName());
+          if (_isNullOrEmpty_2) {
+            _builder.append("<i>_UnnamedEntity</i>");
+          } else {
+            boolean _isNullOrEmpty_3 = StringExtensions.isNullOrEmpty(relation_4.getName());
+            boolean _not_5 = (!_isNullOrEmpty_3);
+            if (_not_5) {
+              String _name_17 = relation_4.getName();
+              _builder.append(_name_17);
+            }
+          }
+        }
+        _builder.append(" &#8614 ");
         String _string_5 = relation_4.getLeftEnding().getCardinality().toString();
         _builder.append(_string_5);
         _builder.append(" ");
@@ -646,6 +648,14 @@ public class ErDslGenerator extends AbstractGenerator {
     }
     _builder.append("</p>");
     _builder.newLine();
+    _builder.append("</div>");
+    _builder.newLine();
+    _builder.newLine();
+    _builder.append("<div>");
+    _builder.newLine();
+    _builder.append("<p class=\"sstitle\">Mapped References</p>");
+    _builder.newLine();
+    _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
     {
@@ -661,10 +671,75 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("0:1 ou 1:1: = ");
+            _builder.append("<font color=\"#505050\">");
             String _name_18 = relation_5.getName();
             _builder.append(_name_18);
+            _builder.append(" >>> ");
+            String _string_7 = relation_5.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_7);
+            _builder.append(" ");
+            EObject _target_1 = relation_5.getLeftEnding().getTarget();
+            _builder.append(_target_1);
+            _builder.append(" relates ");
+            String _string_8 = relation_5.getRightEnding().getTarget().toString();
+            _builder.append(_string_8);
+            _builder.append(" ");
+            String _cardinality_1 = relation_5.getRightEnding().getCardinality();
+            _builder.append(_cardinality_1);
+            _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_7 = modeloER.getEntities();
+              for(final Entity aux_4 : _entities_7) {
+                {
+                  boolean _equalsIgnoreCase_7 = aux_4.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_7) {
+                    {
+                      EList<Attribute> _attributes_12 = aux_4.getAttributes();
+                      for(final Attribute aux2_3 : _attributes_12) {
+                        {
+                          if (((!(aux_4.getIs() == null)) && (!aux2_3.isIsKey()))) {
+                            _builder.append("Attribute \"FK_");
+                            String _string_9 = aux_4.getIs().toString();
+                            _builder.append(_string_9);
+                            _builder.append("\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("In \"");
+                            String _upperCase_8 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                            _builder.append(_upperCase_8);
+                            _builder.append("\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("references \"");
+                            String _upperCase_9 = aux_4.getIs().toString().toUpperCase();
+                            _builder.append(_upperCase_9);
+                            _builder.append("\"</br>");
+                            _builder.newLineIfNotEmpty();
+                          } else {
+                            if (((aux_4.getIs() == null) && aux2_3.isIsKey())) {
+                              _builder.append("Attribute \"FK_");
+                              String _name_19 = aux2_3.getName();
+                              _builder.append(_name_19);
+                              _builder.append("\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("In \"");
+                              String _upperCase_10 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_10);
+                              _builder.append("\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("references \"");
+                              String _upperCase_11 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_11);
+                              _builder.append("\"</br>\t\t");
+                              _builder.newLineIfNotEmpty();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
         _builder.newLine();
@@ -673,17 +748,6 @@ public class ErDslGenerator extends AbstractGenerator {
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
             _builder.append("1:N ou N:1: = ");
-            String _name_19 = relation_5.getName();
-            _builder.append(_name_19);
-            _builder.newLineIfNotEmpty();
-          }
-        }
-        _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.newLine();
-        {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("1:N ou N:1 = ");
             String _name_20 = relation_5.getName();
             _builder.append(_name_20);
             _builder.newLineIfNotEmpty();
@@ -693,10 +757,21 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.append("\t\t\t");
         _builder.newLine();
         {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("N:N = ");
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
+            _builder.append("1:N ou N:1 = ");
             String _name_21 = relation_5.getName();
             _builder.append(_name_21);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.newLine();
+        {
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
+            _builder.append("N:N = ");
+            String _name_22 = relation_5.getName();
+            _builder.append(_name_22);
             _builder.newLineIfNotEmpty();
           }
         }
@@ -704,7 +779,6 @@ public class ErDslGenerator extends AbstractGenerator {
       }
     }
     _builder.append("</p>");
-    _builder.newLine();
     _builder.newLine();
     _builder.append("</div>");
     _builder.newLine();
