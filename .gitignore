@@ -1,0 +1,5 @@
+.project
+org.xtext.unipampa.erdsl.ide/
+org.xtext.unipampa.erdsl.tests/
+org.xtext.unipampa.erdsl.ui/
+org.xtext.unipampa.erdsl.ui.tests/
