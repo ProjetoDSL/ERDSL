@@ -625,7 +625,7 @@ public class ErDslGenerator extends AbstractGenerator {
         if (!_hasElements_2) {
           _hasElements_2 = true;
         } else {
-          _builder.appendImmediate("</br></br>", "");
+          _builder.appendImmediate("</br>", "");
         }
         String _name_17 = relation_4.getName();
         _builder.append(_name_17);
@@ -645,6 +645,66 @@ public class ErDslGenerator extends AbstractGenerator {
       }
     }
     _builder.append("</p>");
+    _builder.newLine();
+    _builder.append("<p class=\"field\">");
+    _builder.newLine();
+    {
+      EList<Relation> _relations_6 = modeloER.getRelations();
+      boolean _hasElements_3 = false;
+      for(final Relation relation_5 : _relations_6) {
+        if (!_hasElements_3) {
+          _hasElements_3 = true;
+        } else {
+          _builder.appendImmediate("</br>", "");
+        }
+        _builder.append("\t\t");
+        _builder.newLine();
+        {
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
+            _builder.append("0:1 ou 1:1: = ");
+            String _name_18 = relation_5.getName();
+            _builder.append(_name_18);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.newLine();
+        {
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
+            _builder.append("1:N ou N:1: = ");
+            String _name_19 = relation_5.getName();
+            _builder.append(_name_19);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.newLine();
+        {
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
+            _builder.append("1:N ou N:1 = ");
+            String _name_20 = relation_5.getName();
+            _builder.append(_name_20);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+        _builder.append("\t\t\t");
+        _builder.newLine();
+        {
+          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
+            _builder.append("N:N = ");
+            String _name_21 = relation_5.getName();
+            _builder.append(_name_21);
+            _builder.newLineIfNotEmpty();
+          }
+        }
+        _builder.newLine();
+      }
+    }
+    _builder.append("</p>");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("</div>");
     _builder.newLine();

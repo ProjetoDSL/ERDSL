@@ -231,7 +231,7 @@ class ErDslGenerator extends AbstractGenerator {
 							<font color="blue"><b>«aux2»</b></font><font color="red"><b>*</b></font>
 							«/**
 							  *	
-							  * Display attributes
+							  * Display ternary attributes
 							  *
 							*/»
 							«FOR attribute : relation.attributes»
@@ -256,7 +256,7 @@ class ErDslGenerator extends AbstractGenerator {
 							<font color="blue"><b>«aux2»</b></font><font color="red"><b>*</b></font>
 							«/**
 							  *	
-							  * Display attributes
+							  * Display ternary attributes
 							  *
 							*/»
 							«FOR attribute : relation.attributes»
@@ -288,10 +288,59 @@ class ErDslGenerator extends AbstractGenerator {
 	<div>
 	<p class="sstitle">References</p>
 	<p class="field">
-	«FOR relation : modeloER.relations SEPARATOR "</br></br>"»
+	«FOR relation : modeloER.relations SEPARATOR "</br>"»
 		«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
 	«ENDFOR»
 	</p>
+	<p class="field">
+	«FOR relation : modeloER.relations SEPARATOR "</br>"»
+		«/**
+		 *	
+		 * 
+		 *
+		 */»		
+		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+		&& 
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
+			0:1 ou 1:1: = «relation.name»
+		«ENDIF»
+		
+		«/**
+		 *	
+		 *
+		 *
+		 */»			
+		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+		&& 
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
+			1:N ou N:1: = «relation.name»
+		«ENDIF»
+		
+		«/**
+		 *	
+		 * 
+		 *
+		 */»			
+		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+		&& 
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
+			1:N ou N:1 = «relation.name»
+		«ENDIF»		
+		
+		«/**
+		 *	
+		 * 
+		 *
+		 */»			
+		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+		&& 
+		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
+			N:N = «relation.name»
+		«ENDIF»				
+		
+	«ENDFOR»
+	</p>
+	
 	</div>
 	</body>
 	</html>
