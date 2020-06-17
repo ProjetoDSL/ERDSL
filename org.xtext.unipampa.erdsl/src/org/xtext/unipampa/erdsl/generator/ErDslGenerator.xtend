@@ -24,9 +24,14 @@ class ErDslGenerator extends AbstractGenerator {
 	<html>
 	<head>
 		<title>ERtext Logical schema</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		
 		<style>
-		    body    { background: #fff; border: 1px solid black, padding: 5px 0 5px 0}
+		    body    { background: #ffffff; border: 1px solid black, padding: 5px 0 5px 0}
 		    .title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}
 		    .stitle { font: bold 120% sans-serif; color: #0044DD; padding: 10px 0 10px 0 }
 		    .sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px; }
@@ -35,7 +40,7 @@ class ErDslGenerator extends AbstractGenerator {
 		</style>
 	</head>
 	<body> 
-	<div>
+	<div class="panel">
 	<p class="title">ERtext Logical schema</p>
 	</div>
 	«/**
@@ -43,8 +48,11 @@ class ErDslGenerator extends AbstractGenerator {
 	 * Display of the modeled domain (database name)
 	 *
 	 */»
-	<div>
-	<p class="sstitle">Modeled Domain</p> 
+	<p class="sstitle">
+	<a href="#domain" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	&nbsp Modelled Domain
+	</p>
+	<div id="domain" class="panel-body collapse"">
 	<p class="field">«modeloER.domain.name.toUpperCase»</p>
 	</div>
 	«/**
@@ -52,11 +60,15 @@ class ErDslGenerator extends AbstractGenerator {
 	 * Display of modeled entities (tables)
 	 *
 	 */»
-	<div>
-	<p class="sstitle">Resulting Entities</p>
+	<hr style="width:100%;text-align:left;margin-left:0">
+	<p class="sstitle">
+	<a href="#entities" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	&nbsp Resulting Entities
+	</p>	 
+	<div id="entities" class="panel-body collapse"">
 	<p class="field">
 	«FOR entity : modeloER.entities SEPARATOR " )</br></br>" AFTER ")</br>"»
-		«entity.name.toUpperCase» (
+		<b>«entity.name.toUpperCase»</b> (
 		«/**
 		 *
 		 * Verification and display of primary (PK) and, at the same time, foreign (FK) 
@@ -93,11 +105,11 @@ class ErDslGenerator extends AbstractGenerator {
 							«IF aux.is === null»
 								«FOR aux2 : aux.attributes»
 									«IF aux2.isIsKey»
-										, <font color="blue"><b>FK_«aux2.name»</b></font>
+										, <font color="blue"><b>«aux2.name»_fk</b></font>
 									«ENDIF»
 								«ENDFOR»
 							«ELSEIF !(aux.is === null)»
-								, <font color="blue"><b>FK_«aux.is.toString»</b></font>
+								, <font color="blue"><b>«aux.is.toString»_fk</b></font>
 							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
@@ -122,9 +134,9 @@ class ErDslGenerator extends AbstractGenerator {
 					«FOR aux : modeloER.entities»
 						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
 							«IF aux.is === null»
-								, <font color="blue"><b>FK_«aux.name»</b></font>
+								, <font color="blue"><b>«aux.name»_fk</b></font>
 							«ELSEIF !(aux.is === null)»
-								, <font color="blue"><b>FK_«aux.is.toString»</b></font>
+								, <font color="blue"><b>«aux.is.toString»_fk</b></font>
 							«ENDIF»
 						«ENDIF»
 					«ENDFOR»
@@ -159,7 +171,7 @@ class ErDslGenerator extends AbstractGenerator {
 				«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString !== relation.rightEnding.target.toString)»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>FK_«attribute.name»</b></font>,
+							<font color="blue"><b>«attribute.name»_fk</b></font>,
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -167,7 +179,7 @@ class ErDslGenerator extends AbstractGenerator {
 				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString !== relation.leftEnding.target.toString)»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>FK_«attribute.name»</b></font>
+							<font color="blue"><b>«attribute.name»_fk</b></font>
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -181,7 +193,7 @@ class ErDslGenerator extends AbstractGenerator {
 					
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>FK_«attribute.name»_1</b></font>,
+							<font color="blue"><b>«attribute.name»__fk1</b></font>,
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -189,7 +201,7 @@ class ErDslGenerator extends AbstractGenerator {
 				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»
 					«FOR attribute : entity.attributes»
 						«IF attribute.isIsKey»
-							<font color="blue"><b>FK_«attribute.name»_2</b></font>
+							<font color="blue"><b>«attribute.name»__fk2</b></font>
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»				
@@ -291,21 +303,34 @@ class ErDslGenerator extends AbstractGenerator {
 	
 	«/**
 	 *	
-	 * Display of inferred references through modeled relationships (foreign keys)
+	 * Display of previously modeled relationships
 	 *
 	 */»
-	<div>
-	<p class="sstitle">Modelled Relationships</p>
+	<hr style="width:100%;text-align:left;margin-left:0"> 
+	<p class="sstitle">
+	<a href="#relationships" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	&nbsp Modelled Relationships
+	</p>	 
+	<div id="relationships" class="panel-body collapse">
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
-		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» &#8614 «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
+		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» &#8614 «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
 	«ENDFOR»
 	</p>
 	</div>
 	
-	<div>
-	<p class="sstitle">Mapped References</p>
 	
+	«/**
+	 *	
+	 * Display of inferred references through modeled relationships (foreign keys)
+	 *
+	 */»
+	<hr style="width:100%;text-align:left;margin-left:0">
+	<p class="sstitle">
+	<a href="#references" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	&nbsp Mapped References
+	</p>	 
+	<div id="references" class="panel-body collapse"">	
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
 		«/**
@@ -321,11 +346,11 @@ class ErDslGenerator extends AbstractGenerator {
 				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
 					«FOR aux2 : aux.attributes»
 						«IF !(aux.is === null) && !(aux2.isIsKey)»
-							Attribute "FK_«aux.is.toString»" 
+							Attribute "«aux.is.toString»_fk" 
 							In "«relation.rightEnding.target.toString.toUpperCase»" 
 							references "«aux.is.toString.toUpperCase»"</br>
 						«ELSEIF	((aux.is === null) && (aux2.isIsKey))»
-							Attribute "FK_«aux2.name»" 
+							Attribute "«aux2.name»_fk" 
 							In "«relation.rightEnding.target.toString.toUpperCase»" 
 							references "«relation.leftEnding.target.toString.toUpperCase»"</br>		
 						«ENDIF»
@@ -369,8 +394,11 @@ class ErDslGenerator extends AbstractGenerator {
 		
 	«ENDFOR»
 	</p>
-	</div>
+	</div>	
+	
 	</body>
+	
+	
 	</html>
 				'''
 		)

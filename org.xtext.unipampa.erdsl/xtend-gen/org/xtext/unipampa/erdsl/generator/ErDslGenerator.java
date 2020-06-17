@@ -41,13 +41,27 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("<title>ERtext Logical schema</title>");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />");
+    _builder.append("<meta charset=\"utf-8\">");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("<style>");
     _builder.newLine();
     _builder.append("\t    ");
-    _builder.append("body    { background: #fff; border: 1px solid black, padding: 5px 0 5px 0}");
+    _builder.append("body    { background: #ffffff; border: 1px solid black, padding: 5px 0 5px 0}");
     _builder.newLine();
     _builder.append("\t    ");
     _builder.append(".title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}");
@@ -71,16 +85,22 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<body> ");
     _builder.newLine();
-    _builder.append("<div>");
+    _builder.append("<div class=\"panel\">");
     _builder.newLine();
     _builder.append("<p class=\"title\">ERtext Logical schema</p>");
     _builder.newLine();
     _builder.append("</div>");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("<div>");
+    _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Modeled Domain</p> ");
+    _builder.append("<a href=\"#domain\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.newLine();
+    _builder.append("&nbsp Modelled Domain");
+    _builder.newLine();
+    _builder.append("</p>");
+    _builder.newLine();
+    _builder.append("<div id=\"domain\" class=\"panel-body collapse\"\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     String _upperCase = modeloER.getDomain().getName().toUpperCase();
@@ -90,9 +110,17 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("</div>");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("<div>");
+    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\">");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Resulting Entities</p>");
+    _builder.append("<p class=\"sstitle\">");
+    _builder.newLine();
+    _builder.append("<a href=\"#entities\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.newLine();
+    _builder.append("&nbsp Resulting Entities");
+    _builder.newLine();
+    _builder.append("</p>\t ");
+    _builder.newLine();
+    _builder.append("<div id=\"entities\" class=\"panel-body collapse\"\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -105,9 +133,10 @@ public class ErDslGenerator extends AbstractGenerator {
         } else {
           _builder.appendImmediate(" )</br></br>", "");
         }
+        _builder.append("<b>");
         String _upperCase_1 = entity.getName().toUpperCase();
         _builder.append(_upperCase_1);
-        _builder.append(" (");
+        _builder.append("</b> (");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
         {
@@ -190,10 +219,10 @@ public class ErDslGenerator extends AbstractGenerator {
                                     {
                                       boolean _isIsKey_2 = aux2.isIsKey();
                                       if (_isIsKey_2) {
-                                        _builder.append(", <font color=\"blue\"><b>FK_");
+                                        _builder.append(", <font color=\"blue\"><b>");
                                         String _name_4 = aux2.getName();
                                         _builder.append(_name_4);
-                                        _builder.append("</b></font>");
+                                        _builder.append("_fk</b></font>");
                                         _builder.newLineIfNotEmpty();
                                       }
                                     }
@@ -204,10 +233,10 @@ public class ErDslGenerator extends AbstractGenerator {
                                 boolean _tripleEquals_2 = (_is_2 == null);
                                 boolean _not_2 = (!_tripleEquals_2);
                                 if (_not_2) {
-                                  _builder.append(", <font color=\"blue\"><b>FK_");
+                                  _builder.append(", <font color=\"blue\"><b>");
                                   String _string = aux_1.getIs().toString();
                                   _builder.append(_string);
-                                  _builder.append("</b></font>");
+                                  _builder.append("_fk</b></font>");
                                   _builder.newLineIfNotEmpty();
                                 }
                               }
@@ -244,20 +273,20 @@ public class ErDslGenerator extends AbstractGenerator {
                               Entity _is_3 = aux_2.getIs();
                               boolean _tripleEquals_3 = (_is_3 == null);
                               if (_tripleEquals_3) {
-                                _builder.append(", <font color=\"blue\"><b>FK_");
+                                _builder.append(", <font color=\"blue\"><b>");
                                 String _name_5 = aux_2.getName();
                                 _builder.append(_name_5);
-                                _builder.append("</b></font>");
+                                _builder.append("_fk</b></font>");
                                 _builder.newLineIfNotEmpty();
                               } else {
                                 Entity _is_4 = aux_2.getIs();
                                 boolean _tripleEquals_4 = (_is_4 == null);
                                 boolean _not_3 = (!_tripleEquals_4);
                                 if (_not_3) {
-                                  _builder.append(", <font color=\"blue\"><b>FK_");
+                                  _builder.append(", <font color=\"blue\"><b>");
                                   String _string_1 = aux_2.getIs().toString();
                                   _builder.append(_string_1);
-                                  _builder.append("</b></font>");
+                                  _builder.append("_fk</b></font>");
                                   _builder.newLineIfNotEmpty();
                                 }
                               }
@@ -332,10 +361,10 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_3 = attribute_1.isIsKey();
                           if (_isIsKey_3) {
-                            _builder.append("<font color=\"blue\"><b>FK_");
+                            _builder.append("<font color=\"blue\"><b>");
                             String _name_7 = attribute_1.getName();
                             _builder.append(_name_7);
-                            _builder.append("</b></font>,");
+                            _builder.append("_fk</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -352,10 +381,10 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_4 = attribute_2.isIsKey();
                           if (_isIsKey_4) {
-                            _builder.append("<font color=\"blue\"><b>FK_");
+                            _builder.append("<font color=\"blue\"><b>");
                             String _name_8 = attribute_2.getName();
                             _builder.append(_name_8);
-                            _builder.append("</b></font>");
+                            _builder.append("_fk</b></font>");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -375,10 +404,10 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_5 = attribute_3.isIsKey();
                           if (_isIsKey_5) {
-                            _builder.append("<font color=\"blue\"><b>FK_");
+                            _builder.append("<font color=\"blue\"><b>");
                             String _name_9 = attribute_3.getName();
                             _builder.append(_name_9);
-                            _builder.append("_1</b></font>,");
+                            _builder.append("__fk1</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -395,10 +424,10 @@ public class ErDslGenerator extends AbstractGenerator {
                         {
                           boolean _isIsKey_6 = attribute_4.isIsKey();
                           if (_isIsKey_6) {
-                            _builder.append("<font color=\"blue\"><b>FK_");
+                            _builder.append("<font color=\"blue\"><b>");
                             String _name_10 = attribute_4.getName();
                             _builder.append(_name_10);
-                            _builder.append("_2</b></font>");
+                            _builder.append("__fk2</b></font>");
                             _builder.newLineIfNotEmpty();
                           }
                         }
@@ -603,9 +632,17 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.newLine();
     _builder.newLine();
-    _builder.append("<div>");
+    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\"> ");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Modelled Relationships</p>");
+    _builder.append("<p class=\"sstitle\">");
+    _builder.newLine();
+    _builder.append("<a href=\"#relationships\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.newLine();
+    _builder.append("&nbsp Modelled Relationships");
+    _builder.newLine();
+    _builder.append("</p>\t ");
+    _builder.newLine();
+    _builder.append("<div id=\"relationships\" class=\"panel-body collapse\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -621,7 +658,7 @@ public class ErDslGenerator extends AbstractGenerator {
         {
           boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation_4.getName());
           if (_isNullOrEmpty_2) {
-            _builder.append("<i>_UnnamedEntity</i>");
+            _builder.append("<i>_UnnamedEntity_</i>");
           } else {
             boolean _isNullOrEmpty_3 = StringExtensions.isNullOrEmpty(relation_4.getName());
             boolean _not_5 = (!_isNullOrEmpty_3);
@@ -651,10 +688,19 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("</div>");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("<div>");
     _builder.newLine();
-    _builder.append("<p class=\"sstitle\">Mapped References</p>");
     _builder.newLine();
+    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\">");
+    _builder.newLine();
+    _builder.append("<p class=\"sstitle\">");
+    _builder.newLine();
+    _builder.append("<a href=\"#references\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.newLine();
+    _builder.append("&nbsp Mapped References");
+    _builder.newLine();
+    _builder.append("</p>\t ");
+    _builder.newLine();
+    _builder.append("<div id=\"references\" class=\"panel-body collapse\"\">\t");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -699,10 +745,10 @@ public class ErDslGenerator extends AbstractGenerator {
                       for(final Attribute aux2_3 : _attributes_12) {
                         {
                           if (((!(aux_4.getIs() == null)) && (!aux2_3.isIsKey()))) {
-                            _builder.append("Attribute \"FK_");
+                            _builder.append("Attribute \"");
                             String _string_9 = aux_4.getIs().toString();
                             _builder.append(_string_9);
-                            _builder.append("\" ");
+                            _builder.append("_fk\" ");
                             _builder.newLineIfNotEmpty();
                             _builder.append("In \"");
                             String _upperCase_8 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
@@ -716,10 +762,10 @@ public class ErDslGenerator extends AbstractGenerator {
                             _builder.newLineIfNotEmpty();
                           } else {
                             if (((aux_4.getIs() == null) && aux2_3.isIsKey())) {
-                              _builder.append("Attribute \"FK_");
+                              _builder.append("Attribute \"");
                               String _name_19 = aux2_3.getName();
                               _builder.append(_name_19);
-                              _builder.append("\" ");
+                              _builder.append("_fk\" ");
                               _builder.newLineIfNotEmpty();
                               _builder.append("In \"");
                               String _upperCase_10 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
@@ -780,9 +826,12 @@ public class ErDslGenerator extends AbstractGenerator {
     }
     _builder.append("</p>");
     _builder.newLine();
-    _builder.append("</div>");
+    _builder.append("</div>\t");
+    _builder.newLine();
     _builder.newLine();
     _builder.append("</body>");
+    _builder.newLine();
+    _builder.newLine();
     _builder.newLine();
     _builder.append("</html>");
     _builder.newLine();
