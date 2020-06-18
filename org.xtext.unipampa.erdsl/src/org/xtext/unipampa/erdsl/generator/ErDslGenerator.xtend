@@ -52,7 +52,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<a href="#domain" class="btn btn-info" data-toggle="collapse">&#8691</a>
 	&nbsp Modelled Domain
 	</p>
-	<div id="domain" class="panel-body collapse"">
+	<div id="domain" class="panel-body collapse in">
 	<p class="field">«modeloER.domain.name.toUpperCase»</p>
 	</div>
 	«/**
@@ -65,7 +65,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<a href="#entities" class="btn btn-info" data-toggle="collapse">&#8691</a>
 	&nbsp Resulting Entities
 	</p>	 
-	<div id="entities" class="panel-body collapse"">
+	<div id="entities" class="panel-body collapse in">
 	<p class="field">
 	«FOR entity : modeloER.entities SEPARATOR " )</br></br>" AFTER ")</br>"»
 		<b>«entity.name.toUpperCase»</b> (
@@ -311,7 +311,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<a href="#relationships" class="btn btn-info" data-toggle="collapse">&#8691</a>
 	&nbsp Modelled Relationships
 	</p>	 
-	<div id="relationships" class="panel-body collapse">
+	<div id="relationships" class="panel-body collapse in">
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
 		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» &#8614 «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
@@ -330,7 +330,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<a href="#references" class="btn btn-info" data-toggle="collapse">&#8691</a>
 	&nbsp Mapped References
 	</p>	 
-	<div id="references" class="panel-body collapse"">	
+	<div id="references" class="panel-body collapse in">	
 	<p class="field">
 	«FOR relation : modeloER.relations SEPARATOR "</br>"»
 		«/**

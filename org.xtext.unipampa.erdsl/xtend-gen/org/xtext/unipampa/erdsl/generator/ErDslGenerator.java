@@ -100,7 +100,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("</p>");
     _builder.newLine();
-    _builder.append("<div id=\"domain\" class=\"panel-body collapse\"\">");
+    _builder.append("<div id=\"domain\" class=\"panel-body collapse in\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     String _upperCase = modeloER.getDomain().getName().toUpperCase();
@@ -120,7 +120,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("</p>\t ");
     _builder.newLine();
-    _builder.append("<div id=\"entities\" class=\"panel-body collapse\"\">");
+    _builder.append("<div id=\"entities\" class=\"panel-body collapse in\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -642,7 +642,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("</p>\t ");
     _builder.newLine();
-    _builder.append("<div id=\"relationships\" class=\"panel-body collapse\">");
+    _builder.append("<div id=\"relationships\" class=\"panel-body collapse in\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
@@ -700,7 +700,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("</p>\t ");
     _builder.newLine();
-    _builder.append("<div id=\"references\" class=\"panel-body collapse\"\">\t");
+    _builder.append("<div id=\"references\" class=\"panel-body collapse in\">\t");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     _builder.newLine();
