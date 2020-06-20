@@ -50,6 +50,9 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">");
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("<link href=\"https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" integrity=\"sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN\" crossorigin=\"anonymous\">");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>");
     _builder.newLine();
     _builder.append("\t");
@@ -87,14 +90,14 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<div class=\"panel\">");
     _builder.newLine();
-    _builder.append("<p class=\"title\">ERtext Logical schema</p>");
+    _builder.append("<p class=\"title badge-primary\">ERtext Logical schema</p>");
     _builder.newLine();
     _builder.append("</div>");
     _builder.newLine();
     _builder.newLine();
     _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("<a href=\"#domain\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.append("<a href=\"#domain\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
     _builder.newLine();
     _builder.append("&nbsp Modelled Domain");
     _builder.newLine();
@@ -114,7 +117,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("<a href=\"#entities\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.append("<a href=\"#entities\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
     _builder.newLine();
     _builder.append("&nbsp Resulting Entities");
     _builder.newLine();
@@ -636,7 +639,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("<a href=\"#relationships\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.append("<a href=\"#relationships\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
     _builder.newLine();
     _builder.append("&nbsp Modelled Relationships");
     _builder.newLine();
@@ -694,7 +697,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("<a href=\"#references\" class=\"btn btn-info\" data-toggle=\"collapse\">&#8691</a>");
+    _builder.append("<a href=\"#references\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
     _builder.newLine();
     _builder.append("&nbsp Mapped References");
     _builder.newLine();
@@ -717,7 +720,7 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("<font color=\"#505050\">");
+            _builder.append("</br><font color=\"#505050\">");
             String _name_18 = relation_5.getName();
             _builder.append(_name_18);
             _builder.append(" >>> ");
@@ -758,7 +761,7 @@ public class ErDslGenerator extends AbstractGenerator {
                             _builder.append("references \"");
                             String _upperCase_9 = aux_4.getIs().toString().toUpperCase();
                             _builder.append(_upperCase_9);
-                            _builder.append("\"</br>");
+                            _builder.append("\"");
                             _builder.newLineIfNotEmpty();
                           } else {
                             if (((aux_4.getIs() == null) && aux2_3.isIsKey())) {
@@ -775,7 +778,7 @@ public class ErDslGenerator extends AbstractGenerator {
                               _builder.append("references \"");
                               String _upperCase_11 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
                               _builder.append(_upperCase_11);
-                              _builder.append("\"</br>\t\t");
+                              _builder.append("\"\t\t");
                               _builder.newLineIfNotEmpty();
                             }
                           }
@@ -793,10 +796,77 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("1:N ou N:1: = ");
+            _builder.append("</br><font color=\"#505050\">");
             String _name_20 = relation_5.getName();
             _builder.append(_name_20);
+            _builder.append(" >>> ");
+            String _string_10 = relation_5.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_10);
+            _builder.append(" ");
+            EObject _target_2 = relation_5.getLeftEnding().getTarget();
+            _builder.append(_target_2);
+            _builder.append(" relates ");
+            String _string_11 = relation_5.getRightEnding().getTarget().toString();
+            _builder.append(_string_11);
+            _builder.append(" ");
+            String _cardinality_2 = relation_5.getRightEnding().getCardinality();
+            _builder.append(_cardinality_2);
+            _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_8 = modeloER.getEntities();
+              for(final Entity aux_5 : _entities_8) {
+                {
+                  boolean _equalsIgnoreCase_8 = aux_5.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_8) {
+                    {
+                      EList<Attribute> _attributes_13 = aux_5.getAttributes();
+                      for(final Attribute aux2_4 : _attributes_13) {
+                        {
+                          if (((!(aux_5.getIs() == null)) && (!aux2_4.isIsKey()))) {
+                            _builder.append("Attribute \"");
+                            String _string_12 = aux_5.getIs().toString();
+                            _builder.append(_string_12);
+                            _builder.append("_fk\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("In \"");
+                            String _upperCase_12 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                            _builder.append(_upperCase_12);
+                            _builder.append("\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("references \"");
+                            String _upperCase_13 = aux_5.getIs().toString().toUpperCase();
+                            _builder.append(_upperCase_13);
+                            _builder.append("\"");
+                            _builder.newLineIfNotEmpty();
+                          } else {
+                            Entity _is_5 = aux_5.getIs();
+                            boolean _tripleEquals_5 = (_is_5 == null);
+                            if (_tripleEquals_5) {
+                              _builder.append("Attribute \"");
+                              String _name_21 = aux_5.getName();
+                              _builder.append(_name_21);
+                              _builder.append("_fk\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("In \"");
+                              String _upperCase_14 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_14);
+                              _builder.append("\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("references \"");
+                              String _upperCase_15 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_15);
+                              _builder.append("\"\t\t");
+                              _builder.newLineIfNotEmpty();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
         _builder.newLine();
@@ -804,10 +874,77 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.newLine();
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("1:N ou N:1 = ");
-            String _name_21 = relation_5.getName();
-            _builder.append(_name_21);
+            _builder.append("</br><font color=\"#505050\">");
+            String _name_22 = relation_5.getName();
+            _builder.append(_name_22);
+            _builder.append(" >>> ");
+            String _string_13 = relation_5.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_13);
+            _builder.append(" ");
+            EObject _target_3 = relation_5.getLeftEnding().getTarget();
+            _builder.append(_target_3);
+            _builder.append(" relates ");
+            String _string_14 = relation_5.getRightEnding().getTarget().toString();
+            _builder.append(_string_14);
+            _builder.append(" ");
+            String _cardinality_3 = relation_5.getRightEnding().getCardinality();
+            _builder.append(_cardinality_3);
+            _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_9 = modeloER.getEntities();
+              for(final Entity aux_6 : _entities_9) {
+                {
+                  boolean _equalsIgnoreCase_9 = aux_6.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_9) {
+                    {
+                      EList<Attribute> _attributes_14 = aux_6.getAttributes();
+                      for(final Attribute aux2_5 : _attributes_14) {
+                        {
+                          if (((!(aux_6.getIs() == null)) && (!aux2_5.isIsKey()))) {
+                            _builder.append("Attribute \"");
+                            String _string_15 = aux_6.getIs().toString();
+                            _builder.append(_string_15);
+                            _builder.append("_fk\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("In \"");
+                            String _upperCase_16 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                            _builder.append(_upperCase_16);
+                            _builder.append("\" ");
+                            _builder.newLineIfNotEmpty();
+                            _builder.append("references \"");
+                            String _upperCase_17 = aux_6.getIs().toString().toUpperCase();
+                            _builder.append(_upperCase_17);
+                            _builder.append("\"");
+                            _builder.newLineIfNotEmpty();
+                          } else {
+                            Entity _is_6 = aux_6.getIs();
+                            boolean _tripleEquals_6 = (_is_6 == null);
+                            if (_tripleEquals_6) {
+                              _builder.append("Attribute \"");
+                              String _name_23 = aux_6.getName();
+                              _builder.append(_name_23);
+                              _builder.append("_fk\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("In \"");
+                              String _upperCase_18 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_18);
+                              _builder.append("\" ");
+                              _builder.newLineIfNotEmpty();
+                              _builder.append("references \"");
+                              String _upperCase_19 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_19);
+                              _builder.append("\"\t\t");
+                              _builder.newLineIfNotEmpty();
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         }
         _builder.newLine();
@@ -816,8 +953,8 @@ public class ErDslGenerator extends AbstractGenerator {
         {
           if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
             _builder.append("N:N = ");
-            String _name_22 = relation_5.getName();
-            _builder.append(_name_22);
+            String _name_24 = relation_5.getName();
+            _builder.append(_name_24);
             _builder.newLineIfNotEmpty();
           }
         }

@@ -27,6 +27,7 @@ class ErDslGenerator extends AbstractGenerator {
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		
@@ -41,7 +42,7 @@ class ErDslGenerator extends AbstractGenerator {
 	</head>
 	<body> 
 	<div class="panel">
-	<p class="title">ERtext Logical schema</p>
+	<p class="title badge-primary">ERtext Logical schema</p>
 	</div>
 	«/**
 	 *
@@ -49,7 +50,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 *
 	 */»
 	<p class="sstitle">
-	<a href="#domain" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	<a href="#domain" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
 	&nbsp Modelled Domain
 	</p>
 	<div id="domain" class="panel-body collapse in">
@@ -62,7 +63,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 */»
 	<hr style="width:100%;text-align:left;margin-left:0">
 	<p class="sstitle">
-	<a href="#entities" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	<a href="#entities" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
 	&nbsp Resulting Entities
 	</p>	 
 	<div id="entities" class="panel-body collapse in">
@@ -308,7 +309,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 */»
 	<hr style="width:100%;text-align:left;margin-left:0"> 
 	<p class="sstitle">
-	<a href="#relationships" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	<a href="#relationships" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
 	&nbsp Modelled Relationships
 	</p>	 
 	<div id="relationships" class="panel-body collapse in">
@@ -327,7 +328,7 @@ class ErDslGenerator extends AbstractGenerator {
 	 */»
 	<hr style="width:100%;text-align:left;margin-left:0">
 	<p class="sstitle">
-	<a href="#references" class="btn btn-info" data-toggle="collapse">&#8691</a>
+	<a href="#references" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
 	&nbsp Mapped References
 	</p>	 
 	<div id="references" class="panel-body collapse in">	
@@ -341,18 +342,18 @@ class ErDslGenerator extends AbstractGenerator {
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
-			<font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
 			«FOR aux : modeloER.entities»
 				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
 					«FOR aux2 : aux.attributes»
 						«IF !(aux.is === null) && !(aux2.isIsKey)»
 							Attribute "«aux.is.toString»_fk" 
 							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«aux.is.toString.toUpperCase»"</br>
+							references "«aux.is.toString.toUpperCase»"
 						«ELSEIF	((aux.is === null) && (aux2.isIsKey))»
 							Attribute "«aux2.name»_fk" 
 							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«relation.leftEnding.target.toString.toUpperCase»"</br>		
+							references "«relation.leftEnding.target.toString.toUpperCase»"		
 						«ENDIF»
 					«ENDFOR»
 				«ENDIF»
@@ -367,7 +368,22 @@ class ErDslGenerator extends AbstractGenerator {
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
-			1:N ou N:1: = «relation.name»
+			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+			«FOR aux : modeloER.entities»
+				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+					«FOR aux2 : aux.attributes»
+						«IF !(aux.is === null) && !(aux2.isIsKey)»
+							Attribute "«aux.is.toString»_fk" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«aux.is.toString.toUpperCase»"
+						«ELSEIF	((aux.is === null))»
+							Attribute "«aux.name»_fk" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«relation.leftEnding.target.toString.toUpperCase»"		
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»		
 		«ENDIF»
 		
 		«/**
@@ -378,7 +394,22 @@ class ErDslGenerator extends AbstractGenerator {
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
-			1:N ou N:1 = «relation.name»
+			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+			«FOR aux : modeloER.entities»
+				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+					«FOR aux2 : aux.attributes»
+						«IF !(aux.is === null) && !(aux2.isIsKey)»
+							Attribute "«aux.is.toString»_fk" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«aux.is.toString.toUpperCase»"
+						«ELSEIF	((aux.is === null))»
+							Attribute "«aux.name»_fk" 
+							In "«relation.rightEnding.target.toString.toUpperCase»" 
+							references "«relation.leftEnding.target.toString.toUpperCase»"		
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»			
 		«ENDIF»		
 		
 		«/**
