@@ -103,7 +103,7 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("</p>");
     _builder.newLine();
-    _builder.append("<div id=\"domain\" class=\"panel-body collapse in\">");
+    _builder.append("<div id=\"domain\" class=\"panel-body collapse\">");
     _builder.newLine();
     _builder.append("<p class=\"field\">");
     String _upperCase = modeloER.getDomain().getName().toUpperCase();
@@ -136,10 +136,10 @@ public class ErDslGenerator extends AbstractGenerator {
         } else {
           _builder.appendImmediate(" )</br></br>", "");
         }
-        _builder.append("<b>");
+        _builder.append("<span class=\"badge badge-secondary\">");
         String _upperCase_1 = entity.getName().toUpperCase();
         _builder.append(_upperCase_1);
-        _builder.append("</b> (");
+        _builder.append("</span> (");
         _builder.newLineIfNotEmpty();
         _builder.newLine();
         {
@@ -223,8 +223,8 @@ public class ErDslGenerator extends AbstractGenerator {
                                       boolean _isIsKey_2 = aux2.isIsKey();
                                       if (_isIsKey_2) {
                                         _builder.append(", <font color=\"blue\"><b>");
-                                        String _name_4 = aux2.getName();
-                                        _builder.append(_name_4);
+                                        String _string = relation.getLeftEnding().getTarget().toString();
+                                        _builder.append(_string);
                                         _builder.append("_fk</b></font>");
                                         _builder.newLineIfNotEmpty();
                                       }
@@ -237,8 +237,8 @@ public class ErDslGenerator extends AbstractGenerator {
                                 boolean _not_2 = (!_tripleEquals_2);
                                 if (_not_2) {
                                   _builder.append(", <font color=\"blue\"><b>");
-                                  String _string = aux_1.getIs().toString();
-                                  _builder.append(_string);
+                                  String _string_1 = aux_1.getIs().toString();
+                                  _builder.append(_string_1);
                                   _builder.append("_fk</b></font>");
                                   _builder.newLineIfNotEmpty();
                                 }
@@ -277,8 +277,8 @@ public class ErDslGenerator extends AbstractGenerator {
                               boolean _tripleEquals_3 = (_is_3 == null);
                               if (_tripleEquals_3) {
                                 _builder.append(", <font color=\"blue\"><b>");
-                                String _name_5 = aux_2.getName();
-                                _builder.append(_name_5);
+                                String _name_4 = aux_2.getName();
+                                _builder.append(_name_4);
                                 _builder.append("_fk</b></font>");
                                 _builder.newLineIfNotEmpty();
                               } else {
@@ -287,8 +287,8 @@ public class ErDslGenerator extends AbstractGenerator {
                                 boolean _not_3 = (!_tripleEquals_4);
                                 if (_not_3) {
                                   _builder.append(", <font color=\"blue\"><b>");
-                                  String _string_1 = aux_2.getIs().toString();
-                                  _builder.append(_string_1);
+                                  String _string_2 = aux_2.getIs().toString();
+                                  _builder.append(_string_2);
                                   _builder.append("_fk</b></font>");
                                   _builder.newLineIfNotEmpty();
                                 }
@@ -320,32 +320,32 @@ public class ErDslGenerator extends AbstractGenerator {
             {
               boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(relation_2.getName());
               if (_isNullOrEmpty) {
-                _builder.append("</br>");
+                _builder.append("</br><span class=\"badge badge-secondary\">");
                 String _upperCase_2 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
                 _builder.append(_upperCase_2);
                 String _upperCase_3 = relation_2.getRightEnding().getTarget().toString().toUpperCase();
                 _builder.append(_upperCase_3);
-                _builder.append(" (");
+                _builder.append("</span> (");
                 _builder.newLineIfNotEmpty();
                 _builder.append("<font color=\"red\"><b>id");
                 String _upperCase_4 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
                 _builder.append(_upperCase_4);
-                String _string_2 = relation_2.getRightEnding().getTarget().toString();
-                _builder.append(_string_2);
+                String _string_3 = relation_2.getRightEnding().getTarget().toString();
+                _builder.append(_string_3);
                 _builder.append("*</b></font>,");
                 _builder.newLineIfNotEmpty();
               } else {
                 boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation_2.getName());
                 boolean _not_4 = (!_isNullOrEmpty_1);
                 if (_not_4) {
-                  _builder.append("</br>");
+                  _builder.append("</br><span class=\"badge badge-secondary\">");
                   String _upperCase_5 = relation_2.getName().toUpperCase();
                   _builder.append(_upperCase_5);
-                  _builder.append(" (");
+                  _builder.append("</span> (");
                   _builder.newLineIfNotEmpty();
                   _builder.append("<font color=\"red\"><b>id");
-                  String _name_6 = relation_2.getName();
-                  _builder.append(_name_6);
+                  String _name_5 = relation_2.getName();
+                  _builder.append(_name_5);
                   _builder.append("*</b></font>,");
                   _builder.newLineIfNotEmpty();
                 }
@@ -358,41 +358,21 @@ public class ErDslGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getLeftEnding().getTarget().toString() != relation_2.getRightEnding().getTarget().toString()))) {
-                    {
-                      EList<Attribute> _attributes_2 = entity_1.getAttributes();
-                      for(final Attribute attribute_1 : _attributes_2) {
-                        {
-                          boolean _isIsKey_3 = attribute_1.isIsKey();
-                          if (_isIsKey_3) {
-                            _builder.append("<font color=\"blue\"><b>");
-                            String _name_7 = attribute_1.getName();
-                            _builder.append(_name_7);
-                            _builder.append("_fk</b></font>,");
-                            _builder.newLineIfNotEmpty();
-                          }
-                        }
-                      }
-                    }
+                    _builder.append("<font color=\"blue\"><b>");
+                    String _string_4 = relation_2.getLeftEnding().getTarget().toString();
+                    _builder.append(_string_4);
+                    _builder.append("_fk</b></font>,");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 _builder.newLine();
                 {
                   if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation_2.getRightEnding().getTarget().toString() != relation_2.getLeftEnding().getTarget().toString()))) {
-                    {
-                      EList<Attribute> _attributes_3 = entity_1.getAttributes();
-                      for(final Attribute attribute_2 : _attributes_3) {
-                        {
-                          boolean _isIsKey_4 = attribute_2.isIsKey();
-                          if (_isIsKey_4) {
-                            _builder.append("<font color=\"blue\"><b>");
-                            String _name_8 = attribute_2.getName();
-                            _builder.append(_name_8);
-                            _builder.append("_fk</b></font>");
-                            _builder.newLineIfNotEmpty();
-                          }
-                        }
-                      }
-                    }
+                    _builder.append("<font color=\"blue\"><b>");
+                    String _string_5 = relation_2.getRightEnding().getTarget().toString();
+                    _builder.append(_string_5);
+                    _builder.append("_fk</b></font>");
+                    _builder.newLineIfNotEmpty();
                   }
                 }
                 _builder.newLine();
@@ -402,14 +382,14 @@ public class ErDslGenerator extends AbstractGenerator {
                   if ((relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation_2.getRightEnding().getTarget().toString()))) {
                     _builder.newLine();
                     {
-                      EList<Attribute> _attributes_4 = entity_1.getAttributes();
-                      for(final Attribute attribute_3 : _attributes_4) {
+                      EList<Attribute> _attributes_2 = entity_1.getAttributes();
+                      for(final Attribute attribute_1 : _attributes_2) {
                         {
-                          boolean _isIsKey_5 = attribute_3.isIsKey();
-                          if (_isIsKey_5) {
+                          boolean _isIsKey_3 = attribute_1.isIsKey();
+                          if (_isIsKey_3) {
                             _builder.append("<font color=\"blue\"><b>");
-                            String _name_9 = attribute_3.getName();
-                            _builder.append(_name_9);
+                            String _name_6 = attribute_1.getName();
+                            _builder.append(_name_6);
                             _builder.append("__fk1</b></font>,");
                             _builder.newLineIfNotEmpty();
                           }
@@ -422,14 +402,14 @@ public class ErDslGenerator extends AbstractGenerator {
                 {
                   if ((relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation_2.getRightEnding().getTarget().toString().equalsIgnoreCase(relation_2.getLeftEnding().getTarget().toString()))) {
                     {
-                      EList<Attribute> _attributes_5 = entity_1.getAttributes();
-                      for(final Attribute attribute_4 : _attributes_5) {
+                      EList<Attribute> _attributes_3 = entity_1.getAttributes();
+                      for(final Attribute attribute_2 : _attributes_3) {
                         {
-                          boolean _isIsKey_6 = attribute_4.isIsKey();
-                          if (_isIsKey_6) {
+                          boolean _isIsKey_4 = attribute_2.isIsKey();
+                          if (_isIsKey_4) {
                             _builder.append("<font color=\"blue\"><b>");
-                            String _name_10 = attribute_4.getName();
-                            _builder.append(_name_10);
+                            String _name_7 = attribute_2.getName();
+                            _builder.append(_name_7);
                             _builder.append("__fk2</b></font>");
                             _builder.newLineIfNotEmpty();
                           }
@@ -446,13 +426,13 @@ public class ErDslGenerator extends AbstractGenerator {
             _builder.append("\t\t\t");
             _builder.newLine();
             {
-              EList<Attribute> _attributes_6 = relation_2.getAttributes();
-              for(final Attribute attribute_5 : _attributes_6) {
+              EList<Attribute> _attributes_4 = relation_2.getAttributes();
+              for(final Attribute attribute_3 : _attributes_4) {
                 {
-                  if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && attribute_5.isIsKey())) {
+                  if (((!StringExtensions.isNullOrEmpty(attribute_3.getName())) && attribute_3.isIsKey())) {
                     _builder.append(", <font color=\"red\"><b>");
-                    String _name_11 = attribute_5.getName();
-                    _builder.append(_name_11);
+                    String _name_8 = attribute_3.getName();
+                    _builder.append(_name_8);
                     _builder.append("*</b></font>");
                     _builder.newLineIfNotEmpty();
                   }
@@ -461,13 +441,13 @@ public class ErDslGenerator extends AbstractGenerator {
             }
             _builder.newLine();
             {
-              EList<Attribute> _attributes_7 = relation_2.getAttributes();
-              for(final Attribute attribute_6 : _attributes_7) {
+              EList<Attribute> _attributes_5 = relation_2.getAttributes();
+              for(final Attribute attribute_4 : _attributes_5) {
                 {
-                  if (((!StringExtensions.isNullOrEmpty(attribute_6.getName())) && (!attribute_6.isIsKey()))) {
+                  if (((!StringExtensions.isNullOrEmpty(attribute_4.getName())) && (!attribute_4.isIsKey()))) {
                     _builder.append(", ");
-                    String _name_12 = attribute_6.getName();
-                    _builder.append(_name_12);
+                    String _name_9 = attribute_4.getName();
+                    _builder.append(_name_9);
                     _builder.newLineIfNotEmpty();
                   }
                 }
@@ -497,13 +477,14 @@ public class ErDslGenerator extends AbstractGenerator {
                 _builder.newLine();
                 {
                   if (((!StringExtensions.isNullOrEmpty(relation_3.getName())) && relation_3.getName().equals(aux_3.getLeftEnding().getTarget().toString()))) {
+                    _builder.append("<span class=\"badge badge-secondary\">");
                     String _upperCase_6 = aux_3.getName().toUpperCase();
                     _builder.append(_upperCase_6);
-                    _builder.append(" (");
+                    _builder.append("</span> (");
                     _builder.newLineIfNotEmpty();
                     _builder.append("<font color=\"blue\"><b>");
-                    String _string_3 = aux_3.getLeftEnding().getTarget().toString();
-                    _builder.append(_string_3);
+                    String _string_6 = aux_3.getLeftEnding().getTarget().toString();
+                    _builder.append(_string_6);
                     _builder.append("</b></font><font color=\"red\"><b>*</b></font>,");
                     _builder.newLineIfNotEmpty();
                     {
@@ -520,14 +501,14 @@ public class ErDslGenerator extends AbstractGenerator {
                             _builder.append("\t\t\t");
                             _builder.newLine();
                             {
-                              EList<Attribute> _attributes_8 = relation_3.getAttributes();
-                              for(final Attribute attribute_7 : _attributes_8) {
+                              EList<Attribute> _attributes_6 = relation_3.getAttributes();
+                              for(final Attribute attribute_5 : _attributes_6) {
                                 {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_7.getName())) && attribute_7.isIsKey())) {
+                                  if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && attribute_5.isIsKey())) {
                                     _builder.append("\t\t\t");
                                     _builder.append(", <font color=\"red\"><b>");
-                                    String _name_13 = attribute_7.getName();
-                                    _builder.append(_name_13, "\t\t\t");
+                                    String _name_10 = attribute_5.getName();
+                                    _builder.append(_name_10, "\t\t\t");
                                     _builder.append("*</b></font>");
                                     _builder.newLineIfNotEmpty();
                                   }
@@ -536,14 +517,14 @@ public class ErDslGenerator extends AbstractGenerator {
                             }
                             _builder.newLine();
                             {
-                              EList<Attribute> _attributes_9 = relation_3.getAttributes();
-                              for(final Attribute attribute_8 : _attributes_9) {
+                              EList<Attribute> _attributes_7 = relation_3.getAttributes();
+                              for(final Attribute attribute_6 : _attributes_7) {
                                 {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_8.getName())) && (!attribute_8.isIsKey()))) {
+                                  if (((!StringExtensions.isNullOrEmpty(attribute_6.getName())) && (!attribute_6.isIsKey()))) {
                                     _builder.append("\t\t\t");
                                     _builder.append(", ");
-                                    String _name_14 = attribute_8.getName();
-                                    _builder.append(_name_14, "\t\t\t");
+                                    String _name_11 = attribute_6.getName();
+                                    _builder.append(_name_11, "\t\t\t");
                                     _builder.newLineIfNotEmpty();
                                   }
                                 }
@@ -563,8 +544,8 @@ public class ErDslGenerator extends AbstractGenerator {
                       _builder.append(" (");
                       _builder.newLineIfNotEmpty();
                       _builder.append("<font color=\"blue\"><b>");
-                      String _string_4 = aux_3.getRightEnding().getTarget().toString();
-                      _builder.append(_string_4);
+                      String _string_7 = aux_3.getRightEnding().getTarget().toString();
+                      _builder.append(_string_7);
                       _builder.append("</b></font><font color=\"red\"><b>*</b></font>,");
                       _builder.newLineIfNotEmpty();
                       {
@@ -581,14 +562,14 @@ public class ErDslGenerator extends AbstractGenerator {
                               _builder.append("\t\t\t");
                               _builder.newLine();
                               {
-                                EList<Attribute> _attributes_10 = relation_3.getAttributes();
-                                for(final Attribute attribute_9 : _attributes_10) {
+                                EList<Attribute> _attributes_8 = relation_3.getAttributes();
+                                for(final Attribute attribute_7 : _attributes_8) {
                                   {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_9.getName())) && attribute_9.isIsKey())) {
+                                    if (((!StringExtensions.isNullOrEmpty(attribute_7.getName())) && attribute_7.isIsKey())) {
                                       _builder.append("\t\t\t");
                                       _builder.append(", <font color=\"red\"><b>");
-                                      String _name_15 = attribute_9.getName();
-                                      _builder.append(_name_15, "\t\t\t");
+                                      String _name_12 = attribute_7.getName();
+                                      _builder.append(_name_12, "\t\t\t");
                                       _builder.append("*</b></font>");
                                       _builder.newLineIfNotEmpty();
                                     }
@@ -597,14 +578,14 @@ public class ErDslGenerator extends AbstractGenerator {
                               }
                               _builder.newLine();
                               {
-                                EList<Attribute> _attributes_11 = relation_3.getAttributes();
-                                for(final Attribute attribute_10 : _attributes_11) {
+                                EList<Attribute> _attributes_9 = relation_3.getAttributes();
+                                for(final Attribute attribute_8 : _attributes_9) {
                                   {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_10.getName())) && (!attribute_10.isIsKey()))) {
+                                    if (((!StringExtensions.isNullOrEmpty(attribute_8.getName())) && (!attribute_8.isIsKey()))) {
                                       _builder.append("\t\t\t");
                                       _builder.append(", ");
-                                      String _name_16 = attribute_10.getName();
-                                      _builder.append(_name_16, "\t\t\t");
+                                      String _name_13 = attribute_8.getName();
+                                      _builder.append(_name_13, "\t\t\t");
                                       _builder.newLineIfNotEmpty();
                                     }
                                   }
@@ -635,62 +616,6 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.newLine();
     _builder.newLine();
-    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\"> ");
-    _builder.newLine();
-    _builder.append("<p class=\"sstitle\">");
-    _builder.newLine();
-    _builder.append("<a href=\"#relationships\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
-    _builder.newLine();
-    _builder.append("&nbsp Modelled Relationships");
-    _builder.newLine();
-    _builder.append("</p>\t ");
-    _builder.newLine();
-    _builder.append("<div id=\"relationships\" class=\"panel-body collapse in\">");
-    _builder.newLine();
-    _builder.append("<p class=\"field\">");
-    _builder.newLine();
-    {
-      EList<Relation> _relations_5 = modeloER.getRelations();
-      boolean _hasElements_2 = false;
-      for(final Relation relation_4 : _relations_5) {
-        if (!_hasElements_2) {
-          _hasElements_2 = true;
-        } else {
-          _builder.appendImmediate("</br>", "");
-        }
-        {
-          boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation_4.getName());
-          if (_isNullOrEmpty_2) {
-            _builder.append("<i>_UnnamedEntity_</i>");
-          } else {
-            boolean _isNullOrEmpty_3 = StringExtensions.isNullOrEmpty(relation_4.getName());
-            boolean _not_5 = (!_isNullOrEmpty_3);
-            if (_not_5) {
-              String _name_17 = relation_4.getName();
-              _builder.append(_name_17);
-            }
-          }
-        }
-        _builder.append(" &#8614 ");
-        String _string_5 = relation_4.getLeftEnding().getCardinality().toString();
-        _builder.append(_string_5);
-        _builder.append(" ");
-        EObject _target = relation_4.getLeftEnding().getTarget();
-        _builder.append(_target);
-        _builder.append(" relates ");
-        String _string_6 = relation_4.getRightEnding().getTarget().toString();
-        _builder.append(_string_6);
-        _builder.append(" ");
-        String _cardinality = relation_4.getRightEnding().getCardinality();
-        _builder.append(_cardinality);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("</p>");
-    _builder.newLine();
-    _builder.append("</div>");
-    _builder.newLine();
-    _builder.newLine();
     _builder.newLine();
     _builder.newLine();
     _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\">");
@@ -708,256 +633,1078 @@ public class ErDslGenerator extends AbstractGenerator {
     _builder.append("<p class=\"field\">");
     _builder.newLine();
     {
-      EList<Relation> _relations_6 = modeloER.getRelations();
-      boolean _hasElements_3 = false;
-      for(final Relation relation_5 : _relations_6) {
-        if (!_hasElements_3) {
-          _hasElements_3 = true;
+      EList<Relation> _relations_5 = modeloER.getRelations();
+      boolean _hasElements_2 = false;
+      for(final Relation relation_4 : _relations_5) {
+        if (!_hasElements_2) {
+          _hasElements_2 = true;
         } else {
           _builder.appendImmediate("</br>", "");
         }
         _builder.append("\t\t");
         _builder.newLine();
+        _builder.append("\t ");
+        _builder.newLine();
+        _builder.append("\t ");
+        _builder.newLine();
         {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("</br><font color=\"#505050\">");
-            String _name_18 = relation_5.getName();
-            _builder.append(_name_18);
-            _builder.append(" >>> ");
-            String _string_7 = relation_5.getLeftEnding().getCardinality().toString();
-            _builder.append(_string_7);
-            _builder.append(" ");
-            EObject _target_1 = relation_5.getLeftEnding().getTarget();
-            _builder.append(_target_1);
-            _builder.append(" relates ");
-            String _string_8 = relation_5.getRightEnding().getTarget().toString();
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_2) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_3 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_5 = (!_isNullOrEmpty_3);
+                if (_not_5) {
+                  String _name_14 = relation_4.getName();
+                  _builder.append(_name_14);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_8 = relation_4.getLeftEnding().getCardinality().toString();
             _builder.append(_string_8);
             _builder.append(" ");
-            String _cardinality_1 = relation_5.getRightEnding().getCardinality();
+            EObject _target = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target);
+            _builder.append(" relates ");
+            String _string_9 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_9);
+            _builder.append(" ");
+            String _cardinality = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_10 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_10);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_8 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_8);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_9 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_9);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_4 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_4) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_5 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_6 = (!_isNullOrEmpty_5);
+                if (_not_6) {
+                  String _name_15 = relation_4.getName();
+                  _builder.append(_name_15);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_11 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_11);
+            _builder.append(" ");
+            EObject _target_1 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_1);
+            _builder.append(" relates ");
+            String _string_12 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_12);
+            _builder.append(" ");
+            String _cardinality_1 = relation_4.getRightEnding().getCardinality();
             _builder.append(_cardinality_1);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_13 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_13);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_10 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_10);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_11 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_11);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_6 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_6) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_7 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_7 = (!_isNullOrEmpty_7);
+                if (_not_7) {
+                  String _name_16 = relation_4.getName();
+                  _builder.append(_name_16);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_14 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_14);
+            _builder.append(" ");
+            EObject _target_2 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_2);
+            _builder.append(" relates ");
+            String _string_15 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_15);
+            _builder.append(" ");
+            String _cardinality_2 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_2);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_16 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_16);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_12 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_12);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_13 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_13);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_8 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_8) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_9 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_8 = (!_isNullOrEmpty_9);
+                if (_not_8) {
+                  String _name_17 = relation_4.getName();
+                  _builder.append(_name_17);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_17 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_17);
+            _builder.append(" ");
+            EObject _target_3 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_3);
+            _builder.append(" relates ");
+            String _string_18 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_18);
+            _builder.append(" ");
+            String _cardinality_3 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_3);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_19 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_19);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_14 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_14);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_15 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_15);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_10 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_10) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_11 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_9 = (!_isNullOrEmpty_11);
+                if (_not_9) {
+                  String _name_18 = relation_4.getName();
+                  _builder.append(_name_18);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_20 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_20);
+            _builder.append(" ");
+            EObject _target_4 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_4);
+            _builder.append(" relates ");
+            String _string_21 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_21);
+            _builder.append(" ");
+            String _cardinality_4 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_4);
             _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
             {
               EList<Entity> _entities_7 = modeloER.getEntities();
               for(final Entity aux_4 : _entities_7) {
                 {
-                  boolean _equalsIgnoreCase_7 = aux_4.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  boolean _equalsIgnoreCase_7 = aux_4.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
                   if (_equalsIgnoreCase_7) {
                     {
-                      EList<Attribute> _attributes_12 = aux_4.getAttributes();
-                      for(final Attribute aux2_3 : _attributes_12) {
-                        {
-                          if (((!(aux_4.getIs() == null)) && (!aux2_3.isIsKey()))) {
-                            _builder.append("Attribute \"");
-                            String _string_9 = aux_4.getIs().toString();
-                            _builder.append(_string_9);
-                            _builder.append("_fk\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("In \"");
-                            String _upperCase_8 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                            _builder.append(_upperCase_8);
-                            _builder.append("\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("references \"");
-                            String _upperCase_9 = aux_4.getIs().toString().toUpperCase();
-                            _builder.append(_upperCase_9);
-                            _builder.append("\"");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            if (((aux_4.getIs() == null) && aux2_3.isIsKey())) {
-                              _builder.append("Attribute \"");
-                              String _name_19 = aux2_3.getName();
-                              _builder.append(_name_19);
-                              _builder.append("_fk\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("In \"");
-                              String _upperCase_10 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_10);
-                              _builder.append("\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("references \"");
-                              String _upperCase_11 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_11);
-                              _builder.append("\"\t\t");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
+                      Entity _is_5 = aux_4.getIs();
+                      boolean _tripleEquals_5 = (_is_5 == null);
+                      if (_tripleEquals_5) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_22 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_22, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_16 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_16, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_17 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_17, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_23 = aux_4.getIs().toString();
+                        _builder.append(_string_23, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_18 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_18, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_19 = aux_4.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_19, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
                       }
                     }
+                    _builder.append("\t");
+                    _builder.newLine();
                   }
                 }
               }
             }
+            _builder.append("</br>");
+            _builder.newLine();
           }
         }
-        _builder.newLine();
-        _builder.append("\t\t\t");
+        _builder.append("\t");
         _builder.newLine();
         {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("</br><font color=\"#505050\">");
-            String _name_20 = relation_5.getName();
-            _builder.append(_name_20);
-            _builder.append(" >>> ");
-            String _string_10 = relation_5.getLeftEnding().getCardinality().toString();
-            _builder.append(_string_10);
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_12 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_12) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_13 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_10 = (!_isNullOrEmpty_13);
+                if (_not_10) {
+                  String _name_19 = relation_4.getName();
+                  _builder.append(_name_19);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_24 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_24);
             _builder.append(" ");
-            EObject _target_2 = relation_5.getLeftEnding().getTarget();
-            _builder.append(_target_2);
+            EObject _target_5 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_5);
             _builder.append(" relates ");
-            String _string_11 = relation_5.getRightEnding().getTarget().toString();
-            _builder.append(_string_11);
+            String _string_25 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_25);
             _builder.append(" ");
-            String _cardinality_2 = relation_5.getRightEnding().getCardinality();
-            _builder.append(_cardinality_2);
+            String _cardinality_5 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_5);
             _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
             {
               EList<Entity> _entities_8 = modeloER.getEntities();
               for(final Entity aux_5 : _entities_8) {
                 {
-                  boolean _equalsIgnoreCase_8 = aux_5.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  boolean _equalsIgnoreCase_8 = aux_5.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
                   if (_equalsIgnoreCase_8) {
                     {
-                      EList<Attribute> _attributes_13 = aux_5.getAttributes();
-                      for(final Attribute aux2_4 : _attributes_13) {
-                        {
-                          if (((!(aux_5.getIs() == null)) && (!aux2_4.isIsKey()))) {
-                            _builder.append("Attribute \"");
-                            String _string_12 = aux_5.getIs().toString();
-                            _builder.append(_string_12);
-                            _builder.append("_fk\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("In \"");
-                            String _upperCase_12 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                            _builder.append(_upperCase_12);
-                            _builder.append("\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("references \"");
-                            String _upperCase_13 = aux_5.getIs().toString().toUpperCase();
-                            _builder.append(_upperCase_13);
-                            _builder.append("\"");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            Entity _is_5 = aux_5.getIs();
-                            boolean _tripleEquals_5 = (_is_5 == null);
-                            if (_tripleEquals_5) {
-                              _builder.append("Attribute \"");
-                              String _name_21 = aux_5.getName();
-                              _builder.append(_name_21);
-                              _builder.append("_fk\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("In \"");
-                              String _upperCase_14 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_14);
-                              _builder.append("\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("references \"");
-                              String _upperCase_15 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_15);
-                              _builder.append("\"\t\t");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
+                      Entity _is_6 = aux_5.getIs();
+                      boolean _tripleEquals_6 = (_is_6 == null);
+                      if (_tripleEquals_6) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_26 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_26, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_20 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_20, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_21 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_21, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_27 = aux_5.getIs().toString();
+                        _builder.append(_string_27, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_22 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_22, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_23 = aux_5.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_23, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
                       }
                     }
+                    _builder.append("\t");
+                    _builder.newLine();
                   }
                 }
               }
             }
+            _builder.append("</br>");
+            _builder.newLine();
           }
         }
         _builder.newLine();
-        _builder.append("\t\t\t");
-        _builder.newLine();
         {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            _builder.append("</br><font color=\"#505050\">");
-            String _name_22 = relation_5.getName();
-            _builder.append(_name_22);
-            _builder.append(" >>> ");
-            String _string_13 = relation_5.getLeftEnding().getCardinality().toString();
-            _builder.append(_string_13);
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_14 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_14) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_15 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_11 = (!_isNullOrEmpty_15);
+                if (_not_11) {
+                  String _name_20 = relation_4.getName();
+                  _builder.append(_name_20);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_28 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_28);
             _builder.append(" ");
-            EObject _target_3 = relation_5.getLeftEnding().getTarget();
-            _builder.append(_target_3);
+            EObject _target_6 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_6);
             _builder.append(" relates ");
-            String _string_14 = relation_5.getRightEnding().getTarget().toString();
-            _builder.append(_string_14);
+            String _string_29 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_29);
             _builder.append(" ");
-            String _cardinality_3 = relation_5.getRightEnding().getCardinality();
-            _builder.append(_cardinality_3);
+            String _cardinality_6 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_6);
             _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
             {
               EList<Entity> _entities_9 = modeloER.getEntities();
               for(final Entity aux_6 : _entities_9) {
                 {
-                  boolean _equalsIgnoreCase_9 = aux_6.getName().equalsIgnoreCase(relation_5.getLeftEnding().getTarget().toString());
+                  boolean _equalsIgnoreCase_9 = aux_6.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
                   if (_equalsIgnoreCase_9) {
                     {
-                      EList<Attribute> _attributes_14 = aux_6.getAttributes();
-                      for(final Attribute aux2_5 : _attributes_14) {
-                        {
-                          if (((!(aux_6.getIs() == null)) && (!aux2_5.isIsKey()))) {
-                            _builder.append("Attribute \"");
-                            String _string_15 = aux_6.getIs().toString();
-                            _builder.append(_string_15);
-                            _builder.append("_fk\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("In \"");
-                            String _upperCase_16 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                            _builder.append(_upperCase_16);
-                            _builder.append("\" ");
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("references \"");
-                            String _upperCase_17 = aux_6.getIs().toString().toUpperCase();
-                            _builder.append(_upperCase_17);
-                            _builder.append("\"");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            Entity _is_6 = aux_6.getIs();
-                            boolean _tripleEquals_6 = (_is_6 == null);
-                            if (_tripleEquals_6) {
-                              _builder.append("Attribute \"");
-                              String _name_23 = aux_6.getName();
-                              _builder.append(_name_23);
-                              _builder.append("_fk\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("In \"");
-                              String _upperCase_18 = relation_5.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_18);
-                              _builder.append("\" ");
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("references \"");
-                              String _upperCase_19 = relation_5.getLeftEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_19);
-                              _builder.append("\"\t\t");
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
+                      Entity _is_7 = aux_6.getIs();
+                      boolean _tripleEquals_7 = (_is_7 == null);
+                      if (_tripleEquals_7) {
+                        _builder.append("Attribute \"");
+                        String _string_30 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_30);
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_24 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_24);
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_25 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_25);
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("Attribute \"");
+                        String _string_31 = aux_6.getIs().toString();
+                        _builder.append(_string_31);
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_26 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_26);
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_27 = aux_6.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_27);
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
                       }
                     }
+                    _builder.newLine();
                   }
                 }
               }
             }
+            _builder.append("</br>");
+            _builder.newLine();
           }
         }
-        _builder.newLine();
-        _builder.append("\t\t\t");
         _builder.newLine();
         {
-          if (((relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_5.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("N:N = ");
-            String _name_24 = relation_5.getName();
-            _builder.append(_name_24);
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_16 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_16) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_17 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_12 = (!_isNullOrEmpty_17);
+                if (_not_12) {
+                  String _name_21 = relation_4.getName();
+                  _builder.append(_name_21);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_32 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_32);
+            _builder.append(" ");
+            EObject _target_7 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_7);
+            _builder.append(" relates ");
+            String _string_33 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_33);
+            _builder.append(" ");
+            String _cardinality_7 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_7);
+            _builder.append("</font></br>");
             _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_10 = modeloER.getEntities();
+              for(final Entity aux_7 : _entities_10) {
+                {
+                  boolean _equalsIgnoreCase_10 = aux_7.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_10) {
+                    {
+                      Entity _is_8 = aux_7.getIs();
+                      boolean _tripleEquals_8 = (_is_8 == null);
+                      if (_tripleEquals_8) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_34 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_34, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_28 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_28, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_29 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_29, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_35 = aux_7.getIs().toString();
+                        _builder.append(_string_35, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_30 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_30, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_31 = aux_7.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_31, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+            _builder.append("</br>");
+            _builder.newLine();
           }
         }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_18 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_18) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_19 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_13 = (!_isNullOrEmpty_19);
+                if (_not_13) {
+                  String _name_22 = relation_4.getName();
+                  _builder.append(_name_22);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_36 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_36);
+            _builder.append(" ");
+            EObject _target_8 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_8);
+            _builder.append(" relates ");
+            String _string_37 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_37);
+            _builder.append(" ");
+            String _cardinality_8 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_8);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_11 = modeloER.getEntities();
+              for(final Entity aux_8 : _entities_11) {
+                {
+                  boolean _equalsIgnoreCase_11 = aux_8.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_11) {
+                    {
+                      Entity _is_9 = aux_8.getIs();
+                      boolean _tripleEquals_9 = (_is_9 == null);
+                      if (_tripleEquals_9) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_38 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_38, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_32 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_32, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_33 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_33, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_39 = aux_8.getIs().toString();
+                        _builder.append(_string_39, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_34 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_34, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_35 = aux_8.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_35, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_20 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_20) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_21 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_14 = (!_isNullOrEmpty_21);
+                if (_not_14) {
+                  String _name_23 = relation_4.getName();
+                  _builder.append(_name_23);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_40 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_40);
+            _builder.append(" ");
+            EObject _target_9 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_9);
+            _builder.append(" relates ");
+            String _string_41 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_41);
+            _builder.append(" ");
+            String _cardinality_9 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_9);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_12 = modeloER.getEntities();
+              for(final Entity aux_9 : _entities_12) {
+                {
+                  boolean _equalsIgnoreCase_12 = aux_9.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_12) {
+                    {
+                      Entity _is_10 = aux_9.getIs();
+                      boolean _tripleEquals_10 = (_is_10 == null);
+                      if (_tripleEquals_10) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_42 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_42, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_36 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_36, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_37 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_37, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_43 = aux_9.getIs().toString();
+                        _builder.append(_string_43, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_38 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_38, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_39 = aux_9.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_39, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_22 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_22) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_23 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_15 = (!_isNullOrEmpty_23);
+                if (_not_15) {
+                  String _name_24 = relation_4.getName();
+                  _builder.append(_name_24);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_44 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_44);
+            _builder.append(" ");
+            EObject _target_10 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_10);
+            _builder.append(" relates ");
+            String _string_45 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_45);
+            _builder.append(" ");
+            String _cardinality_10 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_10);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_13 = modeloER.getEntities();
+              for(final Entity aux_10 : _entities_13) {
+                {
+                  boolean _equalsIgnoreCase_13 = aux_10.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_13) {
+                    {
+                      Entity _is_11 = aux_10.getIs();
+                      boolean _tripleEquals_11 = (_is_11 == null);
+                      if (_tripleEquals_11) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_46 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_46, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_40 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_40, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_41 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_41, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_47 = aux_10.getIs().toString();
+                        _builder.append(_string_47, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_42 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_42, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_43 = aux_10.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_43, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_24 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_24) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_25 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_16 = (!_isNullOrEmpty_25);
+                if (_not_16) {
+                  String _name_25 = relation_4.getName();
+                  _builder.append(_name_25);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_48 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_48);
+            _builder.append(" ");
+            EObject _target_11 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_11);
+            _builder.append(" relates ");
+            String _string_49 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_49);
+            _builder.append(" ");
+            String _cardinality_11 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_11);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            {
+              EList<Entity> _entities_14 = modeloER.getEntities();
+              for(final Entity aux_11 : _entities_14) {
+                {
+                  boolean _equalsIgnoreCase_14 = aux_11.getName().equalsIgnoreCase(relation_4.getLeftEnding().getTarget().toString());
+                  if (_equalsIgnoreCase_14) {
+                    {
+                      Entity _is_12 = aux_11.getIs();
+                      boolean _tripleEquals_12 = (_is_12 == null);
+                      if (_tripleEquals_12) {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_50 = relation_4.getLeftEnding().getTarget().toString();
+                        _builder.append(_string_50, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_44 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_44, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_45 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_45, "\t");
+                        _builder.append("</span>\t");
+                        _builder.newLineIfNotEmpty();
+                      } else {
+                        _builder.append("\t");
+                        _builder.append("Attribute \"");
+                        String _string_51 = aux_11.getIs().toString();
+                        _builder.append(_string_51, "\t");
+                        _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+                        String _upperCase_46 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_46, "\t");
+                        _builder.append("</span> references <span class=\"badge badge-secondary\">");
+                        String _upperCase_47 = aux_11.getIs().toString().toUpperCase();
+                        _builder.append(_upperCase_47, "\t");
+                        _builder.append("</span>");
+                        _builder.newLineIfNotEmpty();
+                      }
+                    }
+                    _builder.append("\t");
+                    _builder.newLine();
+                  }
+                }
+              }
+            }
+            _builder.append("</br>\t");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_26 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_26) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_27 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_17 = (!_isNullOrEmpty_27);
+                if (_not_17) {
+                  String _name_26 = relation_4.getName();
+                  _builder.append(_name_26);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_52 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_52);
+            _builder.append(" ");
+            EObject _target_12 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_12);
+            _builder.append(" relates ");
+            String _string_53 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_53);
+            _builder.append(" ");
+            String _cardinality_12 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_12);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_54 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_54);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_48 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_48);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_49 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_49);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_55 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_55);
+            _builder.append("_fk\" In <span class=\"badge badge-secondary\">");
+            String _upperCase_50 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_50);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_51 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_51);
+            _builder.append("</span>\t\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_28 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_28) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_29 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_18 = (!_isNullOrEmpty_29);
+                if (_not_18) {
+                  String _name_27 = relation_4.getName();
+                  _builder.append(_name_27);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_56 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_56);
+            _builder.append(" ");
+            EObject _target_13 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_13);
+            _builder.append(" relates ");
+            String _string_57 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_57);
+            _builder.append(" ");
+            String _cardinality_13 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_13);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_58 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_58);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_52 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_52);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_53 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_53);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_59 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_59);
+            _builder.append("_fk\" In <span class=\"badge badge-secondary\">");
+            String _upperCase_54 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_54);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_55 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_55);
+            _builder.append("</span>\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)"))) {
+            _builder.append("<font color=\"#505050\">Relationship: ");
+            {
+              boolean _isNullOrEmpty_30 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_30) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_31 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_19 = (!_isNullOrEmpty_31);
+                if (_not_19) {
+                  String _name_28 = relation_4.getName();
+                  _builder.append(_name_28);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_60 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_60);
+            _builder.append(" ");
+            EObject _target_14 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_14);
+            _builder.append(" relates ");
+            String _string_61 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_61);
+            _builder.append(" ");
+            String _cardinality_14 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_14);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_62 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_62);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_56 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_56);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_57 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_57);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_63 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_63);
+            _builder.append("_fk\" In <span class=\"badge badge-secondary\">");
+            String _upperCase_58 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_58);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_59 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_59);
+            _builder.append("</span>\t");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        {
+          if ((relation_4.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)") && relation_4.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) {
+            _builder.append("<font color=\"#505050\">Modelled Relationship: ");
+            {
+              boolean _isNullOrEmpty_32 = StringExtensions.isNullOrEmpty(relation_4.getName());
+              if (_isNullOrEmpty_32) {
+                _builder.append("<i>_UnnamedEntity_</i>");
+              } else {
+                boolean _isNullOrEmpty_33 = StringExtensions.isNullOrEmpty(relation_4.getName());
+                boolean _not_20 = (!_isNullOrEmpty_33);
+                if (_not_20) {
+                  String _name_29 = relation_4.getName();
+                  _builder.append(_name_29);
+                }
+              }
+            }
+            _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i> ");
+            String _string_64 = relation_4.getLeftEnding().getCardinality().toString();
+            _builder.append(_string_64);
+            _builder.append(" ");
+            EObject _target_15 = relation_4.getLeftEnding().getTarget();
+            _builder.append(_target_15);
+            _builder.append(" relates ");
+            String _string_65 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_65);
+            _builder.append(" ");
+            String _cardinality_15 = relation_4.getRightEnding().getCardinality();
+            _builder.append(_cardinality_15);
+            _builder.append("</font></br>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_66 = relation_4.getLeftEnding().getTarget().toString();
+            _builder.append(_string_66);
+            _builder.append("_fk\" in <span class=\"badge badge-secondary\">");
+            String _upperCase_60 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_60);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_61 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_61);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+            _builder.append("Attribute \"");
+            String _string_67 = relation_4.getRightEnding().getTarget().toString();
+            _builder.append(_string_67);
+            _builder.append("_fk\" In <span class=\"badge badge-secondary\">");
+            String _upperCase_62 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_62);
+            _builder.append("</span> references <span class=\"badge badge-secondary\">");
+            String _upperCase_63 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_63);
+            _builder.append("</span>");
+            _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
+            _builder.newLine();
+          }
+        }
+        _builder.newLine();
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.newLine();
+        _builder.append("\t");
         _builder.newLine();
       }
     }
