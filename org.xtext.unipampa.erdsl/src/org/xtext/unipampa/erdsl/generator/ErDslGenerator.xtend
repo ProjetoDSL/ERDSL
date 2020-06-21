@@ -53,7 +53,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<a href="#domain" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
 	&nbsp Modelled Domain
 	</p>
-	<div id="domain" class="panel-body collapse in">
+	<div id="domain" class="panel-body collapse">
 	<p class="field">«modeloER.domain.name.toUpperCase»</p>
 	</div>
 	«/**
@@ -69,7 +69,7 @@ class ErDslGenerator extends AbstractGenerator {
 	<div id="entities" class="panel-body collapse in">
 	<p class="field">
 	«FOR entity : modeloER.entities SEPARATOR " )</br></br>" AFTER ")</br>"»
-		<b>«entity.name.toUpperCase»</b> (
+		<span class="badge badge-secondary">«entity.name.toUpperCase»</span> (
 		«/**
 		 *
 		 * Verification and display of primary (PK) and, at the same time, foreign (FK) 
@@ -106,7 +106,7 @@ class ErDslGenerator extends AbstractGenerator {
 							«IF aux.is === null»
 								«FOR aux2 : aux.attributes»
 									«IF aux2.isIsKey»
-										, <font color="blue"><b>«aux2.name»_fk</b></font>
+										, <font color="blue"><b>«relation.leftEnding.target.toString»_fk</b></font>
 									«ENDIF»
 								«ENDFOR»
 							«ELSEIF !(aux.is === null)»
@@ -160,29 +160,29 @@ class ErDslGenerator extends AbstractGenerator {
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»		
 			«IF relation.name.nullOrEmpty»
-			</br>«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString.toUpperCase» (
+			</br><span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString.toUpperCase»</span> (
 			<font color="red"><b>id«relation.leftEnding.target.toString.toUpperCase»«relation.rightEnding.target.toString»*</b></font>,
 			«ELSEIF !relation.name.nullOrEmpty»
-			</br>«relation.name.toUpperCase» (
+			</br><span class="badge badge-secondary">«relation.name.toUpperCase»</span> (
 			<font color="red"><b>id«relation.name»*</b></font>,
 			«ENDIF»			
 			
 			«FOR entity : modeloER.entities»
 				
 				«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString !== relation.rightEnding.target.toString)»
-					«FOR attribute : entity.attributes»
-						«IF attribute.isIsKey»
-							<font color="blue"><b>«attribute.name»_fk</b></font>,
-						«ENDIF»
-					«ENDFOR»
+«««					«FOR attribute : entity.attributes»
+«««						«IF attribute.isIsKey»
+							<font color="blue"><b>«relation.leftEnding.target.toString»_fk</b></font>,
+«««						«ENDIF»
+«««					«ENDFOR»
 				«ENDIF»
 				
 				«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString !== relation.leftEnding.target.toString)»
-					«FOR attribute : entity.attributes»
-						«IF attribute.isIsKey»
-							<font color="blue"><b>«attribute.name»_fk</b></font>
-						«ENDIF»
-					«ENDFOR»
+«««					«FOR attribute : entity.attributes»
+«««						«IF attribute.isIsKey»
+							<font color="blue"><b>«relation.rightEnding.target.toString»_fk</b></font>
+«««						«ENDIF»
+«««					«ENDFOR»
 				«ENDIF»
 				
 				«/**
@@ -244,7 +244,7 @@ class ErDslGenerator extends AbstractGenerator {
 				
 				
 				«IF (!relation.name.nullOrEmpty) && (relation.name.equals(aux.leftEnding.target.toString))»
-					«aux.name.toUpperCase» (
+					<span class="badge badge-secondary">«aux.name.toUpperCase»</span> (
 					<font color="blue"><b>«aux.leftEnding.target.toString»</b></font><font color="red"><b>*</b></font>,
 					«FOR aux2 : modeloER.entities»
 						«IF aux.rightEnding.target.toString.equalsIgnoreCase(aux2.name)»
@@ -302,23 +302,23 @@ class ErDslGenerator extends AbstractGenerator {
 	</p>
 	</div>
 	
-	«/**
-	 *	
-	 * Display of previously modeled relationships
-	 *
-	 */»
-	<hr style="width:100%;text-align:left;margin-left:0"> 
-	<p class="sstitle">
-	<a href="#relationships" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
-	&nbsp Modelled Relationships
-	</p>	 
-	<div id="relationships" class="panel-body collapse in">
-	<p class="field">
-	«FOR relation : modeloER.relations SEPARATOR "</br>"»
-		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» &#8614 «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
-	«ENDFOR»
-	</p>
-	</div>
+«««	«/**
+«««	 *	
+«««	 * Display of previously modeled relationships
+«««	 *
+«««	 */»
+«««	<hr style="width:100%;text-align:left;margin-left:0"> 
+«««	<p class="sstitle">
+«««	<a href="#relationships" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
+«««	&nbsp Modelled Relationships
+«««	</p>	 
+«««	<div id="relationships" class="panel-body collapse in">
+«««	<p class="field">
+«««	«FOR relation : modeloER.relations SEPARATOR "</br>"»
+«««		«IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»
+«««	«ENDFOR»
+«««	</p>
+«««	</div>
 	
 	
 	«/**
@@ -338,90 +338,201 @@ class ErDslGenerator extends AbstractGenerator {
 		 *	
 		 * 
 		 *
-		 */»		
-		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
-		&& 
-		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
-			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
-			«FOR aux : modeloER.entities»
-				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
-					«FOR aux2 : aux.attributes»
-						«IF !(aux.is === null) && !(aux2.isIsKey)»
-							Attribute "«aux.is.toString»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«aux.is.toString.toUpperCase»"
-						«ELSEIF	((aux.is === null) && (aux2.isIsKey))»
-							Attribute "«aux2.name»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«relation.leftEnding.target.toString.toUpperCase»"		
-						«ENDIF»
-					«ENDFOR»
+		 */»	
+		 
+		 
+«««	Relationships 1:1		 
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	
+	Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+	</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	
+	Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+	</br>
+	«ENDIF»	
+
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	
+	Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+	</br>
+	«ENDIF»		 	
+
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	
+	Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+	</br>
+	«ENDIF»
+	
+	
+«««	Relationships 1:N
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
 				«ENDIF»
-			«ENDFOR»			
-		«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»	
+	</br>
+	«ENDIF»
 		
-		«/**
-		 *	
-		 *
-		 *
-		 */»			
-		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
-		&& 
-		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
-			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
-			«FOR aux : modeloER.entities»
-				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
-					«FOR aux2 : aux.attributes»
-						«IF !(aux.is === null) && !(aux2.isIsKey)»
-							Attribute "«aux.is.toString»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«aux.is.toString.toUpperCase»"
-						«ELSEIF	((aux.is === null))»
-							Attribute "«aux.name»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«relation.leftEnding.target.toString.toUpperCase»"		
-						«ENDIF»
-					«ENDFOR»
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
 				«ENDIF»
-			«ENDFOR»		
-		«ENDIF»
-		
-		«/**
-		 *	
-		 * 
-		 *
-		 */»			
-		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
-		&& 
-		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
-			</br><font color="#505050">«relation.name» >>> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
-			«FOR aux : modeloER.entities»
-				«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
-					«FOR aux2 : aux.attributes»
-						«IF !(aux.is === null) && !(aux2.isIsKey)»
-							Attribute "«aux.is.toString»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«aux.is.toString.toUpperCase»"
-						«ELSEIF	((aux.is === null))»
-							Attribute "«aux.name»_fk" 
-							In "«relation.rightEnding.target.toString.toUpperCase»" 
-							references "«relation.leftEnding.target.toString.toUpperCase»"		
-						«ENDIF»
-					«ENDFOR»
+				
+			«ENDIF»
+		«ENDFOR»
+	</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
 				«ENDIF»
-			«ENDFOR»			
-		«ENDIF»		
+				
+			«ENDIF»
+		«ENDFOR»	
+	</br>
+	«ENDIF»	
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
+				«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»	
+	</br>
+	«ENDIF»
+
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
+				«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»	
+	</br>
+	«ENDIF»
+
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
+				«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»	
+	</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
+				«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»
+	</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))»
+	<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		«FOR aux : modeloER.entities»
+			«IF aux.name.equalsIgnoreCase(relation.leftEnding.target.toString)»
+				«IF aux.is === null»
+					Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>	
+				«ELSE»
+					Attribute "«aux.is.toString»_fk" in <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span> references <span class="badge badge-secondary">«aux.is.toString.toUpperCase»</span>
+				«ENDIF»
+				
+			«ENDIF»
+		«ENDFOR»
+	</br>	
+	«ENDIF»	
+
+
+«««	Relationships N:N		 
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)'))»
+		<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
 		
-		«/**
-		 *	
-		 * 
-		 *
-		 */»			
-		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
-		&& 
-		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
-			N:N = «relation.name»
-		«ENDIF»				
+		Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+		</br>
+		Attribute "«relation.rightEnding.target.toString»_fk" In <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span>		
+		</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))»
+		<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		
+		Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+		</br>
+		Attribute "«relation.rightEnding.target.toString»_fk" In <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span>	
+		</br>
+	«ENDIF»
+	
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)'))»
+		<font color="#505050">Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+		
+		Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+		</br>
+		Attribute "«relation.rightEnding.target.toString»_fk" In <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span>	
+		</br>
+	«ENDIF»		 	
+
+	«IF (relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)') && relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))»
+		<font color="#505050">Modelled Relationship: «IF relation.name.nullOrEmpty»<i>_UnnamedEntity_</i>«ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i> «relation.leftEnding.cardinality.toString» «relation.leftEnding.target» relates «relation.rightEnding.target.toString» «relation.rightEnding.cardinality»</font></br>
+	
+		Attribute "«relation.leftEnding.target.toString»_fk" in <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»</span>
+		</br>
+		Attribute "«relation.rightEnding.target.toString»_fk" In <span class="badge badge-secondary">«relation.name.toUpperCase»</span> references <span class="badge badge-secondary">«relation.rightEnding.target.toString.toUpperCase»</span>
+		</br>
+	«ENDIF»
+	
+	
+	
+		
 		
 	«ENDFOR»
 	</p>
