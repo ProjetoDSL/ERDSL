@@ -6,11 +6,15 @@
 
 <h4 align="center"> 
 
-![](https://img.shields.io/github/last-commit/ProjetoDSL/ERDSL?style=for-the-badge)
+![](https://img.shields.io/github/last-commit/ProjetoDSL/ERDSL?style=for-the-badge) 
 
 ![](https://img.shields.io/badge/Eclipse%20IDE-2020‑06-yellow) ![](https://img.shields.io/badge/Xtext-2.21.0-blue)
 
 ---
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/xgzx9XQ/gif1.gif" alt="gif1" border="0" /></a>
+
+<a href="https://imgbb.com/"><img src="https://i.ibb.co/yVB30nV/gif2.gif" alt="gif2" border="0" /></a>
 
 ## Requirements (for development and/or use) ##
 
