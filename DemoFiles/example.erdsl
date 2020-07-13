@@ -1,0 +1,84 @@
+Domain Digital_Media_Store;
+
+Entities { 
+	People {
+		idPerson int isIdentifier,
+		firstName string,
+		lastName string
+	}	
+	Employees is People {
+		birthDate datetime,
+		hireDate datetime,
+		salary money
+	}
+	
+	Customers is People {
+		Address string,
+		city string,
+		state string,
+		country string,
+		phone int,
+		email string
+	}
+	
+	Invoices {
+		idInvoice int isIdentifier,
+		invoiceDate datetime,
+		billingAddress string,
+		billingCity string
+	} 
+	
+	Tracks {
+		idTrack int isIdentifier,
+		name string,
+		composer string,
+		duration int,
+		bytes int,
+		price money
+	}
+	
+	Albuns {
+		idAlbum int isIdentifier,
+		Title string
+	}
+	
+	Artists {
+		idArtist int isIdentifier,
+		name string
+	}
+	
+	Genres {
+		idGenre int isIdentifier,
+		name string
+	}
+	
+	Media_Types {
+		idMedia_Types int isIdentifier,
+		name string
+	}
+	
+	Playlists {
+		idPlaylists int isIdentifier,
+		name string
+	}
+	
+	Compilations {
+		idCollection int isIdentifier,
+		name string
+	}
+	
+};
+
+Relationships { 
+	Boss_of [(0:1) Employees relates (0:N) Employees]
+	Customer_Service [(0:1) Employees relates (0:N) Customers]
+	Purchases [(1:1) Customers relates (1:N) Invoices]
+	Invoice_Items [(0:N) Invoices relates (0:N) Tracks]
+	Music_Set [(1:N) Tracks relates (0:1) Albuns]
+	Authorship [(1:1) Artists relates (1:N) Albuns]
+	Type_Of [(1:1) Media_Types relates (0:N) Tracks]
+	Labeled [(0:1) Genres relates (0:N) Tracks]
+	Playlist_Track [(0:N) Tracks relates (0:N) Playlists]
+	Collection [(0:N) Playlist_Track relates (0:1) Compilations]
+}; 
+
