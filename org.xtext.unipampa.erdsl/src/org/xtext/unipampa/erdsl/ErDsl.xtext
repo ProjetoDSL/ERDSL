@@ -1,0 +1,42 @@
+grammar org.xtext.unipampa.erdsl.ErDsl with org.eclipse.xtext.common.Terminals
+
+generate erDsl "http://www.xtext.org/unipampa/erdsl/ErDsl"
+
+ERModel:
+	domain=Domain ';'
+	('Entities' '{') entities+=Entity+ ('}' ';')
+	('Relationships' '{') relations+=Relation* ('}' ';');
+
+Domain:
+	'Domain' name=ID;
+
+Attribute:
+	name=ID type=DataType (isKey?='isIdentifier')?;
+
+Entity:
+	name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])*
+	('{' attributes+=Attribute
+	(',' attributes+=Attribute)* '}')?;
+//generalization=('TD' | 'TO' | 'PD' | 'PO')
+
+Relation:
+	(name=ID)? ('[' leftEnding=RelationSideLeft
+	'relates'
+	rightEnding=RelationSideRight ']')
+	('{' attributes+=Attribute
+	(',' attributes+=Attribute)* '}')*;
+
+RelationSideRight:
+	cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)')
+	target=[Entity] | target=[Relation];
+	
+RelationSideLeft:
+	target=[Entity] | target=[Relation]
+	cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)') ;
+
+enum DataType:
+	INT='int' | DOUBLE='double' |
+	MONEY='money' | STRING='string' |
+	BOOLEAN='boolean' | DATETIME='datetime' |
+	BLOB='file';
+	
