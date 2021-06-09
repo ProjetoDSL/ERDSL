@@ -1,1 +1,0 @@
-var CodeMR_ProjectMetrics = {"Project Name":"org.xtext.unipampa.erdsl", "Number of Highly Problematic Classes":0, "Number of Entities":45, "Number of Problematic Classes":4, "Class Lines of Code":4447, "Number of External Packages":49, "Number of Packages":11, "Number of External Entities":267}
