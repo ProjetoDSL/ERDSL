@@ -240,10 +240,10 @@ public class RelationSideRightImpl extends MinimalEObjectImpl.Container implemen
     if (eIsProxy()) return super.toString();
 
     StringBuilder result = new StringBuilder(super.toString());
-//    result.append(" (cardinality: ");
+    result.append(" (cardinality: ");
     result.append(cardinality);
-//    result.append(')');
-    return result.toString();
+    result.append(')');
+    return cardinality;
   }
 
 } //RelationSideRightImpl
