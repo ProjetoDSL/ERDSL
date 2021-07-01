@@ -99,7 +99,12 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     ERModel returns ERModel
 	 *
 	 * Constraint:
-	 *     (domain=Domain entities+=Entity+ relations+=Relation*)
+	 *     (
+	 *         (targetGenerator='Logical Schema' | targetGenerator='PostgreSQL' | targetGenerator='MySQL' | targetGenerator='All')? 
+	 *         domain=Domain 
+	 *         entities+=Entity+ 
+	 *         relations+=Relation*
+	 *     )
 	 */
 	protected void sequence_ERModel(ISerializationContext context, ERModel semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
@@ -116,7 +121,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         (
 	 *             (generalization='total/disjoint' | generalization='total/Overlapped' | generalization='partial/disjoint' | generalization='partial/overlapped') 
 	 *             is=[Entity|ID]
-	 *         )* 
+	 *         )? 
 	 *         (attributes+=Attribute attributes+=Attribute*)?
 	 *     )
 	 */

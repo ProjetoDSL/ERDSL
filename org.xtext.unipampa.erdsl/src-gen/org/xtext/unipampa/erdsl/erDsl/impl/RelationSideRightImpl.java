@@ -243,7 +243,7 @@ public class RelationSideRightImpl extends MinimalEObjectImpl.Container implemen
     result.append(" (cardinality: ");
     result.append(cardinality);
     result.append(')');
-    return cardinality;
+    return result.toString();
   }
 
 } //RelationSideRightImpl

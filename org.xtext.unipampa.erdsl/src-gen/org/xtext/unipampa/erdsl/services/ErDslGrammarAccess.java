@@ -28,89 +28,127 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	public class ERModelElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.ERModel");
 		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Assignment cDomainAssignment_0 = (Assignment)cGroup.eContents().get(0);
-		private final RuleCall cDomainDomainParserRuleCall_0_0 = (RuleCall)cDomainAssignment_0.eContents().get(0);
-		private final Keyword cSemicolonKeyword_1 = (Keyword)cGroup.eContents().get(1);
-		private final Group cGroup_2 = (Group)cGroup.eContents().get(2);
-		private final Keyword cEntitiesKeyword_2_0 = (Keyword)cGroup_2.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cEntitiesAssignment_3 = (Assignment)cGroup.eContents().get(3);
-		private final RuleCall cEntitiesEntityParserRuleCall_3_0 = (RuleCall)cEntitiesAssignment_3.eContents().get(0);
-		private final Group cGroup_4 = (Group)cGroup.eContents().get(4);
-		private final Keyword cRightCurlyBracketKeyword_4_0 = (Keyword)cGroup_4.eContents().get(0);
-		private final Keyword cSemicolonKeyword_4_1 = (Keyword)cGroup_4.eContents().get(1);
+		private final Group cGroup_0 = (Group)cGroup.eContents().get(0);
+		private final Keyword cGenerateKeyword_0_0 = (Keyword)cGroup_0.eContents().get(0);
+		private final Assignment cTargetGeneratorAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
+		private final Alternatives cTargetGeneratorAlternatives_0_1_0 = (Alternatives)cTargetGeneratorAssignment_0_1.eContents().get(0);
+		private final Keyword cTargetGeneratorLogicalSchemaKeyword_0_1_0_0 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(0);
+		private final Keyword cTargetGeneratorPostgreSQLKeyword_0_1_0_1 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(1);
+		private final Keyword cTargetGeneratorMySQLKeyword_0_1_0_2 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(2);
+		private final Keyword cTargetGeneratorAllKeyword_0_1_0_3 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(3);
+		private final Keyword cSemicolonKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
+		private final Assignment cDomainAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cDomainDomainParserRuleCall_1_0 = (RuleCall)cDomainAssignment_1.eContents().get(0);
+		private final Keyword cSemicolonKeyword_2 = (Keyword)cGroup.eContents().get(2);
+		private final Group cGroup_3 = (Group)cGroup.eContents().get(3);
+		private final Keyword cEntitiesKeyword_3_0 = (Keyword)cGroup_3.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_3_1 = (Keyword)cGroup_3.eContents().get(1);
+		private final Assignment cEntitiesAssignment_4 = (Assignment)cGroup.eContents().get(4);
+		private final RuleCall cEntitiesEntityParserRuleCall_4_0 = (RuleCall)cEntitiesAssignment_4.eContents().get(0);
 		private final Group cGroup_5 = (Group)cGroup.eContents().get(5);
-		private final Keyword cRelationshipsKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
-		private final Keyword cLeftCurlyBracketKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
-		private final Assignment cRelationsAssignment_6 = (Assignment)cGroup.eContents().get(6);
-		private final RuleCall cRelationsRelationParserRuleCall_6_0 = (RuleCall)cRelationsAssignment_6.eContents().get(0);
-		private final Group cGroup_7 = (Group)cGroup.eContents().get(7);
-		private final Keyword cRightCurlyBracketKeyword_7_0 = (Keyword)cGroup_7.eContents().get(0);
-		private final Keyword cSemicolonKeyword_7_1 = (Keyword)cGroup_7.eContents().get(1);
+		private final Keyword cRightCurlyBracketKeyword_5_0 = (Keyword)cGroup_5.eContents().get(0);
+		private final Keyword cSemicolonKeyword_5_1 = (Keyword)cGroup_5.eContents().get(1);
+		private final Group cGroup_6 = (Group)cGroup.eContents().get(6);
+		private final Keyword cRelationshipsKeyword_6_0 = (Keyword)cGroup_6.eContents().get(0);
+		private final Keyword cLeftCurlyBracketKeyword_6_1 = (Keyword)cGroup_6.eContents().get(1);
+		private final Assignment cRelationsAssignment_7 = (Assignment)cGroup.eContents().get(7);
+		private final RuleCall cRelationsRelationParserRuleCall_7_0 = (RuleCall)cRelationsAssignment_7.eContents().get(0);
+		private final Group cGroup_8 = (Group)cGroup.eContents().get(8);
+		private final Keyword cRightCurlyBracketKeyword_8_0 = (Keyword)cGroup_8.eContents().get(0);
+		private final Keyword cSemicolonKeyword_8_1 = (Keyword)cGroup_8.eContents().get(1);
 		
 		//ERModel:
+		//	('Generate' targetGenerator=('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 		//	domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';')
+		//('Generate' targetGenerator=('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')? domain=Domain ';' ('Entities' '{')
+		//entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';')
 		public Group getGroup() { return cGroup; }
 		
+		//('Generate' targetGenerator=('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		public Group getGroup_0() { return cGroup_0; }
+		
+		//'Generate'
+		public Keyword getGenerateKeyword_0_0() { return cGenerateKeyword_0_0; }
+		
+		//targetGenerator=('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All')
+		public Assignment getTargetGeneratorAssignment_0_1() { return cTargetGeneratorAssignment_0_1; }
+		
+		//('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All')
+		public Alternatives getTargetGeneratorAlternatives_0_1_0() { return cTargetGeneratorAlternatives_0_1_0; }
+		
+		//'Logical Schema'
+		public Keyword getTargetGeneratorLogicalSchemaKeyword_0_1_0_0() { return cTargetGeneratorLogicalSchemaKeyword_0_1_0_0; }
+		
+		//'PostgreSQL'
+		public Keyword getTargetGeneratorPostgreSQLKeyword_0_1_0_1() { return cTargetGeneratorPostgreSQLKeyword_0_1_0_1; }
+		
+		//'MySQL'
+		public Keyword getTargetGeneratorMySQLKeyword_0_1_0_2() { return cTargetGeneratorMySQLKeyword_0_1_0_2; }
+		
+		//'All'
+		public Keyword getTargetGeneratorAllKeyword_0_1_0_3() { return cTargetGeneratorAllKeyword_0_1_0_3; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_0_2() { return cSemicolonKeyword_0_2; }
+		
 		//domain=Domain
-		public Assignment getDomainAssignment_0() { return cDomainAssignment_0; }
+		public Assignment getDomainAssignment_1() { return cDomainAssignment_1; }
 		
 		//Domain
-		public RuleCall getDomainDomainParserRuleCall_0_0() { return cDomainDomainParserRuleCall_0_0; }
+		public RuleCall getDomainDomainParserRuleCall_1_0() { return cDomainDomainParserRuleCall_1_0; }
 		
 		//';'
-		public Keyword getSemicolonKeyword_1() { return cSemicolonKeyword_1; }
+		public Keyword getSemicolonKeyword_2() { return cSemicolonKeyword_2; }
 		
 		//('Entities' '{')
-		public Group getGroup_2() { return cGroup_2; }
+		public Group getGroup_3() { return cGroup_3; }
 		
 		//'Entities'
-		public Keyword getEntitiesKeyword_2_0() { return cEntitiesKeyword_2_0; }
+		public Keyword getEntitiesKeyword_3_0() { return cEntitiesKeyword_3_0; }
 		
 		//'{'
-		public Keyword getLeftCurlyBracketKeyword_2_1() { return cLeftCurlyBracketKeyword_2_1; }
+		public Keyword getLeftCurlyBracketKeyword_3_1() { return cLeftCurlyBracketKeyword_3_1; }
 		
 		//entities+=Entity+
-		public Assignment getEntitiesAssignment_3() { return cEntitiesAssignment_3; }
+		public Assignment getEntitiesAssignment_4() { return cEntitiesAssignment_4; }
 		
 		//Entity
-		public RuleCall getEntitiesEntityParserRuleCall_3_0() { return cEntitiesEntityParserRuleCall_3_0; }
+		public RuleCall getEntitiesEntityParserRuleCall_4_0() { return cEntitiesEntityParserRuleCall_4_0; }
 		
 		//('}' ';')
-		public Group getGroup_4() { return cGroup_4; }
-		
-		//'}'
-		public Keyword getRightCurlyBracketKeyword_4_0() { return cRightCurlyBracketKeyword_4_0; }
-		
-		//';'
-		public Keyword getSemicolonKeyword_4_1() { return cSemicolonKeyword_4_1; }
-		
-		//('Relationships' '{')
 		public Group getGroup_5() { return cGroup_5; }
 		
-		//'Relationships'
-		public Keyword getRelationshipsKeyword_5_0() { return cRelationshipsKeyword_5_0; }
-		
-		//'{'
-		public Keyword getLeftCurlyBracketKeyword_5_1() { return cLeftCurlyBracketKeyword_5_1; }
-		
-		//relations+=Relation*
-		public Assignment getRelationsAssignment_6() { return cRelationsAssignment_6; }
-		
-		//Relation
-		public RuleCall getRelationsRelationParserRuleCall_6_0() { return cRelationsRelationParserRuleCall_6_0; }
-		
-		//('}' ';')
-		public Group getGroup_7() { return cGroup_7; }
-		
 		//'}'
-		public Keyword getRightCurlyBracketKeyword_7_0() { return cRightCurlyBracketKeyword_7_0; }
+		public Keyword getRightCurlyBracketKeyword_5_0() { return cRightCurlyBracketKeyword_5_0; }
 		
 		//';'
-		public Keyword getSemicolonKeyword_7_1() { return cSemicolonKeyword_7_1; }
+		public Keyword getSemicolonKeyword_5_1() { return cSemicolonKeyword_5_1; }
+		
+		//('Relationships' '{')
+		public Group getGroup_6() { return cGroup_6; }
+		
+		//'Relationships'
+		public Keyword getRelationshipsKeyword_6_0() { return cRelationshipsKeyword_6_0; }
+		
+		//'{'
+		public Keyword getLeftCurlyBracketKeyword_6_1() { return cLeftCurlyBracketKeyword_6_1; }
+		
+		//relations+=Relation*
+		public Assignment getRelationsAssignment_7() { return cRelationsAssignment_7; }
+		
+		//Relation
+		public RuleCall getRelationsRelationParserRuleCall_7_0() { return cRelationsRelationParserRuleCall_7_0; }
+		
+		//('}' ';')
+		public Group getGroup_8() { return cGroup_8; }
+		
+		//'}'
+		public Keyword getRightCurlyBracketKeyword_8_0() { return cRightCurlyBracketKeyword_8_0; }
+		
+		//';'
+		public Keyword getSemicolonKeyword_8_1() { return cSemicolonKeyword_8_1; }
 	}
 	public class DomainElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.Domain");
@@ -198,11 +236,11 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//Entity:
 		//	name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped')
-		//	is=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
+		//	is=[Entity])? ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped')
-		//is=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?
+		//is=[Entity])? ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?
 		public Group getGroup() { return cGroup; }
 		
 		//name=ID
@@ -211,7 +249,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 		
-		//('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])*
+		//('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//'is'
@@ -616,6 +654,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 
 	
 	//ERModel:
+	//	('Generate' targetGenerator=('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 	//	domain=Domain ';' ('Entities' '{') entities+=Entity+ ('}' ';') ('Relationships' '{') relations+=Relation* ('}' ';');
 	public ERModelElements getERModelAccess() {
 		return pERModel;
@@ -647,7 +686,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	
 	//Entity:
 	//	name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped')
-	//	is=[Entity])* ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
+	//	is=[Entity])? ('{' attributes+=Attribute (',' attributes+=Attribute)* '}')?;
 	public EntityElements getEntityAccess() {
 		return pEntity;
 	}

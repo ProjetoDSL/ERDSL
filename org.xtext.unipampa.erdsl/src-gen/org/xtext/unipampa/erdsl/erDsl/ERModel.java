@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getTargetGenerator <em>Target Generator</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getDomain <em>Domain</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getEntities <em>Entities</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getRelations <em>Relations</em>}</li>
@@ -27,6 +28,28 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface ERModel extends EObject
 {
+  /**
+   * Returns the value of the '<em><b>Target Generator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Target Generator</em>' attribute.
+   * @see #setTargetGenerator(String)
+   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getERModel_TargetGenerator()
+   * @model
+   * @generated
+   */
+  String getTargetGenerator();
+
+  /**
+   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getTargetGenerator <em>Target Generator</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Target Generator</em>' attribute.
+   * @see #getTargetGenerator()
+   * @generated
+   */
+  void setTargetGenerator(String value);
+
   /**
    * Returns the value of the '<em><b>Domain</b></em>' containment reference.
    * <!-- begin-user-doc -->

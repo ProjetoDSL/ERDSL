@@ -69,13 +69,22 @@ public interface ErDslPackage extends EPackage
   int ER_MODEL = 0;
 
   /**
+   * The feature id for the '<em><b>Target Generator</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int ER_MODEL__TARGET_GENERATOR = 0;
+
+  /**
    * The feature id for the '<em><b>Domain</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int ER_MODEL__DOMAIN = 0;
+  int ER_MODEL__DOMAIN = 1;
 
   /**
    * The feature id for the '<em><b>Entities</b></em>' containment reference list.
@@ -84,7 +93,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ER_MODEL__ENTITIES = 1;
+  int ER_MODEL__ENTITIES = 2;
 
   /**
    * The feature id for the '<em><b>Relations</b></em>' containment reference list.
@@ -93,7 +102,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ER_MODEL__RELATIONS = 2;
+  int ER_MODEL__RELATIONS = 3;
 
   /**
    * The number of structural features of the '<em>ER Model</em>' class.
@@ -102,7 +111,7 @@ public interface ErDslPackage extends EPackage
    * @generated
    * @ordered
    */
-  int ER_MODEL_FEATURE_COUNT = 3;
+  int ER_MODEL_FEATURE_COUNT = 4;
 
   /**
    * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.impl.DomainImpl <em>Domain</em>}' class.
@@ -382,6 +391,17 @@ public interface ErDslPackage extends EPackage
    * @generated
    */
   EClass getERModel();
+
+  /**
+   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getTargetGenerator <em>Target Generator</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Target Generator</em>'.
+   * @see org.xtext.unipampa.erdsl.erDsl.ERModel#getTargetGenerator()
+   * @see #getERModel()
+   * @generated
+   */
+  EAttribute getERModel_TargetGenerator();
 
   /**
    * Returns the meta object for the containment reference '{@link org.xtext.unipampa.erdsl.erDsl.ERModel#getDomain <em>Domain</em>}'.
@@ -694,6 +714,14 @@ public interface ErDslPackage extends EPackage
      * @generated
      */
     EClass ER_MODEL = eINSTANCE.getERModel();
+
+    /**
+     * The meta object literal for the '<em><b>Target Generator</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute ER_MODEL__TARGET_GENERATOR = eINSTANCE.getERModel_TargetGenerator();
 
     /**
      * The meta object literal for the '<em><b>Domain</b></em>' containment reference feature.

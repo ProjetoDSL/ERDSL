@@ -78,11 +78,70 @@ ruleERModel returns [EObject current=null]
 }:
 	(
 		(
+			otherlv_0='Generate'
+			{
+				newLeafNode(otherlv_0, grammarAccess.getERModelAccess().getGenerateKeyword_0_0());
+			}
+			(
+				(
+					(
+						lv_targetGenerator_1_1='Logical Schema'
+						{
+							newLeafNode(lv_targetGenerator_1_1, grammarAccess.getERModelAccess().getTargetGeneratorLogicalSchemaKeyword_0_1_0_0());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getERModelRule());
+							}
+							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_1, null);
+						}
+						    |
+						lv_targetGenerator_1_2='PostgreSQL'
+						{
+							newLeafNode(lv_targetGenerator_1_2, grammarAccess.getERModelAccess().getTargetGeneratorPostgreSQLKeyword_0_1_0_1());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getERModelRule());
+							}
+							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_2, null);
+						}
+						    |
+						lv_targetGenerator_1_3='MySQL'
+						{
+							newLeafNode(lv_targetGenerator_1_3, grammarAccess.getERModelAccess().getTargetGeneratorMySQLKeyword_0_1_0_2());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getERModelRule());
+							}
+							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_3, null);
+						}
+						    |
+						lv_targetGenerator_1_4='All'
+						{
+							newLeafNode(lv_targetGenerator_1_4, grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_3());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getERModelRule());
+							}
+							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_4, null);
+						}
+					)
+				)
+			)
+			otherlv_2=';'
+			{
+				newLeafNode(otherlv_2, grammarAccess.getERModelAccess().getSemicolonKeyword_0_2());
+			}
+		)?
+		(
 			(
 				{
-					newCompositeNode(grammarAccess.getERModelAccess().getDomainDomainParserRuleCall_0_0());
+					newCompositeNode(grammarAccess.getERModelAccess().getDomainDomainParserRuleCall_1_0());
 				}
-				lv_domain_0_0=ruleDomain
+				lv_domain_3_0=ruleDomain
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getERModelRule());
@@ -90,32 +149,32 @@ ruleERModel returns [EObject current=null]
 					set(
 						$current,
 						"domain",
-						lv_domain_0_0,
+						lv_domain_3_0,
 						"org.xtext.unipampa.erdsl.ErDsl.Domain");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)
-		otherlv_1=';'
+		otherlv_4=';'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getERModelAccess().getSemicolonKeyword_1());
+			newLeafNode(otherlv_4, grammarAccess.getERModelAccess().getSemicolonKeyword_2());
 		}
 		(
-			otherlv_2='Entities'
+			otherlv_5='Entities'
 			{
-				newLeafNode(otherlv_2, grammarAccess.getERModelAccess().getEntitiesKeyword_2_0());
+				newLeafNode(otherlv_5, grammarAccess.getERModelAccess().getEntitiesKeyword_3_0());
 			}
-			otherlv_3='{'
+			otherlv_6='{'
 			{
-				newLeafNode(otherlv_3, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_2_1());
+				newLeafNode(otherlv_6, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_3_1());
 			}
 		)
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getERModelAccess().getEntitiesEntityParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getERModelAccess().getEntitiesEntityParserRuleCall_4_0());
 				}
-				lv_entities_4_0=ruleEntity
+				lv_entities_7_0=ruleEntity
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getERModelRule());
@@ -123,38 +182,38 @@ ruleERModel returns [EObject current=null]
 					add(
 						$current,
 						"entities",
-						lv_entities_4_0,
+						lv_entities_7_0,
 						"org.xtext.unipampa.erdsl.ErDsl.Entity");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)+
 		(
-			otherlv_5='}'
+			otherlv_8='}'
 			{
-				newLeafNode(otherlv_5, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_4_0());
+				newLeafNode(otherlv_8, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_5_0());
 			}
-			otherlv_6=';'
+			otherlv_9=';'
 			{
-				newLeafNode(otherlv_6, grammarAccess.getERModelAccess().getSemicolonKeyword_4_1());
+				newLeafNode(otherlv_9, grammarAccess.getERModelAccess().getSemicolonKeyword_5_1());
 			}
 		)
 		(
-			otherlv_7='Relationships'
+			otherlv_10='Relationships'
 			{
-				newLeafNode(otherlv_7, grammarAccess.getERModelAccess().getRelationshipsKeyword_5_0());
+				newLeafNode(otherlv_10, grammarAccess.getERModelAccess().getRelationshipsKeyword_6_0());
 			}
-			otherlv_8='{'
+			otherlv_11='{'
 			{
-				newLeafNode(otherlv_8, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_5_1());
+				newLeafNode(otherlv_11, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_6_1());
 			}
 		)
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getERModelAccess().getRelationsRelationParserRuleCall_6_0());
+					newCompositeNode(grammarAccess.getERModelAccess().getRelationsRelationParserRuleCall_7_0());
 				}
-				lv_relations_9_0=ruleRelation
+				lv_relations_12_0=ruleRelation
 				{
 					if ($current==null) {
 						$current = createModelElementForParent(grammarAccess.getERModelRule());
@@ -162,20 +221,20 @@ ruleERModel returns [EObject current=null]
 					add(
 						$current,
 						"relations",
-						lv_relations_9_0,
+						lv_relations_12_0,
 						"org.xtext.unipampa.erdsl.ErDsl.Relation");
 					afterParserOrEnumRuleCall();
 				}
 			)
 		)*
 		(
-			otherlv_10='}'
+			otherlv_13='}'
 			{
-				newLeafNode(otherlv_10, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_7_0());
+				newLeafNode(otherlv_13, grammarAccess.getERModelAccess().getRightCurlyBracketKeyword_8_0());
 			}
-			otherlv_11=';'
+			otherlv_14=';'
 			{
-				newLeafNode(otherlv_11, grammarAccess.getERModelAccess().getSemicolonKeyword_7_1());
+				newLeafNode(otherlv_14, grammarAccess.getERModelAccess().getSemicolonKeyword_8_1());
 			}
 		)
 	)
@@ -393,7 +452,7 @@ ruleEntity returns [EObject current=null]
 					}
 				)
 			)
-		)*
+		)?
 		(
 			otherlv_4='{'
 			{

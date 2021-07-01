@@ -166,9 +166,9 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EReference getERModel_Domain()
+  public EAttribute getERModel_TargetGenerator()
   {
-    return (EReference)erModelEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)erModelEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -177,7 +177,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EReference getERModel_Entities()
+  public EReference getERModel_Domain()
   {
     return (EReference)erModelEClass.getEStructuralFeatures().get(1);
   }
@@ -188,9 +188,20 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EReference getERModel_Relations()
+  public EReference getERModel_Entities()
   {
     return (EReference)erModelEClass.getEStructuralFeatures().get(2);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getERModel_Relations()
+  {
+    return (EReference)erModelEClass.getEStructuralFeatures().get(3);
   }
 
   /**
@@ -478,6 +489,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     // Create classes and their features
     erModelEClass = createEClass(ER_MODEL);
+    createEAttribute(erModelEClass, ER_MODEL__TARGET_GENERATOR);
     createEReference(erModelEClass, ER_MODEL__DOMAIN);
     createEReference(erModelEClass, ER_MODEL__ENTITIES);
     createEReference(erModelEClass, ER_MODEL__RELATIONS);
@@ -546,6 +558,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
 
     // Initialize classes and features; add operations and parameters
     initEClass(erModelEClass, ERModel.class, "ERModel", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getERModel_TargetGenerator(), ecorePackage.getEString(), "targetGenerator", null, 0, 1, ERModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getERModel_Domain(), this.getDomain(), null, "domain", null, 0, 1, ERModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getERModel_Entities(), this.getEntity(), null, "entities", null, 0, -1, ERModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getERModel_Relations(), this.getRelation(), null, "relations", null, 0, -1, ERModel.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

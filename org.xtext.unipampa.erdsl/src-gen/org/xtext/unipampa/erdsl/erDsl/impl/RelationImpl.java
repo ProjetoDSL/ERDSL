@@ -382,11 +382,11 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
   {
     if (eIsProxy()) return super.toString();
 
-    StringBuilder result = new StringBuilder(super.toString());
-    result.append(" (name: ");
-    result.append(name);
-    result.append(')');
-    return name;
+//    StringBuilder result = new StringBuilder(super.toString());
+//    result.append(" (name: ");
+//    result.append(name);
+//    result.append(')');
+    return name.toString();
   }
 
 } //RelationImpl

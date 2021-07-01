@@ -33,6 +33,7 @@ import org.xtext.unipampa.erdsl.erDsl.Relation;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.ERModelImpl#getTargetGenerator <em>Target Generator</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.ERModelImpl#getDomain <em>Domain</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.ERModelImpl#getEntities <em>Entities</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.ERModelImpl#getRelations <em>Relations</em>}</li>
@@ -42,6 +43,26 @@ import org.xtext.unipampa.erdsl.erDsl.Relation;
  */
 public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
 {
+  /**
+   * The default value of the '{@link #getTargetGenerator() <em>Target Generator</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTargetGenerator()
+   * @generated
+   * @ordered
+   */
+  protected static final String TARGET_GENERATOR_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getTargetGenerator() <em>Target Generator</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getTargetGenerator()
+   * @generated
+   * @ordered
+   */
+  protected String targetGenerator = TARGET_GENERATOR_EDEFAULT;
+
   /**
    * The cached value of the '{@link #getDomain() <em>Domain</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -91,6 +112,31 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
   protected EClass eStaticClass()
   {
     return ErDslPackage.Literals.ER_MODEL;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String getTargetGenerator()
+  {
+    return targetGenerator;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setTargetGenerator(String newTargetGenerator)
+  {
+    String oldTargetGenerator = targetGenerator;
+    targetGenerator = newTargetGenerator;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.ER_MODEL__TARGET_GENERATOR, oldTargetGenerator, targetGenerator));
   }
 
   /**
@@ -203,6 +249,8 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
   {
     switch (featureID)
     {
+      case ErDslPackage.ER_MODEL__TARGET_GENERATOR:
+        return getTargetGenerator();
       case ErDslPackage.ER_MODEL__DOMAIN:
         return getDomain();
       case ErDslPackage.ER_MODEL__ENTITIES:
@@ -224,6 +272,9 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
   {
     switch (featureID)
     {
+      case ErDslPackage.ER_MODEL__TARGET_GENERATOR:
+        setTargetGenerator((String)newValue);
+        return;
       case ErDslPackage.ER_MODEL__DOMAIN:
         setDomain((Domain)newValue);
         return;
@@ -249,6 +300,9 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
   {
     switch (featureID)
     {
+      case ErDslPackage.ER_MODEL__TARGET_GENERATOR:
+        setTargetGenerator(TARGET_GENERATOR_EDEFAULT);
+        return;
       case ErDslPackage.ER_MODEL__DOMAIN:
         setDomain((Domain)null);
         return;
@@ -272,6 +326,8 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
   {
     switch (featureID)
     {
+      case ErDslPackage.ER_MODEL__TARGET_GENERATOR:
+        return TARGET_GENERATOR_EDEFAULT == null ? targetGenerator != null : !TARGET_GENERATOR_EDEFAULT.equals(targetGenerator);
       case ErDslPackage.ER_MODEL__DOMAIN:
         return domain != null;
       case ErDslPackage.ER_MODEL__ENTITIES:
@@ -280,6 +336,23 @@ public class ERModelImpl extends MinimalEObjectImpl.Container implements ERModel
         return relations != null && !relations.isEmpty();
     }
     return super.eIsSet(featureID);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public String toString()
+  {
+    if (eIsProxy()) return super.toString();
+
+    StringBuilder result = new StringBuilder(super.toString());
+    result.append(" (targetGenerator: ");
+    result.append(targetGenerator);
+    result.append(')');
+    return result.toString();
   }
 
 } //ERModelImpl

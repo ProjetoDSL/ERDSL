@@ -16,6 +16,7 @@
       <genEnumLiterals ecoreEnumLiteral="ErDsl.ecore#//DataType/BLOB"/>
     </genEnums>
     <genClasses ecoreClass="ErDsl.ecore#//ERModel">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//ERModel/targetGenerator"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/domain"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/entities"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//ERModel/relations"/>

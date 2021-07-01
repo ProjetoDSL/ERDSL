@@ -3,6 +3,7 @@ grammar org.xtext.unipampa.erdsl.ErDsl with org.eclipse.xtext.common.Terminals
 generate erDsl "http://www.xtext.org/unipampa/erdsl/ErDsl"
 
 ERModel:
+	('Generate' targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 	domain=Domain ';'
 	('Entities' '{') entities+=Entity+ ('}' ';')
 	('Relationships' '{') relations+=Relation* ('}' ';');
@@ -14,7 +15,7 @@ Attribute:
 	name=ID type=DataType (isKey?='isIdentifier')?;
 
 Entity:
-	name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])*
+	name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 	('{' attributes+=Attribute
 	(',' attributes+=Attribute)* '}')?;
 //generalization=('TD' | 'TO' | 'PD' | 'PO')
