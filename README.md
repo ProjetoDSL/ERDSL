@@ -103,10 +103,14 @@
 
 8. Look at the *src-gen* directory and see the generated .html file, the result of transforming the conceptual model into a logical model.
 
----
+<!-- --- -->
 
-# Contributions, suggestions, and bug reports are extremely welcome - please create an issue or contact the maintainer.
+<!-- # Contributions, suggestions, and bug reports are extremely welcome - please create an issue or contact the maintainer. -->
 
 ---
 
 Initially made by **[Jonnathan](https://jonnathanriquelmo.github.io)** of **[LESSE](http://lesse.com.br/site/)** research group. This project is licensed under the **[EPL-2.0](https://github.com/ProjetoDSL/ERDSL/blob/master/LICENSE "EPL-2.0")** license.
+	
+<a href="http://with-eclipse.github.io/" target="_blank">
+<img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" />
+</a>
