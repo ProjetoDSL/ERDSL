@@ -3,8 +3,6 @@
  */
 package org.xtext.unipampa.erdsl.validation;
 
-import org.xtext.unipampa.erdsl.validation.AbstractErDslValidator;
-
 /**
  * This class contains custom validation rules.
  * 

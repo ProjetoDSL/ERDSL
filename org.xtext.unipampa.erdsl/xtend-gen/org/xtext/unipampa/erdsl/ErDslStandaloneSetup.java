@@ -3,8 +3,6 @@
  */
 package org.xtext.unipampa.erdsl;
 
-import org.xtext.unipampa.erdsl.ErDslStandaloneSetupGenerated;
-
 /**
  * Initialization support for running Xtext languages without Equinox extension registry.
  */

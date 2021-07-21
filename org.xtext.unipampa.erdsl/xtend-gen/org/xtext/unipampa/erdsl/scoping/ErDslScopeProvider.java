@@ -12,7 +12,6 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
-import org.xtext.unipampa.erdsl.scoping.AbstractErDslScopeProvider;
 
 /**
  * This class contains custom scoping description.
