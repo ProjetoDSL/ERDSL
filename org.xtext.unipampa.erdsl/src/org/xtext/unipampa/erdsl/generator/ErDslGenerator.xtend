@@ -25,6 +25,8 @@ class ErDslGenerator extends AbstractGenerator {
 	var counter = 0; 
 	var AuxCounterA = 0;
 	var AuxCounterB = 0;
+	var boolean auxT1 = false;
+	var boolean auxT2 = false;
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
@@ -702,7 +704,7 @@ class ErDslGenerator extends AbstractGenerator {
 	    OWNER = postgres
 	    ENCODING = 'UTF8'
 	    TABLESPACE = pg_default
-	    CONNECTION LIMIT = -1;
+	    CONNECTION LIMIT = -1; «var ListExendPKsLenght = 0»
 	    
 	«FOR entity : e.entities SEPARATOR "\n);\n" AFTER ");\n"»
 		«val myListPKs = newArrayList()»
@@ -710,7 +712,7 @@ class ErDslGenerator extends AbstractGenerator {
 		«postgreSQLHaveFK(e,entity)»
 «««		FK SIMPLES É VAZIO? «myListFKs.isNullOrEmpty»
 		-- Table: «entity.name.toUpperCase»
-		«IF !entity.generalization.isNullOrEmpty»-- Generalization/Specialization: «entity.generalization.toString.toUpperCase»«ENDIF»
+		«IF !entity.generalization.isNullOrEmpty»-- Generalization/Specialization «entity.generalization.toString.toUpperCase» from table «entity.is.toString.toUpperCase»«ENDIF»
 		-- DROP TABLE «entity.name.toUpperCase»;	
 		CREATE TABLE IF NOT EXISTS «entity.name.toLowerCase» (
 			«IF !(entity.is === null)»«FOR aux : e.entities»«IF aux.name.equalsIgnoreCase(entity.is.toString)»«FOR auxAttributes : aux.attributes»«IF auxAttributes.isIsKey»
@@ -723,8 +725,8 @@ class ErDslGenerator extends AbstractGenerator {
 			«postgreSQLVerifyFKsAttributesRelation1to1(e, entity.name)»
 			«postgreSQLVerifyFKsAttributesRelation1toN(e, entity.name)»
 			PRIMARY KEY («FOR x : myListPKs SEPARATOR ", " AFTER ")"»«println(x.toLowerCase)»«ENDFOR»«IF !myListExtendPKs.nullOrEmpty || !myListFKs.isNullOrEmpty»,«ENDIF»
-			«val ListExendPKsLenght = myListExtendPKs.size»
-			«FOR x : myListExtendPKs SEPARATOR ",\n"»FOREIGN KEY («println(x.toString.toLowerCase)») REFERENCES «postgreSQLDiscoverInheritedPKtoFK(e,x.toString, ListExendPKsLenght)»«ENDFOR»«myListPKs.clear»«myListExtendPKs.clear»«myListFKs.clear»
+			«{ListExendPKsLenght = myListExtendPKs.size; null}»
+			«FOR x : myListExtendPKs SEPARATOR ",\n"»FOREIGN KEY («println(x.toString.toLowerCase)») REFERENCES «postgreSQLDiscoverInheritedPKtoFK(e,x.toString, ListExendPKsLenght, entity.name)»«ENDFOR»«myListPKs.clear»«myListExtendPKs.clear»«myListFKs.clear»
 			«{postgreSQL_COUNT_FKsRelation1to1(e, entity.name); null}»«{counter = globalFKcounter_1to1; AuxCounterA = globalFKcounter_1to1; null}» «{globalFKcounter_1to1 = 0;null}»
 			«postgreSQLDefineFKsRelation1to1(e, entity.name, counter)»«{counter = 0;null}»«{postgreSQL_COUNT_FKsRelation1toN(e, entity.name); null}»«{counter = globalFKcounter_1toN; AuxCounterB = globalFKcounter_1toN; null}»«{globalFKcounter_1toN = 0;null}»«IF AuxCounterA > 0 && AuxCounterB > 0»,«ENDIF»«{AuxCounterA = 0;null}»«{AuxCounterB = 0;null}»
 			«postgreSQLDefineFKsRelation1toN(e, entity.name, counter)» «{counter = 0;null}»
@@ -749,70 +751,123 @@ class ErDslGenerator extends AbstractGenerator {
 			«FOR entity : e.entities»
 			«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString !== relation.rightEnding.target.toString)»«{myListPKsFKs.add(relation.leftEnding.target.toString);""}»	«relation.leftEnding.target.toString.toLowerCase»«postgreSQLAttTypeCheckerNtoNLeft(e,relation)»«ENDIF»
 			«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString !== relation.leftEnding.target.toString)»«{myListPKsFKs.add(relation.rightEnding.target.toString);""}»	«relation.rightEnding.target.toString.toLowerCase»«postgreSQLAttTypeCheckerNtoNRight(e,relation)»«ENDIF»
-«««					«/**
-«««					*
-«««					* Autorelacionamento N:N
-«««					*  
-«««					*/»
-«««					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
-«««						«FOR attribute : entity.attributes»«IF attribute.isIsKey»«attribute.name»__fk1,«ENDIF»«ENDFOR»
-«««					«ENDIF»
-«««					«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»
-«««						«FOR attribute : entity.attributes»«IF attribute.isIsKey»«attribute.name»__fk2«ENDIF»«ENDFOR»
-«««					«ENDIF»				
-			«ENDFOR»	
-				«IF !relation.attributes.nullOrEmpty»«FOR aux : relation.attributes»«postgreSQLAttTypeChecker(aux)»«ENDFOR»
-			«ENDIF»
-				PRIMARY KEY («FOR aux : relation.attributes»«IF aux.isIsKey»«aux.name.toString.toLowerCase», «ENDIF»«ENDFOR»«FOR x : myListPKsFKs SEPARATOR ", " AFTER "),"»«println(x.toLowerCase)»«ENDFOR»
-				«val ListPKsFKsLenght = myListPKsFKs.size»
-				«FOR x : myListPKsFKs SEPARATOR "),\n"»FOREIGN KEY («println(x.toString.toLowerCase)») REFERENCES «print(x.toString.toLowerCase)» («postgreSQLDiscoverPKtoFK(e,x, ListPKsFKsLenght)»«ENDFOR»)«myListPKsFKs.clear»
-			);
+			«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»«{myListPKsFKs.add(relation.leftEnding.target.toString);""}»	«relation.leftEnding.target.toString.toLowerCase»_«relation.name.toLowerCase»_1«{auxT1 = true; null}»«postgreSQLAttTypeCheckerNtoNLeft(e,relation)»«ENDIF»
+			«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»«{myListPKsFKs.add(relation.rightEnding.target.toString);""}»	«relation.rightEnding.target.toString.toLowerCase»_«relation.name.toLowerCase»_2«{auxT2 = true; null}»«postgreSQLAttTypeCheckerNtoNRight(e,relation)»«ENDIF»
+			«ENDFOR»«var iterCounter = 1»
+				«IF !relation.attributes.nullOrEmpty»«FOR aux : relation.attributes»«postgreSQLAttTypeChecker(aux)»«ENDFOR»«ENDIF»
+				PRIMARY KEY («FOR aux : relation.attributes»«IF aux.isIsKey»«aux.name.toString.toLowerCase», «ENDIF»«ENDFOR»«FOR x : myListPKsFKs SEPARATOR ", " AFTER "),"»«println(x.toLowerCase)»«IF auxT1 && auxT2»_«relation.name.toLowerCase»_«iterCounter++»«ENDIF»«ENDFOR»
+				«val ListPKsFKsLenght = myListPKsFKs.size»«{iterCounter = 1; null}»
+				«FOR x : myListPKsFKs SEPARATOR "),\n"»FOREIGN KEY («println(x.toString.toLowerCase)»«IF auxT1 && auxT2»_«relation.name.toLowerCase»_«iterCounter++»«ENDIF») REFERENCES «print(x.toString.toLowerCase)» («postgreSQLDiscoverPKtoFK(e,x, ListPKsFKsLenght)»«postgreSQLDiscoverAutoInheritedPKtoFK(e,x)»«ENDFOR»)«myListPKsFKs.clear»
+			);«{iterCounter = 1; null}»«{auxT1 = false; null}»«{auxT2 = false; null}»
 			«ENDIF»
 	«ENDFOR»
 	
-	/* RELAÇÕES TERNÁRIAS */ ««« Relações ternárias »»»	
+	/* RELAÇÕES TERNÁRIAS */ 
+	«var String artificialEntName1»«var String artificialEntKey1»«var String artificialEntKeyAlt1»
+	«var String artificialEntName2»«var String artificialEntKey2»«var String artificialEntKeyAlt2»
+	«var String realEntName»«var String realEntKey»
 	«FOR relation : e.relations»
-«««	«val myListPKsFKs = newArrayList()»
 		«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
 		&& 
 		(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
 				«FOR aux : e.relations»
 					«IF (!relation.name.nullOrEmpty) && (relation.name.equals(aux.leftEnding.target.toString))»
-						
-	-- Table: «aux.name.toUpperCase»
-	-- DROP TABLE «aux.name.toUpperCase»;
-	CREATE TABLE IF NOT EXISTS «aux.name.toLowerCase» (
-		«aux.leftEnding.target.toString.toLowerCase»,
-		«aux.rightEnding.target.toString.toLowerCase», 
+-- Table: «aux.name.toUpperCase»
+-- DROP TABLE «aux.name.toUpperCase»;
+CREATE TABLE IF NOT EXISTS «aux.name.toLowerCase» (	
+	«FOR entAux : e.entities»
+		«IF entAux.name.toString.equalsIgnoreCase(aux.rightEnding.target.toString)» 
+			«FOR attAux : entAux.attributes»
+				«IF attAux.isIsKey»
+					«postgreSQLAttTypeChecker(attAux)»«{realEntName = entAux.name.toString.toLowerCase; null}»«{realEntKey = attAux.name.toString.toLowerCase; null}»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
+	«FOR relEntArtifial1 : e.relations»
+		«IF relEntArtifial1.name.equalsIgnoreCase(aux.leftEnding.target.toString)»
+			«FOR ent1 : e.entities»
+				«IF ent1.name.equalsIgnoreCase(relEntArtifial1.leftEnding.target.toString)»
+					«FOR ent1Att : ent1.attributes»
+						«IF ent1Att.isIsKey»
+							«postgreSQLAttTypeChecker(ent1Att)»«{artificialEntName1 = aux.leftEnding.target.toString.toLowerCase; null}»«{artificialEntKey1 = ent1Att.name.toString.toLowerCase; null}»«{artificialEntKeyAlt1 = ent1.name.toString.toLowerCase; null}»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+			«FOR ent2 : e.entities»
+				«IF ent2.name.equalsIgnoreCase(relEntArtifial1.rightEnding.target.toString)»
+					«FOR ent2Att : ent2.attributes»
+						«IF ent2Att.isIsKey»
+							«postgreSQLAttTypeChecker(ent2Att)»«{artificialEntName2 = aux.leftEnding.target.toString.toLowerCase; null}»«{artificialEntKey2 = ent2Att.name.toString.toLowerCase; null}»«{artificialEntKeyAlt2 = ent2.name.toString.toLowerCase; null}»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
 	«FOR aux2 : e.entities»
-	«IF aux.rightEnding.target.toString.equalsIgnoreCase(aux2.name)»	«aux2.name.toString.toLowerCase», 
+	«IF aux.rightEnding.target.toString.equalsIgnoreCase(aux2.name)»
 	«FOR attribute : aux.attributes»«IF !attribute.name.nullOrEmpty && attribute.isIsKey»«postgreSQLAttTypeChecker(attribute)»«ENDIF»«ENDFOR»
 	«FOR attribute : aux.attributes»«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»«postgreSQLAttTypeChecker(attribute)»«ENDIF»«ENDFOR»
 	«ENDIF»
 «ENDFOR»
-	PRIMARY KEY ( ) REFERENCES ( )
-	FOREIGN KEY ( ) REFERENCES ( )
+	PRIMARY KEY («realEntKey.toString», «artificialEntKey1», «artificialEntKey2.toString»),
+	FOREIGN KEY («realEntKey.toString») REFERENCES «realEntName.toString» («realEntKey.toString»),
+	FOREIGN KEY («artificialEntKey1.toString») REFERENCES «artificialEntName1» («artificialEntKeyAlt1.toString»),
+	FOREIGN KEY («artificialEntKey2.toString») REFERENCES «artificialEntName2» («artificialEntKeyAlt2.toString»)
 );
 	«ELSEIF (!relation.name.nullOrEmpty) && (relation.name.equals(aux.rightEnding.target.toString))»
 						
-	-- Table: «aux.name.toUpperCase»
-	-- DROP TABLE «aux.name.toUpperCase»;
-	CREATE TABLE IF NOT EXISTS «aux.name.toLowerCase» (
-		«aux.leftEnding.target.toString.toLowerCase»,
-		«aux.rightEnding.target.toString.toLowerCase», 
+-- Table: «aux.name.toUpperCase»
+-- DROP TABLE «aux.name.toUpperCase»;
+CREATE TABLE IF NOT EXISTS «aux.name.toLowerCase» (
+	«FOR entAux : e.entities»
+		«IF entAux.name.toString.equalsIgnoreCase(aux.leftEnding.target.toString)» 
+			«FOR attAux : entAux.attributes»
+				«IF attAux.isIsKey»
+					«postgreSQLAttTypeChecker(attAux)»«{realEntName = entAux.name.toString.toLowerCase; null}»«{realEntKey = attAux.name.toString.toLowerCase; null}»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
+	«FOR relEntArtifial1 : e.relations»
+		«IF relEntArtifial1.name.equalsIgnoreCase(aux.rightEnding.target.toString)»
+			«FOR ent1 : e.entities»
+				«IF ent1.name.equalsIgnoreCase(relEntArtifial1.rightEnding.target.toString)»
+					«FOR ent1Att : ent1.attributes»
+						«IF ent1Att.isIsKey»
+							«postgreSQLAttTypeChecker(ent1Att)»«{artificialEntName1 = aux.rightEnding.target.toString.toLowerCase; null}»«{artificialEntKey1 = ent1Att.name.toString.toLowerCase; null}»«{artificialEntKeyAlt1 = ent1.name.toString.toLowerCase; null}»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+			«FOR ent2 : e.entities»
+				«IF ent2.name.equalsIgnoreCase(relEntArtifial1.leftEnding.target.toString)»
+					«FOR ent2Att : ent2.attributes»
+						«IF ent2Att.isIsKey»
+							«postgreSQLAttTypeChecker(ent2Att)»«{artificialEntName2 = aux.rightEnding.target.toString.toLowerCase; null}»«{artificialEntKey2 = ent2Att.name.toString.toLowerCase; null}»«{artificialEntKeyAlt2 = ent2.name.toString.toLowerCase; null}»
+						«ENDIF»
+					«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
 	«FOR aux2 : e.entities»
-	«IF aux.leftEnding.target.toString.equalsIgnoreCase(aux2.name)»	   «aux2.toString.toLowerCase», 
+	«IF aux.leftEnding.target.toString.equalsIgnoreCase(aux2.name)»
 	«FOR attribute : aux.attributes»«IF !attribute.name.nullOrEmpty && attribute.isIsKey»«postgreSQLAttTypeChecker(attribute)»«ENDIF»«ENDFOR»
 	«FOR attribute : aux.attributes»«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»«postgreSQLAttTypeChecker(attribute)»«ENDIF»«ENDFOR»
 	«ENDIF»
 «ENDFOR»
-	PRIMARY KEY ( ) REFERENCES ( )
-	FOREIGN KEY ( ) REFERENCES ( )
+	PRIMARY KEY («realEntKey.toString», «artificialEntKey1», «artificialEntKey2.toString»),
+	FOREIGN KEY («realEntKey.toString») REFERENCES «realEntName.toString» («realEntKey.toString»),
+	FOREIGN KEY («artificialEntKey1.toString») REFERENCES «artificialEntName1» («artificialEntKeyAlt1.toString»),
+	FOREIGN KEY («artificialEntKey2.toString») REFERENCES «artificialEntName2» («artificialEntKeyAlt2.toString»)
 );
-					«ENDIF»
-				«ENDFOR»
-			«ENDIF»
-				«ENDFOR»
+				«ENDIF»
+			«ENDFOR»
+		«ENDIF»
+	«ENDFOR»
 				
 						
 	'''
@@ -824,8 +879,7 @@ class ErDslGenerator extends AbstractGenerator {
 				«ELSEIF a.type.toString.equalsIgnoreCase("money") || a.type.toString.equalsIgnoreCase("double")» NUMERIC NOT NULL,
 				«ELSEIF a.type.toString.equalsIgnoreCase("boolean")» BOOLEAN NOT NULL,
 				«ELSEIF a.type.toString.equalsIgnoreCase("file")» BYTEA,
-				«ENDIF»
-	'''
+				«ENDIF»'''
 	
 	private def postgreSQLAttTypeCheckerUnnamed(Attribute a) '''
 		«IF a.type.toString.equalsIgnoreCase("string")» VARCHAR (255) NOT NULL,
@@ -876,13 +930,13 @@ class ErDslGenerator extends AbstractGenerator {
 	private def postgreSQLDiscoverPKtoFK (ERModel e, String r, int i)'''
 		«FOR aux : e.entities»«IF aux.name.toString == r.toString»«FOR aux2 : aux.attributes»«IF aux2.isIsKey»«aux2.name.toString.toLowerCase»«ENDIF»«IF (i - 1) == 0»,«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»'''
 	
-	private def postgreSQLDiscoverInheritedPKtoFK (ERModel e, String r, int i)'''
+	private def postgreSQLDiscoverAutoInheritedPKtoFK (ERModel e, String r) '''
+		«FOR auxE : e.entities»«IF auxE.name.equalsIgnoreCase(r.toString)»«FOR auxE2 : e.entities»«IF auxE.is !== null && auxE2.name.toString.equalsIgnoreCase(auxE.is.toString)»«FOR auxAtt : auxE2.attributes»«IF auxAtt.isIsKey»«auxAtt.name.toString.toLowerCase»«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»'''
+	
+	private def postgreSQLDiscoverInheritedPKtoFK (ERModel e, String r, int i, String isAutoRel)'''
+		«var auxi = i»
 		«FOR aux : e.entities»
-			«FOR aux2 : aux.attributes»
-				«IF aux2.name.toString.equalsIgnoreCase(r.toString) && aux2.isIsKey»
-					«aux.name.toString.toLowerCase» («aux2.name.toString.toLowerCase»)«IF (i - 1) == 0»,«ENDIF»
-				«ENDIF»
-			«ENDFOR»
+			«FOR aux2 : aux.attributes»«IF aux2.name.toString.equalsIgnoreCase(r.toString) && aux2.isIsKey»«aux.name.toString.toLowerCase» («aux2.name.toString.toLowerCase»)«FOR rAux : e.relations»«IF ((rAux.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || rAux.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))	&& (rAux.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || rAux.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»«IF isAutoRel.equalsIgnoreCase(rAux.leftEnding.target.toString) && isAutoRel.equalsIgnoreCase(rAux.rightEnding.target.toString)»«{auxi = auxi-1; null}»«ENDIF»«ENDIF»«ENDFOR»«IF (auxi - 1) == 0»,«ENDIF»«ENDIF»«ENDFOR»
 		«ENDFOR»
 	'''
 	
@@ -981,7 +1035,7 @@ class ErDslGenerator extends AbstractGenerator {
 	'''
 	
 	private def postgreSQLDefineFKsRelation1to1(ERModel e, String ename, int count) '''
-		«FOR relation : e.relations»«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)')) && (relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»«IF relation.rightEnding.target.toString.equalsIgnoreCase(ename)»«FOR aux : e.entities»«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»«IF aux.is === null»«FOR aux2 : aux.attributes»«IF aux2.isIsKey»FOREIGN KEY («aux2.name.toString.toLowerCase») REFERENCES «aux.name.toString.toLowerCase» («aux2.name.toString.toLowerCase»)«IF counter > 1», «println("\n")»«{counter -= 1;null}»«ENDIF»«ENDIF»«ENDFOR»«ELSEIF !(aux.is === null)»FOREIGN KEY («FOR entityAux : e.entities»«IF entityAux.name.equalsIgnoreCase(aux.is.toString)»«FOR attAux : entityAux.attributes»«IF attAux.isIsKey»«attAux.name.toString.toLowerCase») REFERENCES «attAux.name.toString.toLowerCase» («relation.leftEnding.target.toString.toLowerCase»)«IF counter > 1», «println("\n")»«{counter -= 1;null}»«ENDIF»«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»«ENDIF»«ENDIF»«ENDFOR»«ENDIF»«ENDIF»«ENDFOR»'''
+		«FOR relation : e.relations»«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)')) && (relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»«IF relation.rightEnding.target.toString.equalsIgnoreCase(ename)»«FOR aux : e.entities»«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»«IF aux.is === null»«FOR aux2 : aux.attributes»«IF aux2.isIsKey»FOREIGN KEY («aux2.name.toString.toLowerCase») REFERENCES «aux.name.toString.toLowerCase» («aux2.name.toString.toLowerCase»)«IF counter > 1», «println("\n")»«{counter -= 1;null}»«ENDIF»«ENDIF»«ENDFOR»«ELSEIF !(aux.is === null)»FOREIGN KEY («FOR entityAux : e.entities»«IF entityAux.name.equalsIgnoreCase(aux.is.toString)»«FOR attAux : entityAux.attributes»«IF attAux.isIsKey»«attAux.name.toString.toLowerCase») REFERENCES «relation.leftEnding.target.toString.toLowerCase» («attAux.name.toString.toLowerCase»)«IF counter > 1», «println("\n")»«{counter -= 1;null}»«ENDIF»«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»«ENDIF»«ENDIF»«ENDFOR»«ENDIF»«ENDIF»«ENDFOR»'''
 	
 	
 	private def postgreSQL_COUNT_FKsRelation1toN(ERModel e, String ename) { 
@@ -1093,13 +1147,6 @@ class ErDslGenerator extends AbstractGenerator {
 			«ENDIF»			
 			«ENDFOR»
 	'''
-	
-	
-	
-	def private postgreSQLAttributeIdentifierChecker(Attribute a) '''
-				«IF a.isIsKey»«a.name.toString»«ENDIF»
-	'''
-	
 	
 	
 	
