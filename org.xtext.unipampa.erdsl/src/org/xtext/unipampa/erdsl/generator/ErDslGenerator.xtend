@@ -706,11 +706,13 @@ class ErDslGenerator extends AbstractGenerator {
 	    TABLESPACE = pg_default
 	    CONNECTION LIMIT = -1; «var ListExendPKsLenght = 0»
 	    
-	«FOR entity : e.entities SEPARATOR "\n);\n" AFTER ");\n"»
+	«FOR entity : e.entities»
 		«val myListPKs = newArrayList()»
 		«val myListExtendPKs = newArrayList()»
 		«postgreSQLHaveFK(e,entity)»
-«««		FK SIMPLES É VAZIO? «myListFKs.isNullOrEmpty»
+«««		FK SIMPLES É VAZIO para a entidade «entity.name»? «myListFKs.isNullOrEmpty»
+		«IF myListFKs.isNullOrEmpty»-- SEM DEPENDENCIA
+«««		ESSA ENTIDADE NÃO TEM FK SIMPLES: «entity.name»
 		-- Table: «entity.name.toUpperCase»
 		«IF !entity.generalization.isNullOrEmpty»-- Generalization/Specialization «entity.generalization.toString.toUpperCase» from table «entity.is.toString.toUpperCase»«ENDIF»
 		-- DROP TABLE «entity.name.toUpperCase»;	
@@ -730,8 +732,40 @@ class ErDslGenerator extends AbstractGenerator {
 			«{postgreSQL_COUNT_FKsRelation1to1(e, entity.name); null}»«{counter = globalFKcounter_1to1; AuxCounterA = globalFKcounter_1to1; null}» «{globalFKcounter_1to1 = 0;null}»
 			«postgreSQLDefineFKsRelation1to1(e, entity.name, counter)»«{counter = 0;null}»«{postgreSQL_COUNT_FKsRelation1toN(e, entity.name); null}»«{counter = globalFKcounter_1toN; AuxCounterB = globalFKcounter_1toN; null}»«{globalFKcounter_1toN = 0;null}»«IF AuxCounterA > 0 && AuxCounterB > 0»,«ENDIF»«{AuxCounterA = 0;null}»«{AuxCounterB = 0;null}»
 			«postgreSQLDefineFKsRelation1toN(e, entity.name, counter)» «{counter = 0;null}»
+	«ENDIF»
+«IF myListFKs.isNullOrEmpty»«println»);«println»«ENDIF»«myListFKs.clear»
 	«ENDFOR»
 
+	«FOR entity : e.entities»
+		«val myListPKs = newArrayList()»
+		«val myListExtendPKs = newArrayList()»
+		«postgreSQLHaveFK(e,entity)»
+«««	FK SIMPLES É VAZIO para a entidade «entity.name»? «myListFKs.isNullOrEmpty»	
+		«IF !myListFKs.isNullOrEmpty»-- COM DEPENDENCIA
+«««	ESSA ENTIDADE TEM FK SIMPLES: «entity.name»
+	-- Table: «entity.name.toUpperCase»
+	«IF !entity.generalization.isNullOrEmpty»-- Generalization/Specialization «entity.generalization.toString.toUpperCase» from table «entity.is.toString.toUpperCase»«ENDIF»
+	-- DROP TABLE «entity.name.toUpperCase»;	
+	CREATE TABLE IF NOT EXISTS «entity.name.toLowerCase» (
+		«IF !(entity.is === null)»«FOR aux : e.entities»«IF aux.name.equalsIgnoreCase(entity.is.toString)»«FOR auxAttributes : aux.attributes»«IF auxAttributes.isIsKey»
+		«postgreSQLAttTypeChecker(auxAttributes)»
+		«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»«ENDIF»
+		«FOR attribute : entity.attributes»«postgreSQLAttTypeChecker(attribute)»«ENDFOR»
+		«IF !(entity.is === null)»«FOR aux : e.entities»«IF aux.name.equalsIgnoreCase(entity.is.toString)»«FOR auxAttributes : aux.attributes»«IF auxAttributes.isIsKey»
+		«{myListPKs.add(auxAttributes.name.toLowerCase);""}»«{myListExtendPKs.add(auxAttributes.name.toLowerCase);""}»«ENDIF»«ENDFOR»«ENDIF»«ENDFOR»«ENDIF»
+		«FOR attribute : entity.attributes»«IF attribute.isIsKey»«{myListPKs.add(attribute.name.toString);""}»«ENDIF»«ENDFOR»
+		«postgreSQLVerifyFKsAttributesRelation1to1(e, entity.name)»
+		«postgreSQLVerifyFKsAttributesRelation1toN(e, entity.name)»
+		PRIMARY KEY («FOR x : myListPKs SEPARATOR ", " AFTER ")"»«println(x.toLowerCase)»«ENDFOR»«IF !myListExtendPKs.nullOrEmpty || !myListFKs.isNullOrEmpty»,«ENDIF»
+		«{ListExendPKsLenght = myListExtendPKs.size; null}»
+		«FOR x : myListExtendPKs SEPARATOR ",\n"»FOREIGN KEY («println(x.toString.toLowerCase)») REFERENCES «postgreSQLDiscoverInheritedPKtoFK(e,x.toString, ListExendPKsLenght, entity.name)»«ENDFOR»«myListPKs.clear»«myListExtendPKs.clear»
+		«{postgreSQL_COUNT_FKsRelation1to1(e, entity.name); null}»«{counter = globalFKcounter_1to1; AuxCounterA = globalFKcounter_1to1; null}» «{globalFKcounter_1to1 = 0;null}»
+		«postgreSQLDefineFKsRelation1to1(e, entity.name, counter)»«{counter = 0;null}»«{postgreSQL_COUNT_FKsRelation1toN(e, entity.name); null}»«{counter = globalFKcounter_1toN; AuxCounterB = globalFKcounter_1toN; null}»«{globalFKcounter_1toN = 0;null}»«IF AuxCounterA > 0 && AuxCounterB > 0»,«ENDIF»«{AuxCounterA = 0;null}»«{AuxCounterB = 0;null}»
+		«postgreSQLDefineFKsRelation1toN(e, entity.name, counter)» «{counter = 0;null}»
+	«ENDIF»
+«IF !myListFKs.isNullOrEmpty»«println»);«println»«ENDIF»«myListFKs.clear»
+	«ENDFOR»	
+	
 	/* RELAÇÕES N PARA N */ ««« Relações n para n »»»
 	«FOR relation : e.relations»
 		«val myListPKsFKs = newArrayList()»
