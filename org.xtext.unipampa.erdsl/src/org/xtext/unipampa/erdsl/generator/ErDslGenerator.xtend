@@ -33,28 +33,25 @@ class ErDslGenerator extends AbstractGenerator {
 	
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
-		val modeloER = resource.contents.get(0) as ERModel
+		val modeloER = resource.contents.get(0) as ERModel		
 		
-		if (!modeloER.targetGenerator.isNullOrEmpty && modeloER.targetGenerator.equalsIgnoreCase("logical schema")) {
-
+		if (!modeloER.targetGenerator.isNullOrEmpty && !modeloER.targetGenerator.equalsIgnoreCase("all")) {
+			switch (modeloER.targetGenerator.toString) {
+				case modeloER.targetGenerator.toString.equalsIgnoreCase("logical schema"): {
+					fsa.generateFile('LogicalSchema_' + modeloER.domain.name + '.html', CreateLogical(modeloER))
+				}
+				case modeloER.targetGenerator.toString.equalsIgnoreCase("postgresql"): {
+					fsa.generateFile('PostgreSQL_' + modeloER.domain.name + '.sql', postgreSQLCreate(modeloER))
+				}
+				case modeloER.targetGenerator.toString.equalsIgnoreCase("mysql"): {
+					fsa.generateFile('MySQL_' + modeloER.domain.name + '.sql', mySQLCreate(modeloER))
+				}
+			}
+		} else {
 			fsa.generateFile('LogicalSchema_' + modeloER.domain.name + '.html', CreateLogical(modeloER))
-
-		} else if (!modeloER.targetGenerator.isNullOrEmpty && modeloER.targetGenerator.equalsIgnoreCase("postgresql")) {
-
 			fsa.generateFile('PostgreSQL_' + modeloER.domain.name + '.sql', postgreSQLCreate(modeloER))
-
-		} else if (!modeloER.targetGenerator.isNullOrEmpty && modeloER.targetGenerator.equalsIgnoreCase("mysql")) {
-
 			fsa.generateFile('MySQL_' + modeloER.domain.name + '.sql', mySQLCreate(modeloER))
-
-		} else if (modeloER.targetGenerator.isNullOrEmpty || modeloER.targetGenerator.equalsIgnoreCase("all")) {
-
-			fsa.generateFile('LogicalSchema_' + modeloER.domain.name + '.html', CreateLogical(modeloER))
-
-			fsa.generateFile('PostgreSQL_' + modeloER.domain.name + '.sql', postgreSQLCreate(modeloER))
-
-			fsa.generateFile('MySQL_' + modeloER.domain.name + '.sql', mySQLCreate(modeloER))
-		}
+		}		
 	}
 	
 	

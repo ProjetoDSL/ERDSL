@@ -9,6 +9,10 @@ import org.eclipse.emf.ecore.EReference
 import org.eclipse.xtext.scoping.Scopes
 import org.xtext.unipampa.erdsl.erDsl.ERModel
 import org.xtext.unipampa.erdsl.erDsl.Entity
+import org.xtext.unipampa.erdsl.erDsl.Relation
+import java.util.List
+import java.util.ListIterator
+import java.util.ArrayList
 
 /**
  * This class contains custom scoping description.
@@ -17,12 +21,25 @@ import org.xtext.unipampa.erdsl.erDsl.Entity
  * on how and when to use it.
  */
 class ErDslScopeProvider extends AbstractErDslScopeProvider {
+
 	
 	override IScope getScope(EObject context, EReference reference) {
 		if (context instanceof Entity) {
-			return Scopes.scopeFor(
-				(context.eContainer as ERModel).entities.filter[x | x != context]
-			)
+			if (true) {
+				println("ENTIDADE\n CONTEXTO = " + context.name.toString)
+				println(" REFERENCIA = " + reference.name.toString)
+			}
+			return Scopes.scopeFor((context.eContainer as ERModel).entities.filter[x|x != context])
+		} else if (context instanceof Relation) {
+			if (true) {
+				println("RELAÇÃO\n CONTEXTO = " + context.name.toString)
+				println(" REFERENCIA = " + reference.name.toString)
+			}
+			println("ENTIDADES: "+Scopes.scopeFor((context.eContainer as ERModel).entities));
+			println("RELAÇÕES: "+Scopes.scopeFor((context.eContainer as ERModel).relations));
+			
+			
+			return Scopes.scopeFor((context.eContainer as ERModel).relations.filter[x|x != context])
 		}
 		return super.getScope(context, reference)
 	}
