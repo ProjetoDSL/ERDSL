@@ -52,40 +52,50 @@ public class ErDslGenerator extends AbstractGenerator {
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _get = resource.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
-    if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && modeloER.getTargetGenerator().equalsIgnoreCase("logical schema"))) {
-      String _name = modeloER.getDomain().getName();
-      String _plus = ("LogicalSchema_" + _name);
-      String _plus_1 = (_plus + ".html");
-      fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
-    } else {
-      if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && modeloER.getTargetGenerator().equalsIgnoreCase("postgresql"))) {
-        String _name_1 = modeloER.getDomain().getName();
-        String _plus_2 = ("PostgreSQL_" + _name_1);
-        String _plus_3 = (_plus_2 + ".sql");
-        fsa.generateFile(_plus_3, this.postgreSQLCreate(modeloER));
-      } else {
-        if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && modeloER.getTargetGenerator().equalsIgnoreCase("mysql"))) {
+    if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
+      String _string = modeloER.getTargetGenerator().toString();
+      boolean _matched = false;
+      boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logical schema");
+      if (_equalsIgnoreCase) {
+        _matched=true;
+        String _name = modeloER.getDomain().getName();
+        String _plus = ("LogicalSchema_" + _name);
+        String _plus_1 = (_plus + ".html");
+        fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
+      }
+      if (!_matched) {
+        boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
+        if (_equalsIgnoreCase_1) {
+          _matched=true;
+          String _name_1 = modeloER.getDomain().getName();
+          String _plus_2 = ("PostgreSQL_" + _name_1);
+          String _plus_3 = (_plus_2 + ".sql");
+          fsa.generateFile(_plus_3, this.postgreSQLCreate(modeloER));
+        }
+      }
+      if (!_matched) {
+        boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
+        if (_equalsIgnoreCase_2) {
+          _matched=true;
           String _name_2 = modeloER.getDomain().getName();
           String _plus_4 = ("MySQL_" + _name_2);
           String _plus_5 = (_plus_4 + ".sql");
           fsa.generateFile(_plus_5, this.mySQLCreate(modeloER));
-        } else {
-          if ((StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator()) || modeloER.getTargetGenerator().equalsIgnoreCase("all"))) {
-            String _name_3 = modeloER.getDomain().getName();
-            String _plus_6 = ("LogicalSchema_" + _name_3);
-            String _plus_7 = (_plus_6 + ".html");
-            fsa.generateFile(_plus_7, this.CreateLogical(modeloER));
-            String _name_4 = modeloER.getDomain().getName();
-            String _plus_8 = ("PostgreSQL_" + _name_4);
-            String _plus_9 = (_plus_8 + ".sql");
-            fsa.generateFile(_plus_9, this.postgreSQLCreate(modeloER));
-            String _name_5 = modeloER.getDomain().getName();
-            String _plus_10 = ("MySQL_" + _name_5);
-            String _plus_11 = (_plus_10 + ".sql");
-            fsa.generateFile(_plus_11, this.mySQLCreate(modeloER));
-          }
         }
       }
+    } else {
+      String _name_3 = modeloER.getDomain().getName();
+      String _plus_6 = ("LogicalSchema_" + _name_3);
+      String _plus_7 = (_plus_6 + ".html");
+      fsa.generateFile(_plus_7, this.CreateLogical(modeloER));
+      String _name_4 = modeloER.getDomain().getName();
+      String _plus_8 = ("PostgreSQL_" + _name_4);
+      String _plus_9 = (_plus_8 + ".sql");
+      fsa.generateFile(_plus_9, this.postgreSQLCreate(modeloER));
+      String _name_5 = modeloER.getDomain().getName();
+      String _plus_10 = ("MySQL_" + _name_5);
+      String _plus_11 = (_plus_10 + ".sql");
+      fsa.generateFile(_plus_11, this.mySQLCreate(modeloER));
     }
   }
   

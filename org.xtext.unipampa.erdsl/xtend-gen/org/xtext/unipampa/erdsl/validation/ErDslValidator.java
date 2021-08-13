@@ -3,6 +3,12 @@
  */
 package org.xtext.unipampa.erdsl.validation;
 
+import org.eclipse.xtext.validation.Check;
+import org.xtext.unipampa.erdsl.erDsl.Attribute;
+import org.xtext.unipampa.erdsl.erDsl.Domain;
+import org.xtext.unipampa.erdsl.erDsl.Entity;
+import org.xtext.unipampa.erdsl.erDsl.ErDslPackage;
+
 /**
  * This class contains custom validation rules.
  * 
@@ -10,4 +16,35 @@ package org.xtext.unipampa.erdsl.validation;
  */
 @SuppressWarnings("all")
 public class ErDslValidator extends AbstractErDslValidator {
+  public static final String INVALID_NAME = "invalidName";
+  
+  @Check
+  public void checkDomainStartsWithUpperCase(final Domain domain) {
+    boolean _isUpperCase = Character.isUpperCase(domain.getName().charAt(0));
+    boolean _not = (!_isUpperCase);
+    if (_not) {
+      this.warning("Preferably start the name of the DOMAIN with a UPPERCASE letter", 
+        ErDslPackage.Literals.DOMAIN__NAME, ErDslValidator.INVALID_NAME);
+    }
+  }
+  
+  @Check
+  public void checkEntityStartsWithUpperCase(final Entity entity) {
+    boolean _isUpperCase = Character.isUpperCase(entity.getName().charAt(0));
+    boolean _not = (!_isUpperCase);
+    if (_not) {
+      this.warning("Preferably start the name of an ENTITY with a UPPERCASE letter", 
+        ErDslPackage.Literals.ENTITY__NAME, ErDslValidator.INVALID_NAME);
+    }
+  }
+  
+  @Check
+  public void checkAttributeStartsWithLowerCase(final Attribute attribute) {
+    boolean _isLowerCase = Character.isLowerCase(attribute.getName().charAt(0));
+    boolean _not = (!_isLowerCase);
+    if (_not) {
+      this.warning("Preferably start the name of an ATTRIBUTE with a LOWERCASE letter", 
+        ErDslPackage.Literals.ATTRIBUTE__NAME, ErDslValidator.INVALID_NAME);
+    }
+  }
 }

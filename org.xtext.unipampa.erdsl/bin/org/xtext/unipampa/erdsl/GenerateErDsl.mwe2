@@ -37,9 +37,17 @@ Workflow {
 				generateStub = false
 			}
 			validator = {
-				// composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
+				 composedCheck = "org.eclipse.xtext.validation.NamesAreUniqueValidator"
 				// Generates checks for @Deprecated grammar annotations, an IssueProvider and a corresponding PropertyPage
 				generateDeprecationValidation = true
+			}
+			parserGenerator = {
+				options = {
+					ignoreCase = true //Case Insensitive Keywords
+				}
+			}
+			scopeProvider = {
+				ignoreCase = true //Case Insensitive "name=ID" 
 			}
 			junitSupport = {
 				junitVersion = "5"
