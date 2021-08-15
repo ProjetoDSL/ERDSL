@@ -3,8 +3,6 @@
  */
 package org.xtext.unipampa.erdsl.ide;
 
-import org.xtext.unipampa.erdsl.ide.AbstractErDslIdeModule;
-
 /**
  * Use this class to register ide components.
  */

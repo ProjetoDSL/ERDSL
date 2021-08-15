@@ -8,7 +8,6 @@ import com.google.inject.Injector;
 import org.eclipse.xtext.util.Modules2;
 import org.xtext.unipampa.erdsl.ErDslRuntimeModule;
 import org.xtext.unipampa.erdsl.ErDslStandaloneSetup;
-import org.xtext.unipampa.erdsl.ide.ErDslIdeModule;
 
 /**
  * Initialization support for running Xtext languages as language servers.

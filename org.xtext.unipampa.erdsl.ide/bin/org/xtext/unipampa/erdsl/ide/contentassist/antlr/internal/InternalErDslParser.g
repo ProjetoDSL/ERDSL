@@ -49,7 +49,6 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("Money", "'money'");
 		tokenNameToValue.put("Domain", "'Domain'");
 		tokenNameToValue.put("Double", "'double'");
-		tokenNameToValue.put("Serial", "'serial'");
 		tokenNameToValue.put("String", "'string'");
 		tokenNameToValue.put("Boolean", "'boolean'");
 		tokenNameToValue.put("Relates", "'relates'");
@@ -62,7 +61,7 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("LogicalSchema", "'Logical Schema'");
 		tokenNameToValue.put("TotalDisjoint", "'total/disjoint'");
 		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
-		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
+		tokenNameToValue.put("TotalOverlapped", "'total/Overlapped'");
 		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
 	}
 
@@ -494,12 +493,6 @@ rule__DataType__Alternatives
 		{ before(grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6()); }
 		(File)
 		{ after(grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6()); }
-	)
-	|
-	(
-		{ before(grammarAccess.getDataTypeAccess().getSERIALEnumLiteralDeclaration_7()); }
-		(Serial)
-		{ after(grammarAccess.getDataTypeAccess().getSERIALEnumLiteralDeclaration_7()); }
 	)
 ;
 finally {

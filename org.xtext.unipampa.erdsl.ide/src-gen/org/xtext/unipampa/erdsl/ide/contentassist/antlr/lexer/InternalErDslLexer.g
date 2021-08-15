@@ -41,8 +41,6 @@ Domain : ('D'|'d')('O'|'o')('M'|'m')('A'|'a')('I'|'i')('N'|'n');
 
 Double : ('D'|'d')('O'|'o')('U'|'u')('B'|'b')('L'|'l')('E'|'e');
 
-Serial : ('S'|'s')('E'|'e')('R'|'r')('I'|'i')('A'|'a')('L'|'l');
-
 String : ('S'|'s')('T'|'t')('R'|'r')('I'|'i')('N'|'n')('G'|'g');
 
 LeftParenthesisDigitZeroColonDigitOneRightParenthesis : '(''0'':''1'')';

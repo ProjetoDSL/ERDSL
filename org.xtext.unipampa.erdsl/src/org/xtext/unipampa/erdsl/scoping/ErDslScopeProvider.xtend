@@ -39,7 +39,7 @@ class ErDslScopeProvider extends AbstractErDslScopeProvider {
 			println("RELAÇÕES: "+Scopes.scopeFor((context.eContainer as ERModel).relations));
 			
 			
-			return Scopes.scopeFor((context.eContainer as ERModel).relations.filter[x|x != context])
+//			return Scopes.scopeFor((context.eContainer as ERModel).relations.filter[x|x != context])
 		}
 		return super.getScope(context, reference)
 	}

@@ -57,11 +57,6 @@ public class ErDslScopeProvider extends AbstractErDslScopeProvider {
         IScope _scopeFor_1 = Scopes.scopeFor(((ERModel) _eContainer_2).getRelations());
         String _plus_5 = ("RELAÇÕES: " + _scopeFor_1);
         InputOutput.<String>println(_plus_5);
-        EObject _eContainer_3 = ((Relation)context).eContainer();
-        final Function1<Relation, Boolean> _function_1 = (Relation x) -> {
-          return Boolean.valueOf((!Objects.equal(x, context)));
-        };
-        return Scopes.scopeFor(IterableExtensions.<Relation>filter(((ERModel) _eContainer_3).getRelations(), _function_1));
       }
     }
     return super.getScope(context, reference);
