@@ -431,4 +431,105 @@
 			type="text">
 		</fileTypes>
 	</extension>
+	<extension
+		point="org.eclipse.ui.newWizards">
+		<category id="org.xtext.unipampa.erdsl.ui.category" name="ERtext">
+		</category>
+		<wizard
+			category="org.xtext.unipampa.erdsl.ui.category"
+			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.eclipse.xtext.ui.wizard.template.TemplateNewProjectWizard"
+			id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewProjectWizard"
+			name="ERtext Project"
+			icon="icons/new_ErDsl_proj.gif"
+			project="true">
+		</wizard>
+	</extension>
+	<extension
+		point="org.eclipse.xtext.ui.projectTemplate">
+		<projectTemplateProvider
+			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.xtext.unipampa.erdsl.ui.wizard.ErDslProjectTemplateProvider"
+			grammarName="org.xtext.unipampa.erdsl.ErDsl">
+		</projectTemplateProvider>
+	</extension>
+	<extension
+		point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+			<newWizardShortcut id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewProjectWizard"/>
+		</perspectiveExtension>
+		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+			<newWizardShortcut id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewProjectWizard"/>
+		</perspectiveExtension>
+	</extension>
+	<extension
+		point="org.eclipse.ui.menus">
+		<menuContribution
+			allPopups="false"
+			locationURI="toolbar:org.eclipse.ui.main.toolbar">
+			<toolbar
+				id="org.xtext.unipampa.erdsl.ui.toolbar">
+				<!--
+					For some reason the tooltip is not shown when hovering over the toolbar button
+					See also https://www.eclipse.org/forums/index.php/t/1079111/
+				-->
+				<command
+					commandId="org.eclipse.ui.newWizard"
+					tooltip="Create a new ERtext project">
+					<parameter
+						name="newWizardId"
+						value="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewProjectWizard">
+					</parameter>
+				</command>
+			</toolbar>
+		</menuContribution>
+	</extension>
+	<extension
+		point="org.eclipse.ui.newWizards">
+		<category id="org.xtext.unipampa.erdsl.ui.category" name="ErDsl">
+		</category>
+		<wizard
+			category="org.xtext.unipampa.erdsl.ui.category"
+			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.eclipse.xtext.ui.wizard.template.TemplateNewFileWizard"
+			id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewFileWizard"
+			name="ERtext File Model"
+			icon="icons/new_ErDsl_file.png">
+		</wizard>
+	</extension>
+	<extension
+		point="org.eclipse.xtext.ui.fileTemplate">
+		<fileTemplateProvider
+			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.xtext.unipampa.erdsl.ui.wizard.ErDslFileTemplateProvider"
+			grammarName="org.xtext.unipampa.erdsl.ErDsl">
+		</fileTemplateProvider>
+	</extension>
+	<extension
+		point="org.eclipse.ui.perspectiveExtensions">
+		<perspectiveExtension targetID="org.eclipse.ui.resourcePerspective">
+			<newWizardShortcut id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewFileWizard"/>
+		</perspectiveExtension>
+		<perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
+			<newWizardShortcut id="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewFileWizard"/>
+		</perspectiveExtension>
+	</extension>
+	<extension
+		point="org.eclipse.ui.menus">
+		<menuContribution
+			allPopups="false"
+			locationURI="toolbar:org.eclipse.ui.main.toolbar">
+			<toolbar
+				id="org.xtext.unipampa.erdsl.ui.toolbar">
+				<!--
+					For some reason the tooltip is not shown when hovering over the toolbar button
+					See also https://www.eclipse.org/forums/index.php/t/1079111/
+				-->
+				<command
+					commandId="org.eclipse.ui.newWizard"
+					tooltip="Create a new ERtext file">
+					<parameter
+						name="newWizardId"
+						value="org.xtext.unipampa.erdsl.ui.wizard.ErDslNewFileWizard">
+					</parameter>
+				</command>
+			</toolbar>
+		</menuContribution>
+	</extension>
 </plugin>

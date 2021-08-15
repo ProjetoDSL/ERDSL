@@ -41,6 +41,14 @@ Workflow {
 				// Generates checks for @Deprecated grammar annotations, an IssueProvider and a corresponding PropertyPage
 				generateDeprecationValidation = true
 			}
+			projectWizard = {
+				generate = true
+				generateToolbarButton = true
+			}
+			fileWizard = {
+				generate = true
+				generateToolbarButton = true
+			}
 			parserGenerator = {
 				options = {
 					ignoreCase = true //Case Insensitive Keywords

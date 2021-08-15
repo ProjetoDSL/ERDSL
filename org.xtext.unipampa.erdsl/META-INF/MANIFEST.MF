@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.util,
  org.eclipse.emf.common,
  org.eclipse.xtend.lib;bundle-version="2.14.0",
- org.antlr.runtime;bundle-version="[3.2.0,3.2.1)"
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtext.ui;bundle-version="2.25.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: org.xtext.unipampa.erdsl.erDsl,
  org.xtext.unipampa.erdsl.serializer,
@@ -26,5 +27,6 @@ Export-Package: org.xtext.unipampa.erdsl.erDsl,
  org.xtext.unipampa.erdsl.generator,
  org.xtext.unipampa.erdsl.scoping,
  org.xtext.unipampa.erdsl.parser.antlr,
- org.xtext.unipampa.erdsl.validation
+ org.xtext.unipampa.erdsl.validation,
+ org.xtext.unipampa.erdsl.parser.antlr.lexer
 Import-Package: org.apache.log4j

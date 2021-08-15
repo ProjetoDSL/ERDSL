@@ -904,13 +904,5 @@ ruleDataType returns [Enumerator current=null]
 				newLeafNode(enumLiteral_6, grammarAccess.getDataTypeAccess().getBLOBEnumLiteralDeclaration_6());
 			}
 		)
-		    |
-		(
-			enumLiteral_7=Serial
-			{
-				$current = grammarAccess.getDataTypeAccess().getSERIALEnumLiteralDeclaration_7().getEnumLiteral().getInstance();
-				newLeafNode(enumLiteral_7, grammarAccess.getDataTypeAccess().getSERIALEnumLiteralDeclaration_7());
-			}
-		)
 	)
 ;
