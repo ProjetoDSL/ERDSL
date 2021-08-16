@@ -8,7 +8,7 @@
 'Domain'=17
 'Entities'=12
 'Generate'=13
-'Logical Schema'=7
+'LogicalSchema'=8
 'MySQL'=24
 'PostgreSQL'=11
 'Relationships'=9
@@ -26,8 +26,8 @@
 'partial/overlapped'=4
 'relates'=16
 'string'=19
-'total/Overlapped'=6
-'total/disjoint'=8
+'total/disjoint'=7
+'total/overlapped'=6
 '{'=34
 '}'=35
 RULE_ANY_OTHER=42

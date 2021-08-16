@@ -57,11 +57,11 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("Datetime", "'datetime'");
 		tokenNameToValue.put("PostgreSQL", "'PostgreSQL'");
 		tokenNameToValue.put("IsIdentifier", "'isIdentifier'");
+		tokenNameToValue.put("LogicalSchema", "'LogicalSchema'");
 		tokenNameToValue.put("Relationships", "'Relationships'");
-		tokenNameToValue.put("LogicalSchema", "'Logical Schema'");
 		tokenNameToValue.put("TotalDisjoint", "'total/disjoint'");
 		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
-		tokenNameToValue.put("TotalOverlapped", "'total/Overlapped'");
+		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
 		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
 	}
 

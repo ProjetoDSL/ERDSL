@@ -58,31 +58,31 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Keyword cSemicolonKeyword_8_1 = (Keyword)cGroup_8.eContents().get(1);
 		
 		//ERModel:
-		//    ('Generate' targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 		//    domain=Domain ';'
 		//    ('Entities' '{') entities+=Entity+ ('}' ';')
 		//    ('Relationships' '{') relations+=Relation* ('}' ';');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//('Generate' targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 		//domain=Domain ';'
 		//('Entities' '{') entities+=Entity+ ('}' ';')
 		//('Relationships' '{') relations+=Relation* ('}' ';')
 		public Group getGroup() { return cGroup; }
 		
-		//('Generate' targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 		public Group getGroup_0() { return cGroup_0; }
 		
 		//'Generate'
 		public Keyword getGenerateKeyword_0_0() { return cGenerateKeyword_0_0; }
 		
-		//targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All')
+		//targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All')
 		public Assignment getTargetGeneratorAssignment_0_1() { return cTargetGeneratorAssignment_0_1; }
 		
-		//('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All')
+		//('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All')
 		public Alternatives getTargetGeneratorAlternatives_0_1_0() { return cTargetGeneratorAlternatives_0_1_0; }
 		
-		//'Logical Schema'
+		//'LogicalSchema'
 		public Keyword getTargetGeneratorLogicalSchemaKeyword_0_1_0_0() { return cTargetGeneratorLogicalSchemaKeyword_0_1_0_0; }
 		
 		//'PostgreSQL'
@@ -239,12 +239,12 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//Entity:
-		//    name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
+		//    name=ID ('is' generalization=('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 		//    ('{' attributes+=Attribute
 		//    (',' attributes+=Attribute)* '}')?;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
+		//name=ID ('is' generalization=('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 		//('{' attributes+=Attribute
 		//(',' attributes+=Attribute)* '}')?
 		public Group getGroup() { return cGroup; }
@@ -255,22 +255,22 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//ID
 		public RuleCall getNameIDTerminalRuleCall_0_0() { return cNameIDTerminalRuleCall_0_0; }
 		
-		//('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
+		//('is' generalization=('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 		public Group getGroup_1() { return cGroup_1; }
 		
 		//'is'
 		public Keyword getIsKeyword_1_0() { return cIsKeyword_1_0; }
 		
-		//generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped')
+		//generalization=('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped')
 		public Assignment getGeneralizationAssignment_1_1() { return cGeneralizationAssignment_1_1; }
 		
-		//('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped')
+		//('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped')
 		public Alternatives getGeneralizationAlternatives_1_1_0() { return cGeneralizationAlternatives_1_1_0; }
 		
 		//'total/disjoint'
 		public Keyword getGeneralizationTotalDisjointKeyword_1_1_0_0() { return cGeneralizationTotalDisjointKeyword_1_1_0_0; }
 		
-		//'total/Overlapped'
+		//'total/overlapped'
 		public Keyword getGeneralizationTotalOverlappedKeyword_1_1_0_1() { return cGeneralizationTotalOverlappedKeyword_1_1_0_1; }
 		
 		//'partial/disjoint'
@@ -678,7 +678,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 
 	
 	//ERModel:
-	//    ('Generate' targetGenerator= ('Logical Schema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+	//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
 	//    domain=Domain ';'
 	//    ('Entities' '{') entities+=Entity+ ('}' ';')
 	//    ('Relationships' '{') relations+=Relation* ('}' ';');
@@ -711,7 +711,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	}
 	
 	//Entity:
-	//    name=ID ('is' generalization=('total/disjoint' | 'total/Overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
+	//    name=ID ('is' generalization=('total/disjoint' | 'total/overlapped' | 'partial/disjoint' | 'partial/overlapped') is=[Entity])?
 	//    ('{' attributes+=Attribute
 	//    (',' attributes+=Attribute)* '}')?;
 	public EntityElements getEntityAccess() {

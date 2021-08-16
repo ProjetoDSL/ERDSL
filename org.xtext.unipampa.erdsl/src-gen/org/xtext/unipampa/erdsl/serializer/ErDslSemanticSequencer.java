@@ -100,7 +100,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *
 	 * Constraint:
 	 *     (
-	 *         (targetGenerator='Logical Schema' | targetGenerator='PostgreSQL' | targetGenerator='MySQL' | targetGenerator='All')? 
+	 *         (targetGenerator='LogicalSchema' | targetGenerator='PostgreSQL' | targetGenerator='MySQL' | targetGenerator='All')? 
 	 *         domain=Domain 
 	 *         entities+=Entity+ 
 	 *         relations+=Relation*
@@ -119,7 +119,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     (
 	 *         name=ID 
 	 *         (
-	 *             (generalization='total/disjoint' | generalization='total/Overlapped' | generalization='partial/disjoint' | generalization='partial/overlapped') 
+	 *             (generalization='total/disjoint' | generalization='total/overlapped' | generalization='partial/disjoint' | generalization='partial/overlapped') 
 	 *             is=[Entity|ID]
 	 *         )? 
 	 *         (attributes+=Attribute attributes+=Attribute*)?
