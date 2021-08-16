@@ -32,7 +32,7 @@ public class InternalErDslLexer extends Lexer {
     public static final int RightCurlyBracket=35;
     public static final int Boolean=15;
     public static final int EOF=-1;
-    public static final int TotalDisjoint=8;
+    public static final int TotalDisjoint=7;
     public static final int RightSquareBracket=33;
     public static final int Datetime=14;
     public static final int Relates=16;
@@ -40,7 +40,7 @@ public class InternalErDslLexer extends Lexer {
     public static final int RULE_WS=41;
     public static final int LeftCurlyBracket=34;
     public static final int PartialOverlapped=4;
-    public static final int LogicalSchema=7;
+    public static final int LogicalSchema=8;
     public static final int RULE_ANY_OTHER=42;
     public static final int IsIdentifier=10;
     public static final int Double=18;
@@ -549,150 +549,13 @@ public class InternalErDslLexer extends Lexer {
     }
     // $ANTLR end "TotalOverlapped"
 
-    // $ANTLR start "LogicalSchema"
-    public final void mLogicalSchema() throws RecognitionException {
-        try {
-            int _type = LogicalSchema;
-            int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalErDslLexer.g:20:15: ( ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'G' | 'g' ) ( 'I' | 'i' ) ( 'C' | 'c' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ' ' ( 'S' | 's' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'M' | 'm' ) ( 'A' | 'a' ) )
-            // InternalErDslLexer.g:20:17: ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'G' | 'g' ) ( 'I' | 'i' ) ( 'C' | 'c' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ' ' ( 'S' | 's' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'M' | 'm' ) ( 'A' | 'a' )
-            {
-            if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='G'||input.LA(1)=='g' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            match(' '); 
-            if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='H'||input.LA(1)=='h' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-            if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
-                input.consume();
-
-            }
-            else {
-                MismatchedSetException mse = new MismatchedSetException(null,input);
-                recover(mse);
-                throw mse;}
-
-
-            }
-
-            state.type = _type;
-            state.channel = _channel;
-        }
-        finally {
-        }
-    }
-    // $ANTLR end "LogicalSchema"
-
     // $ANTLR start "TotalDisjoint"
     public final void mTotalDisjoint() throws RecognitionException {
         try {
             int _type = TotalDisjoint;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalErDslLexer.g:22:15: ( ( 'T' | 't' ) ( 'O' | 'o' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'L' | 'l' ) '/' ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'J' | 'j' ) ( 'O' | 'o' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) )
-            // InternalErDslLexer.g:22:17: ( 'T' | 't' ) ( 'O' | 'o' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'L' | 'l' ) '/' ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'J' | 'j' ) ( 'O' | 'o' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' )
+            // InternalErDslLexer.g:20:15: ( ( 'T' | 't' ) ( 'O' | 'o' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'L' | 'l' ) '/' ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'J' | 'j' ) ( 'O' | 'o' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' ) )
+            // InternalErDslLexer.g:20:17: ( 'T' | 't' ) ( 'O' | 'o' ) ( 'T' | 't' ) ( 'A' | 'a' ) ( 'L' | 'l' ) '/' ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'S' | 's' ) ( 'J' | 'j' ) ( 'O' | 'o' ) ( 'I' | 'i' ) ( 'N' | 'n' ) ( 'T' | 't' )
             {
             if ( input.LA(1)=='T'||input.LA(1)=='t' ) {
                 input.consume();
@@ -822,6 +685,142 @@ public class InternalErDslLexer extends Lexer {
         }
     }
     // $ANTLR end "TotalDisjoint"
+
+    // $ANTLR start "LogicalSchema"
+    public final void mLogicalSchema() throws RecognitionException {
+        try {
+            int _type = LogicalSchema;
+            int _channel = DEFAULT_TOKEN_CHANNEL;
+            // InternalErDslLexer.g:22:15: ( ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'G' | 'g' ) ( 'I' | 'i' ) ( 'C' | 'c' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'M' | 'm' ) ( 'A' | 'a' ) )
+            // InternalErDslLexer.g:22:17: ( 'L' | 'l' ) ( 'O' | 'o' ) ( 'G' | 'g' ) ( 'I' | 'i' ) ( 'C' | 'c' ) ( 'A' | 'a' ) ( 'L' | 'l' ) ( 'S' | 's' ) ( 'C' | 'c' ) ( 'H' | 'h' ) ( 'E' | 'e' ) ( 'M' | 'm' ) ( 'A' | 'a' )
+            {
+            if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='G'||input.LA(1)=='g' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='I'||input.LA(1)=='i' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='L'||input.LA(1)=='l' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='S'||input.LA(1)=='s' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='H'||input.LA(1)=='h' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='E'||input.LA(1)=='e' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='M'||input.LA(1)=='m' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='A'||input.LA(1)=='a' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+
+            }
+
+            state.type = _type;
+            state.channel = _channel;
+        }
+        finally {
+        }
+    }
+    // $ANTLR end "LogicalSchema"
 
     // $ANTLR start "Relationships"
     public final void mRelationships() throws RecognitionException {
@@ -2894,7 +2893,7 @@ public class InternalErDslLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // InternalErDslLexer.g:1:8: ( PartialOverlapped | PartialDisjoint | TotalOverlapped | LogicalSchema | TotalDisjoint | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        // InternalErDslLexer.g:1:8: ( PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
         int alt12=39;
         alt12 = dfa12.predict(input);
         switch (alt12) {
@@ -2920,16 +2919,16 @@ public class InternalErDslLexer extends Lexer {
                 }
                 break;
             case 4 :
-                // InternalErDslLexer.g:1:60: LogicalSchema
+                // InternalErDslLexer.g:1:60: TotalDisjoint
                 {
-                mLogicalSchema(); 
+                mTotalDisjoint(); 
 
                 }
                 break;
             case 5 :
-                // InternalErDslLexer.g:1:74: TotalDisjoint
+                // InternalErDslLexer.g:1:74: LogicalSchema
                 {
-                mTotalDisjoint(); 
+                mLogicalSchema(); 
 
                 }
                 break;
@@ -3179,17 +3178,17 @@ public class InternalErDslLexer extends Lexer {
 
     protected DFA12 dfa12 = new DFA12(this);
     static final String DFA12_eotS =
-        "\1\uffff\12\37\1\34\3\37\6\uffff\1\34\2\uffff\3\34\2\uffff\2\37\1\uffff\3\37\1\102\7\37\2\uffff\4\37\13\uffff\6\37\1\uffff\1\127\7\37\2\uffff\3\37\1\146\6\37\1\uffff\7\37\4\uffff\2\37\1\166\1\uffff\15\37\1\u0085\1\u0086\1\uffff\2\37\1\uffff\7\37\1\u0092\1\u0093\1\37\1\u0095\2\uffff\2\37\2\uffff\2\37\1\u009a\4\37\2\uffff\1\u009f\2\uffff\1\37\1\uffff\1\37\1\uffff\1\37\1\u00a5\1\u00a6\1\u00a7\3\uffff\3\37\3\uffff\1\u00ab\2\37\1\uffff\3\37\1\u00b1\1\u00b2\2\uffff";
+        "\1\uffff\12\37\1\34\3\37\6\uffff\1\34\2\uffff\3\34\2\uffff\2\37\1\uffff\3\37\1\102\7\37\2\uffff\4\37\13\uffff\6\37\1\uffff\1\127\7\37\2\uffff\3\37\1\146\6\37\1\uffff\7\37\4\uffff\2\37\1\166\1\uffff\15\37\1\u0085\1\u0086\1\uffff\2\37\1\uffff\7\37\1\u0092\1\u0093\1\37\1\u0095\2\uffff\2\37\2\uffff\2\37\1\u009a\4\37\2\uffff\1\u009f\2\uffff\3\37\1\uffff\1\37\1\u00a6\1\u00a7\1\u00a8\3\uffff\4\37\3\uffff\1\u00ad\3\37\1\uffff\5\37\1\u00b6\1\u00b7\1\u00b8\3\uffff";
     static final String DFA12_eofS =
-        "\u00b3\uffff";
+        "\u00b9\uffff";
     static final String DFA12_minS =
-        "\1\0\1\101\2\117\1\105\2\116\1\105\1\101\1\117\1\124\1\60\1\117\1\111\1\114\6\uffff\1\101\2\uffff\2\0\1\52\2\uffff\1\122\1\123\1\uffff\1\124\1\107\1\114\1\60\2\124\1\116\1\124\1\115\1\117\1\122\2\72\1\123\1\116\2\114\13\uffff\2\124\1\101\1\111\1\101\1\104\1\uffff\1\60\1\111\2\105\1\101\1\102\1\114\1\111\2\61\1\121\2\105\1\60\1\111\1\107\1\114\1\103\1\124\1\105\1\uffff\1\124\1\122\1\124\1\111\1\114\1\105\1\116\4\uffff\1\114\1\131\1\60\1\uffff\1\101\1\122\1\57\1\101\1\105\1\116\1\111\1\101\1\111\1\116\1\105\1\101\1\107\2\60\1\uffff\1\114\1\105\1\104\1\114\1\117\1\123\1\124\1\105\1\124\1\115\2\60\1\116\1\60\2\uffff\1\57\1\123\2\uffff\1\40\1\116\1\60\1\111\1\123\2\105\2\uffff\1\60\1\uffff\1\104\1\121\1\uffff\1\123\1\uffff\1\106\3\60\3\uffff\1\114\1\110\1\111\3\uffff\1\60\1\111\1\105\1\uffff\1\120\1\122\1\123\2\60\2\uffff";
+        "\1\0\1\101\2\117\1\105\2\116\1\105\1\101\1\117\1\124\1\60\1\117\1\111\1\114\6\uffff\1\101\2\uffff\2\0\1\52\2\uffff\1\122\1\123\1\uffff\1\124\1\107\1\114\1\60\2\124\1\116\1\124\1\115\1\117\1\122\2\72\1\123\1\116\2\114\13\uffff\2\124\1\101\1\111\1\101\1\104\1\uffff\1\60\1\111\2\105\1\101\1\102\1\114\1\111\2\61\1\121\2\105\1\60\1\111\1\107\1\114\1\103\1\124\1\105\1\uffff\1\124\1\122\1\124\1\111\1\114\1\105\1\116\4\uffff\1\114\1\131\1\60\1\uffff\1\101\1\122\1\57\1\101\1\105\1\116\1\111\1\101\1\111\1\116\1\105\1\101\1\107\2\60\1\uffff\1\114\1\105\1\104\1\114\1\117\1\123\1\124\1\105\1\124\1\115\2\60\1\116\1\60\2\uffff\1\57\1\123\2\uffff\1\123\1\116\1\60\1\111\1\123\2\105\2\uffff\1\60\1\uffff\1\104\1\121\1\103\1\123\1\uffff\1\106\3\60\3\uffff\1\114\2\110\1\111\3\uffff\1\60\1\105\1\111\1\105\1\uffff\1\115\1\120\1\122\1\101\1\123\3\60\3\uffff";
     static final String DFA12_maxS =
-        "\1\uffff\3\157\1\145\1\163\1\156\1\145\2\157\1\164\1\61\1\171\1\151\1\154\6\uffff\1\172\2\uffff\2\uffff\1\57\2\uffff\1\162\1\163\1\uffff\1\164\1\147\1\154\1\172\2\164\1\156\1\164\1\165\1\157\1\162\2\72\1\163\1\156\2\154\13\uffff\2\164\1\141\1\151\1\141\1\144\1\uffff\1\172\1\151\2\145\1\141\1\142\1\154\1\151\2\156\1\161\2\145\1\172\1\151\1\147\1\154\1\143\1\164\1\145\1\uffff\1\164\1\162\1\164\1\151\1\154\1\145\1\156\4\uffff\1\154\1\171\1\172\1\uffff\1\141\1\162\1\57\1\141\1\151\1\156\1\151\1\141\1\151\1\156\1\145\1\141\1\147\2\172\1\uffff\1\154\1\145\1\157\1\154\1\157\1\163\1\164\1\145\1\164\1\155\2\172\1\156\1\172\2\uffff\1\57\1\163\2\uffff\1\40\1\156\1\172\1\151\1\163\2\145\2\uffff\1\172\1\uffff\1\157\1\161\1\uffff\1\163\1\uffff\1\146\3\172\3\uffff\1\154\1\150\1\151\3\uffff\1\172\1\151\1\145\1\uffff\1\160\1\162\1\163\2\172\2\uffff";
+        "\1\uffff\3\157\1\145\1\163\1\156\1\145\2\157\1\164\1\61\1\171\1\151\1\154\6\uffff\1\172\2\uffff\2\uffff\1\57\2\uffff\1\162\1\163\1\uffff\1\164\1\147\1\154\1\172\2\164\1\156\1\164\1\165\1\157\1\162\2\72\1\163\1\156\2\154\13\uffff\2\164\1\141\1\151\1\141\1\144\1\uffff\1\172\1\151\2\145\1\141\1\142\1\154\1\151\2\156\1\161\2\145\1\172\1\151\1\147\1\154\1\143\1\164\1\145\1\uffff\1\164\1\162\1\164\1\151\1\154\1\145\1\156\4\uffff\1\154\1\171\1\172\1\uffff\1\141\1\162\1\57\1\141\1\151\1\156\1\151\1\141\1\151\1\156\1\145\1\141\1\147\2\172\1\uffff\1\154\1\145\1\157\1\154\1\157\1\163\1\164\1\145\1\164\1\155\2\172\1\156\1\172\2\uffff\1\57\1\163\2\uffff\1\163\1\156\1\172\1\151\1\163\2\145\2\uffff\1\172\1\uffff\1\157\1\161\1\143\1\163\1\uffff\1\146\3\172\3\uffff\1\154\2\150\1\151\3\uffff\1\172\1\145\1\151\1\145\1\uffff\1\155\1\160\1\162\1\141\1\163\3\172\3\uffff";
     static final String DFA12_acceptS =
-        "\17\uffff\1\33\1\34\1\35\1\36\1\37\1\40\1\uffff\1\41\1\42\3\uffff\1\46\1\47\2\uffff\1\41\21\uffff\1\33\1\34\1\35\1\36\1\37\1\40\1\42\1\43\1\44\1\45\1\46\6\uffff\1\32\24\uffff\1\31\7\uffff\1\21\1\22\1\23\1\24\3\uffff\1\30\17\uffff\1\27\16\uffff\1\25\1\26\2\uffff\1\3\1\5\7\uffff\1\16\1\17\1\uffff\1\20\2\uffff\1\4\1\uffff\1\15\4\uffff\1\14\1\1\1\2\3\uffff\1\11\1\12\1\13\3\uffff\1\10\5\uffff\1\7\1\6";
+        "\17\uffff\1\33\1\34\1\35\1\36\1\37\1\40\1\uffff\1\41\1\42\3\uffff\1\46\1\47\2\uffff\1\41\21\uffff\1\33\1\34\1\35\1\36\1\37\1\40\1\42\1\43\1\44\1\45\1\46\6\uffff\1\32\24\uffff\1\31\7\uffff\1\21\1\22\1\23\1\24\3\uffff\1\30\17\uffff\1\27\16\uffff\1\25\1\26\2\uffff\1\3\1\4\7\uffff\1\16\1\17\1\uffff\1\20\4\uffff\1\15\4\uffff\1\14\1\1\1\2\4\uffff\1\11\1\12\1\13\4\uffff\1\10\10\uffff\1\7\1\5\1\6";
     static final String DFA12_specialS =
-        "\1\2\27\uffff\1\1\1\0\u0099\uffff}>";
+        "\1\2\27\uffff\1\1\1\0\u009f\uffff}>";
     static final String[] DFA12_transitionS = {
             "\11\34\2\33\2\34\1\33\22\34\1\33\1\34\1\30\4\34\1\31\1\13\3\34\1\17\2\34\1\32\12\27\1\34\1\20\5\34\1\16\1\11\1\26\1\10\1\6\1\15\1\7\1\26\1\5\2\26\1\3\1\14\2\26\1\1\1\26\1\4\1\12\1\2\6\26\1\21\1\34\1\22\1\25\1\26\1\34\1\16\1\11\1\26\1\10\1\6\1\15\1\7\1\26\1\5\2\26\1\3\1\14\2\26\1\1\1\26\1\4\1\12\1\2\6\26\1\23\1\34\1\24\uff82\34",
             "\1\35\15\uffff\1\36\21\uffff\1\35\15\uffff\1\36",
@@ -3330,7 +3329,7 @@ public class InternalErDslLexer extends Lexer {
             "\1\u0097\37\uffff\1\u0097",
             "",
             "",
-            "\1\u0098",
+            "\1\u0098\37\uffff\1\u0098",
             "\1\u0099\37\uffff\1\u0099",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
             "\1\u009b\37\uffff\1\u009b",
@@ -3343,31 +3342,37 @@ public class InternalErDslLexer extends Lexer {
             "",
             "\1\u00a1\12\uffff\1\u00a0\24\uffff\1\u00a1\12\uffff\1\u00a0",
             "\1\u00a2\37\uffff\1\u00a2",
-            "",
             "\1\u00a3\37\uffff\1\u00a3",
-            "",
             "\1\u00a4\37\uffff\1\u00a4",
+            "",
+            "\1\u00a5\37\uffff\1\u00a5",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
             "",
             "",
             "",
-            "\1\u00a8\37\uffff\1\u00a8",
             "\1\u00a9\37\uffff\1\u00a9",
             "\1\u00aa\37\uffff\1\u00aa",
+            "\1\u00ab\37\uffff\1\u00ab",
+            "\1\u00ac\37\uffff\1\u00ac",
             "",
             "",
             "",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
-            "\1\u00ac\37\uffff\1\u00ac",
-            "\1\u00ad\37\uffff\1\u00ad",
-            "",
             "\1\u00ae\37\uffff\1\u00ae",
             "\1\u00af\37\uffff\1\u00af",
             "\1\u00b0\37\uffff\1\u00b0",
+            "",
+            "\1\u00b1\37\uffff\1\u00b1",
+            "\1\u00b2\37\uffff\1\u00b2",
+            "\1\u00b3\37\uffff\1\u00b3",
+            "\1\u00b4\37\uffff\1\u00b4",
+            "\1\u00b5\37\uffff\1\u00b5",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
             "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
+            "\12\37\7\uffff\32\37\4\uffff\1\37\1\uffff\32\37",
+            "",
             "",
             ""
     };
@@ -3402,7 +3407,7 @@ public class InternalErDslLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( PartialOverlapped | PartialDisjoint | TotalOverlapped | LogicalSchema | TotalDisjoint | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;

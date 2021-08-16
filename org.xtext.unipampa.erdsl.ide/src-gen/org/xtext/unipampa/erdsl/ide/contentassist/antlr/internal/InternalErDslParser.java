@@ -24,7 +24,7 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "LogicalSchema", "TotalDisjoint", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "TotalDisjoint", "LogicalSchema", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
     };
     public static final int All=27;
     public static final int N_1=23;
@@ -46,7 +46,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final int RightCurlyBracket=35;
     public static final int Boolean=15;
     public static final int EOF=-1;
-    public static final int TotalDisjoint=8;
+    public static final int TotalDisjoint=7;
     public static final int RightSquareBracket=33;
     public static final int Datetime=14;
     public static final int Relates=16;
@@ -54,7 +54,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final int RULE_WS=41;
     public static final int LeftCurlyBracket=34;
     public static final int PartialOverlapped=4;
-    public static final int LogicalSchema=7;
+    public static final int LogicalSchema=8;
     public static final int RULE_ANY_OTHER=42;
     public static final int IsIdentifier=10;
     public static final int Double=18;
@@ -114,11 +114,11 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     		tokenNameToValue.put("Datetime", "'datetime'");
     		tokenNameToValue.put("PostgreSQL", "'PostgreSQL'");
     		tokenNameToValue.put("IsIdentifier", "'isIdentifier'");
+    		tokenNameToValue.put("LogicalSchema", "'LogicalSchema'");
     		tokenNameToValue.put("Relationships", "'Relationships'");
-    		tokenNameToValue.put("LogicalSchema", "'Logical Schema'");
     		tokenNameToValue.put("TotalDisjoint", "'total/disjoint'");
     		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
-    		tokenNameToValue.put("TotalOverlapped", "'total/Overlapped'");
+    		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
     		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
     	}
 
@@ -7162,12 +7162,12 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000000200L});
     public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000001900000000L});
     public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000001100000002L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000009000880L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000009000900L});
     public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000400000000L});
     public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x00000000160CC000L});
     public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000000000400L});
     public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000420000000L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000000000170L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x00000000000000F0L});
     public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000840000000L});
     public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000040000002L});
     public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000001100000000L});

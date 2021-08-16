@@ -13,6 +13,11 @@ import org.xtext.unipampa.erdsl.erDsl.Relation
 import org.xtext.unipampa.erdsl.erDsl.Entity
 import java.util.ArrayList
 
+import org.eclipse.xtext.generator.IFileSystemAccessExtension3
+import java.io.ByteArrayOutputStream
+import net.sourceforge.plantuml.SourceStringReader
+import java.io.ByteArrayInputStream
+
 /**
  * Generates code from your model files on save.
  * 
@@ -51,11 +56,68 @@ class ErDslGenerator extends AbstractGenerator {
 			fsa.generateFile('LogicalSchema_' + modeloER.domain.name + '.html', CreateLogical(modeloER))
 			fsa.generateFile('PostgreSQL_' + modeloER.domain.name + '.sql', postgreSQLCreate(modeloER))
 			fsa.generateFile('MySQL_' + modeloER.domain.name + '.sql', mySQLCreate(modeloER))
-		}		
+		}
+		
+		//val filename = resource.URI.lastSegment
+		
+		for (dm : resource.contents.filter(typeof(ERModel))) {
+			val plantUML = dm.toPlantUML.toString
+			if (fsa instanceof IFileSystemAccessExtension3) {
+				val out = new ByteArrayOutputStream()
+				new SourceStringReader(plantUML).generateImage(out)
+				//(fsa as IFileSystemAccessExtension3).generateFile(filename + "_diagram.png",
+				(fsa as IFileSystemAccessExtension3).generateFile(modeloER.domain.name + "_diagram.png",
+					new ByteArrayInputStream(out.toByteArray))
+			} else {
+				//fsa.generateFile(filename + "_diagram.puml", plantUML)
+				fsa.generateFile(modeloER.domain.name + "_diagram.puml", plantUML)
+			}
+		}
+				
 	}
 	
-	
-	
+	def dispatch CharSequence toPlantUML(ERModel it) '''
+    @startuml
+    ' - Esconde o (E) de entidade
+    ' hide circle
+    ' - workaround para evitar problemas com os angulos do crows foot
+    skinparam linetype ortho
+    scale 3
+    title «domain.name.toUpperCase»
+    «FOR e : entities»
+    «e.toPlantUML»
+    «ENDFOR»
+    «FOR r : relations»
+    «r.toPlantUML»
+    «ENDFOR»
+    @enduml
+    '''
+     
+    def dispatch CharSequence toPlantUML(Entity it) '''
+    entity «name.toLowerCase» {
+        «FOR att : attributes»
+    «IF att.isKey»* «att.name.toLowerCase» : «att.type.toString.toLowerCase»
+    --
+    «ELSE»«att.name.toLowerCase» : «att.type.toString.toLowerCase»«ENDIF» 
+        «ENDFOR»
+    }
+    
+    '''
+
+//		Type		|	Symbol
+//	Zero or One		|	|o--
+//	Exactly One		|	||--
+//	Zero or Many	|	}o--
+//	One or Many		|	}|--
+    
+    def dispatch CharSequence toPlantUML(Relation it) ''' 
+    	«leftEnding.target.toString.toLowerCase» «defineLeftCardinalitySymbolUML(leftEnding.cardinality.toString)»--«defineRightCardinalitySymbolUML(rightEnding.cardinality.toString)» «rightEnding.target.toString.toLowerCase»
+    '''
+    
+    def defineLeftCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")»|o«ELSEIF cd.equalsIgnoreCase("(1:1)")»||«ELSEIF cd.equalsIgnoreCase("(0:N)")»}o«ELSEIF cd.equalsIgnoreCase("(1:N)")»}|«ENDIF»'''
+    
+    def defineRightCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")»o|«ELSEIF cd.equalsIgnoreCase("(1:1)")»||«ELSEIF cd.equalsIgnoreCase("(0:N)")»o{«ELSEIF cd.equalsIgnoreCase("(1:N)")»|{«ENDIF»'''
+
 	
 	/**
 	 * LOGICAL SCHEMA (HTML) GENERATOR CODE

@@ -4,15 +4,22 @@
 package org.xtext.unipampa.erdsl.generator;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterables;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import net.sourceforge.plantuml.SourceStringReader;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
+import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 import org.eclipse.xtext.generator.IGeneratorContext;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
@@ -50,53 +57,224 @@ public class ErDslGenerator extends AbstractGenerator {
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    EObject _get = resource.getContents().get(0);
-    final ERModel modeloER = ((ERModel) _get);
-    if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
-      String _string = modeloER.getTargetGenerator().toString();
-      boolean _matched = false;
-      boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logical schema");
-      if (_equalsIgnoreCase) {
-        _matched=true;
-        String _name = modeloER.getDomain().getName();
-        String _plus = ("LogicalSchema_" + _name);
-        String _plus_1 = (_plus + ".html");
-        fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
-      }
-      if (!_matched) {
-        boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
-        if (_equalsIgnoreCase_1) {
+    try {
+      EObject _get = resource.getContents().get(0);
+      final ERModel modeloER = ((ERModel) _get);
+      if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
+        String _string = modeloER.getTargetGenerator().toString();
+        boolean _matched = false;
+        boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logical schema");
+        if (_equalsIgnoreCase) {
           _matched=true;
-          String _name_1 = modeloER.getDomain().getName();
-          String _plus_2 = ("PostgreSQL_" + _name_1);
-          String _plus_3 = (_plus_2 + ".sql");
-          fsa.generateFile(_plus_3, this.postgreSQLCreate(modeloER));
+          String _name = modeloER.getDomain().getName();
+          String _plus = ("LogicalSchema_" + _name);
+          String _plus_1 = (_plus + ".html");
+          fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
+        }
+        if (!_matched) {
+          boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
+          if (_equalsIgnoreCase_1) {
+            _matched=true;
+            String _name_1 = modeloER.getDomain().getName();
+            String _plus_2 = ("PostgreSQL_" + _name_1);
+            String _plus_3 = (_plus_2 + ".sql");
+            fsa.generateFile(_plus_3, this.postgreSQLCreate(modeloER));
+          }
+        }
+        if (!_matched) {
+          boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
+          if (_equalsIgnoreCase_2) {
+            _matched=true;
+            String _name_2 = modeloER.getDomain().getName();
+            String _plus_4 = ("MySQL_" + _name_2);
+            String _plus_5 = (_plus_4 + ".sql");
+            fsa.generateFile(_plus_5, this.mySQLCreate(modeloER));
+          }
+        }
+      } else {
+        String _name_3 = modeloER.getDomain().getName();
+        String _plus_6 = ("LogicalSchema_" + _name_3);
+        String _plus_7 = (_plus_6 + ".html");
+        fsa.generateFile(_plus_7, this.CreateLogical(modeloER));
+        String _name_4 = modeloER.getDomain().getName();
+        String _plus_8 = ("PostgreSQL_" + _name_4);
+        String _plus_9 = (_plus_8 + ".sql");
+        fsa.generateFile(_plus_9, this.postgreSQLCreate(modeloER));
+        String _name_5 = modeloER.getDomain().getName();
+        String _plus_10 = ("MySQL_" + _name_5);
+        String _plus_11 = (_plus_10 + ".sql");
+        fsa.generateFile(_plus_11, this.mySQLCreate(modeloER));
+      }
+      Iterable<ERModel> _filter = Iterables.<ERModel>filter(resource.getContents(), ERModel.class);
+      for (final ERModel dm : _filter) {
+        {
+          final String plantUML = this.toPlantUML(dm).toString();
+          if ((fsa instanceof IFileSystemAccessExtension3)) {
+            final ByteArrayOutputStream out = new ByteArrayOutputStream();
+            new SourceStringReader(plantUML).generateImage(out);
+            String _name_6 = modeloER.getDomain().getName();
+            String _plus_12 = (_name_6 + "_diagram.png");
+            byte[] _byteArray = out.toByteArray();
+            ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
+            ((IFileSystemAccessExtension3) fsa).generateFile(_plus_12, _byteArrayInputStream);
+          } else {
+            String _name_7 = modeloER.getDomain().getName();
+            String _plus_13 = (_name_7 + "_diagram.puml");
+            fsa.generateFile(_plus_13, plantUML);
+          }
         }
       }
-      if (!_matched) {
-        boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
-        if (_equalsIgnoreCase_2) {
-          _matched=true;
-          String _name_2 = modeloER.getDomain().getName();
-          String _plus_4 = ("MySQL_" + _name_2);
-          String _plus_5 = (_plus_4 + ".sql");
-          fsa.generateFile(_plus_5, this.mySQLCreate(modeloER));
-        }
-      }
-    } else {
-      String _name_3 = modeloER.getDomain().getName();
-      String _plus_6 = ("LogicalSchema_" + _name_3);
-      String _plus_7 = (_plus_6 + ".html");
-      fsa.generateFile(_plus_7, this.CreateLogical(modeloER));
-      String _name_4 = modeloER.getDomain().getName();
-      String _plus_8 = ("PostgreSQL_" + _name_4);
-      String _plus_9 = (_plus_8 + ".sql");
-      fsa.generateFile(_plus_9, this.postgreSQLCreate(modeloER));
-      String _name_5 = modeloER.getDomain().getName();
-      String _plus_10 = ("MySQL_" + _name_5);
-      String _plus_11 = (_plus_10 + ".sql");
-      fsa.generateFile(_plus_11, this.mySQLCreate(modeloER));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
     }
+  }
+  
+  protected CharSequence _toPlantUML(final ERModel it) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("@startuml");
+    _builder.newLine();
+    _builder.append("\' - Esconde o (E) de entidade");
+    _builder.newLine();
+    _builder.append("\' hide circle");
+    _builder.newLine();
+    _builder.append("\' - workaround para evitar problemas com os angulos do crows foot");
+    _builder.newLine();
+    _builder.append("skinparam linetype ortho");
+    _builder.newLine();
+    _builder.append("scale 3");
+    _builder.newLine();
+    _builder.append("title ");
+    String _upperCase = it.getDomain().getName().toUpperCase();
+    _builder.append(_upperCase);
+    _builder.newLineIfNotEmpty();
+    {
+      EList<Entity> _entities = it.getEntities();
+      for(final Entity e : _entities) {
+        CharSequence _plantUML = this.toPlantUML(e);
+        _builder.append(_plantUML);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    {
+      EList<Relation> _relations = it.getRelations();
+      for(final Relation r : _relations) {
+        CharSequence _plantUML_1 = this.toPlantUML(r);
+        _builder.append(_plantUML_1);
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("@enduml");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  protected CharSequence _toPlantUML(final Entity it) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("entity ");
+    String _lowerCase = it.getName().toLowerCase();
+    _builder.append(_lowerCase);
+    _builder.append(" {");
+    _builder.newLineIfNotEmpty();
+    {
+      EList<Attribute> _attributes = it.getAttributes();
+      for(final Attribute att : _attributes) {
+        {
+          boolean _isIsKey = att.isIsKey();
+          if (_isIsKey) {
+            _builder.append("* ");
+            String _lowerCase_1 = att.getName().toLowerCase();
+            _builder.append(_lowerCase_1);
+            _builder.append(" : ");
+            String _lowerCase_2 = att.getType().toString().toLowerCase();
+            _builder.append(_lowerCase_2);
+            _builder.newLineIfNotEmpty();
+            _builder.append("--");
+            _builder.newLine();
+          } else {
+            String _lowerCase_3 = att.getName().toLowerCase();
+            _builder.append(_lowerCase_3);
+            _builder.append(" : ");
+            String _lowerCase_4 = att.getType().toString().toLowerCase();
+            _builder.append(_lowerCase_4);
+          }
+        }
+        _builder.append(" ");
+        _builder.newLineIfNotEmpty();
+      }
+    }
+    _builder.append("}");
+    _builder.newLine();
+    _builder.newLine();
+    return _builder;
+  }
+  
+  protected CharSequence _toPlantUML(final Relation it) {
+    StringConcatenation _builder = new StringConcatenation();
+    String _lowerCase = it.getLeftEnding().getTarget().toString().toLowerCase();
+    _builder.append(_lowerCase);
+    _builder.append(" ");
+    CharSequence _defineLeftCardinalitySymbolUML = this.defineLeftCardinalitySymbolUML(it.getLeftEnding().getCardinality().toString());
+    _builder.append(_defineLeftCardinalitySymbolUML);
+    _builder.append("--");
+    CharSequence _defineRightCardinalitySymbolUML = this.defineRightCardinalitySymbolUML(it.getRightEnding().getCardinality().toString());
+    _builder.append(_defineRightCardinalitySymbolUML);
+    _builder.append(" ");
+    String _lowerCase_1 = it.getRightEnding().getTarget().toString().toLowerCase();
+    _builder.append(_lowerCase_1);
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  public CharSequence defineLeftCardinalitySymbolUML(final String cd) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
+      if (_equalsIgnoreCase) {
+        _builder.append("|o");
+      } else {
+        boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
+        if (_equalsIgnoreCase_1) {
+          _builder.append("||");
+        } else {
+          boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
+          if (_equalsIgnoreCase_2) {
+            _builder.append("}o");
+          } else {
+            boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
+            if (_equalsIgnoreCase_3) {
+              _builder.append("}|");
+            }
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+  
+  public CharSequence defineRightCardinalitySymbolUML(final String cd) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
+      if (_equalsIgnoreCase) {
+        _builder.append("o|");
+      } else {
+        boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
+        if (_equalsIgnoreCase_1) {
+          _builder.append("||");
+        } else {
+          boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
+          if (_equalsIgnoreCase_2) {
+            _builder.append("o{");
+          } else {
+            boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
+            if (_equalsIgnoreCase_3) {
+              _builder.append("|{");
+            }
+          }
+        }
+      }
+    }
+    return _builder;
   }
   
   /**
@@ -7664,5 +7842,18 @@ public class ErDslGenerator extends AbstractGenerator {
       }
     }
     return _builder;
+  }
+  
+  public CharSequence toPlantUML(final EObject it) {
+    if (it instanceof ERModel) {
+      return _toPlantUML((ERModel)it);
+    } else if (it instanceof Entity) {
+      return _toPlantUML((Entity)it);
+    } else if (it instanceof Relation) {
+      return _toPlantUML((Relation)it);
+    } else {
+      throw new IllegalArgumentException("Unhandled parameter types: " +
+        Arrays.<Object>asList(it).toString());
+    }
   }
 }
