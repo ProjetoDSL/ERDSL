@@ -24,65 +24,78 @@ class ErDslFileTemplateProvider implements IFileTemplateProvider {
 //	val helloName = combo("Hello Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to")
 @FileTemplate(label="ERDSL Template", icon="file_template.png", description="Create a template file for ERDSl.")
 final class ERtextFile {
-	val modelName = combo("Template:", #["Cars", "2", "3"], "The logical example model")
+	val modelName = combo("Template:", #["Employees", "2", "3"], "The logical example model")
 	override generateFiles(IFileGenerator generator) {
 		generator.generate('''«folder»/«name».erdsl''', '''
-		
-		«IF modelName.toString.equalsIgnoreCase("cars")»
+		«IF modelName.toString.equalsIgnoreCase("Employees")»
+			Generate All;
 			/*
 			 * This is an example model
 			 */
-			Domain «modelName»;
+			Domain The_Employees_Sample_Schema;
 			
 			Entities {
-				Cliente {
-					idCliente int isIdentifier,
-					nomeCliente string
+				
+				Person {
+					person_no int isIdentifier,
+					gender boolean
 				}
 				
-				Carro {
-					idCarro int isIdentifier,
-					modelo string,
-					ano int,
-					valorDeMercado money
+				Employee is total/overlapped Person {
+				 emp_no int isIdentifier,
+				 birth_dt datetime,
+				 first_name string,
+				 last_name string,
+				 hire_dt datetime	
 				}
 				
-				Acidente {
-					idAcidente int isIdentifier,
-					causa string,
-					data datetime
+				Dependent is total/overlapped Person {
+					dependent_no int isIdentifier,
+					first_name string,
+					last_name string
 				}
 				
-				Apolice {
-					idApolice int isIdentifier,
-					valor money,
-					dataAssinatura datetime
+				Salary {
+					salary_no int isIdentifier,
+					salary money,
+					from_dt datetime,
+					to_dt datetime
 				}
 				
-				Premio {
-					idPremio int isIdentifier,
-					vencimento datetime,
-					valorPremio money
+				Departament {
+					dept_no int isIdentifier,
+					name string, 
+					goals_description string
 				}
 				
+				Title	 {
+					title_no int isIdentifier,
+					name string,
+					description string,
+					from_dt datetime,
+					to_dt datetime		
+				}
+					
 			};
 			
 			Relationships {
-				Propriedade [Cliente (1:1) relates (1:N) Carro]
-				Historico 	[Carro (1:N) relates (0:N) Acidente] {vitimas int}
-				Segurado 	[Carro (1:1) relates (1:1) Apolice]
-				GeraPremio	[Apolice (1:1) relates (1:N) Premio]	
+				Dept_manager [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
+				Dept_emp	 [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
+				Payment 	 [Salary (1:N) relates (1:1) Employee]
+				JobTitle	 [Title (1:N) relates (1:1) Employee]
+				Dependency	 [Employee (1:1) relates (1:N) Dependent]
 			};
+
 		«ELSEIF modelName.toString.equalsIgnoreCase("2")»
 			
 			
-			222222
+			Another Template
 			
 			
 		«ELSEIF modelName.toString.equalsIgnoreCase("3")»
 			
 			
-			333333
+			Another Template
 			
 			
 		«ENDIF»

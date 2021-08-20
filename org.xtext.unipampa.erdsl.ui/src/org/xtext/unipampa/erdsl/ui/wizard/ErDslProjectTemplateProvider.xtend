@@ -54,15 +54,72 @@ final class ERtextProject {
 		generator.generate(new PluginProjectFactory => [
 			projectName = projectInfo.projectName
 			location = projectInfo.locationPath
-			projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+//			projectNatures += #[JavaCore.NATURE_ID, "org.eclipse.pde.PluginNature", XtextProjectHelper.NATURE_ID]
+			projectNatures += #[XtextProjectHelper.NATURE_ID]
 			builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
 			folders += "src"
-			addFile('''src/«path»/Model.erdsl''', '''
-				/*
-				 * This is an example model
-				 */
-«««				Hello «name»!
-				Hello new user!
+			addFile('''src/Blank_Model.erdsl''', '''
+			/*
+			 * Hello new user!
+			 *
+			 * This is an example model
+			 */
+
+			Generate All;
+			
+			Domain The_Employees_Sample_Schema;
+			
+			Entities {
+				
+				Person {
+					person_no int isIdentifier,
+					gender boolean
+				}
+				
+				Employee is total/overlapped Person {
+				 emp_no int isIdentifier,
+				 birth_dt datetime,
+				 first_name string,
+				 last_name string,
+				 hire_dt datetime	
+				}
+				
+				Dependent is total/overlapped Person {
+					dependent_no int isIdentifier,
+					first_name string,
+					last_name string
+				}
+				
+				Salary {
+					salary_no int isIdentifier,
+					salary money,
+					from_dt datetime,
+					to_dt datetime
+				}
+				
+				Departament {
+					dept_no int isIdentifier,
+					name string, 
+					goals_description string
+				}
+				
+				Title	 {
+					title_no int isIdentifier,
+					name string,
+					description string,
+					from_dt datetime,
+					to_dt datetime		
+				}
+					
+			};
+			
+			Relationships {
+				Dept_manager [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
+				Dept_emp	 [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
+				Payment 	 [Salary (1:N) relates (1:1) Employee]
+				JobTitle	 [Title (1:N) relates (1:1) Employee]
+				Dependency	 [Employee (1:1) relates (1:N) Dependent]
+			};
 			''')
 		])
 	}
