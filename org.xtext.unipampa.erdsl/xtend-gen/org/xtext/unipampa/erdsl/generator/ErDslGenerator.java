@@ -3,25 +3,14 @@
  */
 package org.xtext.unipampa.erdsl.generator;
 
-import com.google.common.base.Objects;
-import com.google.common.collect.Iterables;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import net.sourceforge.plantuml.SourceStringReader;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
-import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 import org.eclipse.xtext.generator.IGeneratorContext;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.InputOutput;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
@@ -55,339 +44,54 @@ public class ErDslGenerator extends AbstractGenerator {
   
   private StringBuilder stringBuilderAlterTblTernary = new StringBuilder();
   
+  private Entity lEnt;
+  
+  private Entity rEnt;
+  
+  private Relation lRel;
+  
+  private Relation rRel;
+  
+  private final HtmlFileGenerator htmlGenerator = new HtmlFileGenerator();
+  
+  private final PostgresqlFileGenerator postGreSqlGenerator = new PostgresqlFileGenerator();
+  
+  private final MysqlFileGenerator MySqlGenerator = new MysqlFileGenerator();
+  
+  private final PlantUmlFileGenerator PlantUmlGenerator = new PlantUmlFileGenerator();
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
-    try {
-      EObject _get = resource.getContents().get(0);
-      final ERModel modeloER = ((ERModel) _get);
-      if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
-        String _string = modeloER.getTargetGenerator().toString();
-        boolean _matched = false;
-        boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logical schema");
-        if (_equalsIgnoreCase) {
+    EObject _get = resource.getContents().get(0);
+    final ERModel modeloER = ((ERModel) _get);
+    if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
+      String _string = modeloER.getTargetGenerator().toString();
+      boolean _matched = false;
+      boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logicalschema");
+      if (_equalsIgnoreCase) {
+        _matched=true;
+        this.htmlGenerator.doGenerate(resource, fsa, context);
+      }
+      if (!_matched) {
+        boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
+        if (_equalsIgnoreCase_1) {
           _matched=true;
-          String _name = modeloER.getDomain().getName();
-          String _plus = ("LogicalSchema_" + _name);
-          String _plus_1 = (_plus + ".html");
-          fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
-        }
-        if (!_matched) {
-          boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
-          if (_equalsIgnoreCase_1) {
-            _matched=true;
-            String _name_1 = modeloER.getDomain().getName();
-            String _plus_2 = ("PostgreSQL_" + _name_1);
-            String _plus_3 = (_plus_2 + ".sql");
-            fsa.generateFile(_plus_3, this.postgreSQLCreate(modeloER));
-          }
-        }
-        if (!_matched) {
-          boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
-          if (_equalsIgnoreCase_2) {
-            _matched=true;
-            String _name_2 = modeloER.getDomain().getName();
-            String _plus_4 = ("MySQL_" + _name_2);
-            String _plus_5 = (_plus_4 + ".sql");
-            fsa.generateFile(_plus_5, this.mySQLCreate(modeloER));
-          }
-        }
-      } else {
-        String _name_3 = modeloER.getDomain().getName();
-        String _plus_6 = ("LogicalSchema_" + _name_3);
-        String _plus_7 = (_plus_6 + ".html");
-        fsa.generateFile(_plus_7, this.CreateLogical(modeloER));
-        String _name_4 = modeloER.getDomain().getName();
-        String _plus_8 = ("PostgreSQL_" + _name_4);
-        String _plus_9 = (_plus_8 + ".sql");
-        fsa.generateFile(_plus_9, this.postgreSQLCreate(modeloER));
-        String _name_5 = modeloER.getDomain().getName();
-        String _plus_10 = ("MySQL_" + _name_5);
-        String _plus_11 = (_plus_10 + ".sql");
-        fsa.generateFile(_plus_11, this.mySQLCreate(modeloER));
-      }
-      Iterable<ERModel> _filter = Iterables.<ERModel>filter(resource.getContents(), ERModel.class);
-      for (final ERModel diagramModel : _filter) {
-        {
-          final String plantUML = this.plotToPlantUML(diagramModel).toString();
-          if ((fsa instanceof IFileSystemAccessExtension3)) {
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            new SourceStringReader(plantUML).generateImage(out);
-            String _name_6 = modeloER.getDomain().getName();
-            String _plus_12 = (_name_6 + "_diagram.png");
-            byte[] _byteArray = out.toByteArray();
-            ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
-            ((IFileSystemAccessExtension3) fsa).generateFile(_plus_12, _byteArrayInputStream);
-            String _name_7 = modeloER.getDomain().getName();
-            String _plus_13 = (_name_7 + "_diagramDescriptorGenerated.txt");
-            fsa.generateFile(_plus_13, plantUML);
-          } else {
-            String _name_8 = modeloER.getDomain().getName();
-            String _plus_14 = (_name_8 + "_diagramParcialDescriptorGenerated.txt");
-            fsa.generateFile(_plus_14, plantUML);
-          }
+          this.postGreSqlGenerator.doGenerate(resource, fsa, context);
         }
       }
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
-  }
-  
-  protected CharSequence _plotToPlantUML(final ERModel it) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("@startuml");
-    _builder.newLine();
-    _builder.append("\' - Esconde os (*letra*) dos objetos (E para entidade, C para classe, O para objetos, etc)");
-    _builder.newLine();
-    _builder.append("\' hide circle");
-    _builder.newLine();
-    _builder.append("\' - workaround para evitar problemas com os angulos do crows foot");
-    _builder.newLine();
-    _builder.append("\' skinparam linetype ortho");
-    _builder.newLine();
-    _builder.append("skinparam titleBorderRoundCorner 15");
-    _builder.newLine();
-    _builder.append("skinparam titleBorderThickness 1");
-    _builder.newLine();
-    _builder.append("\' skinparam titleBorderColor red");
-    _builder.newLine();
-    _builder.append("scale 1.5");
-    _builder.newLine();
-    _builder.append("\' skinparam monochrome true");
-    _builder.newLine();
-    _builder.append("header");
-    _builder.newLine();
-    _builder.append("<b>Diagram generated by ERtext</b>");
-    _builder.newLine();
-    _builder.append("endheader");
-    _builder.newLine();
-    _builder.append("right footer <b>https://github.com/ProjetoDSL/ERDSL</b>");
-    _builder.newLine();
-    _builder.append("title <b>");
-    String _upperCase = it.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase);
-    _builder.append("</b>\\n(conceptual model)");
-    _builder.newLineIfNotEmpty();
-    {
-      EList<Entity> _entities = it.getEntities();
-      for(final Entity e : _entities) {
-        CharSequence _plotToPlantUML = this.plotToPlantUML(e);
-        _builder.append(_plotToPlantUML);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    {
-      EList<Relation> _relations = it.getRelations();
-      for(final Relation r : _relations) {
-        CharSequence _plotToPlantUML_1 = this.plotToPlantUML(r);
-        _builder.append(_plotToPlantUML_1);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    {
-      EList<Entity> _entities_1 = it.getEntities();
-      for(final Entity e_1 : _entities_1) {
-        {
-          Entity _is = e_1.getIs();
-          boolean _tripleEquals = (_is == null);
-          boolean _not = (!_tripleEquals);
-          if (_not) {
-            String _lowerCase = e_1.getName().toString().toLowerCase();
-            _builder.append(_lowerCase);
-            _builder.append(" --|> ");
-            String _lowerCase_1 = e_1.getIs().getName().toString().toLowerCase();
-            _builder.append(_lowerCase_1);
-          }
-        }
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("@enduml");
-    _builder.newLine();
-    return _builder;
-  }
-  
-  protected CharSequence _plotToPlantUML(final Entity it) {
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("entity ");
-    String _lowerCase = it.getName().toLowerCase();
-    _builder.append(_lowerCase);
-    _builder.append(" {");
-    _builder.newLineIfNotEmpty();
-    {
-      EList<Attribute> _attributes = it.getAttributes();
-      for(final Attribute att : _attributes) {
-        {
-          boolean _isIsKey = att.isIsKey();
-          if (_isIsKey) {
-            _builder.append("* ");
-            String _lowerCase_1 = att.getName().toLowerCase();
-            _builder.append(_lowerCase_1);
-            _builder.append(" : ");
-            String _lowerCase_2 = att.getType().toString().toLowerCase();
-            _builder.append(_lowerCase_2);
-            _builder.newLineIfNotEmpty();
-            _builder.append("--");
-            _builder.newLine();
-          } else {
-            String _lowerCase_3 = att.getName().toLowerCase();
-            _builder.append(_lowerCase_3);
-            _builder.append(" : ");
-            String _lowerCase_4 = att.getType().toString().toLowerCase();
-            _builder.append(_lowerCase_4);
-          }
-        }
-        _builder.append(" ");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    return _builder;
-  }
-  
-  protected CharSequence _plotToPlantUML(final Relation it) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      if (((it.getLeftEnding().getTarget() instanceof Entity) && (it.getRightEnding().getTarget() instanceof Entity))) {
-        _builder.append("diamond ");
-        String _lowerCase = it.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append("_dmd");
-        _builder.newLineIfNotEmpty();
-        String _lowerCase_1 = it.getLeftEnding().getTarget().toString().toLowerCase();
-        _builder.append(_lowerCase_1);
-        _builder.append(" ");
-        CharSequence _defineLeftCardinalitySymbolUML = this.defineLeftCardinalitySymbolUML(it.getLeftEnding().getCardinality().toString());
-        _builder.append(_defineLeftCardinalitySymbolUML);
-        _builder.append("-- ");
-        String _lowerCase_2 = it.getName().toLowerCase();
-        _builder.append(_lowerCase_2);
-        _builder.append("_dmd");
-        _builder.newLineIfNotEmpty();
-        String _lowerCase_3 = it.getName().toLowerCase();
-        _builder.append(_lowerCase_3);
-        _builder.append("_dmd --");
-        CharSequence _defineRightCardinalitySymbolUML = this.defineRightCardinalitySymbolUML(it.getRightEnding().getCardinality().toString());
-        _builder.append(_defineRightCardinalitySymbolUML);
-        _builder.append(" ");
-        String _lowerCase_4 = it.getRightEnding().getTarget().toString().toLowerCase();
-        _builder.append(_lowerCase_4);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    {
-      if (((!(it.getLeftEnding().getTarget() instanceof Entity)) || (!(it.getRightEnding().getTarget() instanceof Entity)))) {
-        {
-          EObject _target = it.getLeftEnding().getTarget();
-          if ((_target instanceof Relation)) {
-            String _lowerCase_5 = it.getLeftEnding().getTarget().toString().toLowerCase();
-            _builder.append(_lowerCase_5);
-            _builder.append("_dmd --");
-            CharSequence _defineRightCardinalitySymbolUML_1 = this.defineRightCardinalitySymbolUML(it.getRightEnding().getCardinality().toString());
-            _builder.append(_defineRightCardinalitySymbolUML_1);
-            _builder.append(" ");
-            String _lowerCase_6 = it.getRightEnding().getTarget().toString().toLowerCase();
-            _builder.append(_lowerCase_6);
-            _builder.newLineIfNotEmpty();
-            _builder.append("note \"Ternary\\n  Entity\" as N_");
-            String _lowerCase_7 = it.getLeftEnding().getTarget().toString().toLowerCase();
-            _builder.append(_lowerCase_7);
-            _builder.append("_dmd");
-            _builder.newLineIfNotEmpty();
-            _builder.append("N_");
-            String _lowerCase_8 = it.getLeftEnding().getTarget().toString().toLowerCase();
-            _builder.append(_lowerCase_8);
-            _builder.append("_dmd .. ");
-            String _lowerCase_9 = it.getLeftEnding().getTarget().toString().toLowerCase();
-            _builder.append(_lowerCase_9);
-            _builder.append("_dmd");
-            _builder.newLineIfNotEmpty();
-          } else {
-            EObject _target_1 = it.getRightEnding().getTarget();
-            if ((_target_1 instanceof Relation)) {
-              String _lowerCase_10 = it.getLeftEnding().getTarget().toString().toLowerCase();
-              _builder.append(_lowerCase_10);
-              _builder.append(" ");
-              CharSequence _defineLeftCardinalitySymbolUML_1 = this.defineLeftCardinalitySymbolUML(it.getLeftEnding().getCardinality().toString());
-              _builder.append(_defineLeftCardinalitySymbolUML_1);
-              _builder.append("-- ");
-              String _lowerCase_11 = it.getRightEnding().getTarget().toString().toLowerCase();
-              _builder.append(_lowerCase_11);
-              _builder.append("_dmd");
-              _builder.newLineIfNotEmpty();
-              _builder.append("note \"Ternary\\n  Entity\" as N_");
-              String _lowerCase_12 = it.getRightEnding().getTarget().toString().toLowerCase();
-              _builder.append(_lowerCase_12);
-              _builder.append("_dmd");
-              _builder.newLineIfNotEmpty();
-              _builder.append("N_");
-              String _lowerCase_13 = it.getRightEnding().getTarget().toString().toLowerCase();
-              _builder.append(_lowerCase_13);
-              _builder.append("_dmd .. ");
-              String _lowerCase_14 = it.getRightEnding().getTarget().toString().toLowerCase();
-              _builder.append(_lowerCase_14);
-              _builder.append("_dmd");
-              _builder.newLineIfNotEmpty();
-            }
-          }
+      if (!_matched) {
+        boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
+        if (_equalsIgnoreCase_2) {
+          _matched=true;
+          this.MySqlGenerator.doGenerate(resource, fsa, context);
         }
       }
+    } else {
+      this.htmlGenerator.doGenerate(resource, fsa, context);
+      this.postGreSqlGenerator.doGenerate(resource, fsa, context);
+      this.MySqlGenerator.doGenerate(resource, fsa, context);
+      this.PlantUmlGenerator.doGenerate(resource, fsa, context);
     }
-    _builder.newLine();
-    return _builder;
-  }
-  
-  public CharSequence defineLeftCardinalitySymbolUML(final String cd) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
-      if (_equalsIgnoreCase) {
-        _builder.append(" |o");
-      } else {
-        boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
-        if (_equalsIgnoreCase_1) {
-          _builder.append(" ||");
-        } else {
-          boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
-          if (_equalsIgnoreCase_2) {
-            _builder.append(" }o");
-          } else {
-            boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
-            if (_equalsIgnoreCase_3) {
-              _builder.append(" }|");
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  public CharSequence defineRightCardinalitySymbolUML(final String cd) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
-      if (_equalsIgnoreCase) {
-        _builder.append("o| ");
-      } else {
-        boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
-        if (_equalsIgnoreCase_1) {
-          _builder.append("|| ");
-        } else {
-          boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
-          if (_equalsIgnoreCase_2) {
-            _builder.append("o{ ");
-          } else {
-            boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
-            if (_equalsIgnoreCase_3) {
-              _builder.append("|{ ");
-            }
-          }
-        }
-      }
-    }
-    return _builder;
   }
   
   /**
@@ -395,102 +99,22 @@ public class ErDslGenerator extends AbstractGenerator {
    */
   public CharSequence CreateLogical(final ERModel modeloER) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("<!DOCTYPE html>");
-    _builder.newLine();
     _builder.append("\t");
-    _builder.append("<html>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<head>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<title>ERtext Logical schema</title>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<meta charset=\"utf-8\">");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<link href=\"https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" integrity=\"sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN\" crossorigin=\"anonymous\">");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("<style>");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append("body    { background: #ffffff; border: 1px solid black, padding: 5px 0 5px 0}");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append(".title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append(".stitle { font: bold 120% sans-serif; color: #0044DD; padding: 10px 0 10px 0 }");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append(".sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px; }");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append(".field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 0px solid black}");
-    _builder.newLine();
-    _builder.append("\t\t    ");
-    _builder.append(".value  { font: 100% sans-serif; color: #505050 }");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("</style>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("</head>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<body> ");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<div class=\"panel\">");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<p class=\"title badge-primary\">ERtext Logical schema</p>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("</div>\t\t");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<p class=\"sstitle\">");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<a href=\"#domain\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("&nbsp Modelled Domain");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("</p>");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<div id=\"domain\" class=\"panel-body collapse in\">");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("<p class=\"field\">");
-    String _upperCase = modeloER.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase, "\t");
-    _builder.append("</p>");
+    CharSequence _htmlHead = this.htmlHead();
+    _builder.append(_htmlHead, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("</div>");
-    _builder.newLine();
+    CharSequence _htmlModelDomain = this.htmlModelDomain(modeloER);
+    _builder.append(_htmlModelDomain, "\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    CharSequence _htmlModelEntities = this.htmlModelEntities(modeloER);
+    _builder.append(_htmlModelEntities, "\t");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    CharSequence _htmlModelRelationships = this.htmlModelRelationships(modeloER);
+    _builder.append(_htmlModelRelationships, "\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
@@ -525,8 +149,8 @@ public class ErDslGenerator extends AbstractGenerator {
         }
         _builder.append("\t\t");
         _builder.append("<span class=\"badge badge-secondary\">");
-        String _upperCase_1 = entity.getName().toUpperCase();
-        _builder.append(_upperCase_1, "\t\t");
+        String _upperCase = entity.getName().toUpperCase();
+        _builder.append(_upperCase, "\t\t");
         _builder.append("</span> (");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
@@ -751,16 +375,16 @@ public class ErDslGenerator extends AbstractGenerator {
               if (_isNullOrEmpty) {
                 _builder.append("\t\t\t");
                 _builder.append("</br><span class=\"badge badge-secondary\">");
-                String _upperCase_2 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
+                String _upperCase_1 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
+                _builder.append(_upperCase_1, "\t\t\t");
+                String _upperCase_2 = relation_2.getRightEnding().getTarget().toString().toUpperCase();
                 _builder.append(_upperCase_2, "\t\t\t");
-                String _upperCase_3 = relation_2.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_3, "\t\t\t");
                 _builder.append("</span> (");
                 _builder.newLineIfNotEmpty();
                 _builder.append("\t\t\t");
                 _builder.append("<font color=\"red\"><b>id");
-                String _upperCase_4 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_4, "\t\t\t");
+                String _upperCase_3 = relation_2.getLeftEnding().getTarget().toString().toUpperCase();
+                _builder.append(_upperCase_3, "\t\t\t");
                 String _string_4 = relation_2.getRightEnding().getTarget().toString();
                 _builder.append(_string_4, "\t\t\t");
                 _builder.append("*</b></font>,");
@@ -771,8 +395,8 @@ public class ErDslGenerator extends AbstractGenerator {
                 if (_not_5) {
                   _builder.append("\t\t\t");
                   _builder.append("</br><span class=\"badge badge-secondary\">");
-                  String _upperCase_5 = relation_2.getName().toUpperCase();
-                  _builder.append(_upperCase_5, "\t\t\t");
+                  String _upperCase_4 = relation_2.getName().toUpperCase();
+                  _builder.append(_upperCase_4, "\t\t\t");
                   _builder.append("</span> (");
                   _builder.newLineIfNotEmpty();
                   _builder.append("\t\t\t");
@@ -931,8 +555,8 @@ public class ErDslGenerator extends AbstractGenerator {
                   if (((!StringExtensions.isNullOrEmpty(relation_3.getName())) && relation_3.getName().equals(aux_3.getLeftEnding().getTarget().toString()))) {
                     _builder.append("\t");
                     _builder.append("<span class=\"badge badge-secondary\">");
-                    String _upperCase_6 = aux_3.getName().toUpperCase();
-                    _builder.append(_upperCase_6, "\t");
+                    String _upperCase_5 = aux_3.getName().toUpperCase();
+                    _builder.append(_upperCase_5, "\t");
                     _builder.append("</span> (");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -1000,8 +624,8 @@ public class ErDslGenerator extends AbstractGenerator {
                   } else {
                     if (((!StringExtensions.isNullOrEmpty(relation_3.getName())) && relation_3.getName().equals(aux_3.getRightEnding().getTarget().toString()))) {
                       _builder.append("\t");
-                      String _upperCase_7 = aux_3.getName().toUpperCase();
-                      _builder.append(_upperCase_7, "\t");
+                      String _upperCase_6 = aux_3.getName().toUpperCase();
+                      _builder.append(_upperCase_6, "\t");
                       _builder.append(" (");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -1157,11 +781,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_11 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_11);
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_8 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_8);
+            String _upperCase_7 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_7);
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_9 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_9);
+            String _upperCase_8 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_8);
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("</br>");
@@ -1208,11 +832,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_14 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_14, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_10 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_10, "\t");
+            String _upperCase_9 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_9, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_11 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_11, "\t");
+            String _upperCase_10 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_10, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -1259,11 +883,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_17 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_17, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_12 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_12, "\t");
+            String _upperCase_11 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_11, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_13 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_13, "\t");
+            String _upperCase_12 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_12, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -1310,11 +934,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_20 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_20, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_14 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_14, "\t");
+            String _upperCase_13 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_13, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_15 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_15, "\t");
+            String _upperCase_14 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_14, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -1371,11 +995,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_23 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_23, "\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_16 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_16, "\t");
+                        String _upperCase_15 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_15, "\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_17 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_17, "\t");
+                        String _upperCase_16 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_16, "\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -1391,11 +1015,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_19 = relation_4.getName();
                               _builder.append(_name_19, "\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_18 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_18, "\t");
+                              String _upperCase_17 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_17, "\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_19 = aux_4.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_19, "\t");
+                              String _upperCase_18 = aux_4.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_18, "\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -1404,11 +1028,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_24 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_24, "\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_20 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_20, "\t");
+                              String _upperCase_19 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_19, "\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_21 = aux_4.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_21, "\t");
+                              String _upperCase_20 = aux_4.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_20, "\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -1431,11 +1055,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_25 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_25, "\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_22 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_22, "\t");
+                    String _upperCase_21 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_21, "\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_23 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_23, "\t");
+                    String _upperCase_22 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_22, "\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -1443,11 +1067,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_26 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_26, "\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_24 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_24, "\t");
+                    String _upperCase_23 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_23, "\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_25 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_25, "\t");
+                    String _upperCase_24 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_24, "\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -1458,11 +1082,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_27 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_27, "\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_26 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_26, "\t");
+                      String _upperCase_25 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_25, "\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_27 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_27, "\t");
+                      String _upperCase_26 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_26, "\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -1470,11 +1094,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_28 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_28, "\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_28 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_28, "\t");
+                      String _upperCase_27 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_27, "\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_29 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_29, "\t");
+                      String _upperCase_28 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_28, "\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -1535,11 +1159,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_31 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_31, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_30 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_30, "\t\t");
+                        String _upperCase_29 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_29, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_31 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_31, "\t\t");
+                        String _upperCase_30 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_30, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -1556,11 +1180,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_21 = relation_4.getName();
                               _builder.append(_name_21, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_32 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_32, "\t\t");
+                              String _upperCase_31 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_31, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_33 = aux_6.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_33, "\t\t");
+                              String _upperCase_32 = aux_6.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_32, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -1570,11 +1194,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_32 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_32, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_34 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_34, "\t\t");
+                              String _upperCase_33 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_33, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_35 = aux_6.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_35, "\t\t");
+                              String _upperCase_34 = aux_6.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_34, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -1598,11 +1222,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_33 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_33, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_36 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_36, "\t\t");
+                    String _upperCase_35 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_35, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_37 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_37, "\t\t");
+                    String _upperCase_36 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_36, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -1611,11 +1235,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_34 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_34, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_38 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_38, "\t\t");
+                    String _upperCase_37 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_37, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_39 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_39, "\t\t");
+                    String _upperCase_38 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_38, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -1627,11 +1251,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_35 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_35, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_40 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_40, "\t\t");
+                      String _upperCase_39 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_39, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_41 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_41, "\t\t");
+                      String _upperCase_40 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_40, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -1640,11 +1264,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_36 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_36, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_42 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_42, "\t\t");
+                      String _upperCase_41 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_41, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_43 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_43, "\t\t");
+                      String _upperCase_42 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_42, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -1706,11 +1330,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_39 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_39, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_44 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_44, "\t\t");
+                        String _upperCase_43 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_43, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_45 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_45, "\t\t");
+                        String _upperCase_44 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_44, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -1727,11 +1351,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_23 = relation_4.getName();
                               _builder.append(_name_23, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_46 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_46, "\t\t");
+                              String _upperCase_45 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_45, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_47 = aux_8.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_47, "\t\t");
+                              String _upperCase_46 = aux_8.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_46, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -1741,11 +1365,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_40 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_40, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_48 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_48, "\t\t");
+                              String _upperCase_47 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_47, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_49 = aux_8.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_49, "\t\t");
+                              String _upperCase_48 = aux_8.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_48, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -1769,11 +1393,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_41 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_41, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_50 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_50, "\t\t");
+                    String _upperCase_49 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_49, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_51 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_51, "\t\t");
+                    String _upperCase_50 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_50, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -1782,11 +1406,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_42 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_42, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_52 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_52, "\t\t");
+                    String _upperCase_51 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_51, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_53 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_53, "\t\t");
+                    String _upperCase_52 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_52, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -1798,11 +1422,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_43 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_43, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_54 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_54, "\t\t");
+                      String _upperCase_53 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_53, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_55 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_55, "\t\t");
+                      String _upperCase_54 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_54, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -1811,11 +1435,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_44 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_44, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_56 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_56, "\t\t");
+                      String _upperCase_55 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_55, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_57 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_57, "\t\t");
+                      String _upperCase_56 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_56, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -1877,11 +1501,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_47 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_47, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_58 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_58, "\t\t");
+                        String _upperCase_57 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_57, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_59 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_59, "\t\t");
+                        String _upperCase_58 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_58, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -1898,11 +1522,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_25 = relation_4.getName();
                               _builder.append(_name_25, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_60 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_60, "\t\t");
+                              String _upperCase_59 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_59, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_61 = aux_10.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_61, "\t\t");
+                              String _upperCase_60 = aux_10.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_60, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -1912,11 +1536,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_48 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_48, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_62 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_62, "\t\t");
+                              String _upperCase_61 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_61, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_63 = aux_10.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_63, "\t\t");
+                              String _upperCase_62 = aux_10.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_62, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -1940,11 +1564,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_49 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_49, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_64 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_64, "\t\t");
+                    String _upperCase_63 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_63, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_65 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_65, "\t\t");
+                    String _upperCase_64 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_64, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -1953,11 +1577,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_50 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_50, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_66 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_66, "\t\t");
+                    String _upperCase_65 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_65, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_67 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_67, "\t\t");
+                    String _upperCase_66 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_66, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -1969,11 +1593,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_51 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_51, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_68 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_68, "\t\t");
+                      String _upperCase_67 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_67, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_69 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_69, "\t\t");
+                      String _upperCase_68 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_68, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -1982,11 +1606,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_52 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_52, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_70 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_70, "\t\t");
+                      String _upperCase_69 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_69, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_71 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_71, "\t\t");
+                      String _upperCase_70 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_70, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -2047,11 +1671,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_55 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_55, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_72 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_72, "\t\t");
+                        String _upperCase_71 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_71, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_73 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_73, "\t\t");
+                        String _upperCase_72 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_72, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -2068,11 +1692,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_27 = relation_4.getName();
                               _builder.append(_name_27, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_74 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_74, "\t\t");
+                              String _upperCase_73 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_73, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_75 = aux_12.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_75, "\t\t");
+                              String _upperCase_74 = aux_12.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_74, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -2082,11 +1706,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_56 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_56, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_76 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_76, "\t\t");
+                              String _upperCase_75 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_75, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_77 = aux_12.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_77, "\t\t");
+                              String _upperCase_76 = aux_12.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_76, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -2110,11 +1734,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_57 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_57, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_78 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_78, "\t\t");
+                    String _upperCase_77 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_77, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_79 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_79, "\t\t");
+                    String _upperCase_78 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_78, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2123,11 +1747,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_58 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_58, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_80 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_80, "\t\t");
+                    String _upperCase_79 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_79, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_81 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_81, "\t\t");
+                    String _upperCase_80 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_80, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -2139,11 +1763,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_59 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_59, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_82 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_82, "\t\t");
+                      String _upperCase_81 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_81, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_83 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_83, "\t\t");
+                      String _upperCase_82 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_82, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -2152,11 +1776,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_60 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_60, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_84 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_84, "\t\t");
+                      String _upperCase_83 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_83, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_85 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_85, "\t\t");
+                      String _upperCase_84 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_84, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -2217,11 +1841,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_63 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_63, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_86 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_86, "\t\t");
+                        String _upperCase_85 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_85, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_87 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_87, "\t\t");
+                        String _upperCase_86 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_86, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -2238,11 +1862,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_29 = relation_4.getName();
                               _builder.append(_name_29, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_88 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_88, "\t\t");
+                              String _upperCase_87 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_87, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_89 = aux_14.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_89, "\t\t");
+                              String _upperCase_88 = aux_14.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_88, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -2252,11 +1876,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_64 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_64, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_90 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_90, "\t\t");
+                              String _upperCase_89 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_89, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_91 = aux_14.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_91, "\t\t");
+                              String _upperCase_90 = aux_14.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_90, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -2280,11 +1904,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_65 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_65, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_92 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_92, "\t\t");
+                    String _upperCase_91 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_91, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_93 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_93, "\t\t");
+                    String _upperCase_92 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_92, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2293,11 +1917,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_66 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_66, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_94 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_94, "\t\t");
+                    String _upperCase_93 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_93, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_95 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_95, "\t\t");
+                    String _upperCase_94 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_94, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -2309,11 +1933,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_67 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_67, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_96 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_96, "\t\t");
+                      String _upperCase_95 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_95, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_97 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_97, "\t\t");
+                      String _upperCase_96 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_96, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -2322,11 +1946,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_68 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_68, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_98 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_98, "\t\t");
+                      String _upperCase_97 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_97, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_99 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_99, "\t\t");
+                      String _upperCase_98 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_98, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -2388,11 +2012,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_71 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_71, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_100 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_100, "\t\t");
+                        String _upperCase_99 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_99, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_101 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_101, "\t\t");
+                        String _upperCase_100 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_100, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -2409,11 +2033,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_31 = relation_4.getName();
                               _builder.append(_name_31, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_102 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_102, "\t\t");
+                              String _upperCase_101 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_101, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_103 = aux_16.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_103, "\t\t");
+                              String _upperCase_102 = aux_16.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_102, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -2423,11 +2047,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_72 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_72, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_104 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_104, "\t\t");
+                              String _upperCase_103 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_103, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_105 = aux_16.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_105, "\t\t");
+                              String _upperCase_104 = aux_16.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_104, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -2451,11 +2075,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_73 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_73, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_106 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_106, "\t\t");
+                    String _upperCase_105 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_105, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_107 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_107, "\t\t");
+                    String _upperCase_106 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_106, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2464,11 +2088,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_74 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_74, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_108 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_108, "\t\t");
+                    String _upperCase_107 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_107, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_109 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_109, "\t\t");
+                    String _upperCase_108 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_108, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -2480,11 +2104,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_75 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_75, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_110 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_110, "\t\t");
+                      String _upperCase_109 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_109, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_111 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_111, "\t\t");
+                      String _upperCase_110 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_110, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -2493,11 +2117,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_76 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_76, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_112 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_112, "\t\t");
+                      String _upperCase_111 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_111, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_113 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_113, "\t\t");
+                      String _upperCase_112 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_112, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -2559,11 +2183,11 @@ public class ErDslGenerator extends AbstractGenerator {
                         String _string_79 = relation_4.getLeftEnding().getTarget().toString();
                         _builder.append(_string_79, "\t\t");
                         _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                        String _upperCase_114 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_114, "\t\t");
+                        String _upperCase_113 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_113, "\t\t");
                         _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                        String _upperCase_115 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                        _builder.append(_upperCase_115, "\t\t");
+                        String _upperCase_114 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                        _builder.append(_upperCase_114, "\t\t");
                         _builder.append("</span>\t");
                         _builder.newLineIfNotEmpty();
                       } else {
@@ -2580,11 +2204,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _name_33 = relation_4.getName();
                               _builder.append(_name_33, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_116 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_116, "\t\t");
+                              String _upperCase_115 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_115, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_117 = aux_18.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_117, "\t\t");
+                              String _upperCase_116 = aux_18.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_116, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             } else {
@@ -2594,11 +2218,11 @@ public class ErDslGenerator extends AbstractGenerator {
                               String _string_80 = relation_4.getLeftEnding().getTarget().toString();
                               _builder.append(_string_80, "\t\t");
                               _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                              String _upperCase_118 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                              _builder.append(_upperCase_118, "\t\t");
+                              String _upperCase_117 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                              _builder.append(_upperCase_117, "\t\t");
                               _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                              String _upperCase_119 = aux_18.getIs().toString().toUpperCase();
-                              _builder.append(_upperCase_119, "\t\t");
+                              String _upperCase_118 = aux_18.getIs().toString().toUpperCase();
+                              _builder.append(_upperCase_118, "\t\t");
                               _builder.append("</span>");
                               _builder.newLineIfNotEmpty();
                             }
@@ -2622,11 +2246,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_81 = relation_4.getLeftEnding().getTarget().toString();
                     _builder.append(_string_81, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_120 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_120, "\t\t");
+                    String _upperCase_119 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_119, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_121 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_121, "\t\t");
+                    String _upperCase_120 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_120, "\t\t");
                     _builder.append("</span></br>");
                     _builder.newLineIfNotEmpty();
                     _builder.append("\t");
@@ -2635,11 +2259,11 @@ public class ErDslGenerator extends AbstractGenerator {
                     String _string_82 = relation_4.getRightEnding().getTarget().toString();
                     _builder.append(_string_82, "\t\t");
                     _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                    String _upperCase_122 = relation_4.getName().toUpperCase();
-                    _builder.append(_upperCase_122, "\t\t");
+                    String _upperCase_121 = relation_4.getName().toUpperCase();
+                    _builder.append(_upperCase_121, "\t\t");
                     _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                    String _upperCase_123 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                    _builder.append(_upperCase_123, "\t\t");
+                    String _upperCase_122 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                    _builder.append(_upperCase_122, "\t\t");
                     _builder.append("</span>\t");
                     _builder.newLineIfNotEmpty();
                   } else {
@@ -2651,11 +2275,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_83 = relation_4.getRightEnding().getTarget().toString();
                       _builder.append(_string_83, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_124 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_124, "\t\t");
+                      String _upperCase_123 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_123, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_125 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_125, "\t\t");
+                      String _upperCase_124 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_124, "\t\t");
                       _builder.append("</span></br>");
                       _builder.newLineIfNotEmpty();
                       _builder.append("\t");
@@ -2664,11 +2288,11 @@ public class ErDslGenerator extends AbstractGenerator {
                       String _string_84 = relation_4.getLeftEnding().getTarget().toString();
                       _builder.append(_string_84, "\t\t");
                       _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-                      String _upperCase_126 = relation_4.getName().toUpperCase();
-                      _builder.append(_upperCase_126, "\t\t");
+                      String _upperCase_125 = relation_4.getName().toUpperCase();
+                      _builder.append(_upperCase_125, "\t\t");
                       _builder.append("</span> references <span class=\"badge badge-secondary\">");
-                      String _upperCase_127 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-                      _builder.append(_upperCase_127, "\t\t");
+                      String _upperCase_126 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+                      _builder.append(_upperCase_126, "\t\t");
                       _builder.append("</span>\t\t");
                       _builder.newLineIfNotEmpty();
                     }
@@ -2718,11 +2342,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_87 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_87);
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_128 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_128);
+            String _upperCase_127 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_127);
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_129 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_129);
+            String _upperCase_128 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_128);
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("</br>");
@@ -2731,11 +2355,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_88 = relation_4.getRightEnding().getTarget().toString();
             _builder.append(_string_88);
             _builder.append("_fk</b></font>\" In <span class=\"badge badge-secondary\">");
-            String _upperCase_130 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_130);
+            String _upperCase_129 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_129);
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_131 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_131);
+            String _upperCase_130 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_130);
             _builder.append("</span>\t\t");
             _builder.newLineIfNotEmpty();
             _builder.append("</br>");
@@ -2782,11 +2406,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_91 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_91, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_132 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_132, "\t");
+            String _upperCase_131 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_131, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_133 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_133, "\t");
+            String _upperCase_132 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_132, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2797,11 +2421,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_92 = relation_4.getRightEnding().getTarget().toString();
             _builder.append(_string_92, "\t");
             _builder.append("_fk</b></font>\" In <span class=\"badge badge-secondary\">");
-            String _upperCase_134 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_134, "\t");
+            String _upperCase_133 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_133, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_135 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_135, "\t");
+            String _upperCase_134 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_134, "\t");
             _builder.append("</span>\t");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2849,11 +2473,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_95 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_95, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_136 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_136, "\t");
+            String _upperCase_135 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_135, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_137 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_137, "\t");
+            String _upperCase_136 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_136, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2864,11 +2488,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_96 = relation_4.getRightEnding().getTarget().toString();
             _builder.append(_string_96, "\t");
             _builder.append("_fk</b></font>\" In <span class=\"badge badge-secondary\">");
-            String _upperCase_138 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_138, "\t");
+            String _upperCase_137 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_137, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_139 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_139, "\t");
+            String _upperCase_138 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_138, "\t");
             _builder.append("</span>\t");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2915,11 +2539,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_99 = relation_4.getLeftEnding().getTarget().toString();
             _builder.append(_string_99, "\t");
             _builder.append("_fk</b></font>\" in <span class=\"badge badge-secondary\">");
-            String _upperCase_140 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_140, "\t");
+            String _upperCase_139 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_139, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_141 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_141, "\t");
+            String _upperCase_140 = relation_4.getLeftEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_140, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2930,11 +2554,11 @@ public class ErDslGenerator extends AbstractGenerator {
             String _string_100 = relation_4.getRightEnding().getTarget().toString();
             _builder.append(_string_100, "\t");
             _builder.append("_fk</b></font>\" In <span class=\"badge badge-secondary\">");
-            String _upperCase_142 = relation_4.getName().toUpperCase();
-            _builder.append(_upperCase_142, "\t");
+            String _upperCase_141 = relation_4.getName().toUpperCase();
+            _builder.append(_upperCase_141, "\t");
             _builder.append("</span> references <span class=\"badge badge-secondary\">");
-            String _upperCase_143 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
-            _builder.append(_upperCase_143, "\t");
+            String _upperCase_142 = relation_4.getRightEnding().getTarget().toString().toUpperCase();
+            _builder.append(_upperCase_142, "\t");
             _builder.append("</span>");
             _builder.newLineIfNotEmpty();
             _builder.append("\t");
@@ -2948,5025 +2572,387 @@ public class ErDslGenerator extends AbstractGenerator {
         _builder.newLine();
       }
     }
+    _builder.newLine();
+    CharSequence _htmlFooter = this.htmlFooter();
+    _builder.append(_htmlFooter);
+    _builder.newLineIfNotEmpty();
+    return _builder;
+  }
+  
+  private CharSequence htmlHead() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<!DOCTYPE html>");
+    _builder.newLine();
     _builder.append("\t");
+    _builder.append("<html>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<head>");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<title>ERtext Logical schema</title>");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<meta charset=\"utf-8\">");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css\">");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<link href=\"https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css\" rel=\"stylesheet\" integrity=\"sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN\" crossorigin=\"anonymous\">");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js\"></script>");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<script src=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js\"></script>");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("<style>");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append("body    { background: #ffffff; border: 1px solid black, padding: 5px 0 5px 0}");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append(".title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append(".stitle { font: bold 120% sans-serif; color: #0044DD; padding: 10px 0 10px 0 }");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append(".sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px;}");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append(".field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 0px solid black}");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append(".value  { font: 100% sans-serif; color: #505050 }");
+    _builder.newLine();
+    _builder.append("\t\t    ");
+    _builder.append("footer \t{ text-align: center; padding: 3px; border: 1px; background-color: #ccc8c8; color: white;}");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("</style>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("</head>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<body> ");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<div class=\"panel\">");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("<p class=\"title badge-primary\">LOGICAL SCHEMA</p>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("</div>\t\t");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  private CharSequence htmlFooter() {
+    StringConcatenation _builder = new StringConcatenation();
     _builder.append("</p>");
     _builder.newLine();
-    _builder.append("\t");
     _builder.append("</div>\t");
     _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("\t");
     _builder.append("</body>");
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("<footer>");
+    _builder.newLine();
+    _builder.append("\t  ");
+    _builder.append("<p><a href=\"https://github.com/ProjetoDSL/ERDSL\">github.com/ProjetoDSL/ERDSL</a></p>");
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("</footer>");
     _builder.newLine();
-    _builder.append("\t");
     _builder.append("</html>");
     _builder.newLine();
     return _builder;
   }
   
   /**
-   * PHYSICAL SCHEMA (PostgreSQL) GENERATOR CODE
+   * Display of the modeled domain (database name)
    */
-  public CharSequence postgreSQLCreate(final ERModel e) {
+  private CharSequence htmlModelDomain(final ERModel m) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("/* PostGreSQL TEMPLATE GENERATED BY ERtext */");
+    _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("<a href=\"#domain\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
     _builder.newLine();
-    _builder.append("-- Database: ");
-    String _upperCase = e.getDomain().getName().toUpperCase();
+    _builder.append("&nbsp Modelled Domain");
+    _builder.newLine();
+    _builder.append("</p>");
+    _builder.newLine();
+    _builder.append("<div id=\"domain\" class=\"panel-body collapse in\">");
+    _builder.newLine();
+    _builder.append("<p class=\"field\">");
+    String _upperCase = m.getDomain().getName().toUpperCase();
     _builder.append(_upperCase);
-    _builder.append("\t");
+    _builder.append("</p>");
     _builder.newLineIfNotEmpty();
-    _builder.append("-- DROP DATABASE ");
-    String _upperCase_1 = e.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase_1);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("CREATE DATABASE ");
-    String _upperCase_2 = e.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase_2);
-    _builder.newLineIfNotEmpty();
-    _builder.append("    ");
-    _builder.append("WITH ");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("OWNER = postgres");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("ENCODING = \'UTF8\'");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("TABLESPACE = pg_default");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("CONNECTION LIMIT = -1; ");
-    int ListExendPKsLenght = 0;
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("/* --------------------------------- */");
-    _builder.newLine();
-    _builder.append("/*  1 to 1 and 1 to N RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* --------------------------------- */");
+    _builder.append("</div>\t");
     _builder.newLine();
     _builder.newLine();
-    {
-      EList<Entity> _entities = e.getEntities();
-      boolean _hasElements = false;
-      for(final Entity entity : _entities) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate("\n);\n", "");
-        }
-        _builder.append("\t\t");
-        final ArrayList<String> myListPKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        final ArrayList<String> myListExtendPKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        CharSequence _postgreSQLHaveFK = this.postgreSQLHaveFK(e, entity);
-        _builder.append(_postgreSQLHaveFK, "\t\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- Table: ");
-        String _upperCase_3 = entity.getName().toUpperCase();
-        _builder.append(_upperCase_3);
-        _builder.newLineIfNotEmpty();
-        {
-          boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(entity.getGeneralization());
-          boolean _not = (!_isNullOrEmpty);
-          if (_not) {
-            _builder.append("-- Generalization/Specialization ");
-            String _upperCase_4 = entity.getGeneralization().toString().toUpperCase();
-            _builder.append(_upperCase_4);
-            _builder.append(" from table ");
-            String _upperCase_5 = entity.getIs().toString().toUpperCase();
-            _builder.append(_upperCase_5);
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- DROP TABLE ");
-        String _upperCase_6 = entity.getName().toUpperCase();
-        _builder.append(_upperCase_6);
-        _builder.append(";\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("CREATE TABLE IF NOT EXISTS ");
-        String _lowerCase = entity.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append(" (");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          Entity _is = entity.getIs();
-          boolean _tripleEquals = (_is == null);
-          boolean _not_1 = (!_tripleEquals);
-          if (_not_1) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity aux : _entities_1) {
-                {
-                  boolean _equalsIgnoreCase = aux.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase) {
-                    {
-                      EList<Attribute> _attributes = aux.getAttributes();
-                      for(final Attribute auxAttributes : _attributes) {
-                        {
-                          boolean _isIsKey = auxAttributes.isIsKey();
-                          if (_isIsKey) {
-                            CharSequence _postgreSQLAttTypeChecker = this.postgreSQLAttTypeChecker(auxAttributes);
-                            _builder.append(_postgreSQLAttTypeChecker, "\t");
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          EList<Attribute> _attributes_1 = entity.getAttributes();
-          for(final Attribute attribute : _attributes_1) {
-            CharSequence _postgreSQLAttTypeChecker_1 = this.postgreSQLAttTypeChecker(attribute);
-            _builder.append(_postgreSQLAttTypeChecker_1, "\t");
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          Entity _is_1 = entity.getIs();
-          boolean _tripleEquals_1 = (_is_1 == null);
-          boolean _not_2 = (!_tripleEquals_1);
-          if (_not_2) {
-            {
-              EList<Entity> _entities_2 = e.getEntities();
-              for(final Entity aux_1 : _entities_2) {
-                {
-                  boolean _equalsIgnoreCase_1 = aux_1.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase_1) {
-                    {
-                      EList<Attribute> _attributes_2 = aux_1.getAttributes();
-                      for(final Attribute auxAttributes_1 : _attributes_2) {
-                        {
-                          boolean _isIsKey_1 = auxAttributes_1.isIsKey();
-                          if (_isIsKey_1) {
-                            String _xblockexpression = null;
-                            {
-                              myListPKs.add(auxAttributes_1.getName().toLowerCase());
-                              _xblockexpression = "";
-                            }
-                            _builder.append(_xblockexpression);
-                            String _xblockexpression_1 = null;
-                            {
-                              myListExtendPKs.add(auxAttributes_1.getName().toLowerCase());
-                              _xblockexpression_1 = "";
-                            }
-                            _builder.append(_xblockexpression_1);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          EList<Attribute> _attributes_3 = entity.getAttributes();
-          for(final Attribute attribute_1 : _attributes_3) {
-            {
-              boolean _isIsKey_2 = attribute_1.isIsKey();
-              if (_isIsKey_2) {
-                String _xblockexpression_2 = null;
-                {
-                  myListPKs.add(attribute_1.getName().toString());
-                  _xblockexpression_2 = "";
-                }
-                _builder.append(_xblockexpression_2, "\t");
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _postgreSQLVerifyFKsAttributesRelation1to1 = this.postgreSQLVerifyFKsAttributesRelation1to1(e, entity.getName());
-        _builder.append(_postgreSQLVerifyFKsAttributesRelation1to1, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _postgreSQLVerifyFKsAttributesRelation1toN = this.postgreSQLVerifyFKsAttributesRelation1toN(e, entity.getName());
-        _builder.append(_postgreSQLVerifyFKsAttributesRelation1toN, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("CONSTRAINT pk_");
-        String _lowerCase_1 = entity.getName().toLowerCase();
-        _builder.append(_lowerCase_1, "\t");
-        _builder.append(" PRIMARY KEY (");
-        {
-          boolean _hasElements_1 = false;
-          for(final String x : myListPKs) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder.appendImmediate(", ", "\t");
-            }
-            String _println = InputOutput.<String>println(x.toLowerCase());
-            _builder.append(_println, "\t");
-          }
-          if (_hasElements_1) {
-            _builder.append(")", "\t");
-          }
-        }
-        _builder.newLineIfNotEmpty();
-      }
-      if (_hasElements) {
-        _builder.append(");\n", "\t");
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ---------------------- */");
-    _builder.newLine();
-    _builder.append("/*  N to N RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* ---------------------- */ ");
-    _builder.newLine();
-    _builder.newLine();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        final ArrayList<String> myListPKsFKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("\t\t");
-            {
-              boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation.getName());
-              if (_isNullOrEmpty_1) {
-                String _upperCase_7 = relation.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_7, "\t\t");
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t\t");
-                _builder.append("\t");
-                _builder.newLine();
-                _builder.append("-- Table: ");
-                String _upperCase_8 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_8);
-                _builder.newLineIfNotEmpty();
-                _builder.append("-- DROP TABLE ");
-                String _upperCase_9 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_9);
-                _builder.append(";");
-                _builder.newLineIfNotEmpty();
-                _builder.append("CREATE TABLE IF NOT EXISTS ");
-                String _upperCase_10 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_10);
-                _builder.append(" (");
-                _builder.newLineIfNotEmpty();
-              } else {
-                boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation.getName());
-                boolean _not_3 = (!_isNullOrEmpty_2);
-                if (_not_3) {
-                  _builder.append("\t\t\t");
-                  _builder.newLine();
-                  _builder.append("-- Table: ");
-                  String _upperCase_11 = relation.getName().toUpperCase();
-                  _builder.append(_upperCase_11);
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("-- DROP TABLE ");
-                  String _upperCase_12 = relation.getName().toUpperCase();
-                  _builder.append(_upperCase_12);
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("CREATE TABLE IF NOT EXISTS ");
-                  String _lowerCase_2 = relation.getName().toLowerCase();
-                  _builder.append(_lowerCase_2);
-                  _builder.append(" (");
-                }
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            {
-              EList<Entity> _entities_3 = e.getEntities();
-              for(final Entity entity_1 : _entities_3) {
-                {
-                  if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation.getLeftEnding().getTarget().toString() != relation.getRightEnding().getTarget().toString()))) {
-                    String _xblockexpression_3 = null;
-                    {
-                      myListPKsFKs.add(relation.getLeftEnding().getTarget().toString());
-                      _xblockexpression_3 = "";
-                    }
-                    _builder.append(_xblockexpression_3);
-                    String _lowerCase_3 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_3);
-                    CharSequence _postgreSQLAttTypeCheckerNtoNLeft = this.postgreSQLAttTypeCheckerNtoNLeft(e, relation);
-                    _builder.append(_postgreSQLAttTypeCheckerNtoNLeft);
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation.getRightEnding().getTarget().toString() != relation.getLeftEnding().getTarget().toString()))) {
-                    String _xblockexpression_4 = null;
-                    {
-                      myListPKsFKs.add(relation.getRightEnding().getTarget().toString());
-                      _xblockexpression_4 = "";
-                    }
-                    _builder.append(_xblockexpression_4, "\t");
-                    String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_4, "\t");
-                    CharSequence _postgreSQLAttTypeCheckerNtoNRight = this.postgreSQLAttTypeCheckerNtoNRight(e, relation);
-                    _builder.append(_postgreSQLAttTypeCheckerNtoNRight, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString()))) {
-                    String _xblockexpression_5 = null;
-                    {
-                      myListPKsFKs.add(relation.getLeftEnding().getTarget().toString());
-                      _xblockexpression_5 = "";
-                    }
-                    _builder.append(_xblockexpression_5, "\t");
-                    String _lowerCase_5 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_5, "\t");
-                    _builder.append("_");
-                    String _lowerCase_6 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_6, "\t");
-                    _builder.append("_1");
-                    Object _xblockexpression_6 = null;
-                    {
-                      this.auxT1 = true;
-                      _xblockexpression_6 = null;
-                    }
-                    _builder.append(_xblockexpression_6, "\t");
-                    CharSequence _postgreSQLAttTypeCheckerNtoNLeft_1 = this.postgreSQLAttTypeCheckerNtoNLeft(e, relation);
-                    _builder.append(_postgreSQLAttTypeCheckerNtoNLeft_1, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString()))) {
-                    String _xblockexpression_7 = null;
-                    {
-                      myListPKsFKs.add(relation.getRightEnding().getTarget().toString());
-                      _xblockexpression_7 = "";
-                    }
-                    _builder.append(_xblockexpression_7, "\t");
-                    String _lowerCase_7 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_7, "\t");
-                    _builder.append("_");
-                    String _lowerCase_8 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_8, "\t");
-                    _builder.append("_2");
-                    Object _xblockexpression_8 = null;
-                    {
-                      this.auxT2 = true;
-                      _xblockexpression_8 = null;
-                    }
-                    _builder.append(_xblockexpression_8, "\t");
-                    CharSequence _postgreSQLAttTypeCheckerNtoNRight_1 = this.postgreSQLAttTypeCheckerNtoNRight(e, relation);
-                    _builder.append(_postgreSQLAttTypeCheckerNtoNRight_1, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-              }
-            }
-            int iterCounter = 1;
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            {
-              boolean _isNullOrEmpty_3 = IterableExtensions.isNullOrEmpty(relation.getAttributes());
-              boolean _not_4 = (!_isNullOrEmpty_3);
-              if (_not_4) {
-                {
-                  EList<Attribute> _attributes_4 = relation.getAttributes();
-                  for(final Attribute aux_2 : _attributes_4) {
-                    CharSequence _postgreSQLAttTypeChecker_2 = this.postgreSQLAttTypeChecker(aux_2);
-                    _builder.append(_postgreSQLAttTypeChecker_2, "\t");
-                  }
-                }
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("CONSTRAINT pk_");
-            String _lowerCase_9 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_9, "\t");
-            _builder.append(" PRIMARY KEY (");
-            {
-              EList<Attribute> _attributes_5 = relation.getAttributes();
-              for(final Attribute aux_3 : _attributes_5) {
-                {
-                  boolean _isIsKey_3 = aux_3.isIsKey();
-                  if (_isIsKey_3) {
-                    String _lowerCase_10 = aux_3.getName().toString().toLowerCase();
-                    _builder.append(_lowerCase_10, "\t");
-                    _builder.append(", ");
-                  }
-                }
-              }
-            }
-            {
-              boolean _hasElements_2 = false;
-              for(final String x_1 : myListPKsFKs) {
-                if (!_hasElements_2) {
-                  _hasElements_2 = true;
-                } else {
-                  _builder.appendImmediate(", ", "\t");
-                }
-                String _println_1 = InputOutput.<String>println(x_1.toLowerCase());
-                _builder.append(_println_1, "\t");
-                {
-                  if ((this.auxT1 && this.auxT2)) {
-                    _builder.append("_");
-                    String _lowerCase_11 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_11, "\t");
-                    _builder.append("_");
-                    int _plusPlus = iterCounter++;
-                    _builder.append(_plusPlus, "\t");
-                  }
-                }
-              }
-              if (_hasElements_2) {
-                _builder.append(")", "\t");
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            final int ListPKsFKsLenght = myListPKsFKs.size();
-            Object _xblockexpression_9 = null;
-            {
-              iterCounter = 1;
-              _xblockexpression_9 = null;
-            }
-            _builder.append(_xblockexpression_9, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            Object _xblockexpression_10 = null;
-            {
-              this.stringBuilderAlterTblNtoN.append(this.postgreSQLAlterTableFK_0N_0N(myListPKsFKs, ListPKsFKsLenght, this.auxT1, this.auxT2, relation, iterCounter, e));
-              _xblockexpression_10 = null;
-            }
-            _builder.append(_xblockexpression_10, "\t");
-            _builder.newLineIfNotEmpty();
-            Object _xblockexpression_11 = null;
-            {
-              iterCounter = 1;
-              _xblockexpression_11 = null;
-            }
-            _builder.append(_xblockexpression_11);
-            Object _xblockexpression_12 = null;
-            {
-              this.auxT1 = false;
-              _xblockexpression_12 = null;
-            }
-            _builder.append(_xblockexpression_12);
-            Object _xblockexpression_13 = null;
-            {
-              this.auxT2 = false;
-              _xblockexpression_13 = null;
-            }
-            _builder.append(_xblockexpression_13);
-            _builder.newLineIfNotEmpty();
-            _builder.append(");");
-            _builder.newLine();
-          }
-        }
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ----------------------- */");
-    _builder.newLine();
-    _builder.append("/*  TERNARY RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* ----------------------- */");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("\t");
-    String artificialEntName1 = null;
-    String artificialEntKey1 = null;
-    String artificialEntKeyAlt1 = null;
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    String artificialEntName2 = null;
-    String artificialEntKey2 = null;
-    String artificialEntKeyAlt2 = null;
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    String realEntName = null;
-    String realEntKey = null;
-    _builder.newLineIfNotEmpty();
-    {
-      EList<Relation> _relations_1 = e.getRelations();
-      for(final Relation relation_1 : _relations_1) {
-        {
-          if (((relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            {
-              EList<Relation> _relations_2 = e.getRelations();
-              for(final Relation aux_4 : _relations_2) {
-                {
-                  if (((!StringExtensions.isNullOrEmpty(relation_1.getName())) && relation_1.getName().equals(aux_4.getLeftEnding().getTarget().toString()))) {
-                    _builder.append("-- Table: ");
-                    String _upperCase_13 = aux_4.getName().toUpperCase();
-                    _builder.append(_upperCase_13);
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("-- DROP TABLE ");
-                    String _upperCase_14 = aux_4.getName().toUpperCase();
-                    _builder.append(_upperCase_14);
-                    _builder.append(";");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("CREATE TABLE IF NOT EXISTS ");
-                    String _lowerCase_12 = aux_4.getName().toLowerCase();
-                    _builder.append(_lowerCase_12);
-                    _builder.append(" (\t");
-                    _builder.newLineIfNotEmpty();
-                    {
-                      EList<Entity> _entities_4 = e.getEntities();
-                      for(final Entity entAux : _entities_4) {
-                        {
-                          boolean _equalsIgnoreCase_2 = entAux.getName().toString().equalsIgnoreCase(aux_4.getRightEnding().getTarget().toString());
-                          if (_equalsIgnoreCase_2) {
-                            {
-                              EList<Attribute> _attributes_6 = entAux.getAttributes();
-                              for(final Attribute attAux : _attributes_6) {
-                                {
-                                  boolean _isIsKey_4 = attAux.isIsKey();
-                                  if (_isIsKey_4) {
-                                    _builder.append("\t");
-                                    CharSequence _postgreSQLAttTypeChecker_3 = this.postgreSQLAttTypeChecker(attAux);
-                                    _builder.append(_postgreSQLAttTypeChecker_3, "\t");
-                                    Object _xblockexpression_14 = null;
-                                    {
-                                      realEntName = entAux.getName().toString().toLowerCase();
-                                      _xblockexpression_14 = null;
-                                    }
-                                    _builder.append(_xblockexpression_14, "\t");
-                                    Object _xblockexpression_15 = null;
-                                    {
-                                      realEntKey = attAux.getName().toString().toLowerCase();
-                                      _xblockexpression_15 = null;
-                                    }
-                                    _builder.append(_xblockexpression_15, "\t");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    {
-                      EList<Relation> _relations_3 = e.getRelations();
-                      for(final Relation relEntArtifial1 : _relations_3) {
-                        {
-                          boolean _equalsIgnoreCase_3 = relEntArtifial1.getName().equalsIgnoreCase(aux_4.getLeftEnding().getTarget().toString());
-                          if (_equalsIgnoreCase_3) {
-                            {
-                              EList<Entity> _entities_5 = e.getEntities();
-                              for(final Entity ent1 : _entities_5) {
-                                {
-                                  boolean _equalsIgnoreCase_4 = ent1.getName().equalsIgnoreCase(relEntArtifial1.getLeftEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_4) {
-                                    {
-                                      EList<Attribute> _attributes_7 = ent1.getAttributes();
-                                      for(final Attribute ent1Att : _attributes_7) {
-                                        {
-                                          boolean _isIsKey_5 = ent1Att.isIsKey();
-                                          if (_isIsKey_5) {
-                                            _builder.append("\t");
-                                            CharSequence _postgreSQLAttTypeChecker_4 = this.postgreSQLAttTypeChecker(ent1Att);
-                                            _builder.append(_postgreSQLAttTypeChecker_4, "\t");
-                                            Object _xblockexpression_16 = null;
-                                            {
-                                              artificialEntName1 = aux_4.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _xblockexpression_16 = null;
-                                            }
-                                            _builder.append(_xblockexpression_16, "\t");
-                                            Object _xblockexpression_17 = null;
-                                            {
-                                              artificialEntKey1 = ent1Att.getName().toString().toLowerCase();
-                                              _xblockexpression_17 = null;
-                                            }
-                                            _builder.append(_xblockexpression_17, "\t");
-                                            Object _xblockexpression_18 = null;
-                                            {
-                                              artificialEntKeyAlt1 = ent1.getName().toString().toLowerCase();
-                                              _xblockexpression_18 = null;
-                                            }
-                                            _builder.append(_xblockexpression_18, "\t");
-                                            _builder.newLineIfNotEmpty();
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                            {
-                              EList<Entity> _entities_6 = e.getEntities();
-                              for(final Entity ent2 : _entities_6) {
-                                {
-                                  boolean _equalsIgnoreCase_5 = ent2.getName().equalsIgnoreCase(relEntArtifial1.getRightEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_5) {
-                                    {
-                                      EList<Attribute> _attributes_8 = ent2.getAttributes();
-                                      for(final Attribute ent2Att : _attributes_8) {
-                                        {
-                                          boolean _isIsKey_6 = ent2Att.isIsKey();
-                                          if (_isIsKey_6) {
-                                            _builder.append("\t");
-                                            CharSequence _postgreSQLAttTypeChecker_5 = this.postgreSQLAttTypeChecker(ent2Att);
-                                            _builder.append(_postgreSQLAttTypeChecker_5, "\t");
-                                            Object _xblockexpression_19 = null;
-                                            {
-                                              artificialEntName2 = aux_4.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _xblockexpression_19 = null;
-                                            }
-                                            _builder.append(_xblockexpression_19, "\t");
-                                            Object _xblockexpression_20 = null;
-                                            {
-                                              artificialEntKey2 = ent2Att.getName().toString().toLowerCase();
-                                              _xblockexpression_20 = null;
-                                            }
-                                            _builder.append(_xblockexpression_20, "\t");
-                                            Object _xblockexpression_21 = null;
-                                            {
-                                              artificialEntKeyAlt2 = ent2.getName().toString().toLowerCase();
-                                              _xblockexpression_21 = null;
-                                            }
-                                            _builder.append(_xblockexpression_21, "\t");
-                                            _builder.newLineIfNotEmpty();
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    {
-                      EList<Entity> _entities_7 = e.getEntities();
-                      for(final Entity aux2 : _entities_7) {
-                        {
-                          boolean _equalsIgnoreCase_6 = aux_4.getRightEnding().getTarget().toString().equalsIgnoreCase(aux2.getName());
-                          if (_equalsIgnoreCase_6) {
-                            _builder.append("\t");
-                            {
-                              EList<Attribute> _attributes_9 = aux_4.getAttributes();
-                              for(final Attribute attribute_2 : _attributes_9) {
-                                {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_2.getName())) && attribute_2.isIsKey())) {
-                                    CharSequence _postgreSQLAttTypeChecker_6 = this.postgreSQLAttTypeChecker(attribute_2);
-                                    _builder.append(_postgreSQLAttTypeChecker_6, "\t");
-                                  }
-                                }
-                              }
-                            }
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("\t");
-                            {
-                              EList<Attribute> _attributes_10 = aux_4.getAttributes();
-                              for(final Attribute attribute_3 : _attributes_10) {
-                                {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_3.getName())) && (!attribute_3.isIsKey()))) {
-                                    CharSequence _postgreSQLAttTypeChecker_7 = this.postgreSQLAttTypeChecker(attribute_3);
-                                    _builder.append(_postgreSQLAttTypeChecker_7, "\t");
-                                  }
-                                }
-                              }
-                            }
-                            _builder.newLineIfNotEmpty();
-                          }
-                        }
-                      }
-                    }
-                    _builder.append("\t");
-                    _builder.append("CONSTRAINT pk_");
-                    String _lowerCase_13 = aux_4.getName().toLowerCase();
-                    _builder.append(_lowerCase_13, "\t");
-                    _builder.append(" PRIMARY KEY (");
-                    String _string = realEntKey.toString();
-                    _builder.append(_string, "\t");
-                    _builder.append(", ");
-                    _builder.append(artificialEntKey1, "\t");
-                    _builder.append(", ");
-                    String _string_1 = artificialEntKey2.toString();
-                    _builder.append(_string_1, "\t");
-                    _builder.append(")");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t");
-                    _builder.append("FOREIGN KEY (");
-                    String _string_2 = realEntKey.toString();
-                    _builder.append(_string_2, "\t");
-                    _builder.append(") REFERENCES ");
-                    String _string_3 = realEntName.toString();
-                    _builder.append(_string_3, "\t");
-                    _builder.append(" (");
-                    String _string_4 = realEntKey.toString();
-                    _builder.append(_string_4, "\t");
-                    _builder.append(");");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t");
-                    _builder.append("FOREIGN KEY (");
-                    String _string_5 = artificialEntKey1.toString();
-                    _builder.append(_string_5, "\t");
-                    _builder.append(", ");
-                    String _string_6 = artificialEntKey2.toString();
-                    _builder.append(_string_6, "\t");
-                    _builder.append(") REFERENCES ");
-                    _builder.append(artificialEntName1, "\t");
-                    _builder.append(" (");
-                    String _string_7 = artificialEntKeyAlt1.toString();
-                    _builder.append(_string_7, "\t");
-                    _builder.append(", ");
-                    String _string_8 = artificialEntKeyAlt2.toString();
-                    _builder.append(_string_8, "\t");
-                    _builder.append(");");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append(");");
-                    _builder.newLine();
-                  } else {
-                    if (((!StringExtensions.isNullOrEmpty(relation_1.getName())) && relation_1.getName().equals(aux_4.getRightEnding().getTarget().toString()))) {
-                      _builder.append("\t\t\t\t\t\t");
-                      _builder.newLine();
-                      _builder.append("-- Table: ");
-                      String _upperCase_15 = aux_4.getName().toUpperCase();
-                      _builder.append(_upperCase_15);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("-- DROP TABLE ");
-                      String _upperCase_16 = aux_4.getName().toUpperCase();
-                      _builder.append(_upperCase_16);
-                      _builder.append(";");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("CREATE TABLE IF NOT EXISTS ");
-                      String _lowerCase_14 = aux_4.getName().toLowerCase();
-                      _builder.append(_lowerCase_14);
-                      _builder.append(" (");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        EList<Entity> _entities_8 = e.getEntities();
-                        for(final Entity entAux_1 : _entities_8) {
-                          {
-                            boolean _equalsIgnoreCase_7 = entAux_1.getName().toString().equalsIgnoreCase(aux_4.getLeftEnding().getTarget().toString());
-                            if (_equalsIgnoreCase_7) {
-                              {
-                                EList<Attribute> _attributes_11 = entAux_1.getAttributes();
-                                for(final Attribute attAux_1 : _attributes_11) {
-                                  {
-                                    boolean _isIsKey_7 = attAux_1.isIsKey();
-                                    if (_isIsKey_7) {
-                                      _builder.append("\t");
-                                      CharSequence _postgreSQLAttTypeChecker_8 = this.postgreSQLAttTypeChecker(attAux_1);
-                                      _builder.append(_postgreSQLAttTypeChecker_8, "\t");
-                                      Object _xblockexpression_22 = null;
-                                      {
-                                        realEntName = entAux_1.getName().toString().toLowerCase();
-                                        _xblockexpression_22 = null;
-                                      }
-                                      _builder.append(_xblockexpression_22, "\t");
-                                      Object _xblockexpression_23 = null;
-                                      {
-                                        realEntKey = attAux_1.getName().toString().toLowerCase();
-                                        _xblockexpression_23 = null;
-                                      }
-                                      _builder.append(_xblockexpression_23, "\t");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        EList<Relation> _relations_4 = e.getRelations();
-                        for(final Relation relEntArtifial1_1 : _relations_4) {
-                          {
-                            boolean _equalsIgnoreCase_8 = relEntArtifial1_1.getName().equalsIgnoreCase(aux_4.getRightEnding().getTarget().toString());
-                            if (_equalsIgnoreCase_8) {
-                              {
-                                EList<Entity> _entities_9 = e.getEntities();
-                                for(final Entity ent1_1 : _entities_9) {
-                                  {
-                                    boolean _equalsIgnoreCase_9 = ent1_1.getName().equalsIgnoreCase(relEntArtifial1_1.getRightEnding().getTarget().toString());
-                                    if (_equalsIgnoreCase_9) {
-                                      {
-                                        EList<Attribute> _attributes_12 = ent1_1.getAttributes();
-                                        for(final Attribute ent1Att_1 : _attributes_12) {
-                                          {
-                                            boolean _isIsKey_8 = ent1Att_1.isIsKey();
-                                            if (_isIsKey_8) {
-                                              _builder.append("\t");
-                                              CharSequence _postgreSQLAttTypeChecker_9 = this.postgreSQLAttTypeChecker(ent1Att_1);
-                                              _builder.append(_postgreSQLAttTypeChecker_9, "\t");
-                                              Object _xblockexpression_24 = null;
-                                              {
-                                                artificialEntName1 = aux_4.getRightEnding().getTarget().toString().toLowerCase();
-                                                _xblockexpression_24 = null;
-                                              }
-                                              _builder.append(_xblockexpression_24, "\t");
-                                              Object _xblockexpression_25 = null;
-                                              {
-                                                artificialEntKey1 = ent1Att_1.getName().toString().toLowerCase();
-                                                _xblockexpression_25 = null;
-                                              }
-                                              _builder.append(_xblockexpression_25, "\t");
-                                              Object _xblockexpression_26 = null;
-                                              {
-                                                artificialEntKeyAlt1 = ent1_1.getName().toString().toLowerCase();
-                                                _xblockexpression_26 = null;
-                                              }
-                                              _builder.append(_xblockexpression_26, "\t");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                              {
-                                EList<Entity> _entities_10 = e.getEntities();
-                                for(final Entity ent2_1 : _entities_10) {
-                                  {
-                                    boolean _equalsIgnoreCase_10 = ent2_1.getName().equalsIgnoreCase(relEntArtifial1_1.getLeftEnding().getTarget().toString());
-                                    if (_equalsIgnoreCase_10) {
-                                      {
-                                        EList<Attribute> _attributes_13 = ent2_1.getAttributes();
-                                        for(final Attribute ent2Att_1 : _attributes_13) {
-                                          {
-                                            boolean _isIsKey_9 = ent2Att_1.isIsKey();
-                                            if (_isIsKey_9) {
-                                              _builder.append("\t");
-                                              CharSequence _postgreSQLAttTypeChecker_10 = this.postgreSQLAttTypeChecker(ent2Att_1);
-                                              _builder.append(_postgreSQLAttTypeChecker_10, "\t");
-                                              Object _xblockexpression_27 = null;
-                                              {
-                                                artificialEntName2 = aux_4.getRightEnding().getTarget().toString().toLowerCase();
-                                                _xblockexpression_27 = null;
-                                              }
-                                              _builder.append(_xblockexpression_27, "\t");
-                                              Object _xblockexpression_28 = null;
-                                              {
-                                                artificialEntKey2 = ent2Att_1.getName().toString().toLowerCase();
-                                                _xblockexpression_28 = null;
-                                              }
-                                              _builder.append(_xblockexpression_28, "\t");
-                                              Object _xblockexpression_29 = null;
-                                              {
-                                                artificialEntKeyAlt2 = ent2_1.getName().toString().toLowerCase();
-                                                _xblockexpression_29 = null;
-                                              }
-                                              _builder.append(_xblockexpression_29, "\t");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        EList<Entity> _entities_11 = e.getEntities();
-                        for(final Entity aux2_1 : _entities_11) {
-                          {
-                            boolean _equalsIgnoreCase_11 = aux_4.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux2_1.getName());
-                            if (_equalsIgnoreCase_11) {
-                              _builder.append("\t");
-                              {
-                                EList<Attribute> _attributes_14 = aux_4.getAttributes();
-                                for(final Attribute attribute_4 : _attributes_14) {
-                                  {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_4.getName())) && attribute_4.isIsKey())) {
-                                      CharSequence _postgreSQLAttTypeChecker_11 = this.postgreSQLAttTypeChecker(attribute_4);
-                                      _builder.append(_postgreSQLAttTypeChecker_11, "\t");
-                                    }
-                                  }
-                                }
-                              }
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("\t");
-                              {
-                                EList<Attribute> _attributes_15 = aux_4.getAttributes();
-                                for(final Attribute attribute_5 : _attributes_15) {
-                                  {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && (!attribute_5.isIsKey()))) {
-                                      CharSequence _postgreSQLAttTypeChecker_12 = this.postgreSQLAttTypeChecker(attribute_5);
-                                      _builder.append(_postgreSQLAttTypeChecker_12, "\t");
-                                    }
-                                  }
-                                }
-                              }
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                      _builder.append("\t");
-                      _builder.append("CONSTRAINT pk_");
-                      String _lowerCase_15 = aux_4.getName().toLowerCase();
-                      _builder.append(_lowerCase_15, "\t");
-                      _builder.append(" PRIMARY KEY (");
-                      String _string_9 = realEntKey.toString();
-                      _builder.append(_string_9, "\t");
-                      _builder.append(", ");
-                      _builder.append(artificialEntKey1, "\t");
-                      _builder.append(", ");
-                      String _string_10 = artificialEntKey2.toString();
-                      _builder.append(_string_10, "\t");
-                      _builder.append(")");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      Object _xblockexpression_30 = null;
-                      {
-                        String _lowerCase_16 = aux_4.getName().toLowerCase();
-                        String _plus = ("ALTER TABLE ONLY public." + _lowerCase_16);
-                        String _plus_1 = (_plus + " ADD CONSTRAINT fk_");
-                        String _lowerCase_17 = aux_4.getName().toLowerCase();
-                        String _plus_2 = (_plus_1 + _lowerCase_17);
-                        String _plus_3 = (_plus_2 + "_");
-                        String _string_11 = realEntName.toString();
-                        String _plus_4 = (_plus_3 + _string_11);
-                        String _plus_5 = (_plus_4 + " FOREIGN KEY (");
-                        String _string_12 = realEntKey.toString();
-                        String _plus_6 = (_plus_5 + _string_12);
-                        String _plus_7 = (_plus_6 + ") REFERENCES public.");
-                        String _string_13 = realEntName.toString();
-                        String _plus_8 = (_plus_7 + _string_13);
-                        String _plus_9 = (_plus_8 + " (");
-                        String _string_14 = realEntKey.toString();
-                        String _plus_10 = (_plus_9 + _string_14);
-                        String _plus_11 = (_plus_10 + ");");
-                        String _println_2 = InputOutput.<String>println("\n");
-                        String _plus_12 = (_plus_11 + _println_2);
-                        this.stringBuilderAlterTblTernary.append(_plus_12);
-                        _xblockexpression_30 = null;
-                      }
-                      _builder.append(_xblockexpression_30, "\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      Object _xblockexpression_31 = null;
-                      {
-                        String _lowerCase_16 = aux_4.getName().toLowerCase();
-                        String _plus = ("ALTER TABLE ONLY public." + _lowerCase_16);
-                        String _plus_1 = (_plus + " ADD CONSTRAINT fk_");
-                        String _lowerCase_17 = aux_4.getName().toLowerCase();
-                        String _plus_2 = (_plus_1 + _lowerCase_17);
-                        String _plus_3 = (_plus_2 + "_");
-                        String _plus_4 = (_plus_3 + artificialEntName1);
-                        String _plus_5 = (_plus_4 + " FOREIGN KEY (");
-                        String _string_11 = artificialEntKey1.toString();
-                        String _plus_6 = (_plus_5 + _string_11);
-                        String _plus_7 = (_plus_6 + ", ");
-                        String _string_12 = artificialEntKey2.toString();
-                        String _plus_8 = (_plus_7 + _string_12);
-                        String _plus_9 = (_plus_8 + ") REFERENCES public.");
-                        String _plus_10 = (_plus_9 + artificialEntName1);
-                        String _plus_11 = (_plus_10 + " (");
-                        String _string_13 = artificialEntKeyAlt1.toString();
-                        String _plus_12 = (_plus_11 + _string_13);
-                        String _plus_13 = (_plus_12 + ", ");
-                        String _string_14 = artificialEntKeyAlt2.toString();
-                        String _plus_14 = (_plus_13 + _string_14);
-                        String _plus_15 = (_plus_14 + ");");
-                        this.stringBuilderAlterTblTernary.append(_plus_15);
-                        _xblockexpression_31 = null;
-                      }
-                      _builder.append(_xblockexpression_31, "\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append(");");
-                      _builder.newLine();
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ----------- */");
-    _builder.newLine();
-    _builder.append("/* ALTER TABLE */");
-    _builder.newLine();
-    _builder.append("/* ----------- */");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("-- BEGINNING OF ALTER TABLE (0,1 -> 1,N)");
-    _builder.newLine();
-    final ArrayList<Object> myListPKs_1 = CollectionLiterals.<Object>newArrayList();
-    _builder.newLineIfNotEmpty();
-    final ArrayList<Object> myListExtendPKs_1 = CollectionLiterals.<Object>newArrayList();
-    _builder.newLineIfNotEmpty();
-    CharSequence _postgreSQLAlterTableFK_01_0N = this.postgreSQLAlterTableFK_01_0N(e, myListExtendPKs_1, ListExendPKsLenght, myListPKs_1);
-    _builder.append(_postgreSQLAlterTableFK_01_0N);
-    _builder.newLineIfNotEmpty();
-    _builder.append("-- END OF ALTER TABLE\t(0,1 -> 1,N)\t\t");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.newLine();
-    {
-      boolean _isNullOrEmpty_4 = StringExtensions.isNullOrEmpty(this.stringBuilderAlterTblNtoN.toString());
-      boolean _not_5 = (!_isNullOrEmpty_4);
-      if (_not_5) {
-        _builder.append("-- BEGINNING OF ALTER TABLE (N -> N)");
-        _builder.newLine();
-        String _string_11 = this.stringBuilderAlterTblNtoN.toString();
-        _builder.append(_string_11);
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- END OF ALTER TABLE (N -> N)");
-        _builder.newLine();
-        this.stringBuilderAlterTblNtoN.setLength(0);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.newLine();
-    {
-      boolean _isNullOrEmpty_5 = StringExtensions.isNullOrEmpty(this.stringBuilderAlterTblTernary.toString());
-      boolean _not_6 = (!_isNullOrEmpty_5);
-      if (_not_6) {
-        _builder.append("-- BEGINNING OF ALTER TABLE (TERNARY)");
-        _builder.newLine();
-        _builder.append("\t");
-        String _string_12 = this.stringBuilderAlterTblTernary.toString();
-        _builder.append(_string_12, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- END OF ALTER TABLE (TERNARY)");
-        _builder.newLine();
-        this.stringBuilderAlterTblTernary.setLength(0);
-        _builder.append("\t");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.newLine();
-    _builder.newLine();
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAlterTableFK_01_0N(final ERModel e, final ArrayList myListExtendPKs, final int ListExendPKsLenght, final ArrayList myListPKs) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity entity : _entities) {
-        {
-          Entity _is = entity.getIs();
-          boolean _tripleEquals = (_is == null);
-          boolean _not = (!_tripleEquals);
-          if (_not) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity aux : _entities_1) {
-                {
-                  boolean _equalsIgnoreCase = aux.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase) {
-                    {
-                      EList<Attribute> _attributes = aux.getAttributes();
-                      for(final Attribute auxAttributes : _attributes) {
-                        {
-                          boolean _isIsKey = auxAttributes.isIsKey();
-                          if (_isIsKey) {
-                            String _xblockexpression = null;
-                            {
-                              myListPKs.add(auxAttributes.getName().toLowerCase());
-                              _xblockexpression = "";
-                            }
-                            _builder.append(_xblockexpression);
-                            String _xblockexpression_1 = null;
-                            {
-                              myListExtendPKs.add(auxAttributes.getName().toLowerCase());
-                              _xblockexpression_1 = "";
-                            }
-                            _builder.append(_xblockexpression_1);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          EList<Attribute> _attributes_1 = entity.getAttributes();
-          for(final Attribute attribute : _attributes_1) {
-            {
-              boolean _isIsKey_1 = attribute.isIsKey();
-              if (_isIsKey_1) {
-                String _xblockexpression_2 = null;
-                {
-                  myListPKs.add(attribute.getName().toString());
-                  _xblockexpression_2 = "";
-                }
-                _builder.append(_xblockexpression_2);
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          boolean _hasElements = false;
-          for(final Object x : myListExtendPKs) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate("\n", "");
-            }
-            _builder.append("\tALTER TABLE ONLY public.");
-            String _lowerCase = entity.getName().toString().toLowerCase();
-            _builder.append(_lowerCase);
-            _builder.append(" ADD CONSTRAINT fk_");
-            String _firstUpper = StringExtensions.toFirstUpper(entity.getName().toString());
-            _builder.append(_firstUpper);
-            _builder.append("InheritedPK FOREIGN KEY (");
-            String _println = InputOutput.<String>println(x.toString().toLowerCase());
-            _builder.append(_println);
-            _builder.append(") REFERENCES public.");
-            CharSequence _postgreSQLDiscoverInheritedPKtoFK = this.postgreSQLDiscoverInheritedPKtoFK(e, x.toString(), ListExendPKsLenght, entity.getName());
-            _builder.append(_postgreSQLDiscoverInheritedPKtoFK);
-            _builder.append(";");
-          }
-        }
-        myListPKs.clear();
-        myListExtendPKs.clear();
-        this.myListFKs.clear();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        Object _xblockexpression_3 = null;
-        {
-          this.postgreSQL_COUNT_FKsRelation1to1(e, entity.getName());
-          _xblockexpression_3 = null;
-        }
-        _builder.append(_xblockexpression_3, "\t");
-        Object _xblockexpression_4 = null;
-        {
-          this.counter = this.globalFKcounter_1to1;
-          this.AuxCounterA = this.globalFKcounter_1to1;
-          _xblockexpression_4 = null;
-        }
-        _builder.append(_xblockexpression_4, "\t");
-        _builder.append(" ");
-        Object _xblockexpression_5 = null;
-        {
-          this.globalFKcounter_1to1 = 0;
-          _xblockexpression_5 = null;
-        }
-        _builder.append(_xblockexpression_5, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _postgreSQLDefineFKsRelation1to1 = this.postgreSQLDefineFKsRelation1to1(e, entity.getName(), this.counter);
-        _builder.append(_postgreSQLDefineFKsRelation1to1, "\t");
-        Object _xblockexpression_6 = null;
-        {
-          this.counter = 0;
-          _xblockexpression_6 = null;
-        }
-        _builder.append(_xblockexpression_6, "\t");
-        Object _xblockexpression_7 = null;
-        {
-          this.postgreSQL_COUNT_FKsRelation1toN(e, entity.getName());
-          _xblockexpression_7 = null;
-        }
-        _builder.append(_xblockexpression_7, "\t");
-        Object _xblockexpression_8 = null;
-        {
-          this.counter = this.globalFKcounter_1toN;
-          this.AuxCounterB = this.globalFKcounter_1toN;
-          _xblockexpression_8 = null;
-        }
-        _builder.append(_xblockexpression_8, "\t");
-        Object _xblockexpression_9 = null;
-        {
-          this.globalFKcounter_1toN = 0;
-          _xblockexpression_9 = null;
-        }
-        _builder.append(_xblockexpression_9, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _postgreSQLDefineFKsRelation1toN = this.postgreSQLDefineFKsRelation1toN(e, entity.getName(), this.counter);
-        _builder.append(_postgreSQLDefineFKsRelation1toN, "\t");
-        _builder.append(" ");
-        Object _xblockexpression_10 = null;
-        {
-          this.counter = 0;
-          _xblockexpression_10 = null;
-        }
-        _builder.append(_xblockexpression_10, "\t");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAlterTableFK_0N_0N(final ArrayList myListPKsFKs, final int ListPKsFKsLenght, final boolean auxT1, final boolean auxT2, final Relation relation, final int iterCounter, final ERModel e) {
-    StringConcatenation _builder = new StringConcatenation();
-    int counterAux = iterCounter;
-    _builder.newLineIfNotEmpty();
-    {
-      boolean _hasElements = false;
-      for(final Object x : myListPKsFKs) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(");\n", "");
-        }
-        _builder.append("\tALTER TABLE ONLY public.");
-        String _lowerCase = relation.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append(" ADD CONSTRAINT fk_");
-        String _lowerCase_1 = relation.getName().toLowerCase();
-        _builder.append(_lowerCase_1);
-        _builder.append("_");
-        String _println = InputOutput.<String>println(x.toString().toLowerCase());
-        _builder.append(_println);
-        {
-          if ((auxT1 && auxT2)) {
-            _builder.append("_");
-            String _lowerCase_2 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_2);
-            _builder.append("_");
-            _builder.append(counterAux);
-          }
-        }
-        _builder.append(" FOREIGN KEY (");
-        String _println_1 = InputOutput.<String>println(x.toString().toLowerCase());
-        _builder.append(_println_1);
-        {
-          if ((auxT1 && auxT2)) {
-            _builder.append("_");
-            String _lowerCase_3 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_3);
-            _builder.append("_");
-            int _plusPlus = counterAux++;
-            _builder.append(_plusPlus);
-          }
-        }
-        _builder.append(") REFERENCES public.");
-        String _print = InputOutput.<String>print(x.toString().toLowerCase());
-        _builder.append(_print);
-        _builder.append(" (");
-        CharSequence _postgreSQLDiscoverPKtoFK = this.postgreSQLDiscoverPKtoFK(e, x.toString(), ListPKsFKsLenght);
-        _builder.append(_postgreSQLDiscoverPKtoFK);
-        CharSequence _postgreSQLDiscoverAutoInheritedPKtoFK = this.postgreSQLDiscoverAutoInheritedPKtoFK(e, x.toString());
-        _builder.append(_postgreSQLDiscoverAutoInheritedPKtoFK);
-      }
-      if (_hasElements) {
-        _builder.append(");\n");
-      }
-    }
-    _builder.newLineIfNotEmpty();
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAttTypeChecker(final Attribute a) {
-    StringConcatenation _builder = new StringConcatenation();
-    String _lowerCase = a.getName().toLowerCase();
-    _builder.append(_lowerCase);
-    _builder.append(" ");
-    {
-      boolean _equalsIgnoreCase = a.getType().toString().equalsIgnoreCase("string");
-      if (_equalsIgnoreCase) {
-        _builder.append(" VARCHAR (255) NOT NULL,");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-      } else {
-        boolean _equalsIgnoreCase_1 = a.getType().toString().equalsIgnoreCase("int");
-        if (_equalsIgnoreCase_1) {
-          _builder.append(" INT NOT NULL,");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t\t");
-        } else {
-          boolean _equalsIgnoreCase_2 = a.getType().toString().equalsIgnoreCase("datetime");
-          if (_equalsIgnoreCase_2) {
-            _builder.append(" DATE NOT NULL,");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
-          } else {
-            boolean _equalsIgnoreCase_3 = a.getType().toString().equalsIgnoreCase("money");
-            if (_equalsIgnoreCase_3) {
-              _builder.append(" NUMERIC NOT NULL,");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-            } else {
-              boolean _equalsIgnoreCase_4 = a.getType().toString().equalsIgnoreCase("double");
-              if (_equalsIgnoreCase_4) {
-                _builder.append(" REAL NOT NULL,");
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t\t");
-              } else {
-                boolean _equalsIgnoreCase_5 = a.getType().toString().equalsIgnoreCase("boolean");
-                if (_equalsIgnoreCase_5) {
-                  _builder.append(" BOOLEAN NOT NULL,");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                } else {
-                  boolean _equalsIgnoreCase_6 = a.getType().toString().equalsIgnoreCase("file");
-                  if (_equalsIgnoreCase_6) {
-                    _builder.append(" BYTEA,");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t\t");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAttTypeCheckerUnnamed(final Attribute a) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      boolean _equalsIgnoreCase = a.getType().toString().equalsIgnoreCase("string");
-      if (_equalsIgnoreCase) {
-        _builder.append(" VARCHAR (255) NOT NULL,");
-        _builder.newLineIfNotEmpty();
-      } else {
-        boolean _equalsIgnoreCase_1 = a.getType().toString().equalsIgnoreCase("int");
-        if (_equalsIgnoreCase_1) {
-          _builder.append(" INT NOT NULL,");
-          _builder.newLineIfNotEmpty();
-        } else {
-          boolean _equalsIgnoreCase_2 = a.getType().toString().equalsIgnoreCase("datetime");
-          if (_equalsIgnoreCase_2) {
-            _builder.append(" DATE NOT NULL,");
-            _builder.newLineIfNotEmpty();
-          } else {
-            boolean _equalsIgnoreCase_3 = a.getType().toString().equalsIgnoreCase("money");
-            if (_equalsIgnoreCase_3) {
-              _builder.append(" NUMERIC NOT NULL,");
-              _builder.newLineIfNotEmpty();
-            } else {
-              boolean _equalsIgnoreCase_4 = a.getType().toString().equalsIgnoreCase("double");
-              if (_equalsIgnoreCase_4) {
-                _builder.append(" REAL NOT NULL,");
-                _builder.newLineIfNotEmpty();
-              } else {
-                boolean _equalsIgnoreCase_5 = a.getType().toString().equalsIgnoreCase("boolean");
-                if (_equalsIgnoreCase_5) {
-                  _builder.append(" BOOLEAN NOT NULL,");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  boolean _equalsIgnoreCase_6 = a.getType().toString().equalsIgnoreCase("file");
-                  if (_equalsIgnoreCase_6) {
-                    _builder.append(" BYTEA,");
-                    _builder.newLineIfNotEmpty();
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAttTypeCheckerNtoNLeft(final ERModel e, final Relation r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          String _string = aux.getName().toString();
-          String _string_1 = r.getLeftEnding().getTarget().toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
-            {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    {
-                      boolean _equalsIgnoreCase = aux2.getType().toString().equalsIgnoreCase("string");
-                      if (_equalsIgnoreCase) {
-                        _builder.append(" VARCHAR (255) NOT NULL,");
-                        _builder.newLineIfNotEmpty();
-                      } else {
-                        boolean _equalsIgnoreCase_1 = aux2.getType().toString().equalsIgnoreCase("int");
-                        if (_equalsIgnoreCase_1) {
-                          _builder.append(" INT NOT NULL,");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          boolean _equalsIgnoreCase_2 = aux2.getType().toString().equalsIgnoreCase("datetime");
-                          if (_equalsIgnoreCase_2) {
-                            _builder.append(" DATE NOT NULL,");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            boolean _equalsIgnoreCase_3 = aux2.getType().toString().equalsIgnoreCase("money");
-                            if (_equalsIgnoreCase_3) {
-                              _builder.append(" NUMERIC NOT NULL,");
-                              _builder.newLineIfNotEmpty();
-                            } else {
-                              boolean _equalsIgnoreCase_4 = aux2.getType().toString().equalsIgnoreCase("double");
-                              if (_equalsIgnoreCase_4) {
-                                _builder.append(" REAL NOT NULL,");
-                                _builder.newLineIfNotEmpty();
-                              } else {
-                                boolean _equalsIgnoreCase_5 = aux2.getType().toString().equalsIgnoreCase("boolean");
-                                if (_equalsIgnoreCase_5) {
-                                  _builder.append(" BOOLEAN NOT NULL,");
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_6 = aux2.getType().toString().equalsIgnoreCase("file");
-                                  if (_equalsIgnoreCase_6) {
-                                    _builder.append(" BYTEA,");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLAttTypeCheckerNtoNRight(final ERModel e, final Relation r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          String _string = aux.getName().toString();
-          String _string_1 = r.getRightEnding().getTarget().toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
-            {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    {
-                      boolean _equalsIgnoreCase = aux2.getType().toString().equalsIgnoreCase("string");
-                      if (_equalsIgnoreCase) {
-                        _builder.append(" VARCHAR (255) NOT NULL,");
-                        _builder.newLineIfNotEmpty();
-                      } else {
-                        boolean _equalsIgnoreCase_1 = aux2.getType().toString().equalsIgnoreCase("int");
-                        if (_equalsIgnoreCase_1) {
-                          _builder.append(" INT NOT NULL,");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          boolean _equalsIgnoreCase_2 = aux2.getType().toString().equalsIgnoreCase("datetime");
-                          if (_equalsIgnoreCase_2) {
-                            _builder.append(" DATE NOT NULL,");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            boolean _equalsIgnoreCase_3 = aux2.getType().toString().equalsIgnoreCase("money");
-                            if (_equalsIgnoreCase_3) {
-                              _builder.append(" NUMERIC NOT NULL,");
-                              _builder.newLineIfNotEmpty();
-                            } else {
-                              boolean _equalsIgnoreCase_4 = aux2.getType().toString().equalsIgnoreCase("double");
-                              if (_equalsIgnoreCase_4) {
-                                _builder.append(" REAL NOT NULL,");
-                                _builder.newLineIfNotEmpty();
-                              } else {
-                                boolean _equalsIgnoreCase_5 = aux2.getType().toString().equalsIgnoreCase("boolean");
-                                if (_equalsIgnoreCase_5) {
-                                  _builder.append(" BOOLEAN NOT NULL,");
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_6 = aux2.getType().toString().equalsIgnoreCase("file");
-                                  if (_equalsIgnoreCase_6) {
-                                    _builder.append(" BYTEA,");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLDiscoverPKtoFK(final ERModel e, final String r, final int i) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          String _string = aux.getName().toString();
-          String _string_1 = r.toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
-            {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    String _lowerCase = aux2.getName().toString().toLowerCase();
-                    _builder.append(_lowerCase);
-                  }
-                }
-                {
-                  if (((i - 1) == 0)) {
-                    _builder.append(",");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLDiscoverAutoInheritedPKtoFK(final ERModel e, final String r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity auxE : _entities) {
-        {
-          boolean _equalsIgnoreCase = auxE.getName().equalsIgnoreCase(r.toString());
-          if (_equalsIgnoreCase) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity auxE2 : _entities_1) {
-                {
-                  if (((auxE.getIs() != null) && auxE2.getName().toString().equalsIgnoreCase(auxE.getIs().toString()))) {
-                    {
-                      EList<Attribute> _attributes = auxE2.getAttributes();
-                      for(final Attribute auxAtt : _attributes) {
-                        {
-                          boolean _isIsKey = auxAtt.isIsKey();
-                          if (_isIsKey) {
-                            String _lowerCase = auxAtt.getName().toString().toLowerCase();
-                            _builder.append(_lowerCase);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLDiscoverInheritedPKtoFK(final ERModel e, final String r, final int i, final String isAutoRel) {
-    StringConcatenation _builder = new StringConcatenation();
-    int auxi = i;
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          EList<Attribute> _attributes = aux.getAttributes();
-          for(final Attribute aux2 : _attributes) {
-            {
-              if ((aux2.getName().toString().equalsIgnoreCase(r.toString()) && aux2.isIsKey())) {
-                String _lowerCase = aux.getName().toString().toLowerCase();
-                _builder.append(_lowerCase);
-                _builder.append(" (");
-                String _lowerCase_1 = aux2.getName().toString().toLowerCase();
-                _builder.append(_lowerCase_1);
-                _builder.append(")");
-                {
-                  EList<Relation> _relations = e.getRelations();
-                  for(final Relation rAux : _relations) {
-                    {
-                      if (((rAux.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || rAux.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (rAux.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || rAux.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-                        {
-                          if ((isAutoRel.equalsIgnoreCase(rAux.getLeftEnding().getTarget().toString()) && isAutoRel.equalsIgnoreCase(rAux.getRightEnding().getTarget().toString()))) {
-                            Object _xblockexpression = null;
-                            {
-                              auxi = (auxi - 1);
-                              _xblockexpression = null;
-                            }
-                            _builder.append(_xblockexpression);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-                {
-                  if (((auxi - 1) == 0)) {
-                    _builder.append(",");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLVerifyFKsAttributesRelation1to1(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    CharSequence _postgreSQLAttTypeChecker = this.postgreSQLAttTypeChecker(aux2);
-                                    _builder.append(_postgreSQLAttTypeChecker);
-                                    _builder.append(" ");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                EList<Entity> _entities_1 = e.getEntities();
-                                for(final Entity entityAux : _entities_1) {
-                                  {
-                                    boolean _equalsIgnoreCase_2 = entityAux.getName().equalsIgnoreCase(aux.getIs().toString());
-                                    if (_equalsIgnoreCase_2) {
-                                      {
-                                        EList<Attribute> _attributes_1 = entityAux.getAttributes();
-                                        for(final Attribute attAux : _attributes_1) {
-                                          {
-                                            boolean _isIsKey_1 = attAux.isIsKey();
-                                            if (_isIsKey_1) {
-                                              CharSequence _postgreSQLAttTypeChecker_1 = this.postgreSQLAttTypeChecker(attAux);
-                                              _builder.append(_postgreSQLAttTypeChecker_1);
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLVerifyFKsAttributesRelation1toN(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    CharSequence _postgreSQLAttTypeChecker = this.postgreSQLAttTypeChecker(attTest);
-                                    _builder.append(_postgreSQLAttTypeChecker);
-                                    _builder.append(" ");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  String _lowerCase = relation.getName().toString().toLowerCase();
-                                  _builder.append(_lowerCase);
-                                  _builder.append(" ");
-                                  {
-                                    EList<Entity> _entities_1 = e.getEntities();
-                                    for(final Entity aux2 : _entities_1) {
-                                      {
-                                        boolean _equalsIgnoreCase_3 = aux2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                        if (_equalsIgnoreCase_3) {
-                                          {
-                                            EList<Entity> _entities_2 = e.getEntities();
-                                            for(final Entity aux3 : _entities_2) {
-                                              {
-                                                boolean _equalsIgnoreCase_4 = aux3.getName().equalsIgnoreCase(aux2.getIs().toString());
-                                                if (_equalsIgnoreCase_4) {
-                                                  {
-                                                    EList<Attribute> _attributes_1 = aux3.getAttributes();
-                                                    for(final Attribute aux4 : _attributes_1) {
-                                                      {
-                                                        boolean _isIsKey_1 = aux4.isIsKey();
-                                                        if (_isIsKey_1) {
-                                                          CharSequence _postgreSQLAttTypeCheckerUnnamed = this.postgreSQLAttTypeCheckerUnnamed(aux4);
-                                                          _builder.append(_postgreSQLAttTypeCheckerUnnamed);
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_5);
-                                  if (_not_1) {
-                                    String _lowerCase_1 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(" ");
-                                    {
-                                      EList<Entity> _entities_3 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_3) {
-                                        {
-                                          boolean _equalsIgnoreCase_6 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_6) {
-                                            {
-                                              EList<Entity> _entities_4 = e.getEntities();
-                                              for(final Entity aux3_1 : _entities_4) {
-                                                {
-                                                  boolean _equalsIgnoreCase_7 = aux3_1.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_7) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3_1.getAttributes();
-                                                      for(final Attribute aux4_1 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4_1.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            CharSequence _postgreSQLAttTypeCheckerUnnamed_1 = this.postgreSQLAttTypeCheckerUnnamed(aux4_1);
-                                                            _builder.append(_postgreSQLAttTypeCheckerUnnamed_1);
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQL_COUNT_FKsRelation1to1(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    Object _xblockexpression = null;
-                                    {
-                                      int _globalFKcounter_1to1 = this.globalFKcounter_1to1;
-                                      this.globalFKcounter_1to1 = (_globalFKcounter_1to1 + 1);
-                                      _xblockexpression = null;
-                                    }
-                                    _builder.append(_xblockexpression);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              Object _xblockexpression_1 = null;
-                              {
-                                int _globalFKcounter_1to1 = this.globalFKcounter_1to1;
-                                this.globalFKcounter_1to1 = (_globalFKcounter_1to1 + 1);
-                                _xblockexpression_1 = null;
-                              }
-                              _builder.append(_xblockexpression_1);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLDefineFKsRelation1to1(final ERModel e, final String ename, final int count) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    _builder.append("ALTER TABLE ONLY public.");
-                                    String _lowerCase = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper);
-                                    _builder.append("_");
-                                    String _firstUpper_1 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_1);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_1 = aux2.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_2 = aux.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_2);
-                                    _builder.append(" (");
-                                    String _lowerCase_3 = aux2.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_3);
-                                    _builder.append(");");
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              _builder.append("ALTER TABLE ONLY public.");
-                              String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                              _builder.append(_lowerCase_4);
-                              _builder.append(" ADD CONSTRAINT fk_");
-                              String _firstUpper_2 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                              _builder.append(_firstUpper_2);
-                              _builder.append("_");
-                              String _firstUpper_3 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                              _builder.append(_firstUpper_3);
-                              _builder.append(" FOREIGN KEY (");
-                              {
-                                EList<Entity> _entities_1 = e.getEntities();
-                                for(final Entity entityAux : _entities_1) {
-                                  {
-                                    boolean _equalsIgnoreCase_2 = entityAux.getName().equalsIgnoreCase(aux.getIs().toString());
-                                    if (_equalsIgnoreCase_2) {
-                                      {
-                                        EList<Attribute> _attributes_1 = entityAux.getAttributes();
-                                        for(final Attribute attAux : _attributes_1) {
-                                          {
-                                            boolean _isIsKey_1 = attAux.isIsKey();
-                                            if (_isIsKey_1) {
-                                              String _lowerCase_5 = attAux.getName().toString().toLowerCase();
-                                              _builder.append(_lowerCase_5);
-                                              _builder.append(") REFERENCES public.");
-                                              String _lowerCase_6 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _builder.append(_lowerCase_6);
-                                              _builder.append(" (");
-                                              String _lowerCase_7 = attAux.getName().toString().toLowerCase();
-                                              _builder.append(_lowerCase_7);
-                                              _builder.append(");");
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQL_COUNT_FKsRelation1toN(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        _builder.newLineIfNotEmpty();
-        {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    Object _xblockexpression = null;
-                                    {
-                                      int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                      this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                      _xblockexpression = null;
-                                    }
-                                    _builder.append(_xblockexpression);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  Object _xblockexpression_1 = null;
-                                  {
-                                    int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                    this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                    _xblockexpression_1 = null;
-                                  }
-                                  _builder.append(_xblockexpression_1);
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_3);
-                                  if (_not_1) {
-                                    Object _xblockexpression_2 = null;
-                                    {
-                                      int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                      this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                      _xblockexpression_2 = null;
-                                    }
-                                    _builder.append(_xblockexpression_2);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLDefineFKsRelation1toN(final ERModel e, final String ename, final int count) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    _builder.append("ALTER TABLE ONLY public.");
-                                    String _lowerCase = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper);
-                                    _builder.append("_");
-                                    String _firstUpper_1 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_1);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_1 = attTest.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_2 = aux.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_2);
-                                    _builder.append(" (");
-                                    String _lowerCase_3 = attTest.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_3);
-                                    _builder.append(");");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  _builder.append("ALTER TABLE ONLY public.");
-                                  String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                  _builder.append(_lowerCase_4);
-                                  _builder.append(" ADD CONSTRAINT fk_");
-                                  String _firstUpper_2 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                  _builder.append(_firstUpper_2);
-                                  _builder.append("_");
-                                  String _firstUpper_3 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                  _builder.append(_firstUpper_3);
-                                  _builder.append(" FOREIGN KEY (");
-                                  String _lowerCase_5 = relation.getName().toString().toLowerCase();
-                                  _builder.append(_lowerCase_5);
-                                  _builder.append(") REFERENCES public.");
-                                  String _lowerCase_6 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                  _builder.append(_lowerCase_6);
-                                  _builder.append(" (");
-                                  {
-                                    EList<Entity> _entities_1 = e.getEntities();
-                                    for(final Entity aux2 : _entities_1) {
-                                      {
-                                        boolean _equalsIgnoreCase_3 = aux2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                        if (_equalsIgnoreCase_3) {
-                                          {
-                                            EList<Entity> _entities_2 = e.getEntities();
-                                            for(final Entity aux3 : _entities_2) {
-                                              {
-                                                boolean _equalsIgnoreCase_4 = aux3.getName().equalsIgnoreCase(aux2.getIs().toString());
-                                                if (_equalsIgnoreCase_4) {
-                                                  {
-                                                    EList<Attribute> _attributes_1 = aux3.getAttributes();
-                                                    for(final Attribute aux4 : _attributes_1) {
-                                                      {
-                                                        boolean _isIsKey_1 = aux4.isIsKey();
-                                                        if (_isIsKey_1) {
-                                                          String _lowerCase_7 = aux4.getName().toString().toLowerCase();
-                                                          _builder.append(_lowerCase_7);
-                                                          _builder.append(");");
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_5);
-                                  if (_not_1) {
-                                    _builder.append("ALTER TABLE ONLY public.");
-                                    String _lowerCase_8 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_8);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper_4 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_4);
-                                    _builder.append("_");
-                                    String _firstUpper_5 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_5);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_9 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_9);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_10 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_10);
-                                    _builder.append(" (");
-                                    {
-                                      EList<Entity> _entities_3 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_3) {
-                                        {
-                                          boolean _equalsIgnoreCase_6 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_6) {
-                                            {
-                                              EList<Entity> _entities_4 = e.getEntities();
-                                              for(final Entity aux3_1 : _entities_4) {
-                                                {
-                                                  boolean _equalsIgnoreCase_7 = aux3_1.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_7) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3_1.getAttributes();
-                                                      for(final Attribute aux4_1 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4_1.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            String _lowerCase_11 = aux4_1.getName().toString().toLowerCase();
-                                                            _builder.append(_lowerCase_11);
-                                                            _builder.append(");");
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence postgreSQLHaveFK(final ERModel e, final Entity entity) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName().toString());
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    String _xblockexpression = null;
-                                    {
-                                      this.myListFKs.add(aux2.getName());
-                                      _xblockexpression = "";
-                                    }
-                                    _builder.append(_xblockexpression);
-                                  }
-                                }
-                                _builder.newLineIfNotEmpty();
-                              }
-                            }
-                            _builder.append("\t\t\t\t\t\t\t");
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              String _xblockexpression_1 = null;
-                              {
-                                this.myListFKs.add(aux.getIs().toString());
-                                _xblockexpression_1 = "";
-                              }
-                              _builder.append(_xblockexpression_1);
-                            }
-                          }
-                        }
-                        _builder.newLineIfNotEmpty();
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          } else {
-            if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-              {
-                boolean _equalsIgnoreCase_2 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName().toString());
-                if (_equalsIgnoreCase_2) {
-                  {
-                    EList<Entity> _entities_1 = e.getEntities();
-                    for(final Entity aux_1 : _entities_1) {
-                      {
-                        boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux_1.getName());
-                        if (_equalsIgnoreCase_3) {
-                          {
-                            Entity _is_2 = aux_1.getIs();
-                            boolean _tripleEquals_2 = (_is_2 == null);
-                            if (_tripleEquals_2) {
-                              {
-                                EList<Attribute> _attributes_1 = aux_1.getAttributes();
-                                for(final Attribute attTest : _attributes_1) {
-                                  {
-                                    boolean _isIsKey_1 = attTest.isIsKey();
-                                    if (_isIsKey_1) {
-                                      String _xblockexpression_2 = null;
-                                      {
-                                        this.myListFKs.add(attTest.getName());
-                                        _xblockexpression_2 = "";
-                                      }
-                                      _builder.append(_xblockexpression_2);
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                            } else {
-                              Entity _is_3 = aux_1.getIs();
-                              boolean _tripleEquals_3 = (_is_3 == null);
-                              boolean _not_1 = (!_tripleEquals_3);
-                              if (_not_1) {
-                                {
-                                  boolean _equalsIgnoreCase_4 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_4) {
-                                    {
-                                      EList<Entity> _entities_2 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_2) {
-                                        {
-                                          boolean _equalsIgnoreCase_5 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_5) {
-                                            {
-                                              EList<Entity> _entities_3 = e.getEntities();
-                                              for(final Entity aux3 : _entities_3) {
-                                                {
-                                                  boolean _equalsIgnoreCase_6 = aux3.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_6) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3.getAttributes();
-                                                      for(final Attribute aux4 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            String _xblockexpression_3 = null;
-                                                            {
-                                                              this.myListFKs.add(aux3.getName());
-                                                              _xblockexpression_3 = "";
-                                                            }
-                                                            _builder.append(_xblockexpression_3);
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  } else {
-                                    boolean _equalsIgnoreCase_7 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                    boolean _not_2 = (!_equalsIgnoreCase_7);
-                                    if (_not_2) {
-                                      {
-                                        EList<Entity> _entities_4 = e.getEntities();
-                                        for(final Entity aux2_2 : _entities_4) {
-                                          {
-                                            boolean _equalsIgnoreCase_8 = aux2_2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                            if (_equalsIgnoreCase_8) {
-                                              {
-                                                EList<Entity> _entities_5 = e.getEntities();
-                                                for(final Entity aux3_1 : _entities_5) {
-                                                  {
-                                                    boolean _equalsIgnoreCase_9 = aux3_1.getName().equalsIgnoreCase(aux2_2.getIs().toString());
-                                                    if (_equalsIgnoreCase_9) {
-                                                      {
-                                                        EList<Attribute> _attributes_3 = aux3_1.getAttributes();
-                                                        for(final Attribute aux4_1 : _attributes_3) {
-                                                          {
-                                                            boolean _isIsKey_3 = aux4_1.isIsKey();
-                                                            if (_isIsKey_3) {
-                                                              String _xblockexpression_4 = null;
-                                                              {
-                                                                this.myListFKs.add(aux4_1.getName());
-                                                                _xblockexpression_4 = "";
-                                                              }
-                                                              _builder.append(_xblockexpression_4);
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
     return _builder;
   }
   
   /**
-   * PHYSICAL SCHEMA (MySQL) GENERATOR CODE
+   * Display of modeled entities (tables)
    */
-  public CharSequence mySQLCreate(final ERModel e) {
+  private CharSequence htmlModelEntities(final ERModel m) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("/* MySQL TEMPLATE GENERATED BY ERtext */");
+    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\">");
     _builder.newLine();
-    _builder.append("\t");
+    _builder.append("<p class=\"sstitle\">");
     _builder.newLine();
-    _builder.append("-- Database: ");
-    String _upperCase = e.getDomain().getName().toUpperCase();
+    _builder.append("<a href=\"#entities\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
+    _builder.newLine();
+    _builder.append("&nbsp Resulting Entities");
+    _builder.newLine();
+    _builder.append("</p>\t ");
+    _builder.newLine();
+    _builder.append("<div id=\"entities\" class=\"panel-body collapse in\">");
+    _builder.newLine();
+    _builder.append("<p class=\"field\">");
+    _builder.newLine();
+    {
+      EList<Entity> _entities = m.getEntities();
+      boolean _hasElements = false;
+      for(final Entity entity : _entities) {
+        if (!_hasElements) {
+          _hasElements = true;
+        } else {
+          _builder.appendImmediate(" )</br></br>", "\t");
+        }
+        _builder.append("\t");
+        CharSequence _htmlEntityNameTag = this.htmlEntityNameTag(entity);
+        _builder.append(_htmlEntityNameTag, "\t");
+        _builder.append(" ( ");
+        CharSequence _htmlModelAtributes = this.htmlModelAtributes(entity);
+        _builder.append(_htmlModelAtributes, "\t");
+        _builder.newLineIfNotEmpty();
+      }
+      if (_hasElements) {
+        _builder.append(")</br>", "\t");
+      }
+    }
+    _builder.append("</div>");
+    _builder.newLine();
+    return _builder;
+  }
+  
+  private CharSequence htmlEntityNameTag(final Entity e) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<span class=\"badge badge-secondary\">");
+    String _upperCase = e.getName().toUpperCase();
     _builder.append(_upperCase);
-    _builder.append("\t");
+    _builder.append("</span>");
     _builder.newLineIfNotEmpty();
-    _builder.append("-- DROP DATABASE ");
-    String _upperCase_1 = e.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase_1);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.append("CREATE DATABASE IF NOT EXISTS ");
-    String _upperCase_2 = e.getDomain().getName().toUpperCase();
-    _builder.append(_upperCase_2);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
-    _builder.append(" ");
-    int ListExendPKsLenght = 0;
-    _builder.newLineIfNotEmpty();
-    _builder.newLine();
-    _builder.append("/* --------------------------------- */");
-    _builder.newLine();
-    _builder.append("/*  1 to 1 and 1 to N RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* --------------------------------- */");
-    _builder.newLine();
-    _builder.newLine();
+    return _builder;
+  }
+  
+  private CharSequence htmlModelAtributes(final Entity e) {
+    StringConcatenation _builder = new StringConcatenation();
     {
-      EList<Entity> _entities = e.getEntities();
+      EList<Attribute> _attributes = e.getAttributes();
       boolean _hasElements = false;
-      for(final Entity entity : _entities) {
+      for(final Attribute att : _attributes) {
         if (!_hasElements) {
           _hasElements = true;
         } else {
-          _builder.appendImmediate("\n);\n", "");
+          _builder.appendImmediate(", ", "");
         }
-        _builder.append("\t\t");
-        final ArrayList<String> myListPKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        final ArrayList<String> myListExtendPKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        CharSequence _mySQLHaveFK = this.mySQLHaveFK(e, entity);
-        _builder.append(_mySQLHaveFK, "\t\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- Table: ");
-        String _upperCase_3 = entity.getName().toUpperCase();
-        _builder.append(_upperCase_3);
-        _builder.newLineIfNotEmpty();
         {
-          boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(entity.getGeneralization());
-          boolean _not = (!_isNullOrEmpty);
-          if (_not) {
-            _builder.append("-- Generalization/Specialization ");
-            String _upperCase_4 = entity.getGeneralization().toString().toUpperCase();
-            _builder.append(_upperCase_4);
-            _builder.append(" from table ");
-            String _upperCase_5 = entity.getIs().toString().toUpperCase();
-            _builder.append(_upperCase_5);
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- DROP TABLE ");
-        String _upperCase_6 = entity.getName().toUpperCase();
-        _builder.append(_upperCase_6);
-        _builder.append(";\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("CREATE TABLE IF NOT EXISTS ");
-        String _lowerCase = entity.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append(" (");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          Entity _is = entity.getIs();
-          boolean _tripleEquals = (_is == null);
-          boolean _not_1 = (!_tripleEquals);
-          if (_not_1) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity aux : _entities_1) {
-                {
-                  boolean _equalsIgnoreCase = aux.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase) {
-                    {
-                      EList<Attribute> _attributes = aux.getAttributes();
-                      for(final Attribute auxAttributes : _attributes) {
-                        {
-                          boolean _isIsKey = auxAttributes.isIsKey();
-                          if (_isIsKey) {
-                            CharSequence _mySQLAttTypeChecker = this.mySQLAttTypeChecker(auxAttributes);
-                            _builder.append(_mySQLAttTypeChecker, "\t");
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          EList<Attribute> _attributes_1 = entity.getAttributes();
-          for(final Attribute attribute : _attributes_1) {
-            CharSequence _mySQLAttTypeChecker_1 = this.mySQLAttTypeChecker(attribute);
-            _builder.append(_mySQLAttTypeChecker_1, "\t");
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          Entity _is_1 = entity.getIs();
-          boolean _tripleEquals_1 = (_is_1 == null);
-          boolean _not_2 = (!_tripleEquals_1);
-          if (_not_2) {
-            {
-              EList<Entity> _entities_2 = e.getEntities();
-              for(final Entity aux_1 : _entities_2) {
-                {
-                  boolean _equalsIgnoreCase_1 = aux_1.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase_1) {
-                    {
-                      EList<Attribute> _attributes_2 = aux_1.getAttributes();
-                      for(final Attribute auxAttributes_1 : _attributes_2) {
-                        {
-                          boolean _isIsKey_1 = auxAttributes_1.isIsKey();
-                          if (_isIsKey_1) {
-                            String _xblockexpression = null;
-                            {
-                              myListPKs.add(auxAttributes_1.getName().toLowerCase());
-                              _xblockexpression = "";
-                            }
-                            _builder.append(_xblockexpression);
-                            String _xblockexpression_1 = null;
-                            {
-                              myListExtendPKs.add(auxAttributes_1.getName().toLowerCase());
-                              _xblockexpression_1 = "";
-                            }
-                            _builder.append(_xblockexpression_1);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        {
-          EList<Attribute> _attributes_3 = entity.getAttributes();
-          for(final Attribute attribute_1 : _attributes_3) {
-            {
-              boolean _isIsKey_2 = attribute_1.isIsKey();
-              if (_isIsKey_2) {
-                String _xblockexpression_2 = null;
-                {
-                  myListPKs.add(attribute_1.getName().toString());
-                  _xblockexpression_2 = "";
-                }
-                _builder.append(_xblockexpression_2, "\t");
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _mySQLVerifyFKsAttributesRelation1to1 = this.mySQLVerifyFKsAttributesRelation1to1(e, entity.getName());
-        _builder.append(_mySQLVerifyFKsAttributesRelation1to1, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _mySQLVerifyFKsAttributesRelation1toN = this.mySQLVerifyFKsAttributesRelation1toN(e, entity.getName());
-        _builder.append(_mySQLVerifyFKsAttributesRelation1toN, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        _builder.append("CONSTRAINT pk_");
-        String _lowerCase_1 = entity.getName().toLowerCase();
-        _builder.append(_lowerCase_1, "\t");
-        _builder.append(" PRIMARY KEY (");
-        {
-          boolean _hasElements_1 = false;
-          for(final String x : myListPKs) {
-            if (!_hasElements_1) {
-              _hasElements_1 = true;
-            } else {
-              _builder.appendImmediate(", ", "\t");
-            }
-            String _println = InputOutput.<String>println(x.toLowerCase());
-            _builder.append(_println, "\t");
-          }
-          if (_hasElements_1) {
-            _builder.append(")", "\t");
-          }
-        }
-        _builder.newLineIfNotEmpty();
-      }
-      if (_hasElements) {
-        _builder.append(");\n", "\t");
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ---------------------- */");
-    _builder.newLine();
-    _builder.append("/*  N to N RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* ---------------------- */ ");
-    _builder.newLine();
-    _builder.newLine();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        final ArrayList<String> myListPKsFKs = CollectionLiterals.<String>newArrayList();
-        _builder.newLineIfNotEmpty();
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            _builder.append("\t\t");
-            {
-              boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation.getName());
-              if (_isNullOrEmpty_1) {
-                String _upperCase_7 = relation.getLeftEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_7, "\t\t");
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t\t");
-                _builder.append("\t");
-                _builder.newLine();
-                _builder.append("-- Table: ");
-                String _upperCase_8 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_8);
-                _builder.newLineIfNotEmpty();
-                _builder.append("-- DROP TABLE ");
-                String _upperCase_9 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_9);
-                _builder.append(";");
-                _builder.newLineIfNotEmpty();
-                _builder.append("CREATE TABLE IF NOT EXISTS ");
-                String _upperCase_10 = relation.getRightEnding().getTarget().toString().toUpperCase();
-                _builder.append(_upperCase_10);
-                _builder.append(" (");
-                _builder.newLineIfNotEmpty();
-              } else {
-                boolean _isNullOrEmpty_2 = StringExtensions.isNullOrEmpty(relation.getName());
-                boolean _not_3 = (!_isNullOrEmpty_2);
-                if (_not_3) {
-                  _builder.append("\t\t\t");
-                  _builder.newLine();
-                  _builder.append("-- Table: ");
-                  String _upperCase_11 = relation.getName().toUpperCase();
-                  _builder.append(_upperCase_11);
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("-- DROP TABLE ");
-                  String _upperCase_12 = relation.getName().toUpperCase();
-                  _builder.append(_upperCase_12);
-                  _builder.append(";");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("CREATE TABLE IF NOT EXISTS ");
-                  String _lowerCase_2 = relation.getName().toLowerCase();
-                  _builder.append(_lowerCase_2);
-                  _builder.append(" (");
-                }
-              }
-            }
+          boolean _isIsKey = att.isIsKey();
+          if (_isIsKey) {
+            CharSequence _htmlRedAttributeForPK = this.htmlRedAttributeForPK(att);
+            _builder.append(_htmlRedAttributeForPK);
             _builder.newLineIfNotEmpty();
-            {
-              EList<Entity> _entities_3 = e.getEntities();
-              for(final Entity entity_1 : _entities_3) {
-                {
-                  if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation.getLeftEnding().getTarget().toString() != relation.getRightEnding().getTarget().toString()))) {
-                    String _xblockexpression_3 = null;
-                    {
-                      myListPKsFKs.add(relation.getLeftEnding().getTarget().toString());
-                      _xblockexpression_3 = "";
-                    }
-                    _builder.append(_xblockexpression_3);
-                    String _lowerCase_3 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_3);
-                    CharSequence _mySQLAttTypeCheckerNtoNLeft = this.mySQLAttTypeCheckerNtoNLeft(e, relation);
-                    _builder.append(_mySQLAttTypeCheckerNtoNLeft);
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (relation.getRightEnding().getTarget().toString() != relation.getLeftEnding().getTarget().toString()))) {
-                    String _xblockexpression_4 = null;
-                    {
-                      myListPKsFKs.add(relation.getRightEnding().getTarget().toString());
-                      _xblockexpression_4 = "";
-                    }
-                    _builder.append(_xblockexpression_4, "\t");
-                    String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_4, "\t");
-                    CharSequence _mySQLAttTypeCheckerNtoNRight = this.mySQLAttTypeCheckerNtoNRight(e, relation);
-                    _builder.append(_mySQLAttTypeCheckerNtoNRight, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString()))) {
-                    String _xblockexpression_5 = null;
-                    {
-                      myListPKsFKs.add(relation.getLeftEnding().getTarget().toString());
-                      _xblockexpression_5 = "";
-                    }
-                    _builder.append(_xblockexpression_5, "\t");
-                    String _lowerCase_5 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_5, "\t");
-                    _builder.append("_");
-                    String _lowerCase_6 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_6, "\t");
-                    _builder.append("_1");
-                    Object _xblockexpression_6 = null;
-                    {
-                      this.auxT1 = true;
-                      _xblockexpression_6 = null;
-                    }
-                    _builder.append(_xblockexpression_6, "\t");
-                    CharSequence _mySQLAttTypeCheckerNtoNLeft_1 = this.mySQLAttTypeCheckerNtoNLeft(e, relation);
-                    _builder.append(_mySQLAttTypeCheckerNtoNLeft_1, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-                {
-                  if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString()))) {
-                    String _xblockexpression_7 = null;
-                    {
-                      myListPKsFKs.add(relation.getRightEnding().getTarget().toString());
-                      _xblockexpression_7 = "";
-                    }
-                    _builder.append(_xblockexpression_7, "\t");
-                    String _lowerCase_7 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                    _builder.append(_lowerCase_7, "\t");
-                    _builder.append("_");
-                    String _lowerCase_8 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_8, "\t");
-                    _builder.append("_2");
-                    Object _xblockexpression_8 = null;
-                    {
-                      this.auxT2 = true;
-                      _xblockexpression_8 = null;
-                    }
-                    _builder.append(_xblockexpression_8, "\t");
-                    CharSequence _mySQLAttTypeCheckerNtoNRight_1 = this.mySQLAttTypeCheckerNtoNRight(e, relation);
-                    _builder.append(_mySQLAttTypeCheckerNtoNRight_1, "\t");
-                  }
-                }
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t");
-              }
-            }
-            int iterCounter = 1;
+          } else {
+            String _name = att.getName();
+            _builder.append(_name);
             _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            {
-              boolean _isNullOrEmpty_3 = IterableExtensions.isNullOrEmpty(relation.getAttributes());
-              boolean _not_4 = (!_isNullOrEmpty_3);
-              if (_not_4) {
-                {
-                  EList<Attribute> _attributes_4 = relation.getAttributes();
-                  for(final Attribute aux_2 : _attributes_4) {
-                    CharSequence _mySQLAttTypeChecker_2 = this.mySQLAttTypeChecker(aux_2);
-                    _builder.append(_mySQLAttTypeChecker_2, "\t");
-                  }
-                }
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            _builder.append("CONSTRAINT pk_");
-            String _lowerCase_9 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_9, "\t");
-            _builder.append(" PRIMARY KEY (");
-            {
-              EList<Attribute> _attributes_5 = relation.getAttributes();
-              for(final Attribute aux_3 : _attributes_5) {
-                {
-                  boolean _isIsKey_3 = aux_3.isIsKey();
-                  if (_isIsKey_3) {
-                    String _lowerCase_10 = aux_3.getName().toString().toLowerCase();
-                    _builder.append(_lowerCase_10, "\t");
-                    _builder.append(", ");
-                  }
-                }
-              }
-            }
-            {
-              boolean _hasElements_2 = false;
-              for(final String x_1 : myListPKsFKs) {
-                if (!_hasElements_2) {
-                  _hasElements_2 = true;
-                } else {
-                  _builder.appendImmediate(", ", "\t");
-                }
-                String _println_1 = InputOutput.<String>println(x_1.toLowerCase());
-                _builder.append(_println_1, "\t");
-                {
-                  if ((this.auxT1 && this.auxT2)) {
-                    _builder.append("_");
-                    String _lowerCase_11 = relation.getName().toLowerCase();
-                    _builder.append(_lowerCase_11, "\t");
-                    _builder.append("_");
-                    int _plusPlus = iterCounter++;
-                    _builder.append(_plusPlus, "\t");
-                  }
-                }
-              }
-              if (_hasElements_2) {
-                _builder.append(")", "\t");
-              }
-            }
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            final int ListPKsFKsLenght = myListPKsFKs.size();
-            Object _xblockexpression_9 = null;
-            {
-              iterCounter = 1;
-              _xblockexpression_9 = null;
-            }
-            _builder.append(_xblockexpression_9, "\t");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t");
-            Object _xblockexpression_10 = null;
-            {
-              this.stringBuilderAlterTblNtoN.append(this.mySQLAlterTableFK_0N_0N(myListPKsFKs, ListPKsFKsLenght, this.auxT1, this.auxT2, relation, iterCounter, e));
-              _xblockexpression_10 = null;
-            }
-            _builder.append(_xblockexpression_10, "\t");
-            _builder.newLineIfNotEmpty();
-            Object _xblockexpression_11 = null;
-            {
-              iterCounter = 1;
-              _xblockexpression_11 = null;
-            }
-            _builder.append(_xblockexpression_11);
-            Object _xblockexpression_12 = null;
-            {
-              this.auxT1 = false;
-              _xblockexpression_12 = null;
-            }
-            _builder.append(_xblockexpression_12);
-            Object _xblockexpression_13 = null;
-            {
-              this.auxT2 = false;
-              _xblockexpression_13 = null;
-            }
-            _builder.append(_xblockexpression_13);
-            _builder.newLineIfNotEmpty();
-            _builder.append(");");
-            _builder.newLine();
           }
         }
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ----------------------- */");
-    _builder.newLine();
-    _builder.append("/*  TERNARY RELATIONSHIPS  */");
-    _builder.newLine();
-    _builder.append("/* ----------------------- */");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("\t");
-    String artificialEntName1 = null;
-    String artificialEntKey1 = null;
-    String artificialEntKeyAlt1 = null;
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    String artificialEntName2 = null;
-    String artificialEntKey2 = null;
-    String artificialEntKeyAlt2 = null;
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    String realEntName = null;
-    String realEntKey = null;
-    _builder.newLineIfNotEmpty();
-    {
-      EList<Relation> _relations_1 = e.getRelations();
-      for(final Relation relation_1 : _relations_1) {
-        {
-          if (((relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation_1.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-            {
-              EList<Relation> _relations_2 = e.getRelations();
-              for(final Relation aux_4 : _relations_2) {
-                {
-                  if (((!StringExtensions.isNullOrEmpty(relation_1.getName())) && relation_1.getName().equals(aux_4.getLeftEnding().getTarget().toString()))) {
-                    _builder.append("-- Table: ");
-                    String _upperCase_13 = aux_4.getName().toUpperCase();
-                    _builder.append(_upperCase_13);
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("-- DROP TABLE ");
-                    String _upperCase_14 = aux_4.getName().toUpperCase();
-                    _builder.append(_upperCase_14);
-                    _builder.append(";");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("CREATE TABLE IF NOT EXISTS ");
-                    String _lowerCase_12 = aux_4.getName().toLowerCase();
-                    _builder.append(_lowerCase_12);
-                    _builder.append(" (\t");
-                    _builder.newLineIfNotEmpty();
-                    {
-                      EList<Entity> _entities_4 = e.getEntities();
-                      for(final Entity entAux : _entities_4) {
-                        {
-                          boolean _equalsIgnoreCase_2 = entAux.getName().toString().equalsIgnoreCase(aux_4.getRightEnding().getTarget().toString());
-                          if (_equalsIgnoreCase_2) {
-                            {
-                              EList<Attribute> _attributes_6 = entAux.getAttributes();
-                              for(final Attribute attAux : _attributes_6) {
-                                {
-                                  boolean _isIsKey_4 = attAux.isIsKey();
-                                  if (_isIsKey_4) {
-                                    _builder.append("\t");
-                                    CharSequence _mySQLAttTypeChecker_3 = this.mySQLAttTypeChecker(attAux);
-                                    _builder.append(_mySQLAttTypeChecker_3, "\t");
-                                    Object _xblockexpression_14 = null;
-                                    {
-                                      realEntName = entAux.getName().toString().toLowerCase();
-                                      _xblockexpression_14 = null;
-                                    }
-                                    _builder.append(_xblockexpression_14, "\t");
-                                    Object _xblockexpression_15 = null;
-                                    {
-                                      realEntKey = attAux.getName().toString().toLowerCase();
-                                      _xblockexpression_15 = null;
-                                    }
-                                    _builder.append(_xblockexpression_15, "\t");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    {
-                      EList<Relation> _relations_3 = e.getRelations();
-                      for(final Relation relEntArtifial1 : _relations_3) {
-                        {
-                          boolean _equalsIgnoreCase_3 = relEntArtifial1.getName().equalsIgnoreCase(aux_4.getLeftEnding().getTarget().toString());
-                          if (_equalsIgnoreCase_3) {
-                            {
-                              EList<Entity> _entities_5 = e.getEntities();
-                              for(final Entity ent1 : _entities_5) {
-                                {
-                                  boolean _equalsIgnoreCase_4 = ent1.getName().equalsIgnoreCase(relEntArtifial1.getLeftEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_4) {
-                                    {
-                                      EList<Attribute> _attributes_7 = ent1.getAttributes();
-                                      for(final Attribute ent1Att : _attributes_7) {
-                                        {
-                                          boolean _isIsKey_5 = ent1Att.isIsKey();
-                                          if (_isIsKey_5) {
-                                            _builder.append("\t");
-                                            CharSequence _mySQLAttTypeChecker_4 = this.mySQLAttTypeChecker(ent1Att);
-                                            _builder.append(_mySQLAttTypeChecker_4, "\t");
-                                            Object _xblockexpression_16 = null;
-                                            {
-                                              artificialEntName1 = aux_4.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _xblockexpression_16 = null;
-                                            }
-                                            _builder.append(_xblockexpression_16, "\t");
-                                            Object _xblockexpression_17 = null;
-                                            {
-                                              artificialEntKey1 = ent1Att.getName().toString().toLowerCase();
-                                              _xblockexpression_17 = null;
-                                            }
-                                            _builder.append(_xblockexpression_17, "\t");
-                                            Object _xblockexpression_18 = null;
-                                            {
-                                              artificialEntKeyAlt1 = ent1.getName().toString().toLowerCase();
-                                              _xblockexpression_18 = null;
-                                            }
-                                            _builder.append(_xblockexpression_18, "\t");
-                                            _builder.newLineIfNotEmpty();
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                            {
-                              EList<Entity> _entities_6 = e.getEntities();
-                              for(final Entity ent2 : _entities_6) {
-                                {
-                                  boolean _equalsIgnoreCase_5 = ent2.getName().equalsIgnoreCase(relEntArtifial1.getRightEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_5) {
-                                    {
-                                      EList<Attribute> _attributes_8 = ent2.getAttributes();
-                                      for(final Attribute ent2Att : _attributes_8) {
-                                        {
-                                          boolean _isIsKey_6 = ent2Att.isIsKey();
-                                          if (_isIsKey_6) {
-                                            _builder.append("\t");
-                                            CharSequence _mySQLAttTypeChecker_5 = this.mySQLAttTypeChecker(ent2Att);
-                                            _builder.append(_mySQLAttTypeChecker_5, "\t");
-                                            Object _xblockexpression_19 = null;
-                                            {
-                                              artificialEntName2 = aux_4.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _xblockexpression_19 = null;
-                                            }
-                                            _builder.append(_xblockexpression_19, "\t");
-                                            Object _xblockexpression_20 = null;
-                                            {
-                                              artificialEntKey2 = ent2Att.getName().toString().toLowerCase();
-                                              _xblockexpression_20 = null;
-                                            }
-                                            _builder.append(_xblockexpression_20, "\t");
-                                            Object _xblockexpression_21 = null;
-                                            {
-                                              artificialEntKeyAlt2 = ent2.getName().toString().toLowerCase();
-                                              _xblockexpression_21 = null;
-                                            }
-                                            _builder.append(_xblockexpression_21, "\t");
-                                            _builder.newLineIfNotEmpty();
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                    {
-                      EList<Entity> _entities_7 = e.getEntities();
-                      for(final Entity aux2 : _entities_7) {
-                        {
-                          boolean _equalsIgnoreCase_6 = aux_4.getRightEnding().getTarget().toString().equalsIgnoreCase(aux2.getName());
-                          if (_equalsIgnoreCase_6) {
-                            _builder.append("\t");
-                            {
-                              EList<Attribute> _attributes_9 = aux_4.getAttributes();
-                              for(final Attribute attribute_2 : _attributes_9) {
-                                {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_2.getName())) && attribute_2.isIsKey())) {
-                                    CharSequence _mySQLAttTypeChecker_6 = this.mySQLAttTypeChecker(attribute_2);
-                                    _builder.append(_mySQLAttTypeChecker_6, "\t");
-                                  }
-                                }
-                              }
-                            }
-                            _builder.newLineIfNotEmpty();
-                            _builder.append("\t");
-                            {
-                              EList<Attribute> _attributes_10 = aux_4.getAttributes();
-                              for(final Attribute attribute_3 : _attributes_10) {
-                                {
-                                  if (((!StringExtensions.isNullOrEmpty(attribute_3.getName())) && (!attribute_3.isIsKey()))) {
-                                    CharSequence _mySQLAttTypeChecker_7 = this.mySQLAttTypeChecker(attribute_3);
-                                    _builder.append(_mySQLAttTypeChecker_7, "\t");
-                                  }
-                                }
-                              }
-                            }
-                            _builder.newLineIfNotEmpty();
-                          }
-                        }
-                      }
-                    }
-                    _builder.append("\t");
-                    _builder.append("CONSTRAINT pk_");
-                    String _lowerCase_13 = aux_4.getName().toLowerCase();
-                    _builder.append(_lowerCase_13, "\t");
-                    _builder.append(" PRIMARY KEY (");
-                    String _string = realEntKey.toString();
-                    _builder.append(_string, "\t");
-                    _builder.append(", ");
-                    _builder.append(artificialEntKey1, "\t");
-                    _builder.append(", ");
-                    String _string_1 = artificialEntKey2.toString();
-                    _builder.append(_string_1, "\t");
-                    _builder.append(")");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t");
-                    _builder.append("FOREIGN KEY (");
-                    String _string_2 = realEntKey.toString();
-                    _builder.append(_string_2, "\t");
-                    _builder.append(") REFERENCES ");
-                    String _string_3 = realEntName.toString();
-                    _builder.append(_string_3, "\t");
-                    _builder.append(" (");
-                    String _string_4 = realEntKey.toString();
-                    _builder.append(_string_4, "\t");
-                    _builder.append(");");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t");
-                    _builder.append("FOREIGN KEY (");
-                    String _string_5 = artificialEntKey1.toString();
-                    _builder.append(_string_5, "\t");
-                    _builder.append(", ");
-                    String _string_6 = artificialEntKey2.toString();
-                    _builder.append(_string_6, "\t");
-                    _builder.append(") REFERENCES ");
-                    _builder.append(artificialEntName1, "\t");
-                    _builder.append(" (");
-                    String _string_7 = artificialEntKeyAlt1.toString();
-                    _builder.append(_string_7, "\t");
-                    _builder.append(", ");
-                    String _string_8 = artificialEntKeyAlt2.toString();
-                    _builder.append(_string_8, "\t");
-                    _builder.append(");");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append(");");
-                    _builder.newLine();
-                  } else {
-                    if (((!StringExtensions.isNullOrEmpty(relation_1.getName())) && relation_1.getName().equals(aux_4.getRightEnding().getTarget().toString()))) {
-                      _builder.append("\t\t\t\t\t\t");
-                      _builder.newLine();
-                      _builder.append("-- Table: ");
-                      String _upperCase_15 = aux_4.getName().toUpperCase();
-                      _builder.append(_upperCase_15);
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("-- DROP TABLE ");
-                      String _upperCase_16 = aux_4.getName().toUpperCase();
-                      _builder.append(_upperCase_16);
-                      _builder.append(";");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("CREATE TABLE IF NOT EXISTS ");
-                      String _lowerCase_14 = aux_4.getName().toLowerCase();
-                      _builder.append(_lowerCase_14);
-                      _builder.append(" (");
-                      _builder.newLineIfNotEmpty();
-                      {
-                        EList<Entity> _entities_8 = e.getEntities();
-                        for(final Entity entAux_1 : _entities_8) {
-                          {
-                            boolean _equalsIgnoreCase_7 = entAux_1.getName().toString().equalsIgnoreCase(aux_4.getLeftEnding().getTarget().toString());
-                            if (_equalsIgnoreCase_7) {
-                              {
-                                EList<Attribute> _attributes_11 = entAux_1.getAttributes();
-                                for(final Attribute attAux_1 : _attributes_11) {
-                                  {
-                                    boolean _isIsKey_7 = attAux_1.isIsKey();
-                                    if (_isIsKey_7) {
-                                      _builder.append("\t");
-                                      CharSequence _mySQLAttTypeChecker_8 = this.mySQLAttTypeChecker(attAux_1);
-                                      _builder.append(_mySQLAttTypeChecker_8, "\t");
-                                      Object _xblockexpression_22 = null;
-                                      {
-                                        realEntName = entAux_1.getName().toString().toLowerCase();
-                                        _xblockexpression_22 = null;
-                                      }
-                                      _builder.append(_xblockexpression_22, "\t");
-                                      Object _xblockexpression_23 = null;
-                                      {
-                                        realEntKey = attAux_1.getName().toString().toLowerCase();
-                                        _xblockexpression_23 = null;
-                                      }
-                                      _builder.append(_xblockexpression_23, "\t");
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        EList<Relation> _relations_4 = e.getRelations();
-                        for(final Relation relEntArtifial1_1 : _relations_4) {
-                          {
-                            boolean _equalsIgnoreCase_8 = relEntArtifial1_1.getName().equalsIgnoreCase(aux_4.getRightEnding().getTarget().toString());
-                            if (_equalsIgnoreCase_8) {
-                              {
-                                EList<Entity> _entities_9 = e.getEntities();
-                                for(final Entity ent1_1 : _entities_9) {
-                                  {
-                                    boolean _equalsIgnoreCase_9 = ent1_1.getName().equalsIgnoreCase(relEntArtifial1_1.getRightEnding().getTarget().toString());
-                                    if (_equalsIgnoreCase_9) {
-                                      {
-                                        EList<Attribute> _attributes_12 = ent1_1.getAttributes();
-                                        for(final Attribute ent1Att_1 : _attributes_12) {
-                                          {
-                                            boolean _isIsKey_8 = ent1Att_1.isIsKey();
-                                            if (_isIsKey_8) {
-                                              _builder.append("\t");
-                                              CharSequence _mySQLAttTypeChecker_9 = this.mySQLAttTypeChecker(ent1Att_1);
-                                              _builder.append(_mySQLAttTypeChecker_9, "\t");
-                                              Object _xblockexpression_24 = null;
-                                              {
-                                                artificialEntName1 = aux_4.getRightEnding().getTarget().toString().toLowerCase();
-                                                _xblockexpression_24 = null;
-                                              }
-                                              _builder.append(_xblockexpression_24, "\t");
-                                              Object _xblockexpression_25 = null;
-                                              {
-                                                artificialEntKey1 = ent1Att_1.getName().toString().toLowerCase();
-                                                _xblockexpression_25 = null;
-                                              }
-                                              _builder.append(_xblockexpression_25, "\t");
-                                              Object _xblockexpression_26 = null;
-                                              {
-                                                artificialEntKeyAlt1 = ent1_1.getName().toString().toLowerCase();
-                                                _xblockexpression_26 = null;
-                                              }
-                                              _builder.append(_xblockexpression_26, "\t");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                              {
-                                EList<Entity> _entities_10 = e.getEntities();
-                                for(final Entity ent2_1 : _entities_10) {
-                                  {
-                                    boolean _equalsIgnoreCase_10 = ent2_1.getName().equalsIgnoreCase(relEntArtifial1_1.getLeftEnding().getTarget().toString());
-                                    if (_equalsIgnoreCase_10) {
-                                      {
-                                        EList<Attribute> _attributes_13 = ent2_1.getAttributes();
-                                        for(final Attribute ent2Att_1 : _attributes_13) {
-                                          {
-                                            boolean _isIsKey_9 = ent2Att_1.isIsKey();
-                                            if (_isIsKey_9) {
-                                              _builder.append("\t");
-                                              CharSequence _mySQLAttTypeChecker_10 = this.mySQLAttTypeChecker(ent2Att_1);
-                                              _builder.append(_mySQLAttTypeChecker_10, "\t");
-                                              Object _xblockexpression_27 = null;
-                                              {
-                                                artificialEntName2 = aux_4.getRightEnding().getTarget().toString().toLowerCase();
-                                                _xblockexpression_27 = null;
-                                              }
-                                              _builder.append(_xblockexpression_27, "\t");
-                                              Object _xblockexpression_28 = null;
-                                              {
-                                                artificialEntKey2 = ent2Att_1.getName().toString().toLowerCase();
-                                                _xblockexpression_28 = null;
-                                              }
-                                              _builder.append(_xblockexpression_28, "\t");
-                                              Object _xblockexpression_29 = null;
-                                              {
-                                                artificialEntKeyAlt2 = ent2_1.getName().toString().toLowerCase();
-                                                _xblockexpression_29 = null;
-                                              }
-                                              _builder.append(_xblockexpression_29, "\t");
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                      {
-                        EList<Entity> _entities_11 = e.getEntities();
-                        for(final Entity aux2_1 : _entities_11) {
-                          {
-                            boolean _equalsIgnoreCase_11 = aux_4.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux2_1.getName());
-                            if (_equalsIgnoreCase_11) {
-                              _builder.append("\t");
-                              {
-                                EList<Attribute> _attributes_14 = aux_4.getAttributes();
-                                for(final Attribute attribute_4 : _attributes_14) {
-                                  {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_4.getName())) && attribute_4.isIsKey())) {
-                                      CharSequence _mySQLAttTypeChecker_11 = this.mySQLAttTypeChecker(attribute_4);
-                                      _builder.append(_mySQLAttTypeChecker_11, "\t");
-                                    }
-                                  }
-                                }
-                              }
-                              _builder.newLineIfNotEmpty();
-                              _builder.append("\t");
-                              {
-                                EList<Attribute> _attributes_15 = aux_4.getAttributes();
-                                for(final Attribute attribute_5 : _attributes_15) {
-                                  {
-                                    if (((!StringExtensions.isNullOrEmpty(attribute_5.getName())) && (!attribute_5.isIsKey()))) {
-                                      CharSequence _mySQLAttTypeChecker_12 = this.mySQLAttTypeChecker(attribute_5);
-                                      _builder.append(_mySQLAttTypeChecker_12, "\t");
-                                    }
-                                  }
-                                }
-                              }
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                      _builder.append("\t");
-                      _builder.append("CONSTRAINT pk_");
-                      String _lowerCase_15 = aux_4.getName().toLowerCase();
-                      _builder.append(_lowerCase_15, "\t");
-                      _builder.append(" PRIMARY KEY (");
-                      String _string_9 = realEntKey.toString();
-                      _builder.append(_string_9, "\t");
-                      _builder.append(", ");
-                      _builder.append(artificialEntKey1, "\t");
-                      _builder.append(", ");
-                      String _string_10 = artificialEntKey2.toString();
-                      _builder.append(_string_10, "\t");
-                      _builder.append(")");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      Object _xblockexpression_30 = null;
-                      {
-                        String _lowerCase_16 = aux_4.getName().toLowerCase();
-                        String _plus = ("ALTER TABLE public." + _lowerCase_16);
-                        String _plus_1 = (_plus + " ADD CONSTRAINT fk_");
-                        String _lowerCase_17 = aux_4.getName().toLowerCase();
-                        String _plus_2 = (_plus_1 + _lowerCase_17);
-                        String _plus_3 = (_plus_2 + "_");
-                        String _string_11 = realEntName.toString();
-                        String _plus_4 = (_plus_3 + _string_11);
-                        String _plus_5 = (_plus_4 + " FOREIGN KEY (");
-                        String _string_12 = realEntKey.toString();
-                        String _plus_6 = (_plus_5 + _string_12);
-                        String _plus_7 = (_plus_6 + ") REFERENCES public.");
-                        String _string_13 = realEntName.toString();
-                        String _plus_8 = (_plus_7 + _string_13);
-                        String _plus_9 = (_plus_8 + " (");
-                        String _string_14 = realEntKey.toString();
-                        String _plus_10 = (_plus_9 + _string_14);
-                        String _plus_11 = (_plus_10 + ");");
-                        String _println_2 = InputOutput.<String>println("\n");
-                        String _plus_12 = (_plus_11 + _println_2);
-                        this.stringBuilderAlterTblTernary.append(_plus_12);
-                        _xblockexpression_30 = null;
-                      }
-                      _builder.append(_xblockexpression_30, "\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append("\t");
-                      Object _xblockexpression_31 = null;
-                      {
-                        String _lowerCase_16 = aux_4.getName().toLowerCase();
-                        String _plus = ("ALTER TABLE public." + _lowerCase_16);
-                        String _plus_1 = (_plus + " ADD CONSTRAINT fk_");
-                        String _lowerCase_17 = aux_4.getName().toLowerCase();
-                        String _plus_2 = (_plus_1 + _lowerCase_17);
-                        String _plus_3 = (_plus_2 + "_");
-                        String _plus_4 = (_plus_3 + artificialEntName1);
-                        String _plus_5 = (_plus_4 + " FOREIGN KEY (");
-                        String _string_11 = artificialEntKey1.toString();
-                        String _plus_6 = (_plus_5 + _string_11);
-                        String _plus_7 = (_plus_6 + ", ");
-                        String _string_12 = artificialEntKey2.toString();
-                        String _plus_8 = (_plus_7 + _string_12);
-                        String _plus_9 = (_plus_8 + ") REFERENCES public.");
-                        String _plus_10 = (_plus_9 + artificialEntName1);
-                        String _plus_11 = (_plus_10 + " (");
-                        String _string_13 = artificialEntKeyAlt1.toString();
-                        String _plus_12 = (_plus_11 + _string_13);
-                        String _plus_13 = (_plus_12 + ", ");
-                        String _string_14 = artificialEntKeyAlt2.toString();
-                        String _plus_14 = (_plus_13 + _string_14);
-                        String _plus_15 = (_plus_14 + ");");
-                        this.stringBuilderAlterTblTernary.append(_plus_15);
-                        _xblockexpression_31 = null;
-                      }
-                      _builder.append(_xblockexpression_31, "\t");
-                      _builder.newLineIfNotEmpty();
-                      _builder.append(");");
-                      _builder.newLine();
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    _builder.newLine();
-    _builder.append("/* ----------- */");
-    _builder.newLine();
-    _builder.append("/* ALTER TABLE */");
-    _builder.newLine();
-    _builder.append("/* ----------- */");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.newLine();
-    _builder.append("-- BEGINNING OF ALTER TABLE (0,1 -> 1,N)");
-    _builder.newLine();
-    final ArrayList<Object> myListPKs_1 = CollectionLiterals.<Object>newArrayList();
-    _builder.newLineIfNotEmpty();
-    final ArrayList<Object> myListExtendPKs_1 = CollectionLiterals.<Object>newArrayList();
-    _builder.newLineIfNotEmpty();
-    CharSequence _mySQLAlterTableFK_01_0N = this.mySQLAlterTableFK_01_0N(e, myListExtendPKs_1, ListExendPKsLenght, myListPKs_1);
-    _builder.append(_mySQLAlterTableFK_01_0N);
-    _builder.newLineIfNotEmpty();
-    _builder.append("-- END OF ALTER TABLE\t(0,1 -> 1,N)\t\t");
-    _builder.newLine();
-    _builder.append("\t\t\t\t\t");
-    _builder.newLine();
-    {
-      boolean _isNullOrEmpty_4 = StringExtensions.isNullOrEmpty(this.stringBuilderAlterTblNtoN.toString());
-      boolean _not_5 = (!_isNullOrEmpty_4);
-      if (_not_5) {
-        _builder.append("-- BEGINNING OF ALTER TABLE (N -> N)");
-        _builder.newLine();
-        String _string_11 = this.stringBuilderAlterTblNtoN.toString();
-        _builder.append(_string_11);
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- END OF ALTER TABLE (N -> N)");
-        _builder.newLine();
-        this.stringBuilderAlterTblNtoN.setLength(0);
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.newLine();
-    {
-      boolean _isNullOrEmpty_5 = StringExtensions.isNullOrEmpty(this.stringBuilderAlterTblTernary.toString());
-      boolean _not_6 = (!_isNullOrEmpty_5);
-      if (_not_6) {
-        _builder.append("-- BEGINNING OF ALTER TABLE (TERNARY)");
-        _builder.newLine();
-        _builder.append("\t");
-        String _string_12 = this.stringBuilderAlterTblTernary.toString();
-        _builder.append(_string_12, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("-- END OF ALTER TABLE (TERNARY)");
-        _builder.newLine();
-        this.stringBuilderAlterTblTernary.setLength(0);
-        _builder.append("\t");
-        _builder.newLineIfNotEmpty();
-      }
-    }
-    _builder.newLine();
-    _builder.newLine();
-    return _builder;
-  }
-  
-  private CharSequence mySQLAlterTableFK_01_0N(final ERModel e, final ArrayList myListExtendPKs, final int ListExendPKsLenght, final ArrayList myListPKs) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity entity : _entities) {
-        {
-          Entity _is = entity.getIs();
-          boolean _tripleEquals = (_is == null);
-          boolean _not = (!_tripleEquals);
-          if (_not) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity aux : _entities_1) {
-                {
-                  boolean _equalsIgnoreCase = aux.getName().equalsIgnoreCase(entity.getIs().toString());
-                  if (_equalsIgnoreCase) {
-                    {
-                      EList<Attribute> _attributes = aux.getAttributes();
-                      for(final Attribute auxAttributes : _attributes) {
-                        {
-                          boolean _isIsKey = auxAttributes.isIsKey();
-                          if (_isIsKey) {
-                            String _xblockexpression = null;
-                            {
-                              myListPKs.add(auxAttributes.getName().toLowerCase());
-                              _xblockexpression = "";
-                            }
-                            _builder.append(_xblockexpression);
-                            String _xblockexpression_1 = null;
-                            {
-                              myListExtendPKs.add(auxAttributes.getName().toLowerCase());
-                              _xblockexpression_1 = "";
-                            }
-                            _builder.append(_xblockexpression_1);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          EList<Attribute> _attributes_1 = entity.getAttributes();
-          for(final Attribute attribute : _attributes_1) {
-            {
-              boolean _isIsKey_1 = attribute.isIsKey();
-              if (_isIsKey_1) {
-                String _xblockexpression_2 = null;
-                {
-                  myListPKs.add(attribute.getName().toString());
-                  _xblockexpression_2 = "";
-                }
-                _builder.append(_xblockexpression_2);
-              }
-            }
-          }
-        }
-        _builder.newLineIfNotEmpty();
-        {
-          boolean _hasElements = false;
-          for(final Object x : myListExtendPKs) {
-            if (!_hasElements) {
-              _hasElements = true;
-            } else {
-              _builder.appendImmediate("\n", "");
-            }
-            _builder.append("\tALTER TABLE public.");
-            String _lowerCase = entity.getName().toString().toLowerCase();
-            _builder.append(_lowerCase);
-            _builder.append(" ADD CONSTRAINT fk_");
-            String _firstUpper = StringExtensions.toFirstUpper(entity.getName().toString());
-            _builder.append(_firstUpper);
-            _builder.append("InheritedPK FOREIGN KEY (");
-            String _println = InputOutput.<String>println(x.toString().toLowerCase());
-            _builder.append(_println);
-            _builder.append(") REFERENCES public.");
-            CharSequence _mySQLDiscoverInheritedPKtoFK = this.mySQLDiscoverInheritedPKtoFK(e, x.toString(), ListExendPKsLenght, entity.getName());
-            _builder.append(_mySQLDiscoverInheritedPKtoFK);
-            _builder.append(";");
-          }
-        }
-        myListPKs.clear();
-        myListExtendPKs.clear();
-        this.myListFKs.clear();
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        Object _xblockexpression_3 = null;
-        {
-          this.mySQL_COUNT_FKsRelation1to1(e, entity.getName());
-          _xblockexpression_3 = null;
-        }
-        _builder.append(_xblockexpression_3, "\t");
-        Object _xblockexpression_4 = null;
-        {
-          this.counter = this.globalFKcounter_1to1;
-          this.AuxCounterA = this.globalFKcounter_1to1;
-          _xblockexpression_4 = null;
-        }
-        _builder.append(_xblockexpression_4, "\t");
-        _builder.append(" ");
-        Object _xblockexpression_5 = null;
-        {
-          this.globalFKcounter_1to1 = 0;
-          _xblockexpression_5 = null;
-        }
-        _builder.append(_xblockexpression_5, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _mySQLDefineFKsRelation1to1 = this.mySQLDefineFKsRelation1to1(e, entity.getName(), this.counter);
-        _builder.append(_mySQLDefineFKsRelation1to1, "\t");
-        Object _xblockexpression_6 = null;
-        {
-          this.counter = 0;
-          _xblockexpression_6 = null;
-        }
-        _builder.append(_xblockexpression_6, "\t");
-        Object _xblockexpression_7 = null;
-        {
-          this.mySQL_COUNT_FKsRelation1toN(e, entity.getName());
-          _xblockexpression_7 = null;
-        }
-        _builder.append(_xblockexpression_7, "\t");
-        Object _xblockexpression_8 = null;
-        {
-          this.counter = this.globalFKcounter_1toN;
-          this.AuxCounterB = this.globalFKcounter_1toN;
-          _xblockexpression_8 = null;
-        }
-        _builder.append(_xblockexpression_8, "\t");
-        Object _xblockexpression_9 = null;
-        {
-          this.globalFKcounter_1toN = 0;
-          _xblockexpression_9 = null;
-        }
-        _builder.append(_xblockexpression_9, "\t");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t");
-        CharSequence _mySQLDefineFKsRelation1toN = this.mySQLDefineFKsRelation1toN(e, entity.getName(), this.counter);
-        _builder.append(_mySQLDefineFKsRelation1toN, "\t");
-        _builder.append(" ");
-        Object _xblockexpression_10 = null;
-        {
-          this.counter = 0;
-          _xblockexpression_10 = null;
-        }
-        _builder.append(_xblockexpression_10, "\t");
-        _builder.newLineIfNotEmpty();
       }
     }
     return _builder;
   }
   
-  private CharSequence mySQLAlterTableFK_0N_0N(final ArrayList myListPKsFKs, final int ListPKsFKsLenght, final boolean auxT1, final boolean auxT2, final Relation relation, final int iterCounter, final ERModel e) {
+  private CharSequence htmlRedAttributeForPK(final Attribute a) {
     StringConcatenation _builder = new StringConcatenation();
-    int counterAux = iterCounter;
-    _builder.newLineIfNotEmpty();
-    {
-      boolean _hasElements = false;
-      for(final Object x : myListPKsFKs) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(");\n", "");
-        }
-        _builder.append("\tALTER TABLE public.");
-        String _lowerCase = relation.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append(" ADD CONSTRAINT fk_");
-        String _lowerCase_1 = relation.getName().toLowerCase();
-        _builder.append(_lowerCase_1);
-        _builder.append("_");
-        String _println = InputOutput.<String>println(x.toString().toLowerCase());
-        _builder.append(_println);
-        {
-          if ((auxT1 && auxT2)) {
-            _builder.append("_");
-            String _lowerCase_2 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_2);
-            _builder.append("_");
-            _builder.append(counterAux);
-          }
-        }
-        _builder.append(" FOREIGN KEY (");
-        String _println_1 = InputOutput.<String>println(x.toString().toLowerCase());
-        _builder.append(_println_1);
-        {
-          if ((auxT1 && auxT2)) {
-            _builder.append("_");
-            String _lowerCase_3 = relation.getName().toLowerCase();
-            _builder.append(_lowerCase_3);
-            _builder.append("_");
-            int _plusPlus = counterAux++;
-            _builder.append(_plusPlus);
-          }
-        }
-        _builder.append(") REFERENCES public.");
-        String _print = InputOutput.<String>print(x.toString().toLowerCase());
-        _builder.append(_print);
-        _builder.append(" (");
-        CharSequence _mySQLDiscoverPKtoFK = this.mySQLDiscoverPKtoFK(e, x.toString(), ListPKsFKsLenght);
-        _builder.append(_mySQLDiscoverPKtoFK);
-        CharSequence _mySQLDiscoverAutoInheritedPKtoFK = this.mySQLDiscoverAutoInheritedPKtoFK(e, x.toString());
-        _builder.append(_mySQLDiscoverAutoInheritedPKtoFK);
-      }
-      if (_hasElements) {
-        _builder.append(");\n");
-      }
-    }
-    _builder.newLineIfNotEmpty();
-    return _builder;
-  }
-  
-  private CharSequence mySQLAttTypeChecker(final Attribute a) {
-    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<font color=\"red\"><b>");
     String _lowerCase = a.getName().toLowerCase();
     _builder.append(_lowerCase);
-    _builder.append(" ");
-    {
-      boolean _equalsIgnoreCase = a.getType().toString().equalsIgnoreCase("string");
-      if (_equalsIgnoreCase) {
-        _builder.append(" VARCHAR (255) NOT NULL,");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-      } else {
-        boolean _equalsIgnoreCase_1 = a.getType().toString().equalsIgnoreCase("int");
-        if (_equalsIgnoreCase_1) {
-          _builder.append(" INT NOT NULL,");
-          _builder.newLineIfNotEmpty();
-          _builder.append("\t\t");
-        } else {
-          boolean _equalsIgnoreCase_2 = a.getType().toString().equalsIgnoreCase("datetime");
-          if (_equalsIgnoreCase_2) {
-            _builder.append(" DATE NOT NULL,");
-            _builder.newLineIfNotEmpty();
-            _builder.append("\t\t");
-          } else {
-            boolean _equalsIgnoreCase_3 = a.getType().toString().equalsIgnoreCase("money");
-            if (_equalsIgnoreCase_3) {
-              _builder.append(" NUMERIC NOT NULL,");
-              _builder.newLineIfNotEmpty();
-              _builder.append("\t\t");
-            } else {
-              boolean _equalsIgnoreCase_4 = a.getType().toString().equalsIgnoreCase("double");
-              if (_equalsIgnoreCase_4) {
-                _builder.append(" FLOAT NOT NULL,");
-                _builder.newLineIfNotEmpty();
-                _builder.append("\t\t");
-              } else {
-                boolean _equalsIgnoreCase_5 = a.getType().toString().equalsIgnoreCase("boolean");
-                if (_equalsIgnoreCase_5) {
-                  _builder.append(" BOOLEAN NOT NULL,");
-                  _builder.newLineIfNotEmpty();
-                  _builder.append("\t\t");
-                } else {
-                  boolean _equalsIgnoreCase_6 = a.getType().toString().equalsIgnoreCase("file");
-                  if (_equalsIgnoreCase_6) {
-                    _builder.append(" BLOB,");
-                    _builder.newLineIfNotEmpty();
-                    _builder.append("\t\t");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
+    _builder.append("*</b></font>");
+    _builder.newLineIfNotEmpty();
     return _builder;
   }
   
-  private CharSequence mySQLAttTypeCheckerUnnamed(final Attribute a) {
+  private CharSequence htmlModelRelationships(final ERModel m) {
     StringConcatenation _builder = new StringConcatenation();
+    _builder.append("<hr style=\"width:100%;text-align:left;margin-left:0\">");
+    _builder.newLine();
+    _builder.append("<p class=\"sstitle\">");
+    _builder.newLine();
+    _builder.append("<a href=\"#references\" class=\"btn btn-primary\" data-toggle=\"collapse\"><i class=\"fa fa-arrows-v\" aria-hidden=\"true\"></i></a>");
+    _builder.newLine();
+    _builder.append("&nbsp Mapped References");
+    _builder.newLine();
+    _builder.append("</p>\t ");
+    _builder.newLine();
+    _builder.append("<div id=\"references\" class=\"panel-body collapse in\">\t");
+    _builder.newLine();
+    _builder.append("<p class=\"field\">\t");
+    _builder.newLine();
     {
-      boolean _equalsIgnoreCase = a.getType().toString().equalsIgnoreCase("string");
-      if (_equalsIgnoreCase) {
-        _builder.append(" VARCHAR (255) NOT NULL,");
-        _builder.newLineIfNotEmpty();
-      } else {
-        boolean _equalsIgnoreCase_1 = a.getType().toString().equalsIgnoreCase("int");
-        if (_equalsIgnoreCase_1) {
-          _builder.append(" INT NOT NULL,");
-          _builder.newLineIfNotEmpty();
+      EList<Relation> _relations = m.getRelations();
+      boolean _hasElements = false;
+      for(final Relation relation : _relations) {
+        if (!_hasElements) {
+          _hasElements = true;
         } else {
-          boolean _equalsIgnoreCase_2 = a.getType().toString().equalsIgnoreCase("datetime");
-          if (_equalsIgnoreCase_2) {
-            _builder.append(" DATE NOT NULL,");
+          _builder.appendImmediate("</br></br>", "");
+        }
+        {
+          EObject _target = relation.getLeftEnding().getTarget();
+          if ((_target instanceof Entity)) {
+            Object _xblockexpression = null;
+            {
+              EObject _target_1 = relation.getLeftEnding().getTarget();
+              this.lEnt = ((Entity) _target_1);
+              _xblockexpression = null;
+            }
+            _builder.append(_xblockexpression);
             _builder.newLineIfNotEmpty();
           } else {
-            boolean _equalsIgnoreCase_3 = a.getType().toString().equalsIgnoreCase("money");
-            if (_equalsIgnoreCase_3) {
-              _builder.append(" NUMERIC NOT NULL,");
-              _builder.newLineIfNotEmpty();
-            } else {
-              boolean _equalsIgnoreCase_4 = a.getType().toString().equalsIgnoreCase("double");
-              if (_equalsIgnoreCase_4) {
-                _builder.append(" FLOAT NOT NULL,");
-                _builder.newLineIfNotEmpty();
-              } else {
-                boolean _equalsIgnoreCase_5 = a.getType().toString().equalsIgnoreCase("boolean");
-                if (_equalsIgnoreCase_5) {
-                  _builder.append(" BOOLEAN NOT NULL,");
-                  _builder.newLineIfNotEmpty();
-                } else {
-                  boolean _equalsIgnoreCase_6 = a.getType().toString().equalsIgnoreCase("file");
-                  if (_equalsIgnoreCase_6) {
-                    _builder.append(" BLOB,");
-                    _builder.newLineIfNotEmpty();
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLAttTypeCheckerNtoNLeft(final ERModel e, final Relation r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          String _string = aux.getName().toString();
-          String _string_1 = r.getLeftEnding().getTarget().toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
+            Object _xblockexpression_1 = null;
             {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    {
-                      boolean _equalsIgnoreCase = aux2.getType().toString().equalsIgnoreCase("string");
-                      if (_equalsIgnoreCase) {
-                        _builder.append(" VARCHAR (255) NOT NULL,");
-                        _builder.newLineIfNotEmpty();
-                      } else {
-                        boolean _equalsIgnoreCase_1 = aux2.getType().toString().equalsIgnoreCase("int");
-                        if (_equalsIgnoreCase_1) {
-                          _builder.append(" INT NOT NULL,");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          boolean _equalsIgnoreCase_2 = aux2.getType().toString().equalsIgnoreCase("datetime");
-                          if (_equalsIgnoreCase_2) {
-                            _builder.append(" DATE NOT NULL,");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            boolean _equalsIgnoreCase_3 = aux2.getType().toString().equalsIgnoreCase("money");
-                            if (_equalsIgnoreCase_3) {
-                              _builder.append(" NUMERIC NOT NULL,");
-                              _builder.newLineIfNotEmpty();
-                            } else {
-                              boolean _equalsIgnoreCase_4 = aux2.getType().toString().equalsIgnoreCase("double");
-                              if (_equalsIgnoreCase_4) {
-                                _builder.append(" FLOAT NOT NULL,");
-                                _builder.newLineIfNotEmpty();
-                              } else {
-                                boolean _equalsIgnoreCase_5 = aux2.getType().toString().equalsIgnoreCase("boolean");
-                                if (_equalsIgnoreCase_5) {
-                                  _builder.append(" BOOLEAN NOT NULL,");
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_6 = aux2.getType().toString().equalsIgnoreCase("file");
-                                  if (_equalsIgnoreCase_6) {
-                                    _builder.append(" BLOB,");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              EObject _target_1 = relation.getLeftEnding().getTarget();
+              this.lRel = ((Relation) _target_1);
+              _xblockexpression_1 = null;
             }
+            _builder.append(_xblockexpression_1);
+            _builder.newLineIfNotEmpty();
           }
         }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLAttTypeCheckerNtoNRight(final ERModel e, final Relation r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
         {
-          String _string = aux.getName().toString();
-          String _string_1 = r.getRightEnding().getTarget().toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
+          EObject _target_1 = relation.getRightEnding().getTarget();
+          if ((_target_1 instanceof Entity)) {
+            Object _xblockexpression_2 = null;
             {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    {
-                      boolean _equalsIgnoreCase = aux2.getType().toString().equalsIgnoreCase("string");
-                      if (_equalsIgnoreCase) {
-                        _builder.append(" VARCHAR (255) NOT NULL,");
-                        _builder.newLineIfNotEmpty();
-                      } else {
-                        boolean _equalsIgnoreCase_1 = aux2.getType().toString().equalsIgnoreCase("int");
-                        if (_equalsIgnoreCase_1) {
-                          _builder.append(" INT NOT NULL,");
-                          _builder.newLineIfNotEmpty();
-                        } else {
-                          boolean _equalsIgnoreCase_2 = aux2.getType().toString().equalsIgnoreCase("datetime");
-                          if (_equalsIgnoreCase_2) {
-                            _builder.append(" DATE NOT NULL,");
-                            _builder.newLineIfNotEmpty();
-                          } else {
-                            boolean _equalsIgnoreCase_3 = aux2.getType().toString().equalsIgnoreCase("money");
-                            if (_equalsIgnoreCase_3) {
-                              _builder.append(" NUMERIC NOT NULL,");
-                              _builder.newLineIfNotEmpty();
-                            } else {
-                              boolean _equalsIgnoreCase_4 = aux2.getType().toString().equalsIgnoreCase("double");
-                              if (_equalsIgnoreCase_4) {
-                                _builder.append(" REAL NOT NULL,");
-                                _builder.newLineIfNotEmpty();
-                              } else {
-                                boolean _equalsIgnoreCase_5 = aux2.getType().toString().equalsIgnoreCase("boolean");
-                                if (_equalsIgnoreCase_5) {
-                                  _builder.append(" BOOLEAN NOT NULL,");
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_6 = aux2.getType().toString().equalsIgnoreCase("file");
-                                  if (_equalsIgnoreCase_6) {
-                                    _builder.append(" BLOB,");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+              EObject _target_2 = relation.getRightEnding().getTarget();
+              this.rEnt = ((Entity) _target_2);
+              _xblockexpression_2 = null;
             }
+            _builder.append(_xblockexpression_2);
+            _builder.newLineIfNotEmpty();
+          } else {
+            Object _xblockexpression_3 = null;
+            {
+              EObject _target_2 = relation.getRightEnding().getTarget();
+              this.rRel = ((Relation) _target_2);
+              _xblockexpression_3 = null;
+            }
+            _builder.append(_xblockexpression_3);
+            _builder.newLineIfNotEmpty();
           }
         }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLDiscoverPKtoFK(final ERModel e, final String r, final int i) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("<font color=\"#505050\">Relationship: ");
         {
-          String _string = aux.getName().toString();
-          String _string_1 = r.toString();
-          boolean _equals = Objects.equal(_string, _string_1);
-          if (_equals) {
-            {
-              EList<Attribute> _attributes = aux.getAttributes();
-              for(final Attribute aux2 : _attributes) {
-                {
-                  boolean _isIsKey = aux2.isIsKey();
-                  if (_isIsKey) {
-                    String _lowerCase = aux2.getName().toString().toLowerCase();
-                    _builder.append(_lowerCase);
-                  }
-                }
-                {
-                  if (((i - 1) == 0)) {
-                    _builder.append(",");
-                  }
-                }
-              }
+          boolean _isNullOrEmpty = StringExtensions.isNullOrEmpty(relation.getName());
+          if (_isNullOrEmpty) {
+            _builder.append(" <i>_UnnamedEntity_</i> ");
+          } else {
+            boolean _isNullOrEmpty_1 = StringExtensions.isNullOrEmpty(relation.getName());
+            boolean _not = (!_isNullOrEmpty_1);
+            if (_not) {
+              String _name = relation.getName();
+              _builder.append(_name);
             }
           }
         }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLDiscoverAutoInheritedPKtoFK(final ERModel e, final String r) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity auxE : _entities) {
-        {
-          boolean _equalsIgnoreCase = auxE.getName().equalsIgnoreCase(r.toString());
-          if (_equalsIgnoreCase) {
-            {
-              EList<Entity> _entities_1 = e.getEntities();
-              for(final Entity auxE2 : _entities_1) {
-                {
-                  if (((auxE.getIs() != null) && auxE2.getName().toString().equalsIgnoreCase(auxE.getIs().toString()))) {
-                    {
-                      EList<Attribute> _attributes = auxE2.getAttributes();
-                      for(final Attribute auxAtt : _attributes) {
-                        {
-                          boolean _isIsKey = auxAtt.isIsKey();
-                          if (_isIsKey) {
-                            String _lowerCase = auxAtt.getName().toString().toLowerCase();
-                            _builder.append(_lowerCase);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLDiscoverInheritedPKtoFK(final ERModel e, final String r, final int i, final String isAutoRel) {
-    StringConcatenation _builder = new StringConcatenation();
-    int auxi = i;
-    {
-      EList<Entity> _entities = e.getEntities();
-      for(final Entity aux : _entities) {
-        {
-          EList<Attribute> _attributes = aux.getAttributes();
-          for(final Attribute aux2 : _attributes) {
-            {
-              if ((aux2.getName().toString().equalsIgnoreCase(r.toString()) && aux2.isIsKey())) {
-                String _lowerCase = aux.getName().toString().toLowerCase();
-                _builder.append(_lowerCase);
-                _builder.append(" (");
-                String _lowerCase_1 = aux2.getName().toString().toLowerCase();
-                _builder.append(_lowerCase_1);
-                _builder.append(")");
-                {
-                  EList<Relation> _relations = e.getRelations();
-                  for(final Relation rAux : _relations) {
-                    {
-                      if (((rAux.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || rAux.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (rAux.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || rAux.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)")))) {
-                        {
-                          if ((isAutoRel.equalsIgnoreCase(rAux.getLeftEnding().getTarget().toString()) && isAutoRel.equalsIgnoreCase(rAux.getRightEnding().getTarget().toString()))) {
-                            Object _xblockexpression = null;
-                            {
-                              auxi = (auxi - 1);
-                              _xblockexpression = null;
-                            }
-                            _builder.append(_xblockexpression);
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-                {
-                  if (((auxi - 1) == 0)) {
-                    _builder.append(",");
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLVerifyFKsAttributesRelation1to1(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    CharSequence _mySQLAttTypeChecker = this.mySQLAttTypeChecker(aux2);
-                                    _builder.append(_mySQLAttTypeChecker);
-                                    _builder.append(" ");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                EList<Entity> _entities_1 = e.getEntities();
-                                for(final Entity entityAux : _entities_1) {
-                                  {
-                                    boolean _equalsIgnoreCase_2 = entityAux.getName().equalsIgnoreCase(aux.getIs().toString());
-                                    if (_equalsIgnoreCase_2) {
-                                      {
-                                        EList<Attribute> _attributes_1 = entityAux.getAttributes();
-                                        for(final Attribute attAux : _attributes_1) {
-                                          {
-                                            boolean _isIsKey_1 = attAux.isIsKey();
-                                            if (_isIsKey_1) {
-                                              CharSequence _mySQLAttTypeChecker_1 = this.mySQLAttTypeChecker(attAux);
-                                              _builder.append(_mySQLAttTypeChecker_1);
-                                              _builder.newLineIfNotEmpty();
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLVerifyFKsAttributesRelation1toN(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    CharSequence _mySQLAttTypeChecker = this.mySQLAttTypeChecker(attTest);
-                                    _builder.append(_mySQLAttTypeChecker);
-                                    _builder.append(" ");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  String _lowerCase = relation.getName().toString().toLowerCase();
-                                  _builder.append(_lowerCase);
-                                  _builder.append(" ");
-                                  {
-                                    EList<Entity> _entities_1 = e.getEntities();
-                                    for(final Entity aux2 : _entities_1) {
-                                      {
-                                        boolean _equalsIgnoreCase_3 = aux2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                        if (_equalsIgnoreCase_3) {
-                                          {
-                                            EList<Entity> _entities_2 = e.getEntities();
-                                            for(final Entity aux3 : _entities_2) {
-                                              {
-                                                boolean _equalsIgnoreCase_4 = aux3.getName().equalsIgnoreCase(aux2.getIs().toString());
-                                                if (_equalsIgnoreCase_4) {
-                                                  {
-                                                    EList<Attribute> _attributes_1 = aux3.getAttributes();
-                                                    for(final Attribute aux4 : _attributes_1) {
-                                                      {
-                                                        boolean _isIsKey_1 = aux4.isIsKey();
-                                                        if (_isIsKey_1) {
-                                                          CharSequence _mySQLAttTypeCheckerUnnamed = this.mySQLAttTypeCheckerUnnamed(aux4);
-                                                          _builder.append(_mySQLAttTypeCheckerUnnamed);
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_5);
-                                  if (_not_1) {
-                                    String _lowerCase_1 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(" ");
-                                    {
-                                      EList<Entity> _entities_3 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_3) {
-                                        {
-                                          boolean _equalsIgnoreCase_6 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_6) {
-                                            {
-                                              EList<Entity> _entities_4 = e.getEntities();
-                                              for(final Entity aux3_1 : _entities_4) {
-                                                {
-                                                  boolean _equalsIgnoreCase_7 = aux3_1.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_7) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3_1.getAttributes();
-                                                      for(final Attribute aux4_1 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4_1.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            CharSequence _mySQLAttTypeCheckerUnnamed_1 = this.mySQLAttTypeCheckerUnnamed(aux4_1);
-                                                            _builder.append(_mySQLAttTypeCheckerUnnamed_1);
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQL_COUNT_FKsRelation1to1(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    Object _xblockexpression = null;
-                                    {
-                                      int _globalFKcounter_1to1 = this.globalFKcounter_1to1;
-                                      this.globalFKcounter_1to1 = (_globalFKcounter_1to1 + 1);
-                                      _xblockexpression = null;
-                                    }
-                                    _builder.append(_xblockexpression);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              Object _xblockexpression_1 = null;
-                              {
-                                int _globalFKcounter_1to1 = this.globalFKcounter_1to1;
-                                this.globalFKcounter_1to1 = (_globalFKcounter_1to1 + 1);
-                                _xblockexpression_1 = null;
-                              }
-                              _builder.append(_xblockexpression_1);
-                              _builder.newLineIfNotEmpty();
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLDefineFKsRelation1to1(final ERModel e, final String ename, final int count) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    _builder.append("ALTER TABLE public.");
-                                    String _lowerCase = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper);
-                                    _builder.append("_");
-                                    String _firstUpper_1 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_1);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_1 = aux2.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_2 = aux.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_2);
-                                    _builder.append(" (");
-                                    String _lowerCase_3 = aux2.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_3);
-                                    _builder.append(");");
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              _builder.append("ALTER TABLE public.");
-                              String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                              _builder.append(_lowerCase_4);
-                              _builder.append(" ADD CONSTRAINT fk_");
-                              String _firstUpper_2 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                              _builder.append(_firstUpper_2);
-                              _builder.append("_");
-                              String _firstUpper_3 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                              _builder.append(_firstUpper_3);
-                              _builder.append(" FOREIGN KEY (");
-                              {
-                                EList<Entity> _entities_1 = e.getEntities();
-                                for(final Entity entityAux : _entities_1) {
-                                  {
-                                    boolean _equalsIgnoreCase_2 = entityAux.getName().equalsIgnoreCase(aux.getIs().toString());
-                                    if (_equalsIgnoreCase_2) {
-                                      {
-                                        EList<Attribute> _attributes_1 = entityAux.getAttributes();
-                                        for(final Attribute attAux : _attributes_1) {
-                                          {
-                                            boolean _isIsKey_1 = attAux.isIsKey();
-                                            if (_isIsKey_1) {
-                                              String _lowerCase_5 = attAux.getName().toString().toLowerCase();
-                                              _builder.append(_lowerCase_5);
-                                              _builder.append(") REFERENCES public.");
-                                              String _lowerCase_6 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                              _builder.append(_lowerCase_6);
-                                              _builder.append(" (");
-                                              String _lowerCase_7 = attAux.getName().toString().toLowerCase();
-                                              _builder.append(_lowerCase_7);
-                                              _builder.append(");");
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQL_COUNT_FKsRelation1toN(final ERModel e, final String ename) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
+        _builder.append(" <i class=\"fa fa-long-arrow-right\" aria-hidden=\"true\"></i>");
         _builder.newLineIfNotEmpty();
         {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    Object _xblockexpression = null;
-                                    {
-                                      int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                      this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                      _xblockexpression = null;
-                                    }
-                                    _builder.append(_xblockexpression);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  Object _xblockexpression_1 = null;
-                                  {
-                                    int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                    this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                    _xblockexpression_1 = null;
-                                  }
-                                  _builder.append(_xblockexpression_1);
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_3);
-                                  if (_not_1) {
-                                    Object _xblockexpression_2 = null;
-                                    {
-                                      int _globalFKcounter_1toN = this.globalFKcounter_1toN;
-                                      this.globalFKcounter_1toN = (_globalFKcounter_1toN + 1);
-                                      _xblockexpression_2 = null;
-                                    }
-                                    _builder.append(_xblockexpression_2);
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLDefineFKsRelation1toN(final ERModel e, final String ename, final int count) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(ename);
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute attTest : _attributes) {
-                                {
-                                  boolean _isIsKey = attTest.isIsKey();
-                                  if (_isIsKey) {
-                                    _builder.append("ALTER TABLE public.");
-                                    String _lowerCase = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper);
-                                    _builder.append("_");
-                                    String _firstUpper_1 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_1);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_1 = attTest.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_1);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_2 = aux.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_2);
-                                    _builder.append(" (");
-                                    String _lowerCase_3 = attTest.getName().toString().toLowerCase();
-                                    _builder.append(_lowerCase_3);
-                                    _builder.append(");");
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              {
-                                boolean _equalsIgnoreCase_2 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_2) {
-                                  _builder.append("ALTER TABLE public.");
-                                  String _lowerCase_4 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                  _builder.append(_lowerCase_4);
-                                  _builder.append(" ADD CONSTRAINT fk_");
-                                  String _firstUpper_2 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                  _builder.append(_firstUpper_2);
-                                  _builder.append("_");
-                                  String _firstUpper_3 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                  _builder.append(_firstUpper_3);
-                                  _builder.append(" FOREIGN KEY (");
-                                  String _lowerCase_5 = relation.getName().toString().toLowerCase();
-                                  _builder.append(_lowerCase_5);
-                                  _builder.append(") REFERENCES public.");
-                                  String _lowerCase_6 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                  _builder.append(_lowerCase_6);
-                                  _builder.append(" (");
-                                  {
-                                    EList<Entity> _entities_1 = e.getEntities();
-                                    for(final Entity aux2 : _entities_1) {
-                                      {
-                                        boolean _equalsIgnoreCase_3 = aux2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                        if (_equalsIgnoreCase_3) {
-                                          {
-                                            EList<Entity> _entities_2 = e.getEntities();
-                                            for(final Entity aux3 : _entities_2) {
-                                              {
-                                                boolean _equalsIgnoreCase_4 = aux3.getName().equalsIgnoreCase(aux2.getIs().toString());
-                                                if (_equalsIgnoreCase_4) {
-                                                  {
-                                                    EList<Attribute> _attributes_1 = aux3.getAttributes();
-                                                    for(final Attribute aux4 : _attributes_1) {
-                                                      {
-                                                        boolean _isIsKey_1 = aux4.isIsKey();
-                                                        if (_isIsKey_1) {
-                                                          String _lowerCase_7 = aux4.getName().toString().toLowerCase();
-                                                          _builder.append(_lowerCase_7);
-                                                          _builder.append(");");
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                } else {
-                                  boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_5);
-                                  if (_not_1) {
-                                    _builder.append("ALTER TABLE public.");
-                                    String _lowerCase_8 = relation.getRightEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_8);
-                                    _builder.append(" ADD CONSTRAINT fk_");
-                                    String _firstUpper_4 = StringExtensions.toFirstUpper(relation.getRightEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_4);
-                                    _builder.append("_");
-                                    String _firstUpper_5 = StringExtensions.toFirstUpper(relation.getLeftEnding().getTarget().toString());
-                                    _builder.append(_firstUpper_5);
-                                    _builder.append(" FOREIGN KEY (");
-                                    String _lowerCase_9 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_9);
-                                    _builder.append(") REFERENCES public.");
-                                    String _lowerCase_10 = relation.getLeftEnding().getTarget().toString().toLowerCase();
-                                    _builder.append(_lowerCase_10);
-                                    _builder.append(" (");
-                                    {
-                                      EList<Entity> _entities_3 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_3) {
-                                        {
-                                          boolean _equalsIgnoreCase_6 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_6) {
-                                            {
-                                              EList<Entity> _entities_4 = e.getEntities();
-                                              for(final Entity aux3_1 : _entities_4) {
-                                                {
-                                                  boolean _equalsIgnoreCase_7 = aux3_1.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_7) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3_1.getAttributes();
-                                                      for(final Attribute aux4_1 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4_1.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            String _lowerCase_11 = aux4_1.getName().toString().toLowerCase();
-                                                            _builder.append(_lowerCase_11);
-                                                            _builder.append(");");
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-    return _builder;
-  }
-  
-  private CharSequence mySQLHaveFK(final ERModel e, final Entity entity) {
-    StringConcatenation _builder = new StringConcatenation();
-    {
-      EList<Relation> _relations = e.getRelations();
-      for(final Relation relation : _relations) {
-        {
-          if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
-            {
-              boolean _equalsIgnoreCase = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName().toString());
-              if (_equalsIgnoreCase) {
-                {
-                  EList<Entity> _entities = e.getEntities();
-                  for(final Entity aux : _entities) {
-                    {
-                      boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux.getName());
-                      if (_equalsIgnoreCase_1) {
-                        {
-                          Entity _is = aux.getIs();
-                          boolean _tripleEquals = (_is == null);
-                          if (_tripleEquals) {
-                            {
-                              EList<Attribute> _attributes = aux.getAttributes();
-                              for(final Attribute aux2 : _attributes) {
-                                {
-                                  boolean _isIsKey = aux2.isIsKey();
-                                  if (_isIsKey) {
-                                    String _xblockexpression = null;
-                                    {
-                                      this.myListFKs.add(aux2.getName());
-                                      _xblockexpression = "";
-                                    }
-                                    _builder.append(_xblockexpression);
-                                  }
-                                }
-                                _builder.newLineIfNotEmpty();
-                              }
-                            }
-                            _builder.append("\t\t\t\t\t\t\t");
-                          } else {
-                            Entity _is_1 = aux.getIs();
-                            boolean _tripleEquals_1 = (_is_1 == null);
-                            boolean _not = (!_tripleEquals_1);
-                            if (_not) {
-                              String _xblockexpression_1 = null;
-                              {
-                                this.myListFKs.add(aux.getIs().toString());
-                                _xblockexpression_1 = "";
-                              }
-                              _builder.append(_xblockexpression_1);
-                            }
-                          }
-                        }
-                        _builder.newLineIfNotEmpty();
-                      }
-                    }
-                  }
-                }
-              }
-            }
+          if ((!(this.lEnt == null))) {
+            String _name_1 = this.lEnt.getName();
+            _builder.append(_name_1);
+            _builder.newLineIfNotEmpty();
           } else {
-            if ((((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:1)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:N)"))) || ((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)"))))) {
-              {
-                boolean _equalsIgnoreCase_2 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity.getName().toString());
-                if (_equalsIgnoreCase_2) {
-                  {
-                    EList<Entity> _entities_1 = e.getEntities();
-                    for(final Entity aux_1 : _entities_1) {
-                      {
-                        boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(aux_1.getName());
-                        if (_equalsIgnoreCase_3) {
-                          {
-                            Entity _is_2 = aux_1.getIs();
-                            boolean _tripleEquals_2 = (_is_2 == null);
-                            if (_tripleEquals_2) {
-                              {
-                                EList<Attribute> _attributes_1 = aux_1.getAttributes();
-                                for(final Attribute attTest : _attributes_1) {
-                                  {
-                                    boolean _isIsKey_1 = attTest.isIsKey();
-                                    if (_isIsKey_1) {
-                                      String _xblockexpression_2 = null;
-                                      {
-                                        this.myListFKs.add(attTest.getName());
-                                        _xblockexpression_2 = "";
-                                      }
-                                      _builder.append(_xblockexpression_2);
-                                    }
-                                  }
-                                  _builder.newLineIfNotEmpty();
-                                }
-                              }
-                            } else {
-                              Entity _is_3 = aux_1.getIs();
-                              boolean _tripleEquals_3 = (_is_3 == null);
-                              boolean _not_1 = (!_tripleEquals_3);
-                              if (_not_1) {
-                                {
-                                  boolean _equalsIgnoreCase_4 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_4) {
-                                    {
-                                      EList<Entity> _entities_2 = e.getEntities();
-                                      for(final Entity aux2_1 : _entities_2) {
-                                        {
-                                          boolean _equalsIgnoreCase_5 = aux2_1.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                          if (_equalsIgnoreCase_5) {
-                                            {
-                                              EList<Entity> _entities_3 = e.getEntities();
-                                              for(final Entity aux3 : _entities_3) {
-                                                {
-                                                  boolean _equalsIgnoreCase_6 = aux3.getName().equalsIgnoreCase(aux2_1.getIs().toString());
-                                                  if (_equalsIgnoreCase_6) {
-                                                    {
-                                                      EList<Attribute> _attributes_2 = aux3.getAttributes();
-                                                      for(final Attribute aux4 : _attributes_2) {
-                                                        {
-                                                          boolean _isIsKey_2 = aux4.isIsKey();
-                                                          if (_isIsKey_2) {
-                                                            String _xblockexpression_3 = null;
-                                                            {
-                                                              this.myListFKs.add(aux3.getName());
-                                                              _xblockexpression_3 = "";
-                                                            }
-                                                            _builder.append(_xblockexpression_3);
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
-                                    _builder.newLineIfNotEmpty();
-                                  } else {
-                                    boolean _equalsIgnoreCase_7 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                    boolean _not_2 = (!_equalsIgnoreCase_7);
-                                    if (_not_2) {
-                                      {
-                                        EList<Entity> _entities_4 = e.getEntities();
-                                        for(final Entity aux2_2 : _entities_4) {
-                                          {
-                                            boolean _equalsIgnoreCase_8 = aux2_2.getName().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                            if (_equalsIgnoreCase_8) {
-                                              {
-                                                EList<Entity> _entities_5 = e.getEntities();
-                                                for(final Entity aux3_1 : _entities_5) {
-                                                  {
-                                                    boolean _equalsIgnoreCase_9 = aux3_1.getName().equalsIgnoreCase(aux2_2.getIs().toString());
-                                                    if (_equalsIgnoreCase_9) {
-                                                      {
-                                                        EList<Attribute> _attributes_3 = aux3_1.getAttributes();
-                                                        for(final Attribute aux4_1 : _attributes_3) {
-                                                          {
-                                                            boolean _isIsKey_3 = aux4_1.isIsKey();
-                                                            if (_isIsKey_3) {
-                                                              String _xblockexpression_4 = null;
-                                                              {
-                                                                this.myListFKs.add(aux4_1.getName());
-                                                                _xblockexpression_4 = "";
-                                                              }
-                                                              _builder.append(_xblockexpression_4);
-                                                            }
-                                                          }
-                                                        }
-                                                      }
-                                                    }
-                                                  }
-                                                }
-                                              }
-                                            }
-                                          }
-                                        }
-                                      }
-                                      _builder.newLineIfNotEmpty();
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+            if ((!(this.lRel == null))) {
+              String _name_2 = this.lRel.getName();
+              _builder.append(_name_2);
+              _builder.newLineIfNotEmpty();
             }
           }
         }
+        String _string = relation.getLeftEnding().getCardinality().toString();
+        _builder.append(_string);
+        _builder.append(" relates ");
+        String _cardinality = relation.getRightEnding().getCardinality();
+        _builder.append(_cardinality);
+        _builder.newLineIfNotEmpty();
+        {
+          if ((!(this.rEnt == null))) {
+            String _name_3 = this.rEnt.getName();
+            _builder.append(_name_3);
+            _builder.newLineIfNotEmpty();
+          } else {
+            if ((!(this.rRel == null))) {
+              String _name_4 = this.rRel.getName();
+              _builder.append(_name_4);
+              _builder.newLineIfNotEmpty();
+            }
+          }
+        }
+        _builder.append("</font></br>");
+        _builder.newLine();
+        _builder.newLine();
+        Object _xblockexpression_4 = null;
+        {
+          this.lEnt = null;
+          _xblockexpression_4 = null;
+        }
+        _builder.append(_xblockexpression_4);
+        Object _xblockexpression_5 = null;
+        {
+          this.rEnt = null;
+          _xblockexpression_5 = null;
+        }
+        _builder.append(_xblockexpression_5);
+        _builder.newLineIfNotEmpty();
+        Object _xblockexpression_6 = null;
+        {
+          this.lRel = null;
+          _xblockexpression_6 = null;
+        }
+        _builder.append(_xblockexpression_6);
+        Object _xblockexpression_7 = null;
+        {
+          this.rRel = null;
+          _xblockexpression_7 = null;
+        }
+        _builder.append(_xblockexpression_7);
+        _builder.newLineIfNotEmpty();
       }
     }
+    _builder.newLine();
+    _builder.append("</div>");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
     return _builder;
-  }
-  
-  public CharSequence plotToPlantUML(final EObject it) {
-    if (it instanceof ERModel) {
-      return _plotToPlantUML((ERModel)it);
-    } else if (it instanceof Entity) {
-      return _plotToPlantUML((Entity)it);
-    } else if (it instanceof Relation) {
-      return _plotToPlantUML((Relation)it);
-    } else {
-      throw new IllegalArgumentException("Unhandled parameter types: " +
-        Arrays.<Object>asList(it).toString());
-    }
   }
 }
