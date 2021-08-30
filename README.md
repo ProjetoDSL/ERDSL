@@ -107,8 +107,9 @@
 
 ---
 
-# Contributions, suggestions, and bug reports are extremely welcome - please create an issue or contact the maintainer.
+Initially made by **[Jon](https://jonnathanriquelmo.github.io)** of **[LESSE](http://lesse.com.br/site/)** research group. This project is licensed under the **[EPL-2.0](https://github.com/ProjetoDSL/ERDSL/blob/master/LICENSE "EPL-2.0")** license.
 
----
+<a href="http://with-eclipse.github.io/" target="_blank">
+<img alt="with-Eclipse logo" src="http://with-eclipse.github.io/with-eclipse-0.jpg" />
+</a>
 
-Initially made by **[Jonnathan](https://jonnathanriquelmo.github.io)** of **[LESSE](http://lesse.com.br/site/)** research group. This project is licensed under the **[EPL-2.0](https://github.com/ProjetoDSL/ERDSL/blob/master/LICENSE "EPL-2.0")** license.
