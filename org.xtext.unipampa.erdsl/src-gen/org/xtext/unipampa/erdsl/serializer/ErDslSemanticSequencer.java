@@ -100,7 +100,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *
 	 * Constraint:
 	 *     (
-	 *         (targetGenerator='LogicalSchema' | targetGenerator='PostgreSQL' | targetGenerator='MySQL' | targetGenerator='All')? 
+	 *         (targetGenerator='LogicalSchema' | targetGenerator='PostgreSQL' | targetGenerator='MySQL' | targetGenerator='Diagram' | targetGenerator='All')? 
 	 *         domain=Domain 
 	 *         entities+=Entity+ 
 	 *         relations+=Relation*

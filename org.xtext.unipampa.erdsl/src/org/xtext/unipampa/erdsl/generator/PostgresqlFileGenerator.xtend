@@ -50,8 +50,7 @@ class PostgresqlFileGenerator extends AbstractGenerator {
 -- Database: «e.domain.name.toUpperCase»	
 -- DROP DATABASE «e.domain.name.toUpperCase»;
 CREATE DATABASE «e.domain.name.toUpperCase»
-    WITH 
-    OWNER = postgres
+    WITH OWNER = postgres
     ENCODING = 'UTF8'
     TABLESPACE = pg_default
     CONNECTION LIMIT = -1; «var ListExendPKsLenght = 0»

@@ -111,15 +111,26 @@ ruleERModel returns [EObject current=null]
 							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_3, null);
 						}
 						    |
-						lv_targetGenerator_1_4=All
+						lv_targetGenerator_1_4=Diagram
 						{
-							newLeafNode(lv_targetGenerator_1_4, grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_3());
+							newLeafNode(lv_targetGenerator_1_4, grammarAccess.getERModelAccess().getTargetGeneratorDiagramKeyword_0_1_0_3());
 						}
 						{
 							if ($current==null) {
 								$current = createModelElement(grammarAccess.getERModelRule());
 							}
 							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_4, null);
+						}
+						    |
+						lv_targetGenerator_1_5=All
+						{
+							newLeafNode(lv_targetGenerator_1_5, grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_4());
+						}
+						{
+							if ($current==null) {
+								$current = createModelElement(grammarAccess.getERModelRule());
+							}
+							setWithLastConsumed($current, "targetGenerator", lv_targetGenerator_1_5, null);
 						}
 					)
 				)

@@ -50,6 +50,7 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("Domain", "'Domain'");
 		tokenNameToValue.put("Double", "'double'");
 		tokenNameToValue.put("String", "'string'");
+		tokenNameToValue.put("Diagram", "'Diagram'");
 		tokenNameToValue.put("Boolean", "'boolean'");
 		tokenNameToValue.put("Relates", "'relates'");
 		tokenNameToValue.put("Entities", "'Entities'");
@@ -298,9 +299,15 @@ rule__ERModel__TargetGeneratorAlternatives_0_1_0
 	)
 	|
 	(
-		{ before(grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_3()); }
+		{ before(grammarAccess.getERModelAccess().getTargetGeneratorDiagramKeyword_0_1_0_3()); }
+		Diagram
+		{ after(grammarAccess.getERModelAccess().getTargetGeneratorDiagramKeyword_0_1_0_3()); }
+	)
+	|
+	(
+		{ before(grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_4()); }
 		All
-		{ after(grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_3()); }
+		{ after(grammarAccess.getERModelAccess().getTargetGeneratorAllKeyword_0_1_0_4()); }
 	)
 ;
 finally {

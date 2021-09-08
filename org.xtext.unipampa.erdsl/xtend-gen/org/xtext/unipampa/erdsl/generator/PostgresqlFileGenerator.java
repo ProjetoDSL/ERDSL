@@ -81,10 +81,7 @@ public class PostgresqlFileGenerator extends AbstractGenerator {
     _builder.append(_upperCase_2);
     _builder.newLineIfNotEmpty();
     _builder.append("    ");
-    _builder.append("WITH ");
-    _builder.newLine();
-    _builder.append("    ");
-    _builder.append("OWNER = postgres");
+    _builder.append("WITH OWNER = postgres");
     _builder.newLine();
     _builder.append("    ");
     _builder.append("ENCODING = \'UTF8\'");

@@ -35,7 +35,8 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Keyword cTargetGeneratorLogicalSchemaKeyword_0_1_0_0 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(0);
 		private final Keyword cTargetGeneratorPostgreSQLKeyword_0_1_0_1 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(1);
 		private final Keyword cTargetGeneratorMySQLKeyword_0_1_0_2 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(2);
-		private final Keyword cTargetGeneratorAllKeyword_0_1_0_3 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(3);
+		private final Keyword cTargetGeneratorDiagramKeyword_0_1_0_3 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(3);
+		private final Keyword cTargetGeneratorAllKeyword_0_1_0_4 = (Keyword)cTargetGeneratorAlternatives_0_1_0.eContents().get(4);
 		private final Keyword cSemicolonKeyword_0_2 = (Keyword)cGroup_0.eContents().get(2);
 		private final Assignment cDomainAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final RuleCall cDomainDomainParserRuleCall_1_0 = (RuleCall)cDomainAssignment_1.eContents().get(0);
@@ -58,28 +59,28 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Keyword cSemicolonKeyword_8_1 = (Keyword)cGroup_8.eContents().get(1);
 		
 		//ERModel:
-		//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All') ';')?
 		//    domain=Domain ';'
 		//    ('Entities' '{') entities+=Entity+ ('}' ';')
 		//    ('Relationships' '{') relations+=Relation* ('}' ';');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All') ';')?
 		//domain=Domain ';'
 		//('Entities' '{') entities+=Entity+ ('}' ';')
 		//('Relationships' '{') relations+=Relation* ('}' ';')
 		public Group getGroup() { return cGroup; }
 		
-		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+		//('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All') ';')?
 		public Group getGroup_0() { return cGroup_0; }
 		
 		//'Generate'
 		public Keyword getGenerateKeyword_0_0() { return cGenerateKeyword_0_0; }
 		
-		//targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All')
+		//targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All')
 		public Assignment getTargetGeneratorAssignment_0_1() { return cTargetGeneratorAssignment_0_1; }
 		
-		//('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All')
+		//('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All')
 		public Alternatives getTargetGeneratorAlternatives_0_1_0() { return cTargetGeneratorAlternatives_0_1_0; }
 		
 		//'LogicalSchema'
@@ -91,8 +92,11 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		//'MySQL'
 		public Keyword getTargetGeneratorMySQLKeyword_0_1_0_2() { return cTargetGeneratorMySQLKeyword_0_1_0_2; }
 		
+		//'Diagram'
+		public Keyword getTargetGeneratorDiagramKeyword_0_1_0_3() { return cTargetGeneratorDiagramKeyword_0_1_0_3; }
+		
 		//'All'
-		public Keyword getTargetGeneratorAllKeyword_0_1_0_3() { return cTargetGeneratorAllKeyword_0_1_0_3; }
+		public Keyword getTargetGeneratorAllKeyword_0_1_0_4() { return cTargetGeneratorAllKeyword_0_1_0_4; }
 		
 		//';'
 		public Keyword getSemicolonKeyword_0_2() { return cSemicolonKeyword_0_2; }
@@ -339,7 +343,6 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final RuleCall cAttributesAttributeParserRuleCall_2_2_1_0 = (RuleCall)cAttributesAssignment_2_2_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
-		////generalization=('TD' | 'TO' | 'PD' | 'PO')
 		//Relation:
 		//    (name=ID)? ('[' leftEnding=RelationSideLeft
 		//    'relates'
@@ -678,7 +681,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 
 	
 	//ERModel:
-	//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'All') ';')?
+	//    ('Generate' targetGenerator= ('LogicalSchema' | 'PostgreSQL' | 'MySQL' | 'Diagram' | 'All') ';')?
 	//    domain=Domain ';'
 	//    ('Entities' '{') entities+=Entity+ ('}' ';')
 	//    ('Relationships' '{') relations+=Relation* ('}' ';');
@@ -722,7 +725,6 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		return getEntityAccess().getRule();
 	}
 	
-	////generalization=('TD' | 'TO' | 'PD' | 'PO')
 	//Relation:
 	//    (name=ID)? ('[' leftEnding=RelationSideLeft
 	//    'relates'

@@ -11,11 +11,6 @@ import org.xtext.unipampa.erdsl.erDsl.Attribute
 
 class HtmlFileGenerator extends AbstractGenerator {
 	
-	var Entity lEnt;
-	var Entity rEnt;
-	var Relation lRel;
-	var Relation rRel;
-	
 	override doGenerate(Resource input, IFileSystemAccess2 fsa, IGeneratorContext context) {
 		
 		val modeloER = input.contents.get(0) as ERModel
@@ -24,7 +19,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 	
 	}
 	
-	def CreateLogical(ERModel modeloER) '''
+	def CreateLogical(ERModel modeloER) '''		
 		«html_Head»
 		
 		«html_DomainMapping(modeloER)»
@@ -32,7 +27,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 		«html_EntitiesMapping(modeloER)»
 		
 		«html_RelationshipsMapping(modeloER)»
-		
+				
 		«html_Footer»
 	'''
 	
@@ -52,14 +47,54 @@ class HtmlFileGenerator extends AbstractGenerator {
 			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 			
 			<style>
-			    body    { background: #ffffff; border: 1px solid black, padding: 5px 0 5px 0}
-			    .title  { font: bold 160% serif; color: #0066FF; padding: 10px 0 10px 0; text-align: center; background: #ccc8c8}
-			    .stitle { font: bold 120% sans-serif; color: #0044DD; padding: 10px 0 10px 0 }
-			    .sstitle{ font: bold 120% serif; color: #000000; background: #efefef; padding: 5px 0 5px 0; padding-left: 20px;}
-			    .field  { font: 100% sans-serif; color: #000000; padding: 2px; padding-left: 50px; border: 0px solid black}
-			    .value  { font: 100% sans-serif; color: #505050 }
-			    footer 	{ text-align: center; padding: 3px; border: 1px; background-color: #ccc8c8; color: white;}
-			</style>
+			      body {
+			        background: #ffffff;
+			        border: 1px solid black, padding: 5px 0 5px 0
+			      }
+			
+			      .title {
+			        font: bold 160% serif;
+			        color: #0066FF;
+			        padding: 10px 0 10px 0;
+			        text-align: center;
+			        background: #ccc8c8
+			      }
+			
+			      .stitle {
+			        font: bold 120% sans-serif;
+			        color: #0044DD;
+			        padding: 10px 0 10px 0
+			      }
+			
+			      .sstitle {
+			        font: bold 120% serif;
+			        color: #000000;
+			        background: #efefef;
+			        padding: 5px 0 5px 0;
+			        padding-left: 20px;
+			      }
+			
+			      .field {
+			        font: 100% sans-serif;
+			        color: #000000;
+			        padding: 2px;
+			        padding-left: 50px;
+			        border: 0px solid black
+			      }
+			
+			      .value {
+			        font: 100% sans-serif;
+			        color: #505050
+			      }
+			
+			      footer {
+			        text-align: center;
+			        padding: 3px;
+			        border: 1px;
+			        background-color: #ccc8c8;
+			        color: white;
+			      }
+			    </style>
 		</head>
 		<body> 
 		<div class="panel">
@@ -68,12 +103,10 @@ class HtmlFileGenerator extends AbstractGenerator {
 	'''
 	
 	def private html_Footer()'''
-	</p>
-	</div>	
-	</body>
 		<footer>
 		  <p><a href="https://github.com/ProjetoDSL/ERDSL">github.com/ProjetoDSL/ERDSL</a></p>
 		</footer>
+	</body>
 	</html>
 	'''
 	
@@ -83,10 +116,10 @@ class HtmlFileGenerator extends AbstractGenerator {
 	def private html_DomainMapping (ERModel m) '''
 	<p class="sstitle">
 	<a href="#domain" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
-	&nbsp Modelled Domain
+	&nbsp; Domain
 	</p>
 	<div id="domain" class="panel-body collapse in">
-	<p class="field">«m.domain.name.toUpperCase»</p>
+	<p class="field"><span class="label label-pill label-primary">«m.domain.name.toUpperCase»</span></p>
 	</div>	
 	
 	'''
@@ -100,23 +133,25 @@ class HtmlFileGenerator extends AbstractGenerator {
 	<hr style="width:100%;text-align:left;margin-left:0">
 	<p class="sstitle">
 	<a href="#entities" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
-	&nbsp Resulting Entities
+	&nbsp; Entities
 	</p>	 
 	<div id="entities" class="panel-body collapse in">
 	<p class="field">
 	
-		«FOR entity : m.entities SEPARATOR " )</br></br>" AFTER ")</br>"»
-			«html_EntityNameTag(entity)» ( «html_AtributesMapping(m, entity)»
+		«FOR entity : m.entities SEPARATOR " ]<br/><br/>" AFTER "]<br/>"»
+			«html_EntityNameTag(entity.name)» [ «html_AtributesMapping(m, entity)»
 		«ENDFOR»	
 	
 	«html_NtoN_EntityCreation(m)»
-	
+	«html_Ternary_EntityCreation(m)»
 	</div>
 	'''
-	def private html_EntityNameTag (Entity e) '''
-	<span class="badge badge-secondary">«e.name.toUpperCase»</span>
+	
+	def private html_EntityNameTag (String o) '''
+	<span class="label label-pill label-primary">«o.toUpperCase»</span>
 	'''
 	
+		
 	/**
 	*
 	* Verification and display of primary (PK) and, at the same time, foreign (FK) 
@@ -126,35 +161,37 @@ class HtmlFileGenerator extends AbstractGenerator {
 	* @param e The analyzed entity.
 	*/	
 	def private html_AtributesMapping (ERModel m, Entity e) '''
-		«FOR att : e.attributes SEPARATOR ", "»
-			«IF att.isIsKey»
-				«html_AttributeStyleForPK(att)»
-			«ELSE»
-				«att.name»
-			«ENDIF»
+		«var boolean hasPK = false»
+		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " | "»
+			«html_AttributeStyleForPK(att)»
+			«{hasPK=true;null}»
+		«ENDFOR»		
+		
+		«FOR att : e.attributes.filter[!isIsKey] BEFORE if (hasPK) {" | "} SEPARATOR " | "»
+			«att.name»
 		«ENDFOR»
+		«{hasPK=false;null}»
+		
 		«IF e.is !== null»
-			«FOR PKInherited : e.is.attributes»
-				«IF PKInherited.isIsKey»
-					, «html_AttributeStyleForInheritedPK(PKInherited)»
-				«ENDIF»
+			«FOR PKInherited : e.is.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+				«html_AttributeStyleForInheritedPK(PKInherited)»
 			«ENDFOR»
 		«ENDIF»
 		«html_1To1_RefCheck(m, e)»
 		«html_1ToN_RefCheck(m, e)»
 	'''
 	
-	def private html_AttributeStyleForPK (Attribute a) '''
-		<font color="red"><i class="fa fa-key" aria-hidden="true"></i></font>«a.name.toLowerCase»
+	def private html_AttributeStyleForPK (Attribute a) '''<font color="red"><i class="fa fa-key" aria-hidden="true"></i></font> «a.name.toLowerCase»'''
+	
+	def private html_AttributeStyleForInheritedPK (Attribute a) '''<font color="red"><i class="fa fa-key" aria-hidden="true"></i></font><font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «a.name.toLowerCase»'''
+	
+	def private html_AttributeStyleForInheritedPK (Entity e) '''
+		«FOR attribute : e.attributes.filter[isIsKey] SEPARATOR " | "»
+			<font color="red"><i class="fa fa-key" aria-hidden="true"></i></font><font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «attribute.name.toLowerCase»
+		«ENDFOR»
 	'''
 	
-	def private html_AttributeStyleForInheritedPK (Attribute a) '''
-		<font color="red"><i class="fa fa-key" aria-hidden="true"></i></font><font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font>«a.name.toLowerCase»
-	'''
-	
-	def private html_AttributeStyleForFK (Attribute a) '''
-		<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font>«a.name.toLowerCase»
-	'''
+	def private html_AttributeStyleForFK (Attribute a) '''<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «a.name.toLowerCase»'''
 	
 	def private html_1To1_RefCheck(ERModel m, Entity e) '''
 		«FOR relation : m.relations»		
@@ -165,15 +202,22 @@ class HtmlFileGenerator extends AbstractGenerator {
 					«FOR aux : m.entities»
 						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
 							«IF aux.is === null»
-								«FOR aux2 : aux.attributes»
-									«IF aux2.isIsKey» «/*FIXME precisa implementar um autogenerate para casos em que a tabela foi modelada sem chave primária e sem herança*/»
-										, «html_AttributeStyleForFK(aux2)»_fk#1:1=1
-									«ENDIF»
-								«ENDFOR»
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«FOR aux2 : aux.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+										«html_AttributeStyleForFK(aux2)»_fk
+									«ENDFOR»
+								«ELSE»
+									«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
+								«ENDIF»
+							
+								«/*FIXME precisa implementar um autogenerate para casos em que a tabela foi modelada sem chave primária e sem herança*/»
+							
 							«ELSEIF aux.is !== null»
-								«FOR aux3 : aux.is.attributes»
-									«IF aux3.isIsKey»
-										, «html_AttributeStyleForFK(aux3)»_fk#1:1=2
+								«FOR aux3 : aux.is.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+									«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+										«html_AttributeStyleForFK(aux3)»_fk
+									«ELSE»
+										«html_AttributeStyleForFK(aux3)+"_"+relation.name.toLowerCase»_fk
 									«ENDIF»
 								«ENDFOR»								
 							«ENDIF»
@@ -195,15 +239,17 @@ class HtmlFileGenerator extends AbstractGenerator {
 					«FOR aux : m.entities»
 						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
 							«IF aux.is === null»
-«««								, <font color="blue"><b>«aux.name»_fk 1</b></font>
-								«html_ListPKtoFK(aux)»#1
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK(aux)»
+								«ELSE»
+								 	«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
+								«ENDIF»
 							«ELSEIF aux.is !== null»
 								«IF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
-									, <font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font>«relation.name.toString»_fk#2
+									«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
 								«ELSEIF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
-«««									, <font color="blue"><b>«relation.leftEnding.target.toString»_fk 3</b></font>
 										«{temp = relation.leftEnding.target as Entity; null;}»
-										«html_ListPKtoFK(temp.is)»#3
+										«html_ListPKtoFK(temp.is)»
 								«ENDIF»
 							«ENDIF»
 						«ENDIF»
@@ -217,14 +263,20 @@ class HtmlFileGenerator extends AbstractGenerator {
 					«FOR aux : m.entities»
 						«IF relation.rightEnding.target.toString.equalsIgnoreCase(aux.name)»
 							«IF aux.is === null»
-								«html_ListPKtoFK(aux)»#4
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK(aux)»
+								«ELSE»
+									«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
+								«ENDIF»
 							«ELSEIF aux.is !== null»
-								«IF relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString)»
-									, <font color="blue"><b>«relation.name.toString»_fk#5</b></font>
+								«IF relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString)» 
+									
+									«/*FIXME verificar a questão de autorelacionamento de entidades que tem mais de uma pk */»
+									
+									«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
 								«ELSEIF !relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString)»
-«««									, <font color="blue"><b>«relation.leftEnding.target.toString»_fk 6</b></font>
-										«{temp = relation.leftEnding.target as Entity; null;}»
-										«html_ListPKtoFK(temp.is)»#6
+										«{temp = relation.rightEnding.target as Entity; null;}»
+										«html_ListPKtoFK(temp.is)»
 								«ENDIF»
 							«ENDIF»
 						«ENDIF»
@@ -250,81 +302,149 @@ class HtmlFileGenerator extends AbstractGenerator {
 			«IF relation.leftEnding.target instanceof Entity && relation.rightEnding.target instanceof Entity»
 				
 				«IF relation.name.nullOrEmpty»
-				</br><span class="badge badge-secondary">«relation.leftEnding.target.toString.toUpperCase»_«relation.rightEnding.target.toString.toUpperCase»</span> (
+					<br/>«html_EntityNameTag(relation.leftEnding.target.toString.toUpperCase+"_"+relation.rightEnding.target.toString.toUpperCase)» [
 				«ELSEIF !relation.name.nullOrEmpty»
-				</br><span class="badge badge-secondary">«relation.name.toUpperCase»</span> (
+					<br/>«html_EntityNameTag(relation.name)» [
 				«ENDIF»				
+				
 				«FOR entity : m.entities»
-					
-					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString !== relation.rightEnding.target.toString)»
-	«««					«FOR attribute : entity.attributes»
-	«««						«IF attribute.isIsKey»
-								<font color="blue"><b>«relation.leftEnding.target.toString»_fk</b></font>,
-	«««						«ENDIF»
-	«««					«ENDFOR»
+					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && !(relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
+						«FOR attribute : entity.attributes.filter[isIsKey] SEPARATOR " | "»
+							«html_AttributeStyleForInheritedPK(attribute)»_fk
+						«ENDFOR»
 					«ENDIF»
-					
-					«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString !== relation.leftEnding.target.toString)»
-	«««					«FOR attribute : entity.attributes»
-	«««						«IF attribute.isIsKey»
-								<font color="blue"><b>«relation.rightEnding.target.toString»_fk</b></font>
-	«««						«ENDIF»
-	«««					«ENDFOR»
+				«ENDFOR»
+				
+				«FOR entity : m.entities»
+					«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && !(relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
+						«FOR attribute : entity.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+							«html_AttributeStyleForInheritedPK(attribute)»_fk
+						«ENDFOR»
 					«ENDIF»
-					
+				«ENDFOR»
+				
+				«FOR entity : m.entities»
 					«/**
 					 *
 					 * Display of self-relationships N:N
 					 *  
 					 */»				
 					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
-						«FOR attribute : entity.attributes»
-							«IF attribute.isIsKey»
-								<font color="blue"><b>«attribute.name»__fk1</b></font>,
-							«ENDIF»
+						«FOR attribute : entity.attributes.filter[isKey] SEPARATOR " | "»
+							«html_AttributeStyleForInheritedPK(attribute)»_fk_1 
 						«ENDFOR»
 					«ENDIF»
 					
 					«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»
-						«FOR attribute : entity.attributes»
-							«IF attribute.isIsKey»
-								<font color="blue"><b>«attribute.name»__fk2</b></font>
-							«ENDIF»
+						«FOR attribute : entity.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+							«html_AttributeStyleForInheritedPK(attribute)»_fk_2
 						«ENDFOR»
 					«ENDIF»					
 				«ENDFOR»	
 				
 				«/**
 				 *
-				 * Display of attributes of N: N relationships
+				 * Display of attributes of N:N relationships
 				 *  
 				 */»			
-				«FOR attribute : relation.attributes»
-					«IF !attribute.name.nullOrEmpty && attribute.isIsKey»
-						, <font color="red"><b>«attribute.name»*</b></font>
-					«ENDIF»
+				«FOR attribute : relation.attributes.filter[i| !i.name.nullOrEmpty && i.isIsKey] BEFORE " | " SEPARATOR " | "»
+					«html_AttributeStyleForPK(attribute)»
 				«ENDFOR»
-	
-				«FOR attribute : relation.attributes»
-					«IF !attribute.name.nullOrEmpty && !attribute.isIsKey»
-						, «attribute.name»
-					«ENDIF»
+				«FOR attribute : relation.attributes.filter[i| !i.name.nullOrEmpty && !i.isIsKey] BEFORE " | " SEPARATOR " | "»
+					«attribute.name.toLowerCase»
 				«ENDFOR»
-						
-				)</br>
-				
+				]<br/>	
 			«ENDIF»
 		«ENDIF»
-		«ENDFOR»
-		</br>
+		«ENDFOR»		
+	'''
+	
+	def private html_Ternary_EntityCreation (ERModel m) '''
+		«/* Var para manipular o relacionamento N para N */»
+		«var Relation tempRel»
 		
+		«/* Busca uma relação que tem outra relação em um dos lados */»
+		«FOR relation : m.relations.filter[i| i.leftEnding.target instanceof Relation || i.rightEnding.target instanceof Relation] SEPARATOR "] <br/>" AFTER "] <br/>"»
+			
+			«IF relation.name.nullOrEmpty»
+			
+				<br/>«html_EntityNameTag(relation.leftEnding.target.toString.toUpperCase+"_"+relation.rightEnding.target.toString.toUpperCase)» [
+			
+			«ELSEIF !relation.name.nullOrEmpty»
+			
+				<br/>«html_EntityNameTag(relation.name)» [
+			
+			«ENDIF»	
+			
+			«/* Busca o lado dessa relação que aponta para uma entidade */»
+			«IF relation.leftEnding.target instanceof Entity»
+			
+				«html_AttributeStyleForInheritedPK(relation.leftEnding.target as Entity)»
+			
+			«ELSEIF relation.rightEnding.target instanceof Entity»
+			
+				«html_AttributeStyleForInheritedPK(relation.rightEnding.target as Entity)»
+			
+			«ENDIF»
+			
+			|
+			
+			«IF relation.leftEnding.target instanceof Relation»
+			
+				«{tempRel = relation.leftEnding.target as Relation; null}»
+			
+				«html_AttributeStyleForInheritedPK(tempRel.leftEnding.target as Entity)»
+			|
+				«html_AttributeStyleForInheritedPK(tempRel.rightEnding.target as Entity)»
+			
+			«ELSEIF relation.rightEnding.target instanceof Relation»
+			
+				«{tempRel = relation.rightEnding.target as Relation; null}»
+				
+				«html_AttributeStyleForInheritedPK(tempRel.leftEnding.target as Entity)»
+			|
+				«html_AttributeStyleForInheritedPK(tempRel.rightEnding.target as Entity)»
+			«ENDIF»
+			
+			
+			
+			«/* Se a relação tiver PKs ou atributos, escreve. */»
+			«FOR attribute : relation.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+		
+				«html_AttributeStyleForPK(attribute)»
+		
+			«ENDFOR»
+			
+			«FOR attribute : relation.attributes.filter[!isIsKey] BEFORE " | " SEPARATOR " | "»
+			
+				«attribute.name.toLowerCase»
+			
+			«ENDFOR»
+		
+		«ENDFOR»
 	'''
 	
 	def private html_ListPKtoFK (Entity e) '''
-		«FOR att : e.attributes»
-			«IF att.isIsKey»
-				, <font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font>«att.name»_fk
-			«ENDIF»
+		«FOR att : e.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+			<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «att.name.toLowerCase»_fk
+		«ENDFOR»
+	'''
+
+	def private html_ListPKtoFK_Alt (Entity e) '''
+		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+			<font color="blue">«att.name.toLowerCase»_fk</font>
+		«ENDFOR»
+	'''
+	
+	def private html_ListPKtoFK_SelfRelationship (Entity e, String r) '''
+		«FOR att : e.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+			<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «att.name.toLowerCase+"_"+r»_fk
+		«ENDFOR»
+	'''
+	
+	def private html_ListPKtoFK_SelfRelationship_Alt (Entity e, String r) '''
+		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+			<font color="blue">«att.name.toLowerCase+"_"+r»_fk</font>
 		«ENDFOR»
 	'''
 	
@@ -332,46 +452,260 @@ class HtmlFileGenerator extends AbstractGenerator {
 		<hr style="width:100%;text-align:left;margin-left:0">
 		<p class="sstitle">
 		<a href="#references" class="btn btn-primary" data-toggle="collapse"><i class="fa fa-arrows-v" aria-hidden="true"></i></a>
-		&nbsp Mapped References
+		&nbsp; References
 		</p>	 
 		<div id="references" class="panel-body collapse in">	
 		<p class="field">	
-		«FOR relation : m.relations SEPARATOR "</br></br>"»
-			«IF relation.leftEnding.target instanceof Entity»
-				«{lEnt = relation.leftEnding.target as Entity;null}»
-			«ELSE»
-				«{lRel = relation.leftEnding.target as Relation;null}»
-			«ENDIF»
-			«IF relation.rightEnding.target instanceof Entity»
-				«{rEnt = relation.rightEnding.target as Entity;null}»
-			«ELSE»
-				«{rRel = relation.rightEnding.target as Relation;null}»
-			«ENDIF»
-
-			«/* FIXME: precisa implementar a funçao de concatenação para relaçao sem nome */»
-
-			<font color="#505050">Relationship: «IF relation.name.nullOrEmpty» <i>_UnnamedEntity_</i> «ELSEIF !relation.name.nullOrEmpty»«relation.name»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
-			«IF this.lEnt !== null»
-				«this.lEnt.name»
-			«ELSEIF this.lRel !== null»
-				«this.lRel.name»
-			«ENDIF» 
-			«relation.leftEnding.cardinality.toString» relates «relation.rightEnding.cardinality»
-			«IF this.rEnt !== null»
-				«this.rEnt.name»
-			«ELSEIF this.rRel !== null»
-				«this.rRel.name»
-			«ENDIF»
-			</font></br>
-			
-			«{this.lEnt = null;null}»«{this.rEnt = null;null}»
-			«{this.lRel = null;null}»«{this.rRel = null;null}»
-		«ENDFOR»
 		
+		«html_GeneralizationSpecialization_Relationship(m)»
+		«html_1To1_Relationships(m)»
+		«html_1ToN_Relationships(m)»
+		«html_NToN_Relationships(m)»
+		«html_Ternary_Relationships(m)»
 		</div>
-	
+	'''
+
+	def private html_GeneralizationSpecialization_Relationship(ERModel m) '''
+		«FOR subclass : m.entities.filter[i|i.is !== null]»
+			<br/>
+			<font color="#505050"><span class="label label-pill label-danger"># Generalization/Specialization</span></br></br>
+			Attribute (<font color="blue"><b>
+			«FOR superclassAtt : subclass.is.attributes.filter[isIsKey] SEPARATOR " , "»
+				«superclassAtt.name.toLowerCase»
+			«ENDFOR»	
+			</b></font>) in «html_EntityNameTag(subclass.toString)» references «html_EntityNameTag(subclass.is.toString)»
+			</br>
+		«ENDFOR»	
 	'''
 	
+	def private html_BinaryRelationshipNameStyle(String nameRel, String leftNameRel, String rightNameRel, String leftCardinaltyRel, String rightCardinaltyRel) '''
+		<br/>
+		<font color="#505050"><span class="label label-pill label-success">## Binary Relationship</span></br></br>
+		«IF nameRel.blank» <i>_UnnamedEntity_</i> «ELSEIF !nameRel.blank»«nameRel.toUpperCase»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+		«leftNameRel.toUpperCase+" "+leftCardinaltyRel.toUpperCase» relates «rightCardinaltyRel.toUpperCase+" "+ rightNameRel.toUpperCase»
+		</font>
+		<br/>
+	'''
+	
+	def private html_1To1_Relationships (ERModel m) '''
+		«FOR relation : m.relations.filter[i|i.leftEnding.target instanceof Entity && i.rightEnding.target instanceof Entity]»	
+			«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+			&& 
+			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
+				
+				«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
+
+				Attribute (<font color="blue"><b> 
+				«FOR aux : m.entities»
+					«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
+						«IF aux.is === null»
+							«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+								«FOR aux2 : aux.attributes.filter[isIsKey]»
+								«aux2.name.toLowerCase»_fk
+								«ENDFOR»
+							«ELSE»
+								«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
+							«ENDIF»						
+						«ELSEIF aux.is !== null»
+							«FOR aux3 : aux.is.attributes.filter[isIsKey] SEPARATOR " , "»
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«aux3.name.toLowerCase»_fk
+								«ELSE»
+									«aux3.name.toLowerCase+"_"+relation.name.toLowerCase»_fk
+								«ENDIF»
+							«ENDFOR»								
+						«ENDIF»
+					«ENDIF»
+				«ENDFOR»
+			</b></font>) in «html_EntityNameTag(relation.rightEnding.target.toString)» references «html_EntityNameTag(relation.leftEnding.target.toString)»
+			</br>
+			«ENDIF»	
+		«ENDFOR»
+	'''
+	
+	def private html_1ToN_Relationships (ERModel m) '''
+	«var Entity temp»
+	«FOR relation : m.relations.filter[i|i.leftEnding.target instanceof Entity && i.rightEnding.target instanceof Entity]»
+			«IF (((relation.leftEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:1)'))
+					&& 
+					(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))))»
+				
+			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
+				
+			Attribute (<font color="blue"><b> 
+					«FOR aux : m.entities»
+						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
+							«IF aux.is === null»
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK_Alt(aux)»
+								«ELSEIF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK_SelfRelationship_Alt(aux, relation.name.toLowerCase)»
+								«ENDIF»
+							«ELSEIF aux.is !== null»
+								«IF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK_SelfRelationship_Alt(aux, relation.name.toLowerCase)»
+								«ELSEIF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+										«{temp = relation.leftEnding.target as Entity; null;}»
+										«html_ListPKtoFK_Alt(temp.is)»
+								«ENDIF»
+							«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+			</b></font>) in «html_EntityNameTag(relation.rightEnding.target.toString)» references «html_EntityNameTag(relation.leftEnding.target.toString)»
+			</br>
+			«ELSEIF (((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+					&& 
+					(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))))»
+			
+			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
+			
+			Attribute (<font color="blue"><b>
+					«FOR aux : m.entities»
+						«IF relation.rightEnding.target.toString.equalsIgnoreCase(aux.name)»
+							«IF aux.is === null»
+								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK_Alt(aux)»
+								«ELSEIF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+									«html_ListPKtoFK_SelfRelationship_Alt(aux, relation.name.toLowerCase)»
+								«ENDIF»
+							«ELSEIF aux.is !== null»
+								«IF relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString)» 
+									
+									«/*FIXME verificar a questão de autorelacionamento de entidades que tem mais de uma pk */»
+									
+									«html_ListPKtoFK_SelfRelationship_Alt(aux, relation.name.toLowerCase)»
+								«ELSEIF !relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString)»
+										«{temp = relation.rightEnding.target as Entity; null;}»
+										«html_ListPKtoFK_Alt(temp.is)»
+								«ENDIF»
+							«ENDIF»
+						«ENDIF»
+					«ENDFOR»
+			</b></font>) in «html_EntityNameTag(relation.leftEnding.target.toString)» references «html_EntityNameTag(relation.rightEnding.target.toString)»
+			</br>
+				«ENDIF»
+			«ENDFOR»	
+	'''
+	
+	def private html_NToN_Relationships(ERModel m) '''
+		
+		«FOR relation : m.relations.filter[i|i.leftEnding.target instanceof Entity && i.rightEnding.target instanceof Entity]»
+			
+			«IF ((relation.leftEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.leftEnding.cardinality.equalsIgnoreCase('(1:N)'))
+			&& 
+			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
+			
+			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
+			
+			Attribute (<font color="blue"><b> 
+			
+			«html_ListPKtoFK_Alt(relation.leftEnding.target as Entity)»
+			
+			</b></font>) in «html_EntityNameTag(relation.name)» references «html_EntityNameTag(relation.leftEnding.target.toString)»
+			</br></br>
+			
+			Attribute (<font color="blue"><b> 
+			
+			«html_ListPKtoFK_Alt(relation.rightEnding.target as Entity)»			
+						
+			</b></font>) in «html_EntityNameTag(relation.name)» references «html_EntityNameTag(relation.rightEnding.target.toString)»
+			</br>
+			
+			«ENDIF»
+			
+		«ENDFOR»	
+	'''
+	
+
+	def private html_Ternary_Relationships(ERModel m) '''
+		«FOR relation : m.relations.filter[i|i.leftEnding.target instanceof Relation || i.rightEnding.target instanceof Relation] SEPARATOR "</br"»
+			<br/><font color="#505050"><span class="label label-pill label-warning">### Ternary Relationship</span></br></br>
+			
+			<font color="#505050">«IF relation.name.nullOrEmpty» <i>_Unnamed_</i> «ELSEIF !relation.name.nullOrEmpty»«relation.name.toUpperCase»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
+			«relation.leftEnding.target.toString.toUpperCase+" "+relation.leftEnding.cardinality.toString.toUpperCase» relates «relation.rightEnding.cardinality.toUpperCase+" "+ relation.rightEnding.target.toString.toUpperCase»
+			</font><br/>	
+			«html_Ternary_Relationships_Attributes(m, relation)»
+		«ENDFOR»
+	'''
+	
+	def private html_Ternary_Relationships_Attributes(ERModel m, Relation r)'''
+		«var Entity objEntity»
+		«var Relation objRelation»
+		
+		Attribute (<font color="blue"><b>
+		
+		«IF r.leftEnding.target instanceof Entity»
+		
+			«{objEntity = r.leftEnding.target as Entity; null}»
+		
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+		
+		</b></font>) in «html_EntityNameTag(r.name)» references «html_EntityNameTag(r.leftEnding.target.toString)»
+		</br></br>
+		
+		«ELSEIF r.rightEnding.target instanceof Entity»
+		
+			«{objEntity = r.rightEnding.target as Entity; null}»
+		
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+		
+		</b></font>) in «html_EntityNameTag(r.name)» references «html_EntityNameTag(r.rightEnding.target.toString)»
+		</br></br>
+		
+		«ENDIF»
+		
+		
+		
+		
+		«IF r.leftEnding.target instanceof Relation»
+			
+			«{objRelation = r.leftEnding.target as Relation; null}»
+			
+			«{objEntity = objRelation.leftEnding.target as Entity; null}»
+			
+			Attribute (<font color="blue"><b>
+			
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , " AFTER " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+			
+			«{objEntity = objRelation.rightEnding.target as Entity; null}»
+			
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+			
+			</b></font>) in «html_EntityNameTag(r.name)» references «html_EntityNameTag(r.leftEnding.target.toString)»
+			</br></br>
+
+		«ELSEIF r.rightEnding.target instanceof Relation»
+			
+			«{objRelation = r.rightEnding.target as Relation; null}»
+		
+			«{objEntity = objRelation.leftEnding.target as Entity; null}»
+			
+			Attribute (<font color="blue"><b>
+			
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , " AFTER " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+			
+			«{objEntity = objRelation.rightEnding.target as Entity; null}»
+			
+			«FOR att : objEntity.attributes.filter[isIsKey] SEPARATOR " , "»
+				«att.name.toString.toLowerCase»
+			«ENDFOR»
+			
+			</b></font>) in «html_EntityNameTag(r.name)» references «html_EntityNameTag(r.rightEnding.target.toString)»
+			</br></br>
+		
+		«ENDIF»
+		
+	'''
 	
 
 }
