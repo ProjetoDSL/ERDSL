@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Automatic-Module-Name: org.xtext.unipampa.erdsl
+Bundle-ManifestVersion: 2
+Bundle-Name: org.xtext.unipampa.erdsl
+Bundle-Vendor: My Company
+Bundle-Version: 1.0.0.qualifier
+Bundle-SymbolicName: org.xtext.unipampa.erdsl; singleton:=true
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.xtext,
+ org.eclipse.xtext.xbase,
+ org.eclipse.equinox.common;bundle-version="3.5.0",
+ org.eclipse.emf.ecore,
+ org.eclipse.xtext.xbase.lib;bundle-version="2.14.0",
+ org.eclipse.xtext.util,
+ org.eclipse.emf.common,
+ org.antlr.runtime;bundle-version="[3.2.0,3.2.1)",
+ org.eclipse.xtend.lib;bundle-version="2.14.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: org.xtext.unipampa.erdsl.erDsl,
+ org.xtext.unipampa.erdsl.serializer,
+ org.xtext.unipampa.erdsl.services,
+ org.xtext.unipampa.erdsl.erDsl.util,
+ org.xtext.unipampa.erdsl,
+ org.xtext.unipampa.erdsl.erDsl.impl,
+ org.xtext.unipampa.erdsl.parser.antlr.internal,
+ org.xtext.unipampa.erdsl.generator,
+ org.xtext.unipampa.erdsl.scoping,
+ org.xtext.unipampa.erdsl.parser.antlr,
+ org.xtext.unipampa.erdsl.validation,
+ org.xtext.unipampa.erdsl.parser.antlr.lexer
+Import-Package: org.apache.log4j

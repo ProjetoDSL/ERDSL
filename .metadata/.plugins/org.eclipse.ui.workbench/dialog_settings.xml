@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
-	<section name="ImportExportAction">
+	<section name="NewWizardAction">
+		<item key="NewWizardSelectionPage.STORE_SELECTED_ID" value="org.eclipse.xtext.xtext.ui.wizard.project.NewXtextProjectWizard"/>
+		<list key="NewWizardSelectionPage.STORE_EXPANDED_CATEGORIES_ID">
+			<item value="org.eclipse.xtend.ide.wizards"/>
+			<item value="org.eclipse.xtend.ide.wizards/org.eclipse.xtend.project.Examples"/>
+			<item value="org.eclipse.xtext.projectwiz"/>
+			<item value="org.eclipse.xtext.projectwiz/org.eclipse.xtext.project.Examples"/>
+			<item value="org.eclipse.ui.Examples"/>
+			<item value="org.eclipse.ui.Examples/org.eclipse.xtend.ui.Examples"/>
+			<item value="org.eclipse.ui.Examples/org.eclipse.xtext.ui.Examples"/>
+		</list>
 	</section>
 </section>

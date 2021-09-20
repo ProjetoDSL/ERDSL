@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete 2 elements from project &apos;org.xtext.unipampa.erdsl.ide&apos;&#x0A;- Original project: &apos;org.xtext.unipampa.erdsl.ide&apos;&#x0A;- Original elements:&#x0A;     org.xtext.unipampa.erdsl.ide.ErDslIdeModule.java&#x0A;     org.xtext.unipampa.erdsl.ide.ErDslIdeSetup.java" description="Delete elements" element1="/src&lt;org.xtext.unipampa.erdsl.ide{ErDslIdeModule.java" element2="/src&lt;org.xtext.unipampa.erdsl.ide{ErDslIdeSetup.java" elements="2" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1632104405399" subPackages="false" version="1.0"/>
+</session>

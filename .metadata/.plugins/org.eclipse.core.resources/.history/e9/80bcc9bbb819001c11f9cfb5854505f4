@@ -1,0 +1,9 @@
+grammar org.xtext.unipampa.erdsl.ErDsl with org.eclipse.xtext.common.Terminals
+
+generate erDsl "http://www.xtext.org/unipampa/erdsl/ErDsl"
+
+Model:
+	greetings+=Greeting*;
+	
+Greeting:
+	'Hello' name=ID '!';
