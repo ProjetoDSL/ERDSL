@@ -20,7 +20,7 @@ Entity:
 	(',' attributes+=Attribute)* '}')?;
 
 Relation:
-	(name=ID)? ('[' leftEnding=RelationSideLeft
+	(name=ID) ('[' leftEnding=RelationSideLeft
 	'relates'
 	rightEnding=RelationSideRight ']')
 	('{' attributes+=Attribute

@@ -1,10 +1,10 @@
-package org.xtext.unipampa.erdsl.generator;
+package org.xtext.unipampa.erdsl.generator
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.generator.AbstractGenerator;
-import org.eclipse.xtext.generator.IFileSystemAccess2;
-import org.eclipse.xtext.generator.IGeneratorContext;
-import org.xtext.unipampa.erdsl.erDsl.ERModel;
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.generator.AbstractGenerator
+import org.eclipse.xtext.generator.IFileSystemAccess2
+import org.eclipse.xtext.generator.IGeneratorContext
+import org.xtext.unipampa.erdsl.erDsl.ERModel
 import org.xtext.unipampa.erdsl.erDsl.Entity
 import org.xtext.unipampa.erdsl.erDsl.Relation
 import org.xtext.unipampa.erdsl.erDsl.Attribute
@@ -15,11 +15,19 @@ class HtmlFileGenerator extends AbstractGenerator {
 		
 		val modeloER = input.contents.get(0) as ERModel
 	
-		fsa.generateFile('LogicalSchema_' + modeloER.domain.name + '.html', CreateLogical(modeloER))
-	
+		try {
+			
+			fsa.generateFile('Logical_Textual_Scheme.html', CreateLogical(modeloER))
+		
+		} catch (Exception e) {
+			
+			println(e.stackTrace.toString)
+
+		}
+			
 	}
 	
-	def CreateLogical(ERModel modeloER) '''		
+	def private CreateLogical(ERModel modeloER) '''		
 		«html_Head»
 		
 		«html_DomainMapping(modeloER)»
@@ -27,7 +35,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 		«html_EntitiesMapping(modeloER)»
 		
 		«html_RelationshipsMapping(modeloER)»
-				
+		
 		«html_Footer»
 	'''
 	
@@ -139,7 +147,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 	<p class="field">
 	
 		«FOR entity : m.entities SEPARATOR " ]<br/><br/>" AFTER "]<br/>"»
-			«html_EntityNameTag(entity.name)» [ «html_AtributesMapping(m, entity)»
+			«html_EntityNameTag(entity.name)» [ «html_AttributesMapping(m, entity)»
 		«ENDFOR»	
 	
 	«html_NtoN_EntityCreation(m)»
@@ -160,7 +168,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 	*  2) If it exists, the key that references the parent is written being primary and foreign at the same time
 	* @param e The analyzed entity.
 	*/	
-	def private html_AtributesMapping (ERModel m, Entity e) '''
+	def private html_AttributesMapping (ERModel m, Entity e) '''
 		«var boolean hasPK = false»
 		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " | "»
 			«html_AttributeStyleForPK(att)»

@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.xtext.scoping.IScope;
 import org.eclipse.xtext.scoping.Scopes;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
-import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
@@ -27,12 +26,6 @@ public class ErDslScopeProvider extends AbstractErDslScopeProvider {
   public IScope getScope(final EObject context, final EReference reference) {
     if ((context instanceof Entity)) {
       if (true) {
-        String _string = ((Entity)context).getName().toString();
-        String _plus = ("ENTIDADE\n CONTEXTO = " + _string);
-        InputOutput.<String>println(_plus);
-        String _string_1 = reference.getName().toString();
-        String _plus_1 = (" REFERENCIA = " + _string_1);
-        InputOutput.<String>println(_plus_1);
       }
       EObject _eContainer = ((Entity)context).eContainer();
       final Function1<Entity, Boolean> _function = (Entity x) -> {
@@ -42,21 +35,7 @@ public class ErDslScopeProvider extends AbstractErDslScopeProvider {
     } else {
       if ((context instanceof Relation)) {
         if (true) {
-          String _string_2 = ((Relation)context).getName().toString();
-          String _plus_2 = ("RELAÇÃO\n CONTEXTO = " + _string_2);
-          InputOutput.<String>println(_plus_2);
-          String _string_3 = reference.getName().toString();
-          String _plus_3 = (" REFERENCIA = " + _string_3);
-          InputOutput.<String>println(_plus_3);
         }
-        EObject _eContainer_1 = ((Relation)context).eContainer();
-        IScope _scopeFor = Scopes.scopeFor(((ERModel) _eContainer_1).getEntities());
-        String _plus_4 = ("ENTIDADES: " + _scopeFor);
-        InputOutput.<String>println(_plus_4);
-        EObject _eContainer_2 = ((Relation)context).eContainer();
-        IScope _scopeFor_1 = Scopes.scopeFor(((ERModel) _eContainer_2).getRelations());
-        String _plus_5 = ("RELAÇÕES: " + _scopeFor_1);
-        InputOutput.<String>println(_plus_5);
       }
     }
     return super.getScope(context, reference);

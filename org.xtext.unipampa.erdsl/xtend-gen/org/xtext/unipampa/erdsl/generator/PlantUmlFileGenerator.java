@@ -4,6 +4,7 @@ import com.google.common.collect.Iterables;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
+import java.util.List;
 import net.sourceforge.plantuml.SourceStringReader;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -13,7 +14,9 @@ import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IFileSystemAccessExtension3;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
@@ -23,9 +26,9 @@ import org.xtext.unipampa.erdsl.erDsl.Relation;
 public class PlantUmlFileGenerator extends AbstractGenerator {
   @Override
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
+    EObject _get = input.getContents().get(0);
+    final ERModel modeloER = ((ERModel) _get);
     try {
-      EObject _get = input.getContents().get(0);
-      final ERModel modeloER = ((ERModel) _get);
       Iterable<ERModel> _filter = Iterables.<ERModel>filter(input.getContents(), ERModel.class);
       for (final ERModel diagramModel : _filter) {
         {
@@ -33,27 +36,26 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
           if ((fsa instanceof IFileSystemAccessExtension3)) {
             final ByteArrayOutputStream out = new ByteArrayOutputStream();
             new SourceStringReader(plantUML).generateImage(out);
-            String _name = modeloER.getDomain().getName();
-            String _plus = (_name + "_diagram.png");
             byte[] _byteArray = out.toByteArray();
             ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
-            ((IFileSystemAccessExtension3) fsa).generateFile(_plus, _byteArrayInputStream);
-            String _name_1 = modeloER.getDomain().getName();
-            String _plus_1 = (_name_1 + "_diagramDescriptorGenerated.txt");
-            fsa.generateFile(_plus_1, plantUML);
+            ((IFileSystemAccessExtension3) fsa).generateFile("Diagram_(Conceptual_Model).png", _byteArrayInputStream);
+            fsa.generateFile("Diagram_DescriptorGenerated.puml", plantUML);
           } else {
-            String _name_2 = modeloER.getDomain().getName();
-            String _plus_2 = (_name_2 + "_diagramParcialDescriptorGenerated.txt");
-            fsa.generateFile(_plus_2, plantUML);
+            fsa.generateFile("Diagram_ParcialDescriptorGenerated.puml", plantUML);
           }
         }
       }
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        InputOutput.<String>println(((List<StackTraceElement>)Conversions.doWrapArray(e.getStackTrace())).toString());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
     }
   }
   
-  protected CharSequence _plotToPlantUML(final ERModel it) {
+  private CharSequence _plotToPlantUML(final ERModel it) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("@startuml");
     _builder.newLine();
@@ -71,7 +73,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\' skinparam titleBorderColor red");
     _builder.newLine();
-    _builder.append("scale 1.5");
+    _builder.append("scale 1.0");
     _builder.newLine();
     _builder.append("\' skinparam monochrome true");
     _builder.newLine();
@@ -127,7 +129,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  protected CharSequence _plotToPlantUML(final Entity it) {
+  private CharSequence _plotToPlantUML(final Entity it) {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("entity ");
     String _lowerCase = it.getName().toLowerCase();
@@ -167,7 +169,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  protected CharSequence _plotToPlantUML(final Relation it) {
+  private CharSequence _plotToPlantUML(final Relation it) {
     StringConcatenation _builder = new StringConcatenation();
     {
       if (((it.getLeftEnding().getTarget() instanceof Entity) && (it.getRightEnding().getTarget() instanceof Entity))) {
@@ -259,24 +261,24 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence defineLeftCardinalitySymbolUML(final String cd) {
+  private CharSequence defineLeftCardinalitySymbolUML(final String cd) {
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
       if (_equalsIgnoreCase) {
-        _builder.append(" |o");
+        _builder.append("\"(0:1)\" ");
       } else {
         boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
         if (_equalsIgnoreCase_1) {
-          _builder.append(" ||");
+          _builder.append("\"(1:1)\" ");
         } else {
           boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
           if (_equalsIgnoreCase_2) {
-            _builder.append(" }o");
+            _builder.append("\"(0:N)\" ");
           } else {
             boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
             if (_equalsIgnoreCase_3) {
-              _builder.append(" }|");
+              _builder.append("\"(1:N)\" ");
             }
           }
         }
@@ -285,24 +287,24 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence defineRightCardinalitySymbolUML(final String cd) {
+  private CharSequence defineRightCardinalitySymbolUML(final String cd) {
     StringConcatenation _builder = new StringConcatenation();
     {
       boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
       if (_equalsIgnoreCase) {
-        _builder.append("o| ");
+        _builder.append(" \"(0:1)\"");
       } else {
         boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
         if (_equalsIgnoreCase_1) {
-          _builder.append("|| ");
+          _builder.append(" \"(1:1)\" ");
         } else {
           boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
           if (_equalsIgnoreCase_2) {
-            _builder.append("o{ ");
+            _builder.append(" \"(0:N)\" ");
           } else {
             boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
             if (_equalsIgnoreCase_3) {
-              _builder.append("|{ ");
+              _builder.append(" \"(1:N)\" ");
             }
           }
         }
@@ -311,7 +313,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     return _builder;
   }
   
-  public CharSequence plotToPlantUML(final EObject it) {
+  private CharSequence plotToPlantUML(final EObject it) {
     if (it instanceof ERModel) {
       return _plotToPlantUML((ERModel)it);
     } else if (it instanceof Entity) {

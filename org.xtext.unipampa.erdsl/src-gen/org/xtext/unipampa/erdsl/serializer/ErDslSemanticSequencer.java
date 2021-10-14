@@ -159,7 +159,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *     Relation returns Relation
 	 *
 	 * Constraint:
-	 *     (name=ID? leftEnding=RelationSideLeft rightEnding=RelationSideRight (attributes+=Attribute attributes+=Attribute*)*)
+	 *     (name=ID leftEnding=RelationSideLeft rightEnding=RelationSideRight (attributes+=Attribute attributes+=Attribute*)*)
 	 */
 	protected void sequence_Relation(ISerializationContext context, Relation semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);

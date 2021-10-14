@@ -547,7 +547,7 @@ ruleRelation returns [EObject current=null]
 						"org.eclipse.xtext.common.Terminals.ID");
 				}
 			)
-		)?
+		)
 		(
 			otherlv_1=LeftSquareBracket
 			{

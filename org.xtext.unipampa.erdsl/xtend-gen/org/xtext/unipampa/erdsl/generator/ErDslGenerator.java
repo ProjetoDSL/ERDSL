@@ -3,11 +3,15 @@
  */
 package org.xtext.unipampa.erdsl.generator;
 
+import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 
@@ -30,33 +34,49 @@ public class ErDslGenerator extends AbstractGenerator {
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _get = resource.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
-    if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
-      String _string = modeloER.getTargetGenerator().toString();
-      boolean _matched = false;
-      boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logicalschema");
-      if (_equalsIgnoreCase) {
-        _matched=true;
+    try {
+      if (((!StringExtensions.isNullOrEmpty(modeloER.getTargetGenerator())) && (!modeloER.getTargetGenerator().equalsIgnoreCase("all")))) {
+        String _string = modeloER.getTargetGenerator().toString();
+        boolean _matched = false;
+        boolean _equalsIgnoreCase = modeloER.getTargetGenerator().toString().equalsIgnoreCase("logicalschema");
+        if (_equalsIgnoreCase) {
+          _matched=true;
+          this.htmlGenerator.doGenerate(resource, fsa, context);
+        }
+        if (!_matched) {
+          boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
+          if (_equalsIgnoreCase_1) {
+            _matched=true;
+            this.postGreSqlGenerator.doGenerate(resource, fsa, context);
+          }
+        }
+        if (!_matched) {
+          boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
+          if (_equalsIgnoreCase_2) {
+            _matched=true;
+            this.MySqlGenerator.doGenerate(resource, fsa, context);
+          }
+        }
+        if (!_matched) {
+          boolean _equalsIgnoreCase_3 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("diagram");
+          if (_equalsIgnoreCase_3) {
+            _matched=true;
+            this.PlantUmlGenerator.doGenerate(resource, fsa, context);
+          }
+        }
+      } else {
         this.htmlGenerator.doGenerate(resource, fsa, context);
+        this.postGreSqlGenerator.doGenerate(resource, fsa, context);
+        this.MySqlGenerator.doGenerate(resource, fsa, context);
+        this.PlantUmlGenerator.doGenerate(resource, fsa, context);
       }
-      if (!_matched) {
-        boolean _equalsIgnoreCase_1 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("postgresql");
-        if (_equalsIgnoreCase_1) {
-          _matched=true;
-          this.postGreSqlGenerator.doGenerate(resource, fsa, context);
-        }
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        InputOutput.<String>println(((List<StackTraceElement>)Conversions.doWrapArray(e.getStackTrace())).toString());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
       }
-      if (!_matched) {
-        boolean _equalsIgnoreCase_2 = modeloER.getTargetGenerator().toString().equalsIgnoreCase("mysql");
-        if (_equalsIgnoreCase_2) {
-          _matched=true;
-          this.MySqlGenerator.doGenerate(resource, fsa, context);
-        }
-      }
-    } else {
-      this.htmlGenerator.doGenerate(resource, fsa, context);
-      this.postGreSqlGenerator.doGenerate(resource, fsa, context);
-      this.MySqlGenerator.doGenerate(resource, fsa, context);
-      this.PlantUmlGenerator.doGenerate(resource, fsa, context);
     }
   }
 }

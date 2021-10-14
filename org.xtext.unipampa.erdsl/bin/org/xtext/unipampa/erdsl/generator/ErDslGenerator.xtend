@@ -33,35 +33,44 @@ class ErDslGenerator extends AbstractGenerator {
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 
 		val modeloER = resource.contents.get(0) as ERModel
+		
+		try {
 
-		if (!modeloER.targetGenerator.isNullOrEmpty && !modeloER.targetGenerator.equalsIgnoreCase("all")) {
-			
-			switch (modeloER.targetGenerator.toString) {
-			
-				case modeloER.targetGenerator.toString.equalsIgnoreCase("logicalschema"): {
-			
-					this.htmlGenerator.doGenerate(resource, fsa, context)
+			if (!modeloER.targetGenerator.isNullOrEmpty && !modeloER.targetGenerator.equalsIgnoreCase("all")) {
+
+				switch (modeloER.targetGenerator.toString) {
+					case modeloER.targetGenerator.toString.equalsIgnoreCase("logicalschema"): {
+
+						this.htmlGenerator.doGenerate(resource, fsa, context)
+					}
+					case modeloER.targetGenerator.toString.equalsIgnoreCase("postgresql"): {
+
+						this.postGreSqlGenerator.doGenerate(resource, fsa, context)
+					}
+					case modeloER.targetGenerator.toString.equalsIgnoreCase("mysql"): {
+
+						this.MySqlGenerator.doGenerate(resource, fsa, context)
+					}
+					case modeloER.targetGenerator.toString.equalsIgnoreCase("diagram"): {
+
+						this.PlantUmlGenerator.doGenerate(resource, fsa, context)
+					}
 				}
-			
-				case modeloER.targetGenerator.toString.equalsIgnoreCase("postgresql"): {
-			
-					this.postGreSqlGenerator.doGenerate(resource, fsa, context)
-				}
-			
-				case modeloER.targetGenerator.toString.equalsIgnoreCase("mysql"): {
-			
-					this.MySqlGenerator.doGenerate(resource, fsa, context)
-				}
+			} else {
+
+				this.htmlGenerator.doGenerate(resource, fsa, context)
+
+				this.postGreSqlGenerator.doGenerate(resource, fsa, context)
+
+				this.MySqlGenerator.doGenerate(resource, fsa, context)
+
+				this.PlantUmlGenerator.doGenerate(resource, fsa, context)
 			}
-		} else {
-			
-			this.htmlGenerator.doGenerate(resource, fsa, context)
-			
-			this.postGreSqlGenerator.doGenerate(resource, fsa, context)
-			
-			this.MySqlGenerator.doGenerate(resource, fsa, context)
-			
-			this.PlantUmlGenerator.doGenerate(resource, fsa, context)
+
+		} catch (Exception e) {
+
+			println(e.stackTrace.toString)
+
 		}
 	}
 }

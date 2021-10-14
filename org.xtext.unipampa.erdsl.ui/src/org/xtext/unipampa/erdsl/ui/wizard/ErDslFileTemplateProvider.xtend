@@ -24,79 +24,142 @@ class ErDslFileTemplateProvider implements IFileTemplateProvider {
 //	val helloName = combo("Hello Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to")
 @FileTemplate(label="ERDSL Template", icon="file_template.png", description="Create a template file for ERDSl.")
 final class ERtextFile {
-	val modelName = combo("Template:", #["Employees", "2", "3"], "The logical example model")
+	val modelName = combo("Template:", #["Hospital_Veterinario", "Empresa_Generica"], "The logical example model")
 	override generateFiles(IFileGenerator generator) {
 		generator.generate('''«folder»/«name».erdsl''', '''
-		«IF modelName.toString.equalsIgnoreCase("Employees")»
-			Generate All;
+		«IF modelName.toString.equalsIgnoreCase("Hospital_Veterinario")»
 			/*
-			 * This is an example model
-			 */
-			Domain The_Employees_Sample_Schema;
+			* This is an example model
+			*/
+			 
+			Generate All;
+			
+			Domain Hospital_Veterinario;
 			
 			Entities {
 				
-				Person {
-					person_no int isIdentifier,
-					gender boolean
+				Pessoa {
+					idPessoa int isIdentifier,
+					telefoneS int, 
+					nome string
 				}
 				
-				Employee is total/overlapped Person {
-				 emp_no int isIdentifier,
-				 birth_dt datetime,
-				 first_name string,
-				 last_name string,
-				 hire_dt datetime	
+				Veterinario is total/disjoint Pessoa {
+					nrVet int,
+					dtAdmissao datetime,
+					salario money
 				}
 				
-				Dependent is total/overlapped Person {
-					dependent_no int isIdentifier,
-					first_name string,
-					last_name string
+				Cliente is total/disjoint Pessoa {
+					cpf int, 
+					email string
 				}
 				
-				Salary {
-					salary_no int isIdentifier,
-					salary money,
-					from_dt datetime,
-					to_dt datetime
+				Animal {
+					idAnimal int isIdentifier,
+					idade int, 
+					porte string,
+					nome string
 				}
 				
-				Departament {
-					dept_no int isIdentifier,
-					name string, 
-					goals_description string
+				Enfermidade {
+					idEnfermidade int isIdentifier,
+					nome string,
+					descricao string
 				}
 				
-				Title	 {
-					title_no int isIdentifier,
-					name string,
-					description string,
-					from_dt datetime,
-					to_dt datetime		
+				Tratamento {
+					idTratamento int isIdentifier,
+					dtInicio datetime,
+					dtFim datetime
 				}
-					
+				
+				Receita {
+					idReceita int isIdentifier,
+					remedio string
+				}
+				 
 			};
 			
 			Relationships {
-				Dept_manager [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
-				Dept_emp	 [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
-				Payment 	 [Salary (1:N) relates (1:1) Employee]
-				JobTitle	 [Title (1:N) relates (1:1) Employee]
-				Dependency	 [Employee (1:1) relates (1:N) Dependent]
+				Assistente   [Veterinario (0:1) relates (0:N) Veterinario]
+				Dono 	   	 [Cliente (1:1) relates (1:N) Animal]		
+				Reponsavel   [Veterinario (1:N) relates (0:N) Tratamento]
+				Possui 	     [Tratamento (1:1) relates (1:1) Receita]
+				AnimalDoente [Animal (0:N) relates (1:N) Enfermidade]
+				TratAnimal   [AnimalDoente (1:N) relates (1:1) Tratamento]
+				
 			};
-
-		«ELSEIF modelName.toString.equalsIgnoreCase("2")»
 			
+		«ELSEIF modelName.toString.equalsIgnoreCase("Empresa_Generica")»
+			/*
+			* This is an example model
+			*/
 			
-			Another Template
+			Generate All;
 			
+			Domain Empresa_Generica;
 			
-		«ELSEIF modelName.toString.equalsIgnoreCase("3")»
+			Entities {
+				
+				Empregado {
+					idEmpregado int isIdentifier,
+					salario money	
+				}
+				
+				Contador is total/disjoint Empregado {
+					crc int
+				}
+				
+				Motorista is total/disjoint Empregado {
+					cnh int, 
+					veiculo string
+				}
+				
+				Engenheiro is total/disjoint Empregado {
+						crea int, 
+						areaAtuacao string
+				}
+				
+				Departamento {
+					idDept int isIdentifier,
+					sigla string
+				}
+				
+				Tipo {
+					idTipo int isIdentifier,
+					descricao string
+				}
+				
+				Projeto	{
+					idProjeto int isIdentifier,
+					descricao string
+				}
+				
+				Materiais {
+					idMaterial int isIdentifier,
+					descricao string,
+					validade string
+				}
+				
+				Fornecedor {
+					idFornecedor int isIdentifier,
+					cnpj int, 
+					nomeFantasia string,
+					telefone int
+				}
+				
+			};
 			
-			
-			Another Template
-			
+			Relationships {
+				Supervisiona [Empregado (0:1) relates (1:N) Empregado]
+				Desenvolve 	 [Empregado (1:N) relates (0:N) Projeto]
+				Lotado 		 [Empregado (1:N) relates (0:1) Departamento]
+				Tem 		 [Departamento (1:1) relates (1:1) Tipo]
+				Controla	 [Departamento (1:N) relates (0:N) Projeto]
+				Fornecimento [Materiais (0:N) relates (1:N) Fornecedor]
+				ProjFornec	 [Projeto (1:N) relates (1:N) Fornecimento] 
+			};
 			
 		«ENDIF»
 		''')
