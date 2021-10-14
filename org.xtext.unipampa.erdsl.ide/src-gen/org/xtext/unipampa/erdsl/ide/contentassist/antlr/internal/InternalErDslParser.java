@@ -1199,11 +1199,11 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             if ( (LA5_0==RULE_ID) ) {
                 int LA5_1 = input.LA(2);
 
-                if ( (LA5_1==EOF||LA5_1==Relates) ) {
-                    alt5=1;
-                }
-                else if ( ((LA5_1>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA5_1<=N_1)) ) {
+                if ( ((LA5_1>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA5_1<=N_1)) ) {
                     alt5=2;
+                }
+                else if ( (LA5_1==EOF||LA5_1==Relates) ) {
+                    alt5=1;
                 }
                 else {
                     NoViableAltException nvae =
@@ -2315,7 +2315,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
                 int alt10=2;
                 int LA10_0 = input.LA(1);
 
-                if ( (LA10_0==LeftSquareBracket||LA10_0==RULE_ID) ) {
+                if ( (LA10_0==RULE_ID) ) {
                     alt10=1;
                 }
 
@@ -2324,7 +2324,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             	case 1 :
             	    // InternalErDslParser.g:724:3: rule__ERModel__RelationsAssignment_7
             	    {
-            	    pushFollow(FOLLOW_11);
+            	    pushFollow(FOLLOW_8);
             	    rule__ERModel__RelationsAssignment_7();
 
             	    state._fsp--;
@@ -2450,7 +2450,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:763:1: ( rule__ERModel__Group_0__0__Impl rule__ERModel__Group_0__1 )
             // InternalErDslParser.g:764:2: rule__ERModel__Group_0__0__Impl rule__ERModel__Group_0__1
             {
-            pushFollow(FOLLOW_12);
+            pushFollow(FOLLOW_11);
             rule__ERModel__Group_0__0__Impl();
 
             state._fsp--;
@@ -2680,7 +2680,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:844:1: ( rule__ERModel__Group_3__0__Impl rule__ERModel__Group_3__1 )
             // InternalErDslParser.g:845:2: rule__ERModel__Group_3__0__Impl rule__ERModel__Group_3__1
             {
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_12);
             rule__ERModel__Group_3__0__Impl();
 
             state._fsp--;
@@ -2970,7 +2970,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:952:1: ( rule__ERModel__Group_6__0__Impl rule__ERModel__Group_6__1 )
             // InternalErDslParser.g:953:2: rule__ERModel__Group_6__0__Impl rule__ERModel__Group_6__1
             {
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_12);
             rule__ERModel__Group_6__0__Impl();
 
             state._fsp--;
@@ -3415,7 +3415,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1114:1: ( rule__Attribute__Group__0__Impl rule__Attribute__Group__1 )
             // InternalErDslParser.g:1115:2: rule__Attribute__Group__0__Impl rule__Attribute__Group__1
             {
-            pushFollow(FOLLOW_14);
+            pushFollow(FOLLOW_13);
             rule__Attribute__Group__0__Impl();
 
             state._fsp--;
@@ -3500,7 +3500,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1141:1: ( rule__Attribute__Group__1__Impl rule__Attribute__Group__2 )
             // InternalErDslParser.g:1142:2: rule__Attribute__Group__1__Impl rule__Attribute__Group__2
             {
-            pushFollow(FOLLOW_15);
+            pushFollow(FOLLOW_14);
             rule__Attribute__Group__1__Impl();
 
             state._fsp--;
@@ -3676,7 +3676,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1195:1: ( rule__Entity__Group__0__Impl rule__Entity__Group__1 )
             // InternalErDslParser.g:1196:2: rule__Entity__Group__0__Impl rule__Entity__Group__1
             {
-            pushFollow(FOLLOW_16);
+            pushFollow(FOLLOW_15);
             rule__Entity__Group__0__Impl();
 
             state._fsp--;
@@ -3761,7 +3761,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1222:1: ( rule__Entity__Group__1__Impl rule__Entity__Group__2 )
             // InternalErDslParser.g:1223:2: rule__Entity__Group__1__Impl rule__Entity__Group__2
             {
-            pushFollow(FOLLOW_16);
+            pushFollow(FOLLOW_15);
             rule__Entity__Group__1__Impl();
 
             state._fsp--;
@@ -3948,7 +3948,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1276:1: ( rule__Entity__Group_1__0__Impl rule__Entity__Group_1__1 )
             // InternalErDslParser.g:1277:2: rule__Entity__Group_1__0__Impl rule__Entity__Group_1__1
             {
-            pushFollow(FOLLOW_17);
+            pushFollow(FOLLOW_16);
             rule__Entity__Group_1__0__Impl();
 
             state._fsp--;
@@ -4263,7 +4263,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1384:1: ( rule__Entity__Group_2__1__Impl rule__Entity__Group_2__2 )
             // InternalErDslParser.g:1385:2: rule__Entity__Group_2__1__Impl rule__Entity__Group_2__2
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_17);
             rule__Entity__Group_2__1__Impl();
 
             state._fsp--;
@@ -4348,7 +4348,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1411:1: ( rule__Entity__Group_2__2__Impl rule__Entity__Group_2__3 )
             // InternalErDslParser.g:1412:2: rule__Entity__Group_2__2__Impl rule__Entity__Group_2__3
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_17);
             rule__Entity__Group_2__2__Impl();
 
             state._fsp--;
@@ -4405,7 +4405,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             	case 1 :
             	    // InternalErDslParser.g:1426:3: rule__Entity__Group_2_2__0
             	    {
-            	    pushFollow(FOLLOW_19);
+            	    pushFollow(FOLLOW_18);
             	    rule__Entity__Group_2_2__0();
 
             	    state._fsp--;
@@ -4676,7 +4676,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1519:1: ( rule__Relation__Group__0__Impl rule__Relation__Group__1 )
             // InternalErDslParser.g:1520:2: rule__Relation__Group__0__Impl rule__Relation__Group__1
             {
-            pushFollow(FOLLOW_20);
+            pushFollow(FOLLOW_19);
             rule__Relation__Group__0__Impl();
 
             state._fsp--;
@@ -4705,38 +4705,27 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Relation__Group__0__Impl"
-    // InternalErDslParser.g:1527:1: rule__Relation__Group__0__Impl : ( ( rule__Relation__NameAssignment_0 )? ) ;
+    // InternalErDslParser.g:1527:1: rule__Relation__Group__0__Impl : ( ( rule__Relation__NameAssignment_0 ) ) ;
     public final void rule__Relation__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalErDslParser.g:1531:1: ( ( ( rule__Relation__NameAssignment_0 )? ) )
-            // InternalErDslParser.g:1532:1: ( ( rule__Relation__NameAssignment_0 )? )
+            // InternalErDslParser.g:1531:1: ( ( ( rule__Relation__NameAssignment_0 ) ) )
+            // InternalErDslParser.g:1532:1: ( ( rule__Relation__NameAssignment_0 ) )
             {
-            // InternalErDslParser.g:1532:1: ( ( rule__Relation__NameAssignment_0 )? )
-            // InternalErDslParser.g:1533:2: ( rule__Relation__NameAssignment_0 )?
+            // InternalErDslParser.g:1532:1: ( ( rule__Relation__NameAssignment_0 ) )
+            // InternalErDslParser.g:1533:2: ( rule__Relation__NameAssignment_0 )
             {
              before(grammarAccess.getRelationAccess().getNameAssignment_0()); 
-            // InternalErDslParser.g:1534:2: ( rule__Relation__NameAssignment_0 )?
-            int alt15=2;
-            int LA15_0 = input.LA(1);
+            // InternalErDslParser.g:1534:2: ( rule__Relation__NameAssignment_0 )
+            // InternalErDslParser.g:1534:3: rule__Relation__NameAssignment_0
+            {
+            pushFollow(FOLLOW_2);
+            rule__Relation__NameAssignment_0();
 
-            if ( (LA15_0==RULE_ID) ) {
-                alt15=1;
-            }
-            switch (alt15) {
-                case 1 :
-                    // InternalErDslParser.g:1534:3: rule__Relation__NameAssignment_0
-                    {
-                    pushFollow(FOLLOW_2);
-                    rule__Relation__NameAssignment_0();
+            state._fsp--;
 
-                    state._fsp--;
-
-
-                    }
-                    break;
 
             }
 
@@ -4772,7 +4761,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1546:1: ( rule__Relation__Group__1__Impl rule__Relation__Group__2 )
             // InternalErDslParser.g:1547:2: rule__Relation__Group__1__Impl rule__Relation__Group__2
             {
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_12);
             rule__Relation__Group__1__Impl();
 
             state._fsp--;
@@ -4895,21 +4884,21 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             {
              before(grammarAccess.getRelationAccess().getGroup_2()); 
             // InternalErDslParser.g:1587:2: ( rule__Relation__Group_2__0 )*
-            loop16:
+            loop15:
             do {
-                int alt16=2;
-                int LA16_0 = input.LA(1);
+                int alt15=2;
+                int LA15_0 = input.LA(1);
 
-                if ( (LA16_0==LeftCurlyBracket) ) {
-                    alt16=1;
+                if ( (LA15_0==LeftCurlyBracket) ) {
+                    alt15=1;
                 }
 
 
-                switch (alt16) {
+                switch (alt15) {
             	case 1 :
             	    // InternalErDslParser.g:1587:3: rule__Relation__Group_2__0
             	    {
-            	    pushFollow(FOLLOW_21);
+            	    pushFollow(FOLLOW_20);
             	    rule__Relation__Group_2__0();
 
             	    state._fsp--;
@@ -4919,7 +4908,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop16;
+            	    break loop15;
                 }
             } while (true);
 
@@ -5030,7 +5019,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1627:1: ( rule__Relation__Group_1__1__Impl rule__Relation__Group_1__2 )
             // InternalErDslParser.g:1628:2: rule__Relation__Group_1__1__Impl rule__Relation__Group_1__2
             {
-            pushFollow(FOLLOW_22);
+            pushFollow(FOLLOW_21);
             rule__Relation__Group_1__1__Impl();
 
             state._fsp--;
@@ -5115,7 +5104,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1654:1: ( rule__Relation__Group_1__2__Impl rule__Relation__Group_1__3 )
             // InternalErDslParser.g:1655:2: rule__Relation__Group_1__2__Impl rule__Relation__Group_1__3
             {
-            pushFollow(FOLLOW_23);
+            pushFollow(FOLLOW_22);
             rule__Relation__Group_1__2__Impl();
 
             state._fsp--;
@@ -5190,7 +5179,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1681:1: ( rule__Relation__Group_1__3__Impl rule__Relation__Group_1__4 )
             // InternalErDslParser.g:1682:2: rule__Relation__Group_1__3__Impl rule__Relation__Group_1__4
             {
-            pushFollow(FOLLOW_24);
+            pushFollow(FOLLOW_23);
             rule__Relation__Group_1__3__Impl();
 
             state._fsp--;
@@ -5420,7 +5409,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1762:1: ( rule__Relation__Group_2__1__Impl rule__Relation__Group_2__2 )
             // InternalErDslParser.g:1763:2: rule__Relation__Group_2__1__Impl rule__Relation__Group_2__2
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_17);
             rule__Relation__Group_2__1__Impl();
 
             state._fsp--;
@@ -5505,7 +5494,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1789:1: ( rule__Relation__Group_2__2__Impl rule__Relation__Group_2__3 )
             // InternalErDslParser.g:1790:2: rule__Relation__Group_2__2__Impl rule__Relation__Group_2__3
             {
-            pushFollow(FOLLOW_18);
+            pushFollow(FOLLOW_17);
             rule__Relation__Group_2__2__Impl();
 
             state._fsp--;
@@ -5548,21 +5537,21 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             {
              before(grammarAccess.getRelationAccess().getGroup_2_2()); 
             // InternalErDslParser.g:1804:2: ( rule__Relation__Group_2_2__0 )*
-            loop17:
+            loop16:
             do {
-                int alt17=2;
-                int LA17_0 = input.LA(1);
+                int alt16=2;
+                int LA16_0 = input.LA(1);
 
-                if ( (LA17_0==Comma) ) {
-                    alt17=1;
+                if ( (LA16_0==Comma) ) {
+                    alt16=1;
                 }
 
 
-                switch (alt17) {
+                switch (alt16) {
             	case 1 :
             	    // InternalErDslParser.g:1804:3: rule__Relation__Group_2_2__0
             	    {
-            	    pushFollow(FOLLOW_19);
+            	    pushFollow(FOLLOW_18);
             	    rule__Relation__Group_2_2__0();
 
             	    state._fsp--;
@@ -5572,7 +5561,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             	    break;
 
             	default :
-            	    break loop17;
+            	    break loop16;
                 }
             } while (true);
 
@@ -5998,7 +5987,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
             // InternalErDslParser.g:1951:1: ( rule__RelationSideLeft__Group_1__0__Impl rule__RelationSideLeft__Group_1__1 )
             // InternalErDslParser.g:1952:2: rule__RelationSideLeft__Group_1__0__Impl rule__RelationSideLeft__Group_1__1
             {
-            pushFollow(FOLLOW_25);
+            pushFollow(FOLLOW_24);
             rule__RelationSideLeft__Group_1__0__Impl();
 
             state._fsp--;
@@ -7182,21 +7171,20 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final BitSet FOLLOW_7 = new BitSet(new long[]{0x0000001000000000L});
     public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000002000000002L});
     public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000003200000000L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000002200000002L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000012008900L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000800000000L});
-    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x000000002C194000L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000000000400L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000840000000L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x00000000000000F0L});
-    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000001080000000L});
-    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000080000002L});
-    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000002200000000L});
-    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000800000002L});
-    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000002001E00000L});
-    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_25 = new BitSet(new long[]{0x0000000001E00000L});
+    public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000003000000000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000000012008900L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000800000000L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x000000002C194000L});
+    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000000000400L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000840000000L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x00000000000000F0L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000001080000000L});
+    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000080000002L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000000800000002L});
+    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000002001E00000L});
+    public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0000000001E00000L});
 
 }

@@ -344,21 +344,21 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//Relation:
-		//    (name=ID)? ('[' leftEnding=RelationSideLeft
+		//    (name=ID) ('[' leftEnding=RelationSideLeft
 		//    'relates'
 		//    rightEnding=RelationSideRight ']')
 		//    ('{' attributes+=Attribute
 		//    (',' attributes+=Attribute)* '}')*;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//(name=ID)? ('[' leftEnding=RelationSideLeft
+		//(name=ID) ('[' leftEnding=RelationSideLeft
 		//'relates'
 		//rightEnding=RelationSideRight ']')
 		//('{' attributes+=Attribute
 		//(',' attributes+=Attribute)* '}')*
 		public Group getGroup() { return cGroup; }
 		
-		//(name=ID)?
+		//(name=ID)
 		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
 		
 		//ID
@@ -726,7 +726,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	}
 	
 	//Relation:
-	//    (name=ID)? ('[' leftEnding=RelationSideLeft
+	//    (name=ID) ('[' leftEnding=RelationSideLeft
 	//    'relates'
 	//    rightEnding=RelationSideRight ']')
 	//    ('{' attributes+=Attribute

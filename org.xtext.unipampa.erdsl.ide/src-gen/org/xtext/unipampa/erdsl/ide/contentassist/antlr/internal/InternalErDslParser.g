@@ -1531,7 +1531,7 @@ rule__Relation__Group__0__Impl
 :
 (
 	{ before(grammarAccess.getRelationAccess().getNameAssignment_0()); }
-	(rule__Relation__NameAssignment_0)?
+	(rule__Relation__NameAssignment_0)
 	{ after(grammarAccess.getRelationAccess().getNameAssignment_0()); }
 )
 ;

@@ -1,5 +1,6 @@
 package org.xtext.unipampa.erdsl.generator;
 
+import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -7,7 +8,10 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.generator.AbstractGenerator;
 import org.eclipse.xtext.generator.IFileSystemAccess2;
 import org.eclipse.xtext.generator.IGeneratorContext;
+import org.eclipse.xtext.xbase.lib.Conversions;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.StringExtensions;
 import org.xtext.unipampa.erdsl.erDsl.Attribute;
@@ -21,13 +25,19 @@ public class HtmlFileGenerator extends AbstractGenerator {
   public void doGenerate(final Resource input, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _get = input.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
-    String _name = modeloER.getDomain().getName();
-    String _plus = ("LogicalSchema_" + _name);
-    String _plus_1 = (_plus + ".html");
-    fsa.generateFile(_plus_1, this.CreateLogical(modeloER));
+    try {
+      fsa.generateFile("Logical_Textual_Scheme.html", this.CreateLogical(modeloER));
+    } catch (final Throwable _t) {
+      if (_t instanceof Exception) {
+        final Exception e = (Exception)_t;
+        InputOutput.<String>println(((List<StackTraceElement>)Conversions.doWrapArray(e.getStackTrace())).toString());
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
   
-  public CharSequence CreateLogical(final ERModel modeloER) {
+  private CharSequence CreateLogical(final ERModel modeloER) {
     StringConcatenation _builder = new StringConcatenation();
     CharSequence _html_Head = this.html_Head();
     _builder.append(_html_Head);
@@ -44,7 +54,6 @@ public class HtmlFileGenerator extends AbstractGenerator {
     CharSequence _html_RelationshipsMapping = this.html_RelationshipsMapping(modeloER);
     _builder.append(_html_RelationshipsMapping);
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
     _builder.newLine();
     CharSequence _html_Footer = this.html_Footer();
     _builder.append(_html_Footer);
@@ -321,8 +330,8 @@ public class HtmlFileGenerator extends AbstractGenerator {
         CharSequence _html_EntityNameTag = this.html_EntityNameTag(entity.getName());
         _builder.append(_html_EntityNameTag, "\t");
         _builder.append(" [ ");
-        CharSequence _html_AtributesMapping = this.html_AtributesMapping(m, entity);
-        _builder.append(_html_AtributesMapping, "\t");
+        CharSequence _html_AttributesMapping = this.html_AttributesMapping(m, entity);
+        _builder.append(_html_AttributesMapping, "\t");
         _builder.newLineIfNotEmpty();
       }
       if (_hasElements) {
@@ -358,7 +367,7 @@ public class HtmlFileGenerator extends AbstractGenerator {
    *  2) If it exists, the key that references the parent is written being primary and foreign at the same time
    * @param e The analyzed entity.
    */
-  private CharSequence html_AtributesMapping(final ERModel m, final Entity e) {
+  private CharSequence html_AttributesMapping(final ERModel m, final Entity e) {
     StringConcatenation _builder = new StringConcatenation();
     boolean hasPK = false;
     _builder.newLineIfNotEmpty();

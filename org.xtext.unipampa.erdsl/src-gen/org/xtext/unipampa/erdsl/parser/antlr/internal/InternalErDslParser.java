@@ -459,7 +459,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             				newLeafNode(otherlv_10, grammarAccess.getERModelAccess().getRelationshipsKeyword_6_0());
             			
-            otherlv_11=(Token)match(input,LeftCurlyBracket,FOLLOW_11); 
+            otherlv_11=(Token)match(input,LeftCurlyBracket,FOLLOW_9); 
 
             				newLeafNode(otherlv_11, grammarAccess.getERModelAccess().getLeftCurlyBracketKeyword_6_1());
             			
@@ -472,7 +472,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                 int alt4=2;
                 int LA4_0 = input.LA(1);
 
-                if ( (LA4_0==LeftSquareBracket||LA4_0==RULE_ID) ) {
+                if ( (LA4_0==RULE_ID) ) {
                     alt4=1;
                 }
 
@@ -487,7 +487,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             	    					newCompositeNode(grammarAccess.getERModelAccess().getRelationsRelationParserRuleCall_7_0());
             	    				
-            	    pushFollow(FOLLOW_11);
+            	    pushFollow(FOLLOW_9);
             	    lv_relations_12_0=ruleRelation();
 
             	    state._fsp--;
@@ -719,7 +719,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             // InternalErDslParser.g:305:4: (lv_name_0_0= RULE_ID )
             // InternalErDslParser.g:306:5: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_12); 
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_11); 
 
             					newLeafNode(lv_name_0_0, grammarAccess.getAttributeAccess().getNameIDTerminalRuleCall_0_0());
             				
@@ -748,7 +748,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             					newCompositeNode(grammarAccess.getAttributeAccess().getTypeDataTypeEnumRuleCall_1_0());
             				
-            pushFollow(FOLLOW_13);
+            pushFollow(FOLLOW_12);
             lv_type_1_0=ruleDataType();
 
             state._fsp--;
@@ -897,7 +897,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             // InternalErDslParser.g:375:4: (lv_name_0_0= RULE_ID )
             // InternalErDslParser.g:376:5: lv_name_0_0= RULE_ID
             {
-            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_14); 
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_13); 
 
             					newLeafNode(lv_name_0_0, grammarAccess.getEntityAccess().getNameIDTerminalRuleCall_0_0());
             				
@@ -928,7 +928,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                 case 1 :
                     // InternalErDslParser.g:393:4: otherlv_1= Is ( ( (lv_generalization_2_1= TotalDisjoint | lv_generalization_2_2= TotalOverlapped | lv_generalization_2_3= PartialDisjoint | lv_generalization_2_4= PartialOverlapped ) ) ) ( (otherlv_3= RULE_ID ) )
                     {
-                    otherlv_1=(Token)match(input,Is,FOLLOW_15); 
+                    otherlv_1=(Token)match(input,Is,FOLLOW_14); 
 
                     				newLeafNode(otherlv_1, grammarAccess.getEntityAccess().getIsKeyword_1_0());
                     			
@@ -1053,7 +1053,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     							current = createModelElement(grammarAccess.getEntityRule());
                     						}
                     					
-                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_16); 
+                    otherlv_3=(Token)match(input,RULE_ID,FOLLOW_15); 
 
                     						newLeafNode(otherlv_3, grammarAccess.getEntityAccess().getIsEntityCrossReference_1_2_0());
                     					
@@ -1093,7 +1093,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
                     						newCompositeNode(grammarAccess.getEntityAccess().getAttributesAttributeParserRuleCall_2_1_0());
                     					
-                    pushFollow(FOLLOW_17);
+                    pushFollow(FOLLOW_16);
                     lv_attributes_5_0=ruleAttribute();
 
                     state._fsp--;
@@ -1143,7 +1143,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
                     	    							newCompositeNode(grammarAccess.getEntityAccess().getAttributesAttributeParserRuleCall_2_2_1_0());
                     	    						
-                    	    pushFollow(FOLLOW_17);
+                    	    pushFollow(FOLLOW_16);
                     	    lv_attributes_7_0=ruleAttribute();
 
                     	    state._fsp--;
@@ -1243,7 +1243,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRelation"
-    // InternalErDslParser.g:525:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ) ;
+    // InternalErDslParser.g:525:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ) ;
     public final EObject ruleRelation() throws RecognitionException {
         EObject current = null;
 
@@ -1267,46 +1267,35 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDslParser.g:531:2: ( ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ) )
-            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* )
+            // InternalErDslParser.g:531:2: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ) )
+            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* )
             {
-            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* )
-            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) )? (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )*
+            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* )
+            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )*
             {
-            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) )?
-            int alt10=2;
-            int LA10_0 = input.LA(1);
+            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) )
+            // InternalErDslParser.g:534:4: (lv_name_0_0= RULE_ID )
+            {
+            // InternalErDslParser.g:534:4: (lv_name_0_0= RULE_ID )
+            // InternalErDslParser.g:535:5: lv_name_0_0= RULE_ID
+            {
+            lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_17); 
 
-            if ( (LA10_0==RULE_ID) ) {
-                alt10=1;
+            					newLeafNode(lv_name_0_0, grammarAccess.getRelationAccess().getNameIDTerminalRuleCall_0_0());
+            				
+
+            					if (current==null) {
+            						current = createModelElement(grammarAccess.getRelationRule());
+            					}
+            					setWithLastConsumed(
+            						current,
+            						"name",
+            						lv_name_0_0,
+            						"org.eclipse.xtext.common.Terminals.ID");
+            				
+
             }
-            switch (alt10) {
-                case 1 :
-                    // InternalErDslParser.g:534:4: (lv_name_0_0= RULE_ID )
-                    {
-                    // InternalErDslParser.g:534:4: (lv_name_0_0= RULE_ID )
-                    // InternalErDslParser.g:535:5: lv_name_0_0= RULE_ID
-                    {
-                    lv_name_0_0=(Token)match(input,RULE_ID,FOLLOW_18); 
 
-                    					newLeafNode(lv_name_0_0, grammarAccess.getRelationAccess().getNameIDTerminalRuleCall_0_0());
-                    				
-
-                    					if (current==null) {
-                    						current = createModelElement(grammarAccess.getRelationRule());
-                    					}
-                    					setWithLastConsumed(
-                    						current,
-                    						"name",
-                    						lv_name_0_0,
-                    						"org.eclipse.xtext.common.Terminals.ID");
-                    				
-
-                    }
-
-
-                    }
-                    break;
 
             }
 
@@ -1326,7 +1315,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             						newCompositeNode(grammarAccess.getRelationAccess().getLeftEndingRelationSideLeftParserRuleCall_1_1_0());
             					
-            pushFollow(FOLLOW_19);
+            pushFollow(FOLLOW_18);
             lv_leftEnding_2_0=ruleRelationSideLeft();
 
             state._fsp--;
@@ -1348,7 +1337,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_3=(Token)match(input,Relates,FOLLOW_20); 
+            otherlv_3=(Token)match(input,Relates,FOLLOW_19); 
 
             				newLeafNode(otherlv_3, grammarAccess.getRelationAccess().getRelatesKeyword_1_2());
             			
@@ -1361,7 +1350,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             						newCompositeNode(grammarAccess.getRelationAccess().getRightEndingRelationSideRightParserRuleCall_1_3_0());
             					
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_20);
             lv_rightEnding_4_0=ruleRelationSideRight();
 
             state._fsp--;
@@ -1383,7 +1372,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             }
 
-            otherlv_5=(Token)match(input,RightSquareBracket,FOLLOW_16); 
+            otherlv_5=(Token)match(input,RightSquareBracket,FOLLOW_15); 
 
             				newLeafNode(otherlv_5, grammarAccess.getRelationAccess().getRightSquareBracketKeyword_1_4());
             			
@@ -1391,17 +1380,17 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             }
 
             // InternalErDslParser.g:603:3: (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )*
-            loop12:
+            loop11:
             do {
-                int alt12=2;
-                int LA12_0 = input.LA(1);
+                int alt11=2;
+                int LA11_0 = input.LA(1);
 
-                if ( (LA12_0==LeftCurlyBracket) ) {
-                    alt12=1;
+                if ( (LA11_0==LeftCurlyBracket) ) {
+                    alt11=1;
                 }
 
 
-                switch (alt12) {
+                switch (alt11) {
             	case 1 :
             	    // InternalErDslParser.g:604:4: otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket
             	    {
@@ -1418,7 +1407,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             	    						newCompositeNode(grammarAccess.getRelationAccess().getAttributesAttributeParserRuleCall_2_1_0());
             	    					
-            	    pushFollow(FOLLOW_17);
+            	    pushFollow(FOLLOW_16);
             	    lv_attributes_7_0=ruleAttribute();
 
             	    state._fsp--;
@@ -1441,17 +1430,17 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             	    }
 
             	    // InternalErDslParser.g:627:4: (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )*
-            	    loop11:
+            	    loop10:
             	    do {
-            	        int alt11=2;
-            	        int LA11_0 = input.LA(1);
+            	        int alt10=2;
+            	        int LA10_0 = input.LA(1);
 
-            	        if ( (LA11_0==Comma) ) {
-            	            alt11=1;
+            	        if ( (LA10_0==Comma) ) {
+            	            alt10=1;
             	        }
 
 
-            	        switch (alt11) {
+            	        switch (alt10) {
             	    	case 1 :
             	    	    // InternalErDslParser.g:628:5: otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) )
             	    	    {
@@ -1468,7 +1457,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
             	    	    							newCompositeNode(grammarAccess.getRelationAccess().getAttributesAttributeParserRuleCall_2_2_1_0());
             	    	    						
-            	    	    pushFollow(FOLLOW_17);
+            	    	    pushFollow(FOLLOW_16);
             	    	    lv_attributes_9_0=ruleAttribute();
 
             	    	    state._fsp--;
@@ -1495,11 +1484,11 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             	    	    break;
 
             	    	default :
-            	    	    break loop11;
+            	    	    break loop10;
             	        }
             	    } while (true);
 
-            	    otherlv_10=(Token)match(input,RightCurlyBracket,FOLLOW_16); 
+            	    otherlv_10=(Token)match(input,RightCurlyBracket,FOLLOW_15); 
 
             	    				newLeafNode(otherlv_10, grammarAccess.getRelationAccess().getRightCurlyBracketKeyword_2_3());
             	    			
@@ -1508,7 +1497,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             	    break;
 
             	default :
-            	    break loop12;
+            	    break loop11;
                 }
             } while (true);
 
@@ -1590,22 +1579,22 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             // InternalErDslParser.g:675:2: ( ( ( ( (lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_0_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_0_3= N | lv_cardinality_0_4= N_1 ) ) ) ( (otherlv_1= RULE_ID ) ) ) | ( (otherlv_2= RULE_ID ) ) )
             {
             // InternalErDslParser.g:675:2: ( ( ( ( (lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_0_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_0_3= N | lv_cardinality_0_4= N_1 ) ) ) ( (otherlv_1= RULE_ID ) ) ) | ( (otherlv_2= RULE_ID ) ) )
-            int alt14=2;
-            int LA14_0 = input.LA(1);
+            int alt13=2;
+            int LA13_0 = input.LA(1);
 
-            if ( ((LA14_0>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA14_0<=N_1)) ) {
-                alt14=1;
+            if ( ((LA13_0>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA13_0<=N_1)) ) {
+                alt13=1;
             }
-            else if ( (LA14_0==RULE_ID) ) {
-                alt14=2;
+            else if ( (LA13_0==RULE_ID) ) {
+                alt13=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 14, 0, input);
+                    new NoViableAltException("", 13, 0, input);
 
                 throw nvae;
             }
-            switch (alt14) {
+            switch (alt13) {
                 case 1 :
                     // InternalErDslParser.g:676:3: ( ( ( (lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_0_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_0_3= N | lv_cardinality_0_4= N_1 ) ) ) ( (otherlv_1= RULE_ID ) ) )
                     {
@@ -1619,36 +1608,36 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     // InternalErDslParser.g:679:6: (lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_0_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_0_3= N | lv_cardinality_0_4= N_1 )
                     {
                     // InternalErDslParser.g:679:6: (lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_0_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_0_3= N | lv_cardinality_0_4= N_1 )
-                    int alt13=4;
+                    int alt12=4;
                     switch ( input.LA(1) ) {
                     case LeftParenthesisDigitZeroColonDigitOneRightParenthesis:
                         {
-                        alt13=1;
+                        alt12=1;
                         }
                         break;
                     case LeftParenthesisDigitOneColonDigitOneRightParenthesis:
                         {
-                        alt13=2;
+                        alt12=2;
                         }
                         break;
                     case N:
                         {
-                        alt13=3;
+                        alt12=3;
                         }
                         break;
                     case N_1:
                         {
-                        alt13=4;
+                        alt12=4;
                         }
                         break;
                     default:
                         NoViableAltException nvae =
-                            new NoViableAltException("", 13, 0, input);
+                            new NoViableAltException("", 12, 0, input);
 
                         throw nvae;
                     }
 
-                    switch (alt13) {
+                    switch (alt12) {
                         case 1 :
                             // InternalErDslParser.g:680:7: lv_cardinality_0_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis
                             {
@@ -1854,32 +1843,32 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             // InternalErDslParser.g:772:2: ( ( (otherlv_0= RULE_ID ) ) | ( ( (otherlv_1= RULE_ID ) ) ( ( (lv_cardinality_2_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_2_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_2_3= N | lv_cardinality_2_4= N_1 ) ) ) ) )
             {
             // InternalErDslParser.g:772:2: ( ( (otherlv_0= RULE_ID ) ) | ( ( (otherlv_1= RULE_ID ) ) ( ( (lv_cardinality_2_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_2_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_2_3= N | lv_cardinality_2_4= N_1 ) ) ) ) )
-            int alt16=2;
-            int LA16_0 = input.LA(1);
+            int alt15=2;
+            int LA15_0 = input.LA(1);
 
-            if ( (LA16_0==RULE_ID) ) {
-                int LA16_1 = input.LA(2);
+            if ( (LA15_0==RULE_ID) ) {
+                int LA15_1 = input.LA(2);
 
-                if ( ((LA16_1>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA16_1<=N_1)) ) {
-                    alt16=2;
+                if ( (LA15_1==EOF||LA15_1==Relates) ) {
+                    alt15=1;
                 }
-                else if ( (LA16_1==EOF||LA16_1==Relates) ) {
-                    alt16=1;
+                else if ( ((LA15_1>=LeftParenthesisDigitZeroColonDigitOneRightParenthesis && LA15_1<=N_1)) ) {
+                    alt15=2;
                 }
                 else {
                     NoViableAltException nvae =
-                        new NoViableAltException("", 16, 1, input);
+                        new NoViableAltException("", 15, 1, input);
 
                     throw nvae;
                 }
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 16, 0, input);
+                    new NoViableAltException("", 15, 0, input);
 
                 throw nvae;
             }
-            switch (alt16) {
+            switch (alt15) {
                 case 1 :
                     // InternalErDslParser.g:773:3: ( (otherlv_0= RULE_ID ) )
                     {
@@ -1924,7 +1913,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     							current = createModelElement(grammarAccess.getRelationSideLeftRule());
                     						}
                     					
-                    otherlv_1=(Token)match(input,RULE_ID,FOLLOW_22); 
+                    otherlv_1=(Token)match(input,RULE_ID,FOLLOW_21); 
 
                     						newLeafNode(otherlv_1, grammarAccess.getRelationSideLeftAccess().getTargetRelationCrossReference_1_0_0());
                     					
@@ -1941,36 +1930,36 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                     // InternalErDslParser.g:803:6: (lv_cardinality_2_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_2_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_2_3= N | lv_cardinality_2_4= N_1 )
                     {
                     // InternalErDslParser.g:803:6: (lv_cardinality_2_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis | lv_cardinality_2_2= LeftParenthesisDigitOneColonDigitOneRightParenthesis | lv_cardinality_2_3= N | lv_cardinality_2_4= N_1 )
-                    int alt15=4;
+                    int alt14=4;
                     switch ( input.LA(1) ) {
                     case LeftParenthesisDigitZeroColonDigitOneRightParenthesis:
                         {
-                        alt15=1;
+                        alt14=1;
                         }
                         break;
                     case LeftParenthesisDigitOneColonDigitOneRightParenthesis:
                         {
-                        alt15=2;
+                        alt14=2;
                         }
                         break;
                     case N:
                         {
-                        alt15=3;
+                        alt14=3;
                         }
                         break;
                     case N_1:
                         {
-                        alt15=4;
+                        alt14=4;
                         }
                         break;
                     default:
                         NoViableAltException nvae =
-                            new NoViableAltException("", 15, 0, input);
+                            new NoViableAltException("", 14, 0, input);
 
                         throw nvae;
                     }
 
-                    switch (alt15) {
+                    switch (alt14) {
                         case 1 :
                             // InternalErDslParser.g:804:7: lv_cardinality_2_1= LeftParenthesisDigitZeroColonDigitOneRightParenthesis
                             {
@@ -2093,51 +2082,51 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
             // InternalErDslParser.g:862:2: ( (enumLiteral_0= Int ) | (enumLiteral_1= Double ) | (enumLiteral_2= Money ) | (enumLiteral_3= String ) | (enumLiteral_4= Boolean ) | (enumLiteral_5= Datetime ) | (enumLiteral_6= File ) )
             {
             // InternalErDslParser.g:862:2: ( (enumLiteral_0= Int ) | (enumLiteral_1= Double ) | (enumLiteral_2= Money ) | (enumLiteral_3= String ) | (enumLiteral_4= Boolean ) | (enumLiteral_5= Datetime ) | (enumLiteral_6= File ) )
-            int alt17=7;
+            int alt16=7;
             switch ( input.LA(1) ) {
             case Int:
                 {
-                alt17=1;
+                alt16=1;
                 }
                 break;
             case Double:
                 {
-                alt17=2;
+                alt16=2;
                 }
                 break;
             case Money:
                 {
-                alt17=3;
+                alt16=3;
                 }
                 break;
             case String:
                 {
-                alt17=4;
+                alt16=4;
                 }
                 break;
             case Boolean:
                 {
-                alt17=5;
+                alt16=5;
                 }
                 break;
             case Datetime:
                 {
-                alt17=6;
+                alt16=6;
                 }
                 break;
             case File:
                 {
-                alt17=7;
+                alt16=7;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 17, 0, input);
+                    new NoViableAltException("", 16, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt17) {
+            switch (alt16) {
                 case 1 :
                     // InternalErDslParser.g:863:3: (enumLiteral_0= Int )
                     {
@@ -2293,17 +2282,16 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_8 = new BitSet(new long[]{0x0000002000000000L});
     public static final BitSet FOLLOW_9 = new BitSet(new long[]{0x0000003000000000L});
     public static final BitSet FOLLOW_10 = new BitSet(new long[]{0x0000000000000200L});
-    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x0000003200000000L});
-    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x000000002C194000L});
-    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000000000402L});
-    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x0000000840000002L});
-    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x00000000000000F0L});
-    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000800000002L});
-    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000001080000000L});
-    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000200000000L});
-    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000000000020000L});
-    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000002001E00000L});
-    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000400000000L});
-    public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000000001E00000L});
+    public static final BitSet FOLLOW_11 = new BitSet(new long[]{0x000000002C194000L});
+    public static final BitSet FOLLOW_12 = new BitSet(new long[]{0x0000000000000402L});
+    public static final BitSet FOLLOW_13 = new BitSet(new long[]{0x0000000840000002L});
+    public static final BitSet FOLLOW_14 = new BitSet(new long[]{0x00000000000000F0L});
+    public static final BitSet FOLLOW_15 = new BitSet(new long[]{0x0000000800000002L});
+    public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000001080000000L});
+    public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000200000000L});
+    public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000000020000L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000002001E00000L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000000400000000L});
+    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000000001E00000L});
 
 }

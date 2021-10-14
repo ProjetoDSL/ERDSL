@@ -80,7 +80,7 @@
 		<page
 			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.eclipse.xtext.ui.editor.preferences.LanguageRootPreferencePage"
 			id="org.xtext.unipampa.erdsl.ErDsl"
-			name="ErDsl">
+			name="ERtext">
 			<keywordReference id="org.xtext.unipampa.erdsl.ui.keyword_ErDsl"/>
 		</page>
 		<page
