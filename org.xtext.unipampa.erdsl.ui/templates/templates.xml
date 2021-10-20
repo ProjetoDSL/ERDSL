@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+	<template name="Generate"
+		description="template for a Generate command"
+		id="org.xtext.unipampa.erdsl.ErDsl.kw_Generate"
+		context="org.xtext.unipampa.erdsl.ErDsl.kw_Generate" 
+		enabled="true">Generate ${All};</template>
+	<template name="Domain" description="template for a Domain"
+		id="org.xtext.unipampa.erdsl.ErDsl.Domain"
+		context="org.xtext.unipampa.erdsl.ErDsl.Domain" 
+		enabled="true">Domain ${Name};</template>
+	<template name="Entities"
+		description="template for the Entities block"
+		id="org.xtext.unipampa.erdsl.ErDsl.kw_Entities"
+		context="org.xtext.unipampa.erdsl.ErDsl.kw_Entities" 
+		enabled="true">Entities {
+	${Entity1} {
+		${attribute1} int isIdentifier,
+		${attribute2} file
+	}
+
+	/* The generalization type can be:
+	* [1] total/disjoint, [2] total/overlapped, [3] partial/disjoint OR [4] partial/overlapped
+	*/
+	${Entity2} is total/disjoint ${Entity1} {
+		${attribute3} string,
+		${attribute4} datetime
+	}
+};</template>
+	<template name="Entity"
+		description="template for an simple Entity"
+		id="org.xtext.unipampa.erdsl.ErDsl.Entity"
+		context="org.xtext.unipampa.erdsl.ErDsl.Entity" 
+		enabled="true">${Name} {
+
+}</template>
+	<template name="Attribute"
+		description="template for an Attribute"
+		id="org.xtext.unipampa.erdsl.ErDsl.Attribute"
+		context="org.xtext.unipampa.erdsl.ErDsl.Attribute" enabled="true">${attribute}
+		${int}
+	</template>
+	<template name="Relationships"
+		description="template for the Relationships block"
+		id="org.xtext.unipampa.erdsl.ErDsl.kw_Relationships"
+		context="org.xtext.unipampa.erdsl.ErDsl.kw_Relationships"
+		enabled="true">Relationships {
+		${Relationship1} [${Entity1} (1:N) relates (1:N) ${Entity2}] {${attribute5} int}
+		${Relationship2} [${Entity2} (1:N) relates (1:N) ${Entity1}]
+};</template>
+</templates>
