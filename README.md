@@ -19,7 +19,7 @@
 ---
 
 
-<a href=""><img src="https://github.com/ProjetoDSL/ERDSL/blob/master/ToolOverview.png" alt="ToolOverview" border="0" /></a>
+<a href=""><img src="https://github.com/ProjetoDSL/ERDSL/blob/master/ToolOverview.png" alt="ToolOverview" border="0" /></a> 
 
 ---
 
@@ -62,9 +62,9 @@
 	> /org.xtext.unipampa.erdsl/src/org/xtext/unipampa/erdsl/ErDsl.xtext
 
 
-	5.1.After changes, rigth click *ErDsl.xtext* file.
+	6.1.After changes, rigth click *ErDsl.xtext* file.
 
-	5.2. In the context menu select *Run As* **>>** *Generate Xtext Artifacts*. 
+	6.2. In the context menu select *Run As* **>>** *Generate Xtext Artifacts*. 
 
 1. If you want to change any aspect of the generators responsible for the transformation between the models, go to:
 	
