@@ -387,6 +387,7 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
 //    result.append(name);
 //    result.append(')');
 //    return result.toString();
+    
     return name;
   }
 

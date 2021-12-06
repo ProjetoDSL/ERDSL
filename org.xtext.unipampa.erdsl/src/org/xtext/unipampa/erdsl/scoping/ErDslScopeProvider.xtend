@@ -20,25 +20,31 @@ import org.xtext.unipampa.erdsl.erDsl.Relation
 class ErDslScopeProvider extends AbstractErDslScopeProvider {
 
 	
-	override IScope getScope(EObject context, EReference reference) {
-		if (context instanceof Entity) {
-			if (true) {
+//	override IScope getScope(EObject context, EReference reference) {
+//		if (context instanceof Entity) {
+//			if (true) {
 //				println("ENTIDADE\n CONTEXTO = " + context.name.toString)
 //				println(" REFERENCIA = " + reference.name.toString)
-			}
-			return Scopes.scopeFor((context.eContainer as ERModel).entities.filter[x|x != context])
-		} else if (context instanceof Relation) {
-			if (true) {
+//			}
+//			return Scopes.scopeFor((context.eContainer as ERModel).entities.filter[x|x != context])
+//		} else if (context instanceof Relation) {
+//			if (true) {
 //				println("RELAÇÃO\n CONTEXTO = " + context.name.toString)
 //				println(" REFERENCIA = " + reference.name.toString)
-			}
+//			}
 //			println("ENTIDADES: "+Scopes.scopeFor((context.eContainer as ERModel).entities));
 //			println("RELAÇÕES: "+Scopes.scopeFor((context.eContainer as ERModel).relations));
 			
 			
 //			return Scopes.scopeFor((context.eContainer as ERModel).relations.filter[x|x != context])
-		}
-		return super.getScope(context, reference)
-	}
+//		}
+//		return super.getScope(context, reference)
+//	}
 
+	override IScope getScope(EObject context, EReference reference) {
+		if (context instanceof Entity) {
+			return Scopes.scopeFor((context.eContainer as ERModel).entities.filter[x|x != context])
+		}
+		return super.getScope(context, reference)	
+	}
 }

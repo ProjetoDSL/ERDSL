@@ -28,15 +28,15 @@ class PlantUmlFileGenerator extends AbstractGenerator {
 		
 				new SourceStringReader(plantUML).generateImage(out)
 		
-				(fsa as IFileSystemAccessExtension3).generateFile("Diagram_(Conceptual_Model).png",
+				(fsa as IFileSystemAccessExtension3).generateFile(modeloER.domain.name.toLowerCase+"_Diagram.png",
 		
 					new ByteArrayInputStream(out.toByteArray))
 		
-				fsa.generateFile("Diagram_DescriptorGenerated.puml", plantUML)
+				fsa.generateFile(modeloER.domain.name.toLowerCase+"_DiagramDesc_Gen.puml", plantUML)
 		
 			} else {
 			
-				fsa.generateFile("Diagram_ParcialDescriptorGenerated.puml", plantUML)
+				fsa.generateFile(modeloER.domain.name.toLowerCase+"_DiagramDesc_PartialGen.puml", plantUML)
 			}
 		}
 		
@@ -109,11 +109,11 @@ class PlantUmlFileGenerator extends AbstractGenerator {
 		«IF !(leftEnding.target instanceof Entity) || !(rightEnding.target instanceof Entity)»
 			«IF leftEnding.target instanceof Relation»
 				«leftEnding.target.toString.toLowerCase»_dmd --«defineRightCardinalitySymbolUML(rightEnding.cardinality.toString)» «rightEnding.target.toString.toLowerCase»
-				note "Ternary\n  Entity" as N_«leftEnding.target.toString.toLowerCase»_dmd
+				note "Ternary\n  Relationship" as N_«leftEnding.target.toString.toLowerCase»_dmd
 				N_«leftEnding.target.toString.toLowerCase»_dmd .. «leftEnding.target.toString.toLowerCase»_dmd
 			«ELSEIF rightEnding.target instanceof Relation»
 				«leftEnding.target.toString.toLowerCase» «defineLeftCardinalitySymbolUML(leftEnding.cardinality.toString)»-- «rightEnding.target.toString.toLowerCase»_dmd
-				note "Ternary\n  Entity" as N_«rightEnding.target.toString.toLowerCase»_dmd
+				note "Ternary\n  Relationship" as N_«rightEnding.target.toString.toLowerCase»_dmd
 				N_«rightEnding.target.toString.toLowerCase»_dmd .. «rightEnding.target.toString.toLowerCase»_dmd
 			«ENDIF»
 		«ENDIF»

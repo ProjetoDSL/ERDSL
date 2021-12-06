@@ -364,6 +364,7 @@ public class EntityImpl extends MinimalEObjectImpl.Container implements Entity
 //    result.append(generalization);
 //    result.append(')');
 //    return result.toString();
+    
     return name;
   }
 

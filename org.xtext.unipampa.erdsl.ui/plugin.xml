@@ -532,4 +532,22 @@
 			</toolbar>
 		</menuContribution>
 	</extension>
+	<!-- code mining -->
+	<extension point="org.eclipse.ui.workbench.texteditor.codeMiningProviders">
+		<codeMiningProvider
+			class="org.xtext.unipampa.erdsl.ui.ErDslExecutableExtensionFactory:org.eclipse.jface.text.codemining.ICodeMiningProvider"
+			id="org.xtext.unipampa.erdsl.ErDsl.CodeMiningProvider"
+			label="ErDsl Codemining">
+			<enabledWhen>
+				<with variable="editorInput">
+					<adapt type="org.eclipse.core.resources.IFile">
+						<test
+							property="org.eclipse.core.resources.contentTypeId"
+							value="org.xtext.unipampa.erdsl.ErDsl.contenttype">
+						</test>
+					</adapt>
+				</with>
+			</enabledWhen>
+		</codeMiningProvider>
+	</extension>
 </plugin>

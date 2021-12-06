@@ -36,12 +36,18 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
           if ((fsa instanceof IFileSystemAccessExtension3)) {
             final ByteArrayOutputStream out = new ByteArrayOutputStream();
             new SourceStringReader(plantUML).generateImage(out);
+            String _lowerCase = modeloER.getDomain().getName().toLowerCase();
+            String _plus = (_lowerCase + "_Diagram.png");
             byte[] _byteArray = out.toByteArray();
             ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
-            ((IFileSystemAccessExtension3) fsa).generateFile("Diagram_(Conceptual_Model).png", _byteArrayInputStream);
-            fsa.generateFile("Diagram_DescriptorGenerated.puml", plantUML);
+            ((IFileSystemAccessExtension3) fsa).generateFile(_plus, _byteArrayInputStream);
+            String _lowerCase_1 = modeloER.getDomain().getName().toLowerCase();
+            String _plus_1 = (_lowerCase_1 + "_DiagramDesc_Gen.puml");
+            fsa.generateFile(_plus_1, plantUML);
           } else {
-            fsa.generateFile("Diagram_ParcialDescriptorGenerated.puml", plantUML);
+            String _lowerCase_2 = modeloER.getDomain().getName().toLowerCase();
+            String _plus_2 = (_lowerCase_2 + "_DiagramDesc_PartialGen.puml");
+            fsa.generateFile(_plus_2, plantUML);
           }
         }
       }
@@ -213,7 +219,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
             String _lowerCase_6 = it.getRightEnding().getTarget().toString().toLowerCase();
             _builder.append(_lowerCase_6);
             _builder.newLineIfNotEmpty();
-            _builder.append("note \"Ternary\\n  Entity\" as N_");
+            _builder.append("note \"Ternary\\n  Relationship\" as N_");
             String _lowerCase_7 = it.getLeftEnding().getTarget().toString().toLowerCase();
             _builder.append(_lowerCase_7);
             _builder.append("_dmd");
@@ -239,7 +245,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
               _builder.append(_lowerCase_11);
               _builder.append("_dmd");
               _builder.newLineIfNotEmpty();
-              _builder.append("note \"Ternary\\n  Entity\" as N_");
+              _builder.append("note \"Ternary\\n  Relationship\" as N_");
               String _lowerCase_12 = it.getRightEnding().getTarget().toString().toLowerCase();
               _builder.append(_lowerCase_12);
               _builder.append("_dmd");

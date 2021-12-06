@@ -12,7 +12,6 @@ import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.xtext.unipampa.erdsl.erDsl.ERModel;
 import org.xtext.unipampa.erdsl.erDsl.Entity;
-import org.xtext.unipampa.erdsl.erDsl.Relation;
 
 /**
  * This class contains custom scoping description.
@@ -25,18 +24,11 @@ public class ErDslScopeProvider extends AbstractErDslScopeProvider {
   @Override
   public IScope getScope(final EObject context, final EReference reference) {
     if ((context instanceof Entity)) {
-      if (true) {
-      }
       EObject _eContainer = ((Entity)context).eContainer();
       final Function1<Entity, Boolean> _function = (Entity x) -> {
         return Boolean.valueOf((!Objects.equal(x, context)));
       };
       return Scopes.scopeFor(IterableExtensions.<Entity>filter(((ERModel) _eContainer).getEntities(), _function));
-    } else {
-      if ((context instanceof Relation)) {
-        if (true) {
-        }
-      }
     }
     return super.getScope(context, reference);
   }

@@ -24,143 +24,40 @@ class ErDslFileTemplateProvider implements IFileTemplateProvider {
 //	val helloName = combo("Hello Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to")
 @FileTemplate(label="ERDSL Template", icon="file_template.png", description="Create a template file for ERDSl.")
 final class ERtextFile {
-	val modelName = combo("Template:", #["Hospital_Veterinario", "Empresa_Generica"], "The logical example model")
+	val modelName = combo("Template:", #["Empty Model"], "The empty model")
 	override generateFiles(IFileGenerator generator) {
 		generator.generate('''«folder»/«name».erdsl''', '''
-		«IF modelName.toString.equalsIgnoreCase("Hospital_Veterinario")»
+		«IF modelName.toString.equalsIgnoreCase("Empty Model")»
 			/*
-			* This is an example model
-			*/
-			 
-			Generate All;
-			
-			Domain Hospital_Veterinario;
-			
-			Entities {
-				
-				Pessoa {
-					idPessoa int isIdentifier,
-					telefoneS int, 
-					nome string
-				}
-				
-				Veterinario is total/disjoint Pessoa {
-					nrVet int,
-					dtAdmissao datetime,
-					salario money
-				}
-				
-				Cliente is total/disjoint Pessoa {
-					cpf int, 
-					email string
-				}
-				
-				Animal {
-					idAnimal int isIdentifier,
-					idade int, 
-					porte string,
-					nome string
-				}
-				
-				Enfermidade {
-					idEnfermidade int isIdentifier,
-					nome string,
-					descricao string
-				}
-				
-				Tratamento {
-					idTratamento int isIdentifier,
-					dtInicio datetime,
-					dtFim datetime
-				}
-				
-				Receita {
-					idReceita int isIdentifier,
-					remedio string
-				}
-				 
-			};
-			
-			Relationships {
-				Assistente   [Veterinario (0:1) relates (0:N) Veterinario]
-				Dono 	   	 [Cliente (1:1) relates (1:N) Animal]		
-				Reponsavel   [Veterinario (1:N) relates (0:N) Tratamento]
-				Possui 	     [Tratamento (1:1) relates (1:1) Receita]
-				AnimalDoente [Animal (0:N) relates (1:N) Enfermidade]
-				TratAnimal   [AnimalDoente (1:N) relates (1:1) Tratamento]
-				
-			};
-			
-		«ELSEIF modelName.toString.equalsIgnoreCase("Empresa_Generica")»
-			/*
-			* This is an example model
+			* The template to demonstrate an overview of the grammar. 
+			* This does not necessarily displays a semantically correct model regarding to the real world.
 			*/
 			
 			Generate All;
 			
-			Domain Empresa_Generica;
+			Domain Name;
 			
 			Entities {
-				
-				Empregado {
-					idEmpregado int isIdentifier,
-					salario money	
+				Entity1 {
+			    	attribute1 int isIdentifier,
+			        attribute2 file
 				}
-				
-				Contador is total/disjoint Empregado {
-					crc int
+			                    
+			    /*  The generalization type can be:
+			    *   [1] total/disjoint, [2] total/overlapped, [3] partial/disjoint OR [4] partial/overlapped
+			    * 
+			    * 	An entity that specializes another should NOT HAVE an IDENTIFIER attribute, as it inherits from the generalized entity.
+			    */
+				Entity2 is total/disjoint Entity1 {
+			    	attribute3 string,
+					attribute4 datetime
 				}
-				
-				Motorista is total/disjoint Empregado {
-					cnh int, 
-					veiculo string
-				}
-				
-				Engenheiro is total/disjoint Empregado {
-						crea int, 
-						areaAtuacao string
-				}
-				
-				Departamento {
-					idDept int isIdentifier,
-					sigla string
-				}
-				
-				Tipo {
-					idTipo int isIdentifier,
-					descricao string
-				}
-				
-				Projeto	{
-					idProjeto int isIdentifier,
-					descricao string
-				}
-				
-				Materiais {
-					idMaterial int isIdentifier,
-					descricao string,
-					validade string
-				}
-				
-				Fornecedor {
-					idFornecedor int isIdentifier,
-					cnpj int, 
-					nomeFantasia string,
-					telefone int
-				}
-				
 			};
 			
 			Relationships {
-				Supervisiona [Empregado (0:1) relates (1:N) Empregado]
-				Desenvolve 	 [Empregado (1:N) relates (0:N) Projeto]
-				Lotado 		 [Empregado (1:N) relates (0:1) Departamento]
-				Tem 		 [Departamento (1:1) relates (1:1) Tipo]
-				Controla	 [Departamento (1:N) relates (0:N) Projeto]
-				Fornecimento [Materiais (0:N) relates (1:N) Fornecedor]
-				ProjFornec	 [Projeto (1:N) relates (1:N) Fornecimento] 
+					Relationship1 [Entity1 (1:N) relates (1:N) Entity2] {attribute5 int}
+					Relationship2 [Entity2 (1:N) relates (1:N) Entity1]	
 			};
-			
 		«ENDIF»
 		''')
 	}

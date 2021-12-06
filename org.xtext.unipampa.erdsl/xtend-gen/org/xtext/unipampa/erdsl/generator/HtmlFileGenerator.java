@@ -26,7 +26,9 @@ public class HtmlFileGenerator extends AbstractGenerator {
     EObject _get = input.getContents().get(0);
     final ERModel modeloER = ((ERModel) _get);
     try {
-      fsa.generateFile("Logical_Textual_Scheme.html", this.CreateLogical(modeloER));
+      String _lowerCase = modeloER.getDomain().getName().toLowerCase();
+      String _plus = (_lowerCase + "_Logical.html");
+      fsa.generateFile(_plus, this.CreateLogical(modeloER));
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
         final Exception e = (Exception)_t;
@@ -645,9 +647,12 @@ public class HtmlFileGenerator extends AbstractGenerator {
                                 _builder.append(_html_ListPKtoFK);
                                 _builder.newLineIfNotEmpty();
                               } else {
-                                CharSequence _html_ListPKtoFK_SelfRelationship = this.html_ListPKtoFK_SelfRelationship(aux, relation.getName().toLowerCase());
-                                _builder.append(_html_ListPKtoFK_SelfRelationship);
-                                _builder.newLineIfNotEmpty();
+                                boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                                if (_equalsIgnoreCase_3) {
+                                  CharSequence _html_ListPKtoFK_SelfRelationship = this.html_ListPKtoFK_SelfRelationship(aux, relation.getName().toLowerCase());
+                                  _builder.append(_html_ListPKtoFK_SelfRelationship);
+                                  _builder.newLineIfNotEmpty();
+                                }
                               }
                             }
                           } else {
@@ -655,14 +660,14 @@ public class HtmlFileGenerator extends AbstractGenerator {
                             boolean _tripleNotEquals = (_is_1 != null);
                             if (_tripleNotEquals) {
                               {
-                                boolean _equalsIgnoreCase_3 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                if (_equalsIgnoreCase_3) {
+                                boolean _equalsIgnoreCase_4 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                                if (_equalsIgnoreCase_4) {
                                   CharSequence _html_ListPKtoFK_SelfRelationship_1 = this.html_ListPKtoFK_SelfRelationship(aux, relation.getName().toLowerCase());
                                   _builder.append(_html_ListPKtoFK_SelfRelationship_1);
                                   _builder.newLineIfNotEmpty();
                                 } else {
-                                  boolean _equalsIgnoreCase_4 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                  boolean _not_1 = (!_equalsIgnoreCase_4);
+                                  boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                                  boolean _not_1 = (!_equalsIgnoreCase_5);
                                   if (_not_1) {
                                     Object _xblockexpression = null;
                                     {
@@ -691,21 +696,21 @@ public class HtmlFileGenerator extends AbstractGenerator {
             if (((relation.getLeftEnding().getCardinality().equalsIgnoreCase("(0:N)") || relation.getLeftEnding().getCardinality().equalsIgnoreCase("(1:N)")) && (relation.getRightEnding().getCardinality().equalsIgnoreCase("(0:1)") || relation.getRightEnding().getCardinality().equalsIgnoreCase("(1:1)")))) {
               _builder.newLine();
               {
-                boolean _equalsIgnoreCase_5 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(e.getName());
-                if (_equalsIgnoreCase_5) {
+                boolean _equalsIgnoreCase_6 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(e.getName());
+                if (_equalsIgnoreCase_6) {
                   {
                     EList<Entity> _entities_1 = m.getEntities();
                     for(final Entity aux_1 : _entities_1) {
                       {
-                        boolean _equalsIgnoreCase_6 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(aux_1.getName());
-                        if (_equalsIgnoreCase_6) {
+                        boolean _equalsIgnoreCase_7 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(aux_1.getName());
+                        if (_equalsIgnoreCase_7) {
                           {
                             Entity _is_2 = aux_1.getIs();
                             boolean _tripleEquals_1 = (_is_2 == null);
                             if (_tripleEquals_1) {
                               {
-                                boolean _equalsIgnoreCase_7 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
-                                boolean _not_2 = (!_equalsIgnoreCase_7);
+                                boolean _equalsIgnoreCase_8 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+                                boolean _not_2 = (!_equalsIgnoreCase_8);
                                 if (_not_2) {
                                   CharSequence _html_ListPKtoFK_2 = this.html_ListPKtoFK(aux_1);
                                   _builder.append(_html_ListPKtoFK_2);
@@ -721,8 +726,8 @@ public class HtmlFileGenerator extends AbstractGenerator {
                               boolean _tripleNotEquals_1 = (_is_3 != null);
                               if (_tripleNotEquals_1) {
                                 {
-                                  boolean _equalsIgnoreCase_8 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                  if (_equalsIgnoreCase_8) {
+                                  boolean _equalsIgnoreCase_9 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                                  if (_equalsIgnoreCase_9) {
                                     _builder.newLine();
                                     _builder.newLine();
                                     _builder.newLine();
@@ -730,8 +735,8 @@ public class HtmlFileGenerator extends AbstractGenerator {
                                     _builder.append(_html_ListPKtoFK_SelfRelationship_3);
                                     _builder.newLineIfNotEmpty();
                                   } else {
-                                    boolean _equalsIgnoreCase_9 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
-                                    boolean _not_3 = (!_equalsIgnoreCase_9);
+                                    boolean _equalsIgnoreCase_10 = relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString());
+                                    boolean _not_3 = (!_equalsIgnoreCase_10);
                                     if (_not_3) {
                                       Object _xblockexpression_1 = null;
                                       {
@@ -812,23 +817,49 @@ public class HtmlFileGenerator extends AbstractGenerator {
                     {
                       if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity.getName()) && (!relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString())))) {
                         {
-                          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
-                            return Boolean.valueOf(it.isIsKey());
-                          };
-                          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(entity.getAttributes(), _function);
-                          boolean _hasElements = false;
-                          for(final Attribute attribute : _filter) {
-                            if (!_hasElements) {
-                              _hasElements = true;
-                            } else {
-                              _builder.appendImmediate(" | ", "");
+                          Entity _is = entity.getIs();
+                          boolean _tripleNotEquals = (_is != null);
+                          if (_tripleNotEquals) {
+                            {
+                              final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(entity.getIs().getAttributes(), _function);
+                              boolean _hasElements = false;
+                              for(final Attribute attribute : _filter) {
+                                if (!_hasElements) {
+                                  _hasElements = true;
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK = this.html_AttributeStyleForInheritedPK(attribute);
+                                _builder.append(_html_AttributeStyleForInheritedPK);
+                                _builder.append("_fk");
+                                _builder.newLineIfNotEmpty();
+                              }
                             }
-                            CharSequence _html_AttributeStyleForInheritedPK = this.html_AttributeStyleForInheritedPK(attribute);
-                            _builder.append(_html_AttributeStyleForInheritedPK);
-                            _builder.append("_fk");
-                            _builder.newLineIfNotEmpty();
+                          } else {
+                            {
+                              final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(entity.getAttributes(), _function_1);
+                              boolean _hasElements_1 = false;
+                              for(final Attribute attribute_1 : _filter_1) {
+                                if (!_hasElements_1) {
+                                  _hasElements_1 = true;
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK_1 = this.html_AttributeStyleForInheritedPK(attribute_1);
+                                _builder.append(_html_AttributeStyleForInheritedPK_1);
+                                _builder.append("_fk");
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
                           }
                         }
+                        _builder.newLine();
                       }
                     }
                   }
@@ -840,20 +871,20 @@ public class HtmlFileGenerator extends AbstractGenerator {
                     {
                       if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_1.getName()) && (!relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString())))) {
                         {
-                          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+                          final Function1<Attribute, Boolean> _function_2 = (Attribute it) -> {
                             return Boolean.valueOf(it.isIsKey());
                           };
-                          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(entity_1.getAttributes(), _function_1);
-                          boolean _hasElements_1 = false;
-                          for(final Attribute attribute_1 : _filter_1) {
-                            if (!_hasElements_1) {
-                              _hasElements_1 = true;
+                          Iterable<Attribute> _filter_2 = IterableExtensions.<Attribute>filter(entity_1.getAttributes(), _function_2);
+                          boolean _hasElements_2 = false;
+                          for(final Attribute attribute_2 : _filter_2) {
+                            if (!_hasElements_2) {
+                              _hasElements_2 = true;
                               _builder.append(" | ");
                             } else {
                               _builder.appendImmediate(" | ", "");
                             }
-                            CharSequence _html_AttributeStyleForInheritedPK_1 = this.html_AttributeStyleForInheritedPK(attribute_1);
-                            _builder.append(_html_AttributeStyleForInheritedPK_1);
+                            CharSequence _html_AttributeStyleForInheritedPK_2 = this.html_AttributeStyleForInheritedPK(attribute_2);
+                            _builder.append(_html_AttributeStyleForInheritedPK_2);
                             _builder.append("_fk");
                             _builder.newLineIfNotEmpty();
                           }
@@ -871,21 +902,46 @@ public class HtmlFileGenerator extends AbstractGenerator {
                     {
                       if ((relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(entity_2.getName()) && relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString()))) {
                         {
-                          final Function1<Attribute, Boolean> _function_2 = (Attribute it) -> {
-                            return Boolean.valueOf(it.isIsKey());
-                          };
-                          Iterable<Attribute> _filter_2 = IterableExtensions.<Attribute>filter(entity_2.getAttributes(), _function_2);
-                          boolean _hasElements_2 = false;
-                          for(final Attribute attribute_2 : _filter_2) {
-                            if (!_hasElements_2) {
-                              _hasElements_2 = true;
-                            } else {
-                              _builder.appendImmediate(" | ", "");
+                          Entity _is_1 = entity_2.getIs();
+                          boolean _tripleNotEquals_1 = (_is_1 != null);
+                          if (_tripleNotEquals_1) {
+                            {
+                              final Function1<Attribute, Boolean> _function_3 = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter_3 = IterableExtensions.<Attribute>filter(entity_2.getIs().getAttributes(), _function_3);
+                              boolean _hasElements_3 = false;
+                              for(final Attribute attribute_3 : _filter_3) {
+                                if (!_hasElements_3) {
+                                  _hasElements_3 = true;
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK_3 = this.html_AttributeStyleForInheritedPK(attribute_3);
+                                _builder.append(_html_AttributeStyleForInheritedPK_3);
+                                _builder.append("_fk_1 ");
+                                _builder.newLineIfNotEmpty();
+                              }
                             }
-                            CharSequence _html_AttributeStyleForInheritedPK_2 = this.html_AttributeStyleForInheritedPK(attribute_2);
-                            _builder.append(_html_AttributeStyleForInheritedPK_2);
-                            _builder.append("_fk_1 ");
-                            _builder.newLineIfNotEmpty();
+                          } else {
+                            {
+                              final Function1<Attribute, Boolean> _function_4 = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter_4 = IterableExtensions.<Attribute>filter(entity_2.getAttributes(), _function_4);
+                              boolean _hasElements_4 = false;
+                              for(final Attribute attribute_4 : _filter_4) {
+                                if (!_hasElements_4) {
+                                  _hasElements_4 = true;
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK_4 = this.html_AttributeStyleForInheritedPK(attribute_4);
+                                _builder.append(_html_AttributeStyleForInheritedPK_4);
+                                _builder.append("_fk_1 ");
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
                           }
                         }
                       }
@@ -894,22 +950,48 @@ public class HtmlFileGenerator extends AbstractGenerator {
                     {
                       if ((relation.getRightEnding().getTarget().toString().equalsIgnoreCase(entity_2.getName()) && relation.getRightEnding().getTarget().toString().equalsIgnoreCase(relation.getLeftEnding().getTarget().toString()))) {
                         {
-                          final Function1<Attribute, Boolean> _function_3 = (Attribute it) -> {
-                            return Boolean.valueOf(it.isIsKey());
-                          };
-                          Iterable<Attribute> _filter_3 = IterableExtensions.<Attribute>filter(entity_2.getAttributes(), _function_3);
-                          boolean _hasElements_3 = false;
-                          for(final Attribute attribute_3 : _filter_3) {
-                            if (!_hasElements_3) {
-                              _hasElements_3 = true;
-                              _builder.append(" | ");
-                            } else {
-                              _builder.appendImmediate(" | ", "");
+                          Entity _is_2 = entity_2.getIs();
+                          boolean _tripleNotEquals_2 = (_is_2 != null);
+                          if (_tripleNotEquals_2) {
+                            {
+                              final Function1<Attribute, Boolean> _function_5 = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter_5 = IterableExtensions.<Attribute>filter(entity_2.getIs().getAttributes(), _function_5);
+                              boolean _hasElements_5 = false;
+                              for(final Attribute attribute_5 : _filter_5) {
+                                if (!_hasElements_5) {
+                                  _hasElements_5 = true;
+                                  _builder.append(" | ");
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK_5 = this.html_AttributeStyleForInheritedPK(attribute_5);
+                                _builder.append(_html_AttributeStyleForInheritedPK_5);
+                                _builder.append("_fk_2");
+                                _builder.newLineIfNotEmpty();
+                              }
                             }
-                            CharSequence _html_AttributeStyleForInheritedPK_3 = this.html_AttributeStyleForInheritedPK(attribute_3);
-                            _builder.append(_html_AttributeStyleForInheritedPK_3);
-                            _builder.append("_fk_2");
-                            _builder.newLineIfNotEmpty();
+                          } else {
+                            {
+                              final Function1<Attribute, Boolean> _function_6 = (Attribute it) -> {
+                                return Boolean.valueOf(it.isIsKey());
+                              };
+                              Iterable<Attribute> _filter_6 = IterableExtensions.<Attribute>filter(entity_2.getAttributes(), _function_6);
+                              boolean _hasElements_6 = false;
+                              for(final Attribute attribute_6 : _filter_6) {
+                                if (!_hasElements_6) {
+                                  _hasElements_6 = true;
+                                  _builder.append(" | ");
+                                } else {
+                                  _builder.appendImmediate(" | ", "");
+                                }
+                                CharSequence _html_AttributeStyleForInheritedPK_6 = this.html_AttributeStyleForInheritedPK(attribute_6);
+                                _builder.append(_html_AttributeStyleForInheritedPK_6);
+                                _builder.append("_fk_2");
+                                _builder.newLineIfNotEmpty();
+                              }
+                            }
                           }
                         }
                       }
@@ -920,37 +1002,37 @@ public class HtmlFileGenerator extends AbstractGenerator {
                 _builder.append("\t\t\t");
                 _builder.newLine();
                 {
-                  final Function1<Attribute, Boolean> _function_4 = (Attribute i) -> {
+                  final Function1<Attribute, Boolean> _function_7 = (Attribute i) -> {
                     return Boolean.valueOf(((!StringExtensions.isNullOrEmpty(i.getName())) && i.isIsKey()));
                   };
-                  Iterable<Attribute> _filter_4 = IterableExtensions.<Attribute>filter(relation.getAttributes(), _function_4);
-                  boolean _hasElements_4 = false;
-                  for(final Attribute attribute_4 : _filter_4) {
-                    if (!_hasElements_4) {
-                      _hasElements_4 = true;
+                  Iterable<Attribute> _filter_7 = IterableExtensions.<Attribute>filter(relation.getAttributes(), _function_7);
+                  boolean _hasElements_7 = false;
+                  for(final Attribute attribute_7 : _filter_7) {
+                    if (!_hasElements_7) {
+                      _hasElements_7 = true;
                       _builder.append(" | ");
                     } else {
                       _builder.appendImmediate(" | ", "");
                     }
-                    CharSequence _html_AttributeStyleForPK = this.html_AttributeStyleForPK(attribute_4);
+                    CharSequence _html_AttributeStyleForPK = this.html_AttributeStyleForPK(attribute_7);
                     _builder.append(_html_AttributeStyleForPK);
                     _builder.newLineIfNotEmpty();
                   }
                 }
                 {
-                  final Function1<Attribute, Boolean> _function_5 = (Attribute i) -> {
+                  final Function1<Attribute, Boolean> _function_8 = (Attribute i) -> {
                     return Boolean.valueOf(((!StringExtensions.isNullOrEmpty(i.getName())) && (!i.isIsKey())));
                   };
-                  Iterable<Attribute> _filter_5 = IterableExtensions.<Attribute>filter(relation.getAttributes(), _function_5);
-                  boolean _hasElements_5 = false;
-                  for(final Attribute attribute_5 : _filter_5) {
-                    if (!_hasElements_5) {
-                      _hasElements_5 = true;
+                  Iterable<Attribute> _filter_8 = IterableExtensions.<Attribute>filter(relation.getAttributes(), _function_8);
+                  boolean _hasElements_8 = false;
+                  for(final Attribute attribute_8 : _filter_8) {
+                    if (!_hasElements_8) {
+                      _hasElements_8 = true;
                       _builder.append(" | ");
                     } else {
                       _builder.appendImmediate(" | ", "");
                     }
-                    String _lowerCase = attribute_5.getName().toLowerCase();
+                    String _lowerCase = attribute_8.getName().toLowerCase();
                     _builder.append(_lowerCase);
                     _builder.newLineIfNotEmpty();
                   }
@@ -1188,22 +1270,98 @@ public class HtmlFileGenerator extends AbstractGenerator {
   private CharSequence html_ListPKtoFK_Alt(final Entity e) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      final Function1<Attribute, Boolean> _function = (Attribute it) -> {
-        return Boolean.valueOf(it.isIsKey());
-      };
-      Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getAttributes(), _function);
-      boolean _hasElements = false;
-      for(final Attribute att : _filter) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(" , ", "");
+      Entity _is = e.getIs();
+      boolean _tripleNotEquals = (_is != null);
+      if (_tripleNotEquals) {
+        {
+          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getIs().getAttributes(), _function);
+          boolean _hasElements = false;
+          for(final Attribute att : _filter) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase = att.getName().toLowerCase();
+            _builder.append(_lowerCase);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
         }
-        _builder.append("<font color=\"blue\">");
-        String _lowerCase = att.getName().toLowerCase();
-        _builder.append(_lowerCase);
-        _builder.append("_fk</font>");
-        _builder.newLineIfNotEmpty();
+      } else {
+        {
+          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(e.getAttributes(), _function_1);
+          boolean _hasElements_1 = false;
+          for(final Attribute att_1 : _filter_1) {
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase_1 = att_1.getName().toLowerCase();
+            _builder.append(_lowerCase_1);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+  
+  private CharSequence html_ListPKtoFK_Alt(final Entity e, final String r) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      Entity _is = e.getIs();
+      boolean _tripleNotEquals = (_is != null);
+      if (_tripleNotEquals) {
+        {
+          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getIs().getAttributes(), _function);
+          boolean _hasElements = false;
+          for(final Attribute att : _filter) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase = att.getName().toLowerCase();
+            _builder.append(_lowerCase);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      } else {
+        {
+          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(e.getAttributes(), _function_1);
+          boolean _hasElements_1 = false;
+          for(final Attribute att_1 : _filter_1) {
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase_1 = att_1.getName().toLowerCase();
+            _builder.append(_lowerCase_1);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
     return _builder;
@@ -1212,51 +1370,164 @@ public class HtmlFileGenerator extends AbstractGenerator {
   private CharSequence html_ListPKtoFK_SelfRelationship(final Entity e, final String r) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      final Function1<Attribute, Boolean> _function = (Attribute it) -> {
-        return Boolean.valueOf(it.isIsKey());
-      };
-      Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getAttributes(), _function);
-      boolean _hasElements = false;
-      for(final Attribute att : _filter) {
-        if (!_hasElements) {
-          _hasElements = true;
-          _builder.append(" | ");
-        } else {
-          _builder.appendImmediate(" | ", "");
+      Entity _is = e.getIs();
+      boolean _tripleNotEquals = (_is != null);
+      if (_tripleNotEquals) {
+        {
+          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getIs().getAttributes(), _function);
+          boolean _hasElements = false;
+          for(final Attribute att : _filter) {
+            if (!_hasElements) {
+              _hasElements = true;
+              _builder.append(" | ");
+            } else {
+              _builder.appendImmediate(" | ", "");
+            }
+            _builder.append("<font color=\"blue\"><i class=\"fa fa-globe\" aria-hidden=\"true\"></i></font> ");
+            String _lowerCase = att.getName().toLowerCase();
+            String _plus = (_lowerCase + "_");
+            String _plus_1 = (_plus + r);
+            _builder.append(_plus_1);
+            _builder.append("_fk");
+            _builder.newLineIfNotEmpty();
+          }
         }
-        _builder.append("<font color=\"blue\"><i class=\"fa fa-globe\" aria-hidden=\"true\"></i></font> ");
-        String _lowerCase = att.getName().toLowerCase();
-        String _plus = (_lowerCase + "_");
-        String _plus_1 = (_plus + r);
-        _builder.append(_plus_1);
-        _builder.append("_fk");
-        _builder.newLineIfNotEmpty();
+      } else {
+        {
+          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(e.getAttributes(), _function_1);
+          boolean _hasElements_1 = false;
+          for(final Attribute att_1 : _filter_1) {
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
+              _builder.append(" | ");
+            } else {
+              _builder.appendImmediate(" | ", "");
+            }
+            _builder.append("<font color=\"blue\"><i class=\"fa fa-globe\" aria-hidden=\"true\"></i></font> ");
+            String _lowerCase_1 = att_1.getName().toLowerCase();
+            String _plus_2 = (_lowerCase_1 + "_");
+            String _plus_3 = (_plus_2 + r);
+            _builder.append(_plus_3);
+            _builder.append("_fk");
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
+    _builder.newLine();
+    _builder.newLine();
     return _builder;
   }
   
   private CharSequence html_ListPKtoFK_SelfRelationship_Alt(final Entity e, final String r) {
     StringConcatenation _builder = new StringConcatenation();
     {
-      final Function1<Attribute, Boolean> _function = (Attribute it) -> {
-        return Boolean.valueOf(it.isIsKey());
-      };
-      Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getAttributes(), _function);
-      boolean _hasElements = false;
-      for(final Attribute att : _filter) {
-        if (!_hasElements) {
-          _hasElements = true;
-        } else {
-          _builder.appendImmediate(" , ", "");
+      Entity _is = e.getIs();
+      boolean _tripleNotEquals = (_is != null);
+      if (_tripleNotEquals) {
+        {
+          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getIs().getAttributes(), _function);
+          boolean _hasElements = false;
+          for(final Attribute att : _filter) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase = att.getName().toLowerCase();
+            String _plus = (_lowerCase + "_");
+            String _plus_1 = (_plus + r);
+            _builder.append(_plus_1);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
         }
-        _builder.append("<font color=\"blue\">");
-        String _lowerCase = att.getName().toLowerCase();
-        String _plus = (_lowerCase + "_");
-        String _plus_1 = (_plus + r);
-        _builder.append(_plus_1);
-        _builder.append("_fk</font>");
-        _builder.newLineIfNotEmpty();
+      } else {
+        {
+          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(e.getAttributes(), _function_1);
+          boolean _hasElements_1 = false;
+          for(final Attribute att_1 : _filter_1) {
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase_1 = att_1.getName().toLowerCase();
+            String _plus_2 = (_lowerCase_1 + "_");
+            String _plus_3 = (_plus_2 + r);
+            _builder.append(_plus_3);
+            _builder.append("_fk</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      }
+    }
+    return _builder;
+  }
+  
+  private CharSequence html_ListPKtoFK_SelfRelationship_Alt(final Entity e, final int i) {
+    StringConcatenation _builder = new StringConcatenation();
+    {
+      Entity _is = e.getIs();
+      boolean _tripleNotEquals = (_is != null);
+      if (_tripleNotEquals) {
+        {
+          final Function1<Attribute, Boolean> _function = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter = IterableExtensions.<Attribute>filter(e.getIs().getAttributes(), _function);
+          boolean _hasElements = false;
+          for(final Attribute att : _filter) {
+            if (!_hasElements) {
+              _hasElements = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase = att.getName().toLowerCase();
+            _builder.append(_lowerCase);
+            _builder.append("_fk_");
+            _builder.append(i);
+            _builder.append("</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
+      } else {
+        {
+          final Function1<Attribute, Boolean> _function_1 = (Attribute it) -> {
+            return Boolean.valueOf(it.isIsKey());
+          };
+          Iterable<Attribute> _filter_1 = IterableExtensions.<Attribute>filter(e.getAttributes(), _function_1);
+          boolean _hasElements_1 = false;
+          for(final Attribute att_1 : _filter_1) {
+            if (!_hasElements_1) {
+              _hasElements_1 = true;
+            } else {
+              _builder.appendImmediate(" , ", "");
+            }
+            _builder.append("<font color=\"blue\">");
+            String _lowerCase_1 = att_1.getName().toLowerCase();
+            _builder.append(_lowerCase_1);
+            _builder.append("_fk_");
+            _builder.append(i);
+            _builder.append("</font>");
+            _builder.newLineIfNotEmpty();
+          }
+        }
       }
     }
     return _builder;
@@ -1401,6 +1672,8 @@ public class HtmlFileGenerator extends AbstractGenerator {
             CharSequence _html_BinaryRelationshipNameStyle = this.html_BinaryRelationshipNameStyle(relation.getName(), relation.getLeftEnding().getTarget().toString(), relation.getRightEnding().getTarget().toString(), relation.getLeftEnding().getCardinality(), relation.getRightEnding().getCardinality());
             _builder.append(_html_BinaryRelationshipNameStyle, "\t");
             _builder.newLineIfNotEmpty();
+            _builder.append("\t");
+            _builder.append("</br>");
             _builder.newLine();
             _builder.append("\t");
             _builder.append("Attribute (<font color=\"blue\"><b> ");
@@ -1517,7 +1790,7 @@ public class HtmlFileGenerator extends AbstractGenerator {
             CharSequence _html_BinaryRelationshipNameStyle = this.html_BinaryRelationshipNameStyle(relation.getName(), relation.getLeftEnding().getTarget().toString(), relation.getRightEnding().getTarget().toString(), relation.getLeftEnding().getCardinality(), relation.getRightEnding().getCardinality());
             _builder.append(_html_BinaryRelationshipNameStyle);
             _builder.newLineIfNotEmpty();
-            _builder.append("\t");
+            _builder.append("</br>");
             _builder.newLine();
             _builder.append("Attribute (<font color=\"blue\"><b> ");
             _builder.newLine();
@@ -1602,6 +1875,7 @@ public class HtmlFileGenerator extends AbstractGenerator {
               CharSequence _html_BinaryRelationshipNameStyle_1 = this.html_BinaryRelationshipNameStyle(relation.getName(), relation.getLeftEnding().getTarget().toString(), relation.getRightEnding().getTarget().toString(), relation.getLeftEnding().getCardinality(), relation.getRightEnding().getCardinality());
               _builder.append(_html_BinaryRelationshipNameStyle_1);
               _builder.newLineIfNotEmpty();
+              _builder.append("</br>");
               _builder.newLine();
               _builder.append("Attribute (<font color=\"blue\"><b>");
               _builder.newLine();
@@ -1710,14 +1984,25 @@ public class HtmlFileGenerator extends AbstractGenerator {
             CharSequence _html_BinaryRelationshipNameStyle = this.html_BinaryRelationshipNameStyle(relation.getName(), relation.getLeftEnding().getTarget().toString(), relation.getRightEnding().getTarget().toString(), relation.getLeftEnding().getCardinality(), relation.getRightEnding().getCardinality());
             _builder.append(_html_BinaryRelationshipNameStyle);
             _builder.newLineIfNotEmpty();
+            _builder.append("</br>");
             _builder.newLine();
             _builder.append("Attribute (<font color=\"blue\"><b> ");
             _builder.newLine();
             _builder.newLine();
-            EObject _target = relation.getLeftEnding().getTarget();
-            CharSequence _html_ListPKtoFK_Alt = this.html_ListPKtoFK_Alt(((Entity) _target));
-            _builder.append(_html_ListPKtoFK_Alt);
-            _builder.newLineIfNotEmpty();
+            {
+              boolean _equalsIgnoreCase = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+              if (_equalsIgnoreCase) {
+                EObject _target = relation.getLeftEnding().getTarget();
+                CharSequence _html_ListPKtoFK_SelfRelationship_Alt = this.html_ListPKtoFK_SelfRelationship_Alt(((Entity) _target), 1);
+                _builder.append(_html_ListPKtoFK_SelfRelationship_Alt);
+                _builder.newLineIfNotEmpty();
+              } else {
+                EObject _target_1 = relation.getLeftEnding().getTarget();
+                CharSequence _html_ListPKtoFK_Alt = this.html_ListPKtoFK_Alt(((Entity) _target_1));
+                _builder.append(_html_ListPKtoFK_Alt);
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.newLine();
             _builder.append("</b></font>) in ");
             CharSequence _html_EntityNameTag = this.html_EntityNameTag(relation.getName());
@@ -1732,11 +2017,20 @@ public class HtmlFileGenerator extends AbstractGenerator {
             _builder.append("Attribute (<font color=\"blue\"><b> ");
             _builder.newLine();
             _builder.newLine();
-            EObject _target_1 = relation.getRightEnding().getTarget();
-            CharSequence _html_ListPKtoFK_Alt_1 = this.html_ListPKtoFK_Alt(((Entity) _target_1));
-            _builder.append(_html_ListPKtoFK_Alt_1);
-            _builder.append("\t\t\t");
-            _builder.newLineIfNotEmpty();
+            {
+              boolean _equalsIgnoreCase_1 = relation.getLeftEnding().getTarget().toString().equalsIgnoreCase(relation.getRightEnding().getTarget().toString());
+              if (_equalsIgnoreCase_1) {
+                EObject _target_2 = relation.getRightEnding().getTarget();
+                CharSequence _html_ListPKtoFK_SelfRelationship_Alt_1 = this.html_ListPKtoFK_SelfRelationship_Alt(((Entity) _target_2), 2);
+                _builder.append(_html_ListPKtoFK_SelfRelationship_Alt_1);
+                _builder.newLineIfNotEmpty();
+              } else {
+                EObject _target_3 = relation.getRightEnding().getTarget();
+                CharSequence _html_ListPKtoFK_Alt_1 = this.html_ListPKtoFK_Alt(((Entity) _target_3));
+                _builder.append(_html_ListPKtoFK_Alt_1);
+                _builder.newLineIfNotEmpty();
+              }
+            }
             _builder.append("\t\t\t");
             _builder.newLine();
             _builder.append("</b></font>) in ");
@@ -1802,7 +2096,7 @@ public class HtmlFileGenerator extends AbstractGenerator {
         String _plus_3 = (_plus_2 + _upperCase_4);
         _builder.append(_plus_3);
         _builder.newLineIfNotEmpty();
-        _builder.append("</font><br/>\t");
+        _builder.append("</font><br/></br>");
         _builder.newLine();
         CharSequence _html_Ternary_Relationships_Attributes = this.html_Ternary_Relationships_Attributes(m, relation);
         _builder.append(_html_Ternary_Relationships_Attributes);

@@ -25,13 +25,13 @@ class ErDslProjectTemplateProvider implements IProjectTemplateProvider {
 	}
 }
 
-@ProjectTemplate(label="org.project.ertext.template", icon="project_template.png", description="<p><b> ERtext TEMPLATE</b></p> 
-<p>This is a parameterized template for ERtext. You can set a parameter to modify the content in the generated file and a parameter 
+@ProjectTemplate(label="org.project.ertext.template", icon="project_template.png", description="<p><b> ERtext Project Template</b></p> 
+<p>This is a parameterized project template for ERtext. You can set a parameter to modify the content in the generated file and a parameter 
 to set the package the file is created in.</p>")
 final class ERtextProject {
 	val advanced = check("Advanced:", false)
 	val advancedGroup = group("Properties")
-	val name = combo("Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to", advancedGroup)
+	val name = combo("Name:", #["Xtext"], "Xtext:", advancedGroup)
 	val path = text("Package:", "ERtext", "The package path to place the files in", advancedGroup)
 
 	override protected updateVariables() {
@@ -58,67 +58,36 @@ final class ERtextProject {
 			projectNatures += #[XtextProjectHelper.NATURE_ID]
 			builderIds += #[JavaCore.BUILDER_ID, XtextProjectHelper.BUILDER_ID]
 			folders += "src"
-			addFile('''src/Blank_Model.erdsl''', '''
+			addFile('''src/TemplateModel.erdsl''', '''
 			/*
-			 * Hello new user!
-			 *
-			 * This is an example model
-			 */
-
+			* The template to demonstrate an overview of the grammar. 
+			* This does not necessarily displays a semantically correct model regarding to the real world.
+			*/
+			
 			Generate All;
 			
-			Domain The_Employees_Sample_Schema;
+			Domain Name;
 			
 			Entities {
-				
-				Person {
-					person_no int isIdentifier,
-					gender boolean
+				Entity1 {
+			    	attribute1 int isIdentifier,
+			        attribute2 file
 				}
-				
-				Employee is total/overlapped Person {
-				 emp_no int isIdentifier,
-				 birth_dt datetime,
-				 first_name string,
-				 last_name string,
-				 hire_dt datetime	
+			                    
+			    /*  The generalization type can be:
+			    *   [1] total/disjoint, [2] total/overlapped, [3] partial/disjoint OR [4] partial/overlapped
+			    * 
+			    * 	An entity that specializes another should NOT HAVE an IDENTIFIER attribute, as it inherits from the generalized entity.
+			    */
+				Entity2 is total/disjoint Entity1 {
+			    	attribute3 string,
+					attribute4 datetime
 				}
-				
-				Dependent is total/overlapped Person {
-					dependent_no int isIdentifier,
-					first_name string,
-					last_name string
-				}
-				
-				Salary {
-					salary_no int isIdentifier,
-					salary money,
-					from_dt datetime,
-					to_dt datetime
-				}
-				
-				Departament {
-					dept_no int isIdentifier,
-					name string, 
-					goals_description string
-				}
-				
-				Title	 {
-					title_no int isIdentifier,
-					name string,
-					description string,
-					from_dt datetime,
-					to_dt datetime		
-				}
-					
 			};
 			
 			Relationships {
-				Dept_manager [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
-				Dept_emp	 [Employee (1:N) relates (1:N) Departament] {from_dt datetime, to_dt datetime}
-				Payment 	 [Salary (1:N) relates (1:1) Employee]
-				JobTitle	 [Title (1:N) relates (1:1) Employee]
-				Dependency	 [Employee (1:1) relates (1:N) Dependent]
+					Relationship1 [Entity1 (1:N) relates (1:N) Entity2] {attribute5 int}
+					Relationship2 [Entity2 (1:N) relates (1:N) Entity1]	
 			};
 			''')
 		])

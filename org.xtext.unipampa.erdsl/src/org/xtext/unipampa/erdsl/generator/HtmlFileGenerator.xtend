@@ -17,7 +17,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 	
 		try {
 			
-			fsa.generateFile('Logical_Textual_Scheme.html', CreateLogical(modeloER))
+			fsa.generateFile(modeloER.domain.name.toLowerCase+'_Logical.html', CreateLogical(modeloER))
 		
 		} catch (Exception e) {
 			
@@ -249,7 +249,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 							«IF aux.is === null»
 								«IF !relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
 									«html_ListPKtoFK(aux)»
-								«ELSE»
+								«ELSEIF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
 								 	«html_ListPKtoFK_SelfRelationship(aux, relation.name.toLowerCase)»
 								«ENDIF»
 							«ELSEIF aux.is !== null»
@@ -317,9 +317,16 @@ class HtmlFileGenerator extends AbstractGenerator {
 				
 				«FOR entity : m.entities»
 					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && !(relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
-						«FOR attribute : entity.attributes.filter[isIsKey] SEPARATOR " | "»
-							«html_AttributeStyleForInheritedPK(attribute)»_fk
-						«ENDFOR»
+						«IF entity.is !== null»
+							«FOR attribute : entity.is.attributes.filter[isIsKey] SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk
+							«ENDFOR»
+						«ELSE»
+							«FOR attribute : entity.attributes.filter[isIsKey] SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk
+							«ENDFOR»
+						«ENDIF»
+
 					«ENDIF»
 				«ENDFOR»
 				
@@ -338,15 +345,27 @@ class HtmlFileGenerator extends AbstractGenerator {
 					 *  
 					 */»				
 					«IF relation.leftEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString))»
-						«FOR attribute : entity.attributes.filter[isKey] SEPARATOR " | "»
-							«html_AttributeStyleForInheritedPK(attribute)»_fk_1 
-						«ENDFOR»
+						«IF entity.is !== null»
+							«FOR attribute : entity.is.attributes.filter[isKey] SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk_1 
+							«ENDFOR»
+						«ELSE»
+							«FOR attribute : entity.attributes.filter[isKey] SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk_1 
+							«ENDFOR»
+						«ENDIF»
 					«ENDIF»
 					
 					«IF relation.rightEnding.target.toString.equalsIgnoreCase(entity.name) && (relation.rightEnding.target.toString.equalsIgnoreCase(relation.leftEnding.target.toString))»
-						«FOR attribute : entity.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
-							«html_AttributeStyleForInheritedPK(attribute)»_fk_2
-						«ENDFOR»
+						«IF entity.is !== null»
+							«FOR attribute : entity.is.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk_2
+							«ENDFOR»
+						«ELSE»
+							«FOR attribute : entity.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+								«html_AttributeStyleForInheritedPK(attribute)»_fk_2
+							«ENDFOR»
+						«ENDIF»
 					«ENDIF»					
 				«ENDFOR»	
 				
@@ -439,21 +458,65 @@ class HtmlFileGenerator extends AbstractGenerator {
 	'''
 
 	def private html_ListPKtoFK_Alt (Entity e) '''
-		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
-			<font color="blue">«att.name.toLowerCase»_fk</font>
-		«ENDFOR»
+		«IF e.is !== null»
+			«FOR att : e.is.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk</font>
+			«ENDFOR»		
+		«ELSE»
+			«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk</font>
+			«ENDFOR»
+		«ENDIF»
+	'''
+
+	def private html_ListPKtoFK_Alt (Entity e, String r) '''
+		«IF e.is !== null»
+			«FOR att : e.is.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk</font>
+			«ENDFOR»		
+		«ELSE»
+			«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk</font>
+			«ENDFOR»
+		«ENDIF»
 	'''
 	
 	def private html_ListPKtoFK_SelfRelationship (Entity e, String r) '''
-		«FOR att : e.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
-			<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «att.name.toLowerCase+"_"+r»_fk
+		«IF e.is !== null»
+			«FOR att : e.is.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+				<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «att.name.toLowerCase+"_"+r»_fk
 		«ENDFOR»
+		«ELSE»
+			«FOR att : e.attributes.filter[isIsKey] BEFORE " | " SEPARATOR " | "»
+				<font color="blue"><i class="fa fa-globe" aria-hidden="true"></i></font> «att.name.toLowerCase+"_"+r»_fk
+			«ENDFOR»
+		«ENDIF»
+		
+		
 	'''
 	
 	def private html_ListPKtoFK_SelfRelationship_Alt (Entity e, String r) '''
-		«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
-			<font color="blue">«att.name.toLowerCase+"_"+r»_fk</font>
-		«ENDFOR»
+		«IF e.is !== null»
+			«FOR att : e.is.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase+"_"+r»_fk</font>
+			«ENDFOR»		
+		«ELSE»
+			«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase+"_"+r»_fk</font>
+			«ENDFOR»
+		«ENDIF»
+	'''
+
+	def private html_ListPKtoFK_SelfRelationship_Alt (Entity e, int i) '''
+		«IF e.is !== null»
+			«FOR att : e.is.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk_«i»</font>
+			«ENDFOR»		
+		«ELSE»
+			«FOR att : e.attributes.filter[isIsKey] SEPARATOR " , "»
+				<font color="blue">«att.name.toLowerCase»_fk_«i»</font>
+			«ENDFOR»
+		«ENDIF»
 	'''
 	
 	def private html_RelationshipsMapping(ERModel m) '''
@@ -502,7 +565,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)')))»
 				
 				«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
-
+				</br>
 				Attribute (<font color="blue"><b> 
 				«FOR aux : m.entities»
 					«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
@@ -539,7 +602,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 					(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)'))))»
 				
 			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
-				
+			</br>
 			Attribute (<font color="blue"><b> 
 					«FOR aux : m.entities»
 						«IF relation.leftEnding.target.toString.equalsIgnoreCase(aux.name)»
@@ -566,7 +629,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 					(relation.rightEnding.cardinality.equalsIgnoreCase('(0:1)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:1)'))))»
 			
 			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
-			
+			</br>
 			Attribute (<font color="blue"><b>
 					«FOR aux : m.entities»
 						«IF relation.rightEnding.target.toString.equalsIgnoreCase(aux.name)»
@@ -604,17 +667,25 @@ class HtmlFileGenerator extends AbstractGenerator {
 			(relation.rightEnding.cardinality.equalsIgnoreCase('(0:N)') || relation.rightEnding.cardinality.equalsIgnoreCase('(1:N)')))»
 			
 			«html_BinaryRelationshipNameStyle(relation.name, relation.leftEnding.target.toString, relation.rightEnding.target.toString, relation.leftEnding.cardinality, relation.rightEnding.cardinality)»
-			
+			</br>
 			Attribute (<font color="blue"><b> 
 			
-			«html_ListPKtoFK_Alt(relation.leftEnding.target as Entity)»
+			«IF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+				«html_ListPKtoFK_SelfRelationship_Alt(relation.leftEnding.target as Entity, 1)»
+			«ELSE»	
+				«html_ListPKtoFK_Alt(relation.leftEnding.target as Entity)»
+			«ENDIF»
 			
 			</b></font>) in «html_EntityNameTag(relation.name)» references «html_EntityNameTag(relation.leftEnding.target.toString)»
 			</br></br>
 			
 			Attribute (<font color="blue"><b> 
 			
-			«html_ListPKtoFK_Alt(relation.rightEnding.target as Entity)»			
+			«IF relation.leftEnding.target.toString.equalsIgnoreCase(relation.rightEnding.target.toString)»
+				«html_ListPKtoFK_SelfRelationship_Alt(relation.rightEnding.target as Entity, 2)»
+			«ELSE»	
+				«html_ListPKtoFK_Alt(relation.rightEnding.target as Entity)»
+			«ENDIF»
 						
 			</b></font>) in «html_EntityNameTag(relation.name)» references «html_EntityNameTag(relation.rightEnding.target.toString)»
 			</br>
@@ -631,7 +702,7 @@ class HtmlFileGenerator extends AbstractGenerator {
 			
 			<font color="#505050">«IF relation.name.nullOrEmpty» <i>_Unnamed_</i> «ELSEIF !relation.name.nullOrEmpty»«relation.name.toUpperCase»«ENDIF» <i class="fa fa-long-arrow-right" aria-hidden="true"></i>
 			«relation.leftEnding.target.toString.toUpperCase+" "+relation.leftEnding.cardinality.toString.toUpperCase» relates «relation.rightEnding.cardinality.toUpperCase+" "+ relation.rightEnding.target.toString.toUpperCase»
-			</font><br/>	
+			</font><br/></br>
 			«html_Ternary_Relationships_Attributes(m, relation)»
 		«ENDFOR»
 	'''
