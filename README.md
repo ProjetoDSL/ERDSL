@@ -34,7 +34,8 @@
 
 + Openjdk "11.0.7" version or newer;
 + Eclipse IDE 2020-03 version or newer;
-+ Xtext 2.17.0 version or newer.
++ Xtext 2.17.0 version or newer;
++ Graphviz 2.42.2 version or newer.
 
 ---
 
