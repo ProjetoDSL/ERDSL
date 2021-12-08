@@ -7,4 +7,51 @@
 			class = "org.xtext.unipampa.erdsl.erDsl.ErDslPackage"
 			genModel = "model/generated/ErDsl.genmodel" />
 	</extension>
+ <extension
+       id="erdsl_product"
+       point="org.eclipse.core.runtime.products">
+    <product
+          application="org.eclipse.e4.ui.workbench.swt.E4Application"
+          name="org.xtext.unipampa.erdsl.product">
+       <property
+             name="appName"
+             value="org.xtext.unipampa.erdsl.product">
+       </property>
+    </product>
+ </extension>
+ <extension
+       id="ERtextModeler"
+       point="org.eclipse.core.runtime.products">
+    <product
+          application="org.eclipse.ui.ide.workbench"
+          name="ERtext Modeling Tool">
+       <property
+             name="aboutText"
+             value="This tool is a Domain-Specific Language implementation for the conceptual modeling of relational databases.&#x0A;&#x0A;The project for this product is publicly available under the EPL-2.0 license in a GitHub repository (github.com/ProjetoDSL/ERDSL), belonging to the Laboratory of Empirical Studies in Software Engineering (LESSE) research group of the Federal University of Pampa (UNIPAMPA).&#x0A;&#x0A;2019-2021">
+       </property>
+       <property
+             name="aboutImage"
+             value="about.png">
+       </property>
+       <property
+             name="appName"
+             value="ERtext Modeling Tool">
+       </property>
+       <property
+             name="startupProgressRect"
+             value="5,275,445,15">
+       </property>
+       <property
+             name="preferenceCustomization"
+             value="plugin_customization.ini">
+       </property>
+    </product>
+ </extension>
+ <extension
+       point="org.eclipse.ui.splashHandlers">
+    <splashHandler
+          class="org.xtext.unipampa.erdsl.splashHandlers.BrowserSplashHandler"
+          id="org.xtext.unipampa.erdsl.splashHandlers.browser">
+    </splashHandler>
+ </extension>
 </plugin>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Automatic-Module-Name: org.xtext.unipampa.erdsl.ide
 Bundle-ManifestVersion: 2
 Bundle-Name: org.xtext.unipampa.erdsl.ide
-Bundle-Vendor: My Company
+Bundle-Vendor: UNIPAMPA - LESSE
 Bundle-Version: 1.0.0.qualifier
 Bundle-SymbolicName: org.xtext.unipampa.erdsl.ide; singleton:=true
 Bundle-ActivationPolicy: lazy
