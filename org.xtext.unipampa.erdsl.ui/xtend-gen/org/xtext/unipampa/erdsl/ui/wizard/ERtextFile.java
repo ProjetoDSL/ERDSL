@@ -9,10 +9,10 @@ import org.eclipse.xtext.ui.wizard.template.FileTemplate;
 import org.eclipse.xtext.ui.wizard.template.IFileGenerator;
 import org.eclipse.xtext.ui.wizard.template.StringSelectionTemplateVariable;
 
-@FileTemplate(label = "ERDSL Template", icon = "file_template.png", description = "Create a template file for ERDSl.")
+@FileTemplate(label = "ERtext Template", icon = "file_template.png", description = "Create a template file for ERtext.")
 @SuppressWarnings("all")
 public final class ERtextFile extends AbstractFileTemplate {
-  private final StringSelectionTemplateVariable modelName = this.combo("Template:", new String[] { "Empty Model" }, "The empty model");
+  private final StringSelectionTemplateVariable modelName = this.combo("Template:", new String[] { "Template Model" }, "The template model");
   
   @Override
   public void generateFiles(final IFileGenerator generator) {
@@ -25,7 +25,7 @@ public final class ERtextFile extends AbstractFileTemplate {
     _builder.append(".erdsl");
     StringConcatenation _builder_1 = new StringConcatenation();
     {
-      boolean _equalsIgnoreCase = this.modelName.toString().equalsIgnoreCase("Empty Model");
+      boolean _equalsIgnoreCase = this.modelName.toString().equalsIgnoreCase("Template Model");
       if (_equalsIgnoreCase) {
         _builder_1.append("/*");
         _builder_1.newLine();
@@ -39,19 +39,19 @@ public final class ERtextFile extends AbstractFileTemplate {
         _builder_1.append("Generate All;");
         _builder_1.newLine();
         _builder_1.newLine();
-        _builder_1.append("Domain Name;");
+        _builder_1.append("Domain TemplateModel;");
         _builder_1.newLine();
         _builder_1.newLine();
         _builder_1.append("Entities {");
         _builder_1.newLine();
         _builder_1.append("\t");
-        _builder_1.append("Entity1 {");
+        _builder_1.append("EntA {");
         _builder_1.newLine();
         _builder_1.append("    \t");
-        _builder_1.append("attribute1 int isIdentifier,");
+        _builder_1.append("att1 int isIdentifier,");
         _builder_1.newLine();
         _builder_1.append("        ");
-        _builder_1.append("attribute2 file");
+        _builder_1.append("att2 file");
         _builder_1.newLine();
         _builder_1.append("\t");
         _builder_1.append("}");
@@ -74,13 +74,52 @@ public final class ERtextFile extends AbstractFileTemplate {
         _builder_1.append("*/");
         _builder_1.newLine();
         _builder_1.append("\t");
-        _builder_1.append("Entity2 is total/disjoint Entity1 {");
+        _builder_1.append("EntB is total/disjoint EntA {");
         _builder_1.newLine();
         _builder_1.append("    \t");
-        _builder_1.append("attribute3 string,");
+        _builder_1.append("att3 string,");
         _builder_1.newLine();
         _builder_1.append("\t\t");
-        _builder_1.append("attribute4 datetime");
+        _builder_1.append("att4 datetime");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("}");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("EntC {");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("att5 int isIdentifier,");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("att6 string");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("}");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("EntD {");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("att7 int isIdentifier,");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("att8 money");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("}");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.newLine();
+        _builder_1.append("\t");
+        _builder_1.append("EntE {");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("att9 int isIdentifier");
         _builder_1.newLine();
         _builder_1.append("\t");
         _builder_1.append("}");
@@ -91,12 +130,21 @@ public final class ERtextFile extends AbstractFileTemplate {
         _builder_1.append("Relationships {");
         _builder_1.newLine();
         _builder_1.append("\t\t");
-        _builder_1.append("Relationship1 [Entity1 (1:N) relates (1:N) Entity2] {attribute5 int}");
+        _builder_1.append("R1 [EntA (1:N) relates (1:N) EntA] {attr1 int}\t");
         _builder_1.newLine();
         _builder_1.append("\t\t");
-        _builder_1.append("Relationship2 [Entity2 (1:N) relates (1:N) Entity1]\t");
+        _builder_1.append("R2 [EntC (1:1) relates (1:1) EntD]");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("R3 [EntD (0:N) relates (1:N) EntC]");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
+        _builder_1.append("R4 [R3 (1:1) relates (1:N) EntE] //This is a ternary relationship");
+        _builder_1.newLine();
+        _builder_1.append("\t\t");
         _builder_1.newLine();
         _builder_1.append("};");
+        _builder_1.newLine();
         _builder_1.newLine();
       }
     }

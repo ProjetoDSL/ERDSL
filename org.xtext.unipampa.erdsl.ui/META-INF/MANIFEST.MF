@@ -26,8 +26,13 @@ Require-Bundle: org.xtext.unipampa.erdsl,
 Import-Package: org.apache.log4j,
  org.eclipse.xtext.ui.codemining;resolution:=optional
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: org.xtext.unipampa.erdsl.ui.contentassist,
+Export-Package: org.xtext.unipampa.erdsl.ui,
+ org.xtext.unipampa.erdsl.ui.codemining,
+ org.xtext.unipampa.erdsl.ui.contentassist,
  org.xtext.unipampa.erdsl.ui.internal,
+ org.xtext.unipampa.erdsl.ui.labeling,
+ org.xtext.unipampa.erdsl.ui.outline,
  org.xtext.unipampa.erdsl.ui.quickfix,
- org.xtext.unipampa.erdsl.ui.wizard
+ org.xtext.unipampa.erdsl.ui.wizard,
+ org.xtext.unipampa.erdsl.validation
 Bundle-Activator: org.xtext.unipampa.erdsl.ui.internal.ErdslActivator

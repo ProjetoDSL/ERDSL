@@ -22,12 +22,12 @@ class ErDslFileTemplateProvider implements IFileTemplateProvider {
 //@FileTemplate(label="Hello World", icon="file_template.png", description="Create a hello world for ERDSl.")
 //final class HelloWorldFile {
 //	val helloName = combo("Hello Name:", #["Xtext", "World", "Foo", "Bar"], "The name to say 'Hello' to")
-@FileTemplate(label="ERDSL Template", icon="file_template.png", description="Create a template file for ERDSl.")
+@FileTemplate(label="ERtext Template", icon="file_template.png", description="Create a template file for ERtext.")
 final class ERtextFile {
-	val modelName = combo("Template:", #["Empty Model"], "The empty model")
+	val modelName = combo("Template:", #["Template Model"], "The template model")
 	override generateFiles(IFileGenerator generator) {
 		generator.generate('''«folder»/«name».erdsl''', '''
-		«IF modelName.toString.equalsIgnoreCase("Empty Model")»
+		«IF modelName.toString.equalsIgnoreCase("Template Model")»
 			/*
 			* The template to demonstrate an overview of the grammar. 
 			* This does not necessarily displays a semantically correct model regarding to the real world.
@@ -35,12 +35,12 @@ final class ERtextFile {
 			
 			Generate All;
 			
-			Domain Name;
+			Domain TemplateModel;
 			
 			Entities {
-				Entity1 {
-			    	attribute1 int isIdentifier,
-			        attribute2 file
+				EntA {
+			    	att1 int isIdentifier,
+			        att2 file
 				}
 			                    
 			    /*  The generalization type can be:
@@ -48,16 +48,34 @@ final class ERtextFile {
 			    * 
 			    * 	An entity that specializes another should NOT HAVE an IDENTIFIER attribute, as it inherits from the generalized entity.
 			    */
-				Entity2 is total/disjoint Entity1 {
-			    	attribute3 string,
-					attribute4 datetime
+				EntB is total/disjoint EntA {
+			    	att3 string,
+					att4 datetime
+				}
+				
+				EntC {
+					att5 int isIdentifier,
+					att6 string
+				}
+				
+				EntD {
+					att7 int isIdentifier,
+					att8 money
+				}
+				
+				EntE {
+					att9 int isIdentifier
 				}
 			};
 			
 			Relationships {
-					Relationship1 [Entity1 (1:N) relates (1:N) Entity2] {attribute5 int}
-					Relationship2 [Entity2 (1:N) relates (1:N) Entity1]	
+					R1 [EntA (1:N) relates (1:N) EntA] {attr1 int}	
+					R2 [EntC (1:1) relates (1:1) EntD]
+					R3 [EntD (0:N) relates (1:N) EntC]
+					R4 [R3 (1:1) relates (1:N) EntE] //This is a ternary relationship
+					
 			};
+			
 		«ENDIF»
 		''')
 	}

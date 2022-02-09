@@ -121,9 +121,9 @@ class PlantUmlFileGenerator extends AbstractGenerator {
     '''
     
 //    def defineLeftCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")» |o«ELSEIF cd.equalsIgnoreCase("(1:1)")» ||«ELSEIF cd.equalsIgnoreCase("(0:N)")» }o«ELSEIF cd.equalsIgnoreCase("(1:N)")» }|«ENDIF»'''
-	def private defineLeftCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")»"(0:1)" «ELSEIF cd.equalsIgnoreCase("(1:1)")»"(1:1)" «ELSEIF cd.equalsIgnoreCase("(0:N)")»"(0:N)" «ELSEIF cd.equalsIgnoreCase("(1:N)")»"(1:N)" «ENDIF»'''
+	def private defineLeftCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")»"0..1" «ELSEIF cd.equalsIgnoreCase("(1:1)")»"1..1" «ELSEIF cd.equalsIgnoreCase("(0:N)")»"0..N" «ELSEIF cd.equalsIgnoreCase("(1:N)")»"1..N" «ENDIF»'''
     
 //    def defineRightCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")»o| «ELSEIF cd.equalsIgnoreCase("(1:1)")»|| «ELSEIF cd.equalsIgnoreCase("(0:N)")»o{ «ELSEIF cd.equalsIgnoreCase("(1:N)")»|{ «ENDIF»'''
-	def private defineRightCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")» "(0:1)"«ELSEIF cd.equalsIgnoreCase("(1:1)")» "(1:1)" «ELSEIF cd.equalsIgnoreCase("(0:N)")» "(0:N)" «ELSEIF cd.equalsIgnoreCase("(1:N)")» "(1:N)" «ENDIF»'''
+	def private defineRightCardinalitySymbolUML(String cd)'''«IF cd.equalsIgnoreCase("(0:1)")» "0..1"«ELSEIF cd.equalsIgnoreCase("(1:1)")» "1..1" «ELSEIF cd.equalsIgnoreCase("(0:N)")» "0..N" «ELSEIF cd.equalsIgnoreCase("(1:N)")» "1..N" «ENDIF»'''
 	
 }

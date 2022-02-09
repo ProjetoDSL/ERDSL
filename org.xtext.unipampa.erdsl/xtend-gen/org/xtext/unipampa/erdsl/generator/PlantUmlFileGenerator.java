@@ -272,19 +272,19 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     {
       boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
       if (_equalsIgnoreCase) {
-        _builder.append("\"(0:1)\" ");
+        _builder.append("\"0..1\" ");
       } else {
         boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
         if (_equalsIgnoreCase_1) {
-          _builder.append("\"(1:1)\" ");
+          _builder.append("\"1..1\" ");
         } else {
           boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
           if (_equalsIgnoreCase_2) {
-            _builder.append("\"(0:N)\" ");
+            _builder.append("\"0..N\" ");
           } else {
             boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
             if (_equalsIgnoreCase_3) {
-              _builder.append("\"(1:N)\" ");
+              _builder.append("\"1..N\" ");
             }
           }
         }
@@ -298,19 +298,19 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     {
       boolean _equalsIgnoreCase = cd.equalsIgnoreCase("(0:1)");
       if (_equalsIgnoreCase) {
-        _builder.append(" \"(0:1)\"");
+        _builder.append(" \"0..1\"");
       } else {
         boolean _equalsIgnoreCase_1 = cd.equalsIgnoreCase("(1:1)");
         if (_equalsIgnoreCase_1) {
-          _builder.append(" \"(1:1)\" ");
+          _builder.append(" \"1..1\" ");
         } else {
           boolean _equalsIgnoreCase_2 = cd.equalsIgnoreCase("(0:N)");
           if (_equalsIgnoreCase_2) {
-            _builder.append(" \"(0:N)\" ");
+            _builder.append(" \"0..N\" ");
           } else {
             boolean _equalsIgnoreCase_3 = cd.equalsIgnoreCase("(1:N)");
             if (_equalsIgnoreCase_3) {
-              _builder.append(" \"(1:N)\" ");
+              _builder.append(" \"1..N\" ");
             }
           }
         }

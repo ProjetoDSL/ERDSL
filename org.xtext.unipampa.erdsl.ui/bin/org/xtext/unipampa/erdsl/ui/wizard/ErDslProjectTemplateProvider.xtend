@@ -66,12 +66,12 @@ final class ERtextProject {
 			
 			Generate All;
 			
-			Domain Name;
+			Domain TemplateModel;
 			
 			Entities {
-				Entity1 {
-			    	attribute1 int isIdentifier,
-			        attribute2 file
+				EntA {
+			    	att1 int isIdentifier,
+			        att2 file
 				}
 			                    
 			    /*  The generalization type can be:
@@ -79,16 +79,34 @@ final class ERtextProject {
 			    * 
 			    * 	An entity that specializes another should NOT HAVE an IDENTIFIER attribute, as it inherits from the generalized entity.
 			    */
-				Entity2 is total/disjoint Entity1 {
-			    	attribute3 string,
-					attribute4 datetime
+				EntB is total/disjoint EntA {
+			    	att3 string,
+					att4 datetime
+				}
+				
+				EntC {
+					att5 int isIdentifier,
+					att6 string
+				}
+				
+				EntD {
+					att7 int isIdentifier,
+					att8 money
+				}
+				
+				EntE {
+					att9 int isIdentifier
 				}
 			};
 			
 			Relationships {
-					Relationship1 [Entity1 (1:N) relates (1:N) Entity2] {attribute5 int}
-					Relationship2 [Entity2 (1:N) relates (1:N) Entity1]	
+					R1 [EntA (1:N) relates (1:N) EntA] {attr1 int}	
+					R2 [EntC (1:1) relates (1:1) EntD]
+					R3 [EntD (0:N) relates (1:N) EntC]
+					R4 [R3 (1:1) relates (1:N) EntE] //This is a ternary relationship
+					
 			};
+
 			''')
 		])
 	}
