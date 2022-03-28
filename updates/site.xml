@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.xtext.unipampa.erdsl.ertext.feature_1.0.0.202202090133.jar" id="org.xtext.unipampa.erdsl.ertext.feature" version="1.0.0.202202090133">
-      <category name="ERtext"/>
-   </feature>
-   <category-def name="ERtext" label="ERtext"/>
-</site>
