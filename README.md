@@ -1,7 +1,8 @@
 <h3 align="center">
 
-![](https://i.ibb.co/nfRXxQn/ertext-Logo-P.png)
-
+<!-- ![](https://i.ibb.co/nfRXxQn/ertext-Logo-P.png) -->
+	
+![](https://i.ibb.co/ZXyMXFy/ERtext-Logo-Linked-In-Hero-Image-1584x396.png) 
 
 <h3 align="center">
    Domain-Specific Language (DSL) Implementation for Conceptual Modelling of Relational Databases
