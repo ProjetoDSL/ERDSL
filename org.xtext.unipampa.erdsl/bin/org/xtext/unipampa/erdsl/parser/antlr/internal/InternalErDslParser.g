@@ -656,15 +656,15 @@ ruleRelation returns [EObject current=null]
 		)*
 		(
 			(
-				lv_ocurrence_11_0=GenerateOcurrenceDiagram
+				lv_occurrence_11_0=GenerateOccurrenceDiagram
 				{
-					newLeafNode(lv_ocurrence_11_0, grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0());
+					newLeafNode(lv_occurrence_11_0, grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0());
 				}
 				{
 					if ($current==null) {
 						$current = createModelElement(grammarAccess.getRelationRule());
 					}
-					setWithLastConsumed($current, "ocurrence", lv_ocurrence_11_0, "@generateOcurrenceDiagram");
+					setWithLastConsumed($current, "occurrence", lv_occurrence_11_0, "@generateOccurrenceDiagram");
 				}
 			)
 		)?

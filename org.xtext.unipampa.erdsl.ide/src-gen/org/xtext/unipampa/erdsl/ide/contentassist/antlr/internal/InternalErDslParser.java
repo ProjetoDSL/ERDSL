@@ -24,13 +24,14 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "GenerateOcurrenceDiagram", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "TotalDisjoint", "LogicalSchema", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Diagram", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "GenerateOccurrenceDiagram", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "TotalDisjoint", "LogicalSchema", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Diagram", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
     };
     public static final int All=29;
     public static final int N_1=25;
     public static final int PostgreSQL=12;
     public static final int String=21;
     public static final int TotalOverlapped=7;
+    public static final int GenerateOccurrenceDiagram=4;
     public static final int MySQL=26;
     public static final int Boolean=17;
     public static final int RightSquareBracket=35;
@@ -49,7 +50,6 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     public static final int Is=31;
     public static final int RULE_STRING=40;
     public static final int LeftParenthesisDigitZeroColonDigitOneRightParenthesis=22;
-    public static final int GenerateOcurrenceDiagram=4;
     public static final int N=23;
     public static final int Int=30;
     public static final int RULE_SL_COMMENT=42;
@@ -123,7 +123,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
     		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
     		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
-    		tokenNameToValue.put("GenerateOcurrenceDiagram", "'@generateOcurrenceDiagram'");
+    		tokenNameToValue.put("GenerateOccurrenceDiagram", "'@generateOccurrenceDiagram'");
     	}
 
     	public void setGrammarAccess(ErDslGrammarAccess grammarAccess) {
@@ -4975,32 +4975,32 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__Relation__Group__3__Impl"
-    // InternalErDslParser.g:1608:1: rule__Relation__Group__3__Impl : ( ( rule__Relation__OcurrenceAssignment_3 )? ) ;
+    // InternalErDslParser.g:1608:1: rule__Relation__Group__3__Impl : ( ( rule__Relation__OccurrenceAssignment_3 )? ) ;
     public final void rule__Relation__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalErDslParser.g:1612:1: ( ( ( rule__Relation__OcurrenceAssignment_3 )? ) )
-            // InternalErDslParser.g:1613:1: ( ( rule__Relation__OcurrenceAssignment_3 )? )
+            // InternalErDslParser.g:1612:1: ( ( ( rule__Relation__OccurrenceAssignment_3 )? ) )
+            // InternalErDslParser.g:1613:1: ( ( rule__Relation__OccurrenceAssignment_3 )? )
             {
-            // InternalErDslParser.g:1613:1: ( ( rule__Relation__OcurrenceAssignment_3 )? )
-            // InternalErDslParser.g:1614:2: ( rule__Relation__OcurrenceAssignment_3 )?
+            // InternalErDslParser.g:1613:1: ( ( rule__Relation__OccurrenceAssignment_3 )? )
+            // InternalErDslParser.g:1614:2: ( rule__Relation__OccurrenceAssignment_3 )?
             {
-             before(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); 
-            // InternalErDslParser.g:1615:2: ( rule__Relation__OcurrenceAssignment_3 )?
+             before(grammarAccess.getRelationAccess().getOccurrenceAssignment_3()); 
+            // InternalErDslParser.g:1615:2: ( rule__Relation__OccurrenceAssignment_3 )?
             int alt16=2;
             int LA16_0 = input.LA(1);
 
-            if ( (LA16_0==GenerateOcurrenceDiagram) ) {
+            if ( (LA16_0==GenerateOccurrenceDiagram) ) {
                 alt16=1;
             }
             switch (alt16) {
                 case 1 :
-                    // InternalErDslParser.g:1615:3: rule__Relation__OcurrenceAssignment_3
+                    // InternalErDslParser.g:1615:3: rule__Relation__OccurrenceAssignment_3
                     {
                     pushFollow(FOLLOW_2);
-                    rule__Relation__OcurrenceAssignment_3();
+                    rule__Relation__OccurrenceAssignment_3();
 
                     state._fsp--;
 
@@ -5010,7 +5010,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
 
             }
 
-             after(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); 
+             after(grammarAccess.getRelationAccess().getOccurrenceAssignment_3()); 
 
             }
 
@@ -6982,30 +6982,30 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__Relation__AttributesAssignment_2_2_1"
 
 
-    // $ANTLR start "rule__Relation__OcurrenceAssignment_3"
-    // InternalErDslParser.g:2307:1: rule__Relation__OcurrenceAssignment_3 : ( ( GenerateOcurrenceDiagram ) ) ;
-    public final void rule__Relation__OcurrenceAssignment_3() throws RecognitionException {
+    // $ANTLR start "rule__Relation__OccurrenceAssignment_3"
+    // InternalErDslParser.g:2307:1: rule__Relation__OccurrenceAssignment_3 : ( ( GenerateOccurrenceDiagram ) ) ;
+    public final void rule__Relation__OccurrenceAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalErDslParser.g:2311:1: ( ( ( GenerateOcurrenceDiagram ) ) )
-            // InternalErDslParser.g:2312:2: ( ( GenerateOcurrenceDiagram ) )
+            // InternalErDslParser.g:2311:1: ( ( ( GenerateOccurrenceDiagram ) ) )
+            // InternalErDslParser.g:2312:2: ( ( GenerateOccurrenceDiagram ) )
             {
-            // InternalErDslParser.g:2312:2: ( ( GenerateOcurrenceDiagram ) )
-            // InternalErDslParser.g:2313:3: ( GenerateOcurrenceDiagram )
+            // InternalErDslParser.g:2312:2: ( ( GenerateOccurrenceDiagram ) )
+            // InternalErDslParser.g:2313:3: ( GenerateOccurrenceDiagram )
             {
-             before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); 
-            // InternalErDslParser.g:2314:3: ( GenerateOcurrenceDiagram )
-            // InternalErDslParser.g:2315:4: GenerateOcurrenceDiagram
+             before(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); 
+            // InternalErDslParser.g:2314:3: ( GenerateOccurrenceDiagram )
+            // InternalErDslParser.g:2315:4: GenerateOccurrenceDiagram
             {
-             before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); 
-            match(input,GenerateOcurrenceDiagram,FOLLOW_2); 
-             after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); 
+             before(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); 
+            match(input,GenerateOccurrenceDiagram,FOLLOW_2); 
+             after(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); 
 
             }
 
-             after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); 
+             after(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); 
 
             }
 
@@ -7024,7 +7024,7 @@ public class InternalErDslParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__Relation__OcurrenceAssignment_3"
+    // $ANTLR end "rule__Relation__OccurrenceAssignment_3"
 
 
     // $ANTLR start "rule__RelationSideRight__CardinalityAssignment_0_0"

@@ -30,7 +30,7 @@ public class ErDslGenerator extends AbstractGenerator {
   
   private final PlantUmlFileGenerator PlantUmlGenerator = new PlantUmlFileGenerator();
   
-  private final OcurrenceDiagramGenerator OcurrenceDiagramGenerator = new org.xtext.unipampa.erdsl.generator.OcurrenceDiagramGenerator();
+  private final OccurrenceDiagramGenerator OcurrenceDiagramGenerator = new OccurrenceDiagramGenerator();
   
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {

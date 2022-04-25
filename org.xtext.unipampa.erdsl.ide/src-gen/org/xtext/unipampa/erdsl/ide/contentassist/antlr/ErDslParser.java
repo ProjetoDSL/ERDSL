@@ -74,7 +74,7 @@ public class ErDslParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getRelationAccess().getRightEndingAssignment_1_3(), "rule__Relation__RightEndingAssignment_1_3");
 			builder.put(grammarAccess.getRelationAccess().getAttributesAssignment_2_1(), "rule__Relation__AttributesAssignment_2_1");
 			builder.put(grammarAccess.getRelationAccess().getAttributesAssignment_2_2_1(), "rule__Relation__AttributesAssignment_2_2_1");
-			builder.put(grammarAccess.getRelationAccess().getOcurrenceAssignment_3(), "rule__Relation__OcurrenceAssignment_3");
+			builder.put(grammarAccess.getRelationAccess().getOccurrenceAssignment_3(), "rule__Relation__OccurrenceAssignment_3");
 			builder.put(grammarAccess.getRelationSideRightAccess().getCardinalityAssignment_0_0(), "rule__RelationSideRight__CardinalityAssignment_0_0");
 			builder.put(grammarAccess.getRelationSideRightAccess().getTargetAssignment_0_1(), "rule__RelationSideRight__TargetAssignment_0_1");
 			builder.put(grammarAccess.getRelationSideRightAccess().getTargetAssignment_1(), "rule__RelationSideRight__TargetAssignment_1");

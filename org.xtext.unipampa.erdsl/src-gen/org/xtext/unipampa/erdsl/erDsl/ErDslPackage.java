@@ -289,13 +289,13 @@ public interface ErDslPackage extends EPackage
   int RELATION__ATTRIBUTES = 3;
 
   /**
-   * The feature id for the '<em><b>Ocurrence</b></em>' attribute.
+   * The feature id for the '<em><b>Occurrence</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RELATION__OCURRENCE = 4;
+  int RELATION__OCCURRENCE = 4;
 
   /**
    * The number of structural features of the '<em>Relation</em>' class.
@@ -618,15 +618,15 @@ public interface ErDslPackage extends EPackage
   EReference getRelation_Attributes();
 
   /**
-   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence <em>Ocurrence</em>}'.
+   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.Relation#getOccurrence <em>Occurrence</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the attribute '<em>Ocurrence</em>'.
-   * @see org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence()
+   * @return the meta object for the attribute '<em>Occurrence</em>'.
+   * @see org.xtext.unipampa.erdsl.erDsl.Relation#getOccurrence()
    * @see #getRelation()
    * @generated
    */
-  EAttribute getRelation_Ocurrence();
+  EAttribute getRelation_Occurrence();
 
   /**
    * Returns the meta object for class '{@link org.xtext.unipampa.erdsl.erDsl.RelationSideRight <em>Relation Side Right</em>}'.
@@ -904,12 +904,12 @@ public interface ErDslPackage extends EPackage
     EReference RELATION__ATTRIBUTES = eINSTANCE.getRelation_Attributes();
 
     /**
-     * The meta object literal for the '<em><b>Ocurrence</b></em>' attribute feature.
+     * The meta object literal for the '<em><b>Occurrence</b></em>' attribute feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute RELATION__OCURRENCE = eINSTANCE.getRelation_Ocurrence();
+    EAttribute RELATION__OCCURRENCE = eINSTANCE.getRelation_Occurrence();
 
     /**
      * The meta object literal for the '{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideRightImpl <em>Relation Side Right</em>}' class.

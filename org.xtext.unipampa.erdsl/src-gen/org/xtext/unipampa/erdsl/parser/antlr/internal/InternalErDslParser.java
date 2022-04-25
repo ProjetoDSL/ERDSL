@@ -22,13 +22,14 @@ import java.util.ArrayList;
 @SuppressWarnings("all")
 public class InternalErDslParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "GenerateOcurrenceDiagram", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "TotalDisjoint", "LogicalSchema", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Diagram", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "GenerateOccurrenceDiagram", "PartialOverlapped", "PartialDisjoint", "TotalOverlapped", "TotalDisjoint", "LogicalSchema", "Relationships", "IsIdentifier", "PostgreSQL", "Entities", "Generate", "Datetime", "Diagram", "Boolean", "Relates", "Domain", "Double", "String", "LeftParenthesisDigitZeroColonDigitOneRightParenthesis", "N", "LeftParenthesisDigitOneColonDigitOneRightParenthesis", "N_1", "MySQL", "Money", "File", "All", "Int", "Is", "Comma", "Semicolon", "LeftSquareBracket", "RightSquareBracket", "LeftCurlyBracket", "RightCurlyBracket", "RULE_ID", "RULE_INT", "RULE_STRING", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "RULE_WS", "RULE_ANY_OTHER"
     };
     public static final int All=29;
     public static final int N_1=25;
     public static final int PostgreSQL=12;
     public static final int String=21;
     public static final int TotalOverlapped=7;
+    public static final int GenerateOccurrenceDiagram=4;
     public static final int MySQL=26;
     public static final int Boolean=17;
     public static final int RightSquareBracket=35;
@@ -47,7 +48,6 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
     public static final int Is=31;
     public static final int RULE_STRING=40;
     public static final int LeftParenthesisDigitZeroColonDigitOneRightParenthesis=22;
-    public static final int GenerateOcurrenceDiagram=4;
     public static final int N=23;
     public static final int Int=30;
     public static final int RULE_SL_COMMENT=42;
@@ -1244,7 +1244,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleRelation"
-    // InternalErDslParser.g:525:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )? ) ;
+    // InternalErDslParser.g:525:1: ruleRelation returns [EObject current=null] : ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )? ) ;
     public final EObject ruleRelation() throws RecognitionException {
         EObject current = null;
 
@@ -1255,7 +1255,7 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         Token otherlv_6=null;
         Token otherlv_8=null;
         Token otherlv_10=null;
-        Token lv_ocurrence_11_0=null;
+        Token lv_occurrence_11_0=null;
         EObject lv_leftEnding_2_0 = null;
 
         EObject lv_rightEnding_4_0 = null;
@@ -1269,11 +1269,11 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalErDslParser.g:531:2: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )? ) )
-            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )? )
+            // InternalErDslParser.g:531:2: ( ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )? ) )
+            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )? )
             {
-            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )? )
-            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )?
+            // InternalErDslParser.g:532:2: ( ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )? )
+            // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) ) (otherlv_1= LeftSquareBracket ( (lv_leftEnding_2_0= ruleRelationSideLeft ) ) otherlv_3= Relates ( (lv_rightEnding_4_0= ruleRelationSideRight ) ) otherlv_5= RightSquareBracket ) (otherlv_6= LeftCurlyBracket ( (lv_attributes_7_0= ruleAttribute ) ) (otherlv_8= Comma ( (lv_attributes_9_0= ruleAttribute ) ) )* otherlv_10= RightCurlyBracket )* ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )?
             {
             // InternalErDslParser.g:533:3: ( (lv_name_0_0= RULE_ID ) )
             // InternalErDslParser.g:534:4: (lv_name_0_0= RULE_ID )
@@ -1503,29 +1503,29 @@ public class InternalErDslParser extends AbstractInternalAntlrParser {
                 }
             } while (true);
 
-            // InternalErDslParser.g:657:3: ( (lv_ocurrence_11_0= GenerateOcurrenceDiagram ) )?
+            // InternalErDslParser.g:657:3: ( (lv_occurrence_11_0= GenerateOccurrenceDiagram ) )?
             int alt12=2;
             int LA12_0 = input.LA(1);
 
-            if ( (LA12_0==GenerateOcurrenceDiagram) ) {
+            if ( (LA12_0==GenerateOccurrenceDiagram) ) {
                 alt12=1;
             }
             switch (alt12) {
                 case 1 :
-                    // InternalErDslParser.g:658:4: (lv_ocurrence_11_0= GenerateOcurrenceDiagram )
+                    // InternalErDslParser.g:658:4: (lv_occurrence_11_0= GenerateOccurrenceDiagram )
                     {
-                    // InternalErDslParser.g:658:4: (lv_ocurrence_11_0= GenerateOcurrenceDiagram )
-                    // InternalErDslParser.g:659:5: lv_ocurrence_11_0= GenerateOcurrenceDiagram
+                    // InternalErDslParser.g:658:4: (lv_occurrence_11_0= GenerateOccurrenceDiagram )
+                    // InternalErDslParser.g:659:5: lv_occurrence_11_0= GenerateOccurrenceDiagram
                     {
-                    lv_ocurrence_11_0=(Token)match(input,GenerateOcurrenceDiagram,FOLLOW_2); 
+                    lv_occurrence_11_0=(Token)match(input,GenerateOccurrenceDiagram,FOLLOW_2); 
 
-                    					newLeafNode(lv_ocurrence_11_0, grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0());
+                    					newLeafNode(lv_occurrence_11_0, grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0());
                     				
 
                     					if (current==null) {
                     						current = createModelElement(grammarAccess.getRelationRule());
                     					}
-                    					setWithLastConsumed(current, "ocurrence", lv_ocurrence_11_0, "@generateOcurrenceDiagram");
+                    					setWithLastConsumed(current, "occurrence", lv_occurrence_11_0, "@generateOccurrenceDiagram");
                     				
 
                     }

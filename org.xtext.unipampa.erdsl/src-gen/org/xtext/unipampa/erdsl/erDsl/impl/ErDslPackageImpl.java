@@ -386,7 +386,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
    * @generated
    */
   @Override
-  public EAttribute getRelation_Ocurrence()
+  public EAttribute getRelation_Occurrence()
   {
     return (EAttribute)relationEClass.getEStructuralFeatures().get(4);
   }
@@ -524,7 +524,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     createEReference(relationEClass, RELATION__LEFT_ENDING);
     createEReference(relationEClass, RELATION__RIGHT_ENDING);
     createEReference(relationEClass, RELATION__ATTRIBUTES);
-    createEAttribute(relationEClass, RELATION__OCURRENCE);
+    createEAttribute(relationEClass, RELATION__OCCURRENCE);
 
     relationSideRightEClass = createEClass(RELATION_SIDE_RIGHT);
     createEAttribute(relationSideRightEClass, RELATION_SIDE_RIGHT__CARDINALITY);
@@ -594,7 +594,7 @@ public class ErDslPackageImpl extends EPackageImpl implements ErDslPackage
     initEReference(getRelation_LeftEnding(), this.getRelationSideLeft(), null, "leftEnding", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRelation_RightEnding(), this.getRelationSideRight(), null, "rightEnding", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getRelation_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEAttribute(getRelation_Ocurrence(), ecorePackage.getEString(), "ocurrence", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEAttribute(getRelation_Occurrence(), ecorePackage.getEString(), "occurrence", null, 0, 1, Relation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(relationSideRightEClass, RelationSideRight.class, "RelationSideRight", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getRelationSideRight_Cardinality(), ecorePackage.getEString(), "cardinality", null, 0, 1, RelationSideRight.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

@@ -17,6 +17,7 @@ public class InternalErDslLexer extends Lexer {
     public static final int PostgreSQL=12;
     public static final int String=21;
     public static final int TotalOverlapped=7;
+    public static final int GenerateOccurrenceDiagram=4;
     public static final int MySQL=26;
     public static final int Boolean=17;
     public static final int RightSquareBracket=35;
@@ -35,7 +36,6 @@ public class InternalErDslLexer extends Lexer {
     public static final int Is=31;
     public static final int RULE_STRING=40;
     public static final int LeftParenthesisDigitZeroColonDigitOneRightParenthesis=22;
-    public static final int GenerateOcurrenceDiagram=4;
     public static final int N=23;
     public static final int Int=30;
     public static final int RULE_SL_COMMENT=42;
@@ -68,13 +68,13 @@ public class InternalErDslLexer extends Lexer {
     }
     public String getGrammarFileName() { return "InternalErDslLexer.g"; }
 
-    // $ANTLR start "GenerateOcurrenceDiagram"
-    public final void mGenerateOcurrenceDiagram() throws RecognitionException {
+    // $ANTLR start "GenerateOccurrenceDiagram"
+    public final void mGenerateOccurrenceDiagram() throws RecognitionException {
         try {
-            int _type = GenerateOcurrenceDiagram;
+            int _type = GenerateOccurrenceDiagram;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalErDslLexer.g:14:26: ( '@' ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'O' | 'o' ) ( 'C' | 'c' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'A' | 'a' ) ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'M' | 'm' ) )
-            // InternalErDslLexer.g:14:28: '@' ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'O' | 'o' ) ( 'C' | 'c' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'A' | 'a' ) ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'M' | 'm' )
+            // InternalErDslLexer.g:14:27: ( '@' ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'O' | 'o' ) ( 'C' | 'c' ) ( 'C' | 'c' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'A' | 'a' ) ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'M' | 'm' ) )
+            // InternalErDslLexer.g:14:29: '@' ( 'G' | 'g' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'E' | 'e' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'T' | 't' ) ( 'E' | 'e' ) ( 'O' | 'o' ) ( 'C' | 'c' ) ( 'C' | 'c' ) ( 'U' | 'u' ) ( 'R' | 'r' ) ( 'R' | 'r' ) ( 'E' | 'e' ) ( 'N' | 'n' ) ( 'C' | 'c' ) ( 'E' | 'e' ) ( 'D' | 'd' ) ( 'I' | 'i' ) ( 'A' | 'a' ) ( 'G' | 'g' ) ( 'R' | 'r' ) ( 'A' | 'a' ) ( 'M' | 'm' )
             {
             match('@'); 
             if ( input.LA(1)=='G'||input.LA(1)=='g' ) {
@@ -150,6 +150,15 @@ public class InternalErDslLexer extends Lexer {
                 throw mse;}
 
             if ( input.LA(1)=='O'||input.LA(1)=='o' ) {
+                input.consume();
+
+            }
+            else {
+                MismatchedSetException mse = new MismatchedSetException(null,input);
+                recover(mse);
+                throw mse;}
+
+            if ( input.LA(1)=='C'||input.LA(1)=='c' ) {
                 input.consume();
 
             }
@@ -302,7 +311,7 @@ public class InternalErDslLexer extends Lexer {
         finally {
         }
     }
-    // $ANTLR end "GenerateOcurrenceDiagram"
+    // $ANTLR end "GenerateOccurrenceDiagram"
 
     // $ANTLR start "PartialOverlapped"
     public final void mPartialOverlapped() throws RecognitionException {
@@ -3213,292 +3222,292 @@ public class InternalErDslLexer extends Lexer {
     // $ANTLR end "RULE_ANY_OTHER"
 
     public void mTokens() throws RecognitionException {
-        // InternalErDslLexer.g:1:8: ( GenerateOcurrenceDiagram | PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Diagram | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
+        // InternalErDslLexer.g:1:8: ( GenerateOccurrenceDiagram | PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Diagram | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER )
         int alt12=41;
         alt12 = dfa12.predict(input);
         switch (alt12) {
             case 1 :
-                // InternalErDslLexer.g:1:10: GenerateOcurrenceDiagram
+                // InternalErDslLexer.g:1:10: GenerateOccurrenceDiagram
                 {
-                mGenerateOcurrenceDiagram(); 
+                mGenerateOccurrenceDiagram(); 
 
                 }
                 break;
             case 2 :
-                // InternalErDslLexer.g:1:35: PartialOverlapped
+                // InternalErDslLexer.g:1:36: PartialOverlapped
                 {
                 mPartialOverlapped(); 
 
                 }
                 break;
             case 3 :
-                // InternalErDslLexer.g:1:53: PartialDisjoint
+                // InternalErDslLexer.g:1:54: PartialDisjoint
                 {
                 mPartialDisjoint(); 
 
                 }
                 break;
             case 4 :
-                // InternalErDslLexer.g:1:69: TotalOverlapped
+                // InternalErDslLexer.g:1:70: TotalOverlapped
                 {
                 mTotalOverlapped(); 
 
                 }
                 break;
             case 5 :
-                // InternalErDslLexer.g:1:85: TotalDisjoint
+                // InternalErDslLexer.g:1:86: TotalDisjoint
                 {
                 mTotalDisjoint(); 
 
                 }
                 break;
             case 6 :
-                // InternalErDslLexer.g:1:99: LogicalSchema
+                // InternalErDslLexer.g:1:100: LogicalSchema
                 {
                 mLogicalSchema(); 
 
                 }
                 break;
             case 7 :
-                // InternalErDslLexer.g:1:113: Relationships
+                // InternalErDslLexer.g:1:114: Relationships
                 {
                 mRelationships(); 
 
                 }
                 break;
             case 8 :
-                // InternalErDslLexer.g:1:127: IsIdentifier
+                // InternalErDslLexer.g:1:128: IsIdentifier
                 {
                 mIsIdentifier(); 
 
                 }
                 break;
             case 9 :
-                // InternalErDslLexer.g:1:140: PostgreSQL
+                // InternalErDslLexer.g:1:141: PostgreSQL
                 {
                 mPostgreSQL(); 
 
                 }
                 break;
             case 10 :
-                // InternalErDslLexer.g:1:151: Entities
+                // InternalErDslLexer.g:1:152: Entities
                 {
                 mEntities(); 
 
                 }
                 break;
             case 11 :
-                // InternalErDslLexer.g:1:160: Generate
+                // InternalErDslLexer.g:1:161: Generate
                 {
                 mGenerate(); 
 
                 }
                 break;
             case 12 :
-                // InternalErDslLexer.g:1:169: Datetime
+                // InternalErDslLexer.g:1:170: Datetime
                 {
                 mDatetime(); 
 
                 }
                 break;
             case 13 :
-                // InternalErDslLexer.g:1:178: Diagram
+                // InternalErDslLexer.g:1:179: Diagram
                 {
                 mDiagram(); 
 
                 }
                 break;
             case 14 :
-                // InternalErDslLexer.g:1:186: Boolean
+                // InternalErDslLexer.g:1:187: Boolean
                 {
                 mBoolean(); 
 
                 }
                 break;
             case 15 :
-                // InternalErDslLexer.g:1:194: Relates
+                // InternalErDslLexer.g:1:195: Relates
                 {
                 mRelates(); 
 
                 }
                 break;
             case 16 :
-                // InternalErDslLexer.g:1:202: Domain
+                // InternalErDslLexer.g:1:203: Domain
                 {
                 mDomain(); 
 
                 }
                 break;
             case 17 :
-                // InternalErDslLexer.g:1:209: Double
+                // InternalErDslLexer.g:1:210: Double
                 {
                 mDouble(); 
 
                 }
                 break;
             case 18 :
-                // InternalErDslLexer.g:1:216: String
+                // InternalErDslLexer.g:1:217: String
                 {
                 mString(); 
 
                 }
                 break;
             case 19 :
-                // InternalErDslLexer.g:1:223: LeftParenthesisDigitZeroColonDigitOneRightParenthesis
+                // InternalErDslLexer.g:1:224: LeftParenthesisDigitZeroColonDigitOneRightParenthesis
                 {
                 mLeftParenthesisDigitZeroColonDigitOneRightParenthesis(); 
 
                 }
                 break;
             case 20 :
-                // InternalErDslLexer.g:1:277: N
+                // InternalErDslLexer.g:1:278: N
                 {
                 mN(); 
 
                 }
                 break;
             case 21 :
-                // InternalErDslLexer.g:1:279: LeftParenthesisDigitOneColonDigitOneRightParenthesis
+                // InternalErDslLexer.g:1:280: LeftParenthesisDigitOneColonDigitOneRightParenthesis
                 {
                 mLeftParenthesisDigitOneColonDigitOneRightParenthesis(); 
 
                 }
                 break;
             case 22 :
-                // InternalErDslLexer.g:1:332: N_1
+                // InternalErDslLexer.g:1:333: N_1
                 {
                 mN_1(); 
 
                 }
                 break;
             case 23 :
-                // InternalErDslLexer.g:1:336: MySQL
+                // InternalErDslLexer.g:1:337: MySQL
                 {
                 mMySQL(); 
 
                 }
                 break;
             case 24 :
-                // InternalErDslLexer.g:1:342: Money
+                // InternalErDslLexer.g:1:343: Money
                 {
                 mMoney(); 
 
                 }
                 break;
             case 25 :
-                // InternalErDslLexer.g:1:348: File
+                // InternalErDslLexer.g:1:349: File
                 {
                 mFile(); 
 
                 }
                 break;
             case 26 :
-                // InternalErDslLexer.g:1:353: All
+                // InternalErDslLexer.g:1:354: All
                 {
                 mAll(); 
 
                 }
                 break;
             case 27 :
-                // InternalErDslLexer.g:1:357: Int
+                // InternalErDslLexer.g:1:358: Int
                 {
                 mInt(); 
 
                 }
                 break;
             case 28 :
-                // InternalErDslLexer.g:1:361: Is
+                // InternalErDslLexer.g:1:362: Is
                 {
                 mIs(); 
 
                 }
                 break;
             case 29 :
-                // InternalErDslLexer.g:1:364: Comma
+                // InternalErDslLexer.g:1:365: Comma
                 {
                 mComma(); 
 
                 }
                 break;
             case 30 :
-                // InternalErDslLexer.g:1:370: Semicolon
+                // InternalErDslLexer.g:1:371: Semicolon
                 {
                 mSemicolon(); 
 
                 }
                 break;
             case 31 :
-                // InternalErDslLexer.g:1:380: LeftSquareBracket
+                // InternalErDslLexer.g:1:381: LeftSquareBracket
                 {
                 mLeftSquareBracket(); 
 
                 }
                 break;
             case 32 :
-                // InternalErDslLexer.g:1:398: RightSquareBracket
+                // InternalErDslLexer.g:1:399: RightSquareBracket
                 {
                 mRightSquareBracket(); 
 
                 }
                 break;
             case 33 :
-                // InternalErDslLexer.g:1:417: LeftCurlyBracket
+                // InternalErDslLexer.g:1:418: LeftCurlyBracket
                 {
                 mLeftCurlyBracket(); 
 
                 }
                 break;
             case 34 :
-                // InternalErDslLexer.g:1:434: RightCurlyBracket
+                // InternalErDslLexer.g:1:435: RightCurlyBracket
                 {
                 mRightCurlyBracket(); 
 
                 }
                 break;
             case 35 :
-                // InternalErDslLexer.g:1:452: RULE_ID
+                // InternalErDslLexer.g:1:453: RULE_ID
                 {
                 mRULE_ID(); 
 
                 }
                 break;
             case 36 :
-                // InternalErDslLexer.g:1:460: RULE_INT
+                // InternalErDslLexer.g:1:461: RULE_INT
                 {
                 mRULE_INT(); 
 
                 }
                 break;
             case 37 :
-                // InternalErDslLexer.g:1:469: RULE_STRING
+                // InternalErDslLexer.g:1:470: RULE_STRING
                 {
                 mRULE_STRING(); 
 
                 }
                 break;
             case 38 :
-                // InternalErDslLexer.g:1:481: RULE_ML_COMMENT
+                // InternalErDslLexer.g:1:482: RULE_ML_COMMENT
                 {
                 mRULE_ML_COMMENT(); 
 
                 }
                 break;
             case 39 :
-                // InternalErDslLexer.g:1:497: RULE_SL_COMMENT
+                // InternalErDslLexer.g:1:498: RULE_SL_COMMENT
                 {
                 mRULE_SL_COMMENT(); 
 
                 }
                 break;
             case 40 :
-                // InternalErDslLexer.g:1:513: RULE_WS
+                // InternalErDslLexer.g:1:514: RULE_WS
                 {
                 mRULE_WS(); 
 
                 }
                 break;
             case 41 :
-                // InternalErDslLexer.g:1:521: RULE_ANY_OTHER
+                // InternalErDslLexer.g:1:522: RULE_ANY_OTHER
                 {
                 mRULE_ANY_OTHER(); 
 
@@ -3750,7 +3759,7 @@ public class InternalErDslLexer extends Lexer {
             this.transition = DFA12_transition;
         }
         public String getDescription() {
-            return "1:1: Tokens : ( GenerateOcurrenceDiagram | PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Diagram | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
+            return "1:1: Tokens : ( GenerateOccurrenceDiagram | PartialOverlapped | PartialDisjoint | TotalOverlapped | TotalDisjoint | LogicalSchema | Relationships | IsIdentifier | PostgreSQL | Entities | Generate | Datetime | Diagram | Boolean | Relates | Domain | Double | String | LeftParenthesisDigitZeroColonDigitOneRightParenthesis | N | LeftParenthesisDigitOneColonDigitOneRightParenthesis | N_1 | MySQL | Money | File | All | Int | Is | Comma | Semicolon | LeftSquareBracket | RightSquareBracket | LeftCurlyBracket | RightCurlyBracket | RULE_ID | RULE_INT | RULE_STRING | RULE_ML_COMMENT | RULE_SL_COMMENT | RULE_WS | RULE_ANY_OTHER );";
         }
         public int specialStateTransition(int s, IntStream _input) throws NoViableAltException {
             IntStream input = _input;
