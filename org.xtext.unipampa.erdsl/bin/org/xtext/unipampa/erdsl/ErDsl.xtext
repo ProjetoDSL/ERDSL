@@ -24,7 +24,7 @@ Relation:
 	'relates'
 	rightEnding=RelationSideRight ']')
 	('{' attributes+=Attribute
-	(',' attributes+=Attribute)* '}')*;
+	(',' attributes+=Attribute)* '}')* ocurrence=('@generateOcurrenceDiagram')?;
 
 RelationSideRight:
 	cardinality=('(0:1)' | '(1:1)' | '(0:N)' | '(1:N)')
@@ -39,4 +39,5 @@ enum DataType:
 	MONEY='money' | STRING='string' |
 	BOOLEAN='boolean' | DATETIME='datetime' |
 	BLOB='file';
+
 	

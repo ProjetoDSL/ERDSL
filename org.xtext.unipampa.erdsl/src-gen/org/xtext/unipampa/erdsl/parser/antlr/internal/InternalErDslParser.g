@@ -654,6 +654,20 @@ ruleRelation returns [EObject current=null]
 				newLeafNode(otherlv_10, grammarAccess.getRelationAccess().getRightCurlyBracketKeyword_2_3());
 			}
 		)*
+		(
+			(
+				lv_ocurrence_11_0=GenerateOcurrenceDiagram
+				{
+					newLeafNode(lv_ocurrence_11_0, grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getRelationRule());
+					}
+					setWithLastConsumed($current, "ocurrence", lv_ocurrence_11_0, "@generateOcurrenceDiagram");
+				}
+			)
+		)?
 	)
 ;
 

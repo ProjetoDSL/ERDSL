@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Relation#getLeftEnding <em>Left Ending</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Relation#getRightEnding <em>Right Ending</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Relation#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence <em>Ocurrence</em>}</li>
  * </ul>
  *
  * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getRelation()
@@ -105,5 +106,27 @@ public interface Relation extends EObject
    * @generated
    */
   EList<Attribute> getAttributes();
+
+  /**
+   * Returns the value of the '<em><b>Ocurrence</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the value of the '<em>Ocurrence</em>' attribute.
+   * @see #setOcurrence(String)
+   * @see org.xtext.unipampa.erdsl.erDsl.ErDslPackage#getRelation_Ocurrence()
+   * @model
+   * @generated
+   */
+  String getOcurrence();
+
+  /**
+   * Sets the value of the '{@link org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence <em>Ocurrence</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Ocurrence</em>' attribute.
+   * @see #getOcurrence()
+   * @generated
+   */
+  void setOcurrence(String value);
 
 } // Relation

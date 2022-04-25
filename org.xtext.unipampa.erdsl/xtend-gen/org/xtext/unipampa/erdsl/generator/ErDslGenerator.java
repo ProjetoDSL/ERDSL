@@ -30,6 +30,8 @@ public class ErDslGenerator extends AbstractGenerator {
   
   private final PlantUmlFileGenerator PlantUmlGenerator = new PlantUmlFileGenerator();
   
+  private final OcurrenceDiagramGenerator OcurrenceDiagramGenerator = new org.xtext.unipampa.erdsl.generator.OcurrenceDiagramGenerator();
+  
   @Override
   public void doGenerate(final Resource resource, final IFileSystemAccess2 fsa, final IGeneratorContext context) {
     EObject _get = resource.getContents().get(0);
@@ -69,6 +71,7 @@ public class ErDslGenerator extends AbstractGenerator {
         this.postGreSqlGenerator.doGenerate(resource, fsa, context);
         this.MySqlGenerator.doGenerate(resource, fsa, context);
         this.PlantUmlGenerator.doGenerate(resource, fsa, context);
+        this.OcurrenceDiagramGenerator.doGenerate(resource, fsa, context);
       }
     } catch (final Throwable _t) {
       if (_t instanceof Exception) {
