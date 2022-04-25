@@ -8,15 +8,6 @@ import org.eclipse.xtext.generator.AbstractGenerator
 import org.eclipse.xtext.generator.IFileSystemAccess2
 import org.eclipse.xtext.generator.IGeneratorContext
 import org.xtext.unipampa.erdsl.erDsl.ERModel
-import org.xtext.unipampa.erdsl.erDsl.Attribute
-import org.xtext.unipampa.erdsl.erDsl.Relation
-import org.xtext.unipampa.erdsl.erDsl.Entity
-import java.util.ArrayList
-
-import org.eclipse.xtext.generator.IFileSystemAccessExtension3
-import java.io.ByteArrayOutputStream
-import net.sourceforge.plantuml.SourceStringReader
-import java.io.ByteArrayInputStream
 
 /**
  * Generates code from your model files on save.
@@ -29,6 +20,7 @@ class ErDslGenerator extends AbstractGenerator {
 	val postGreSqlGenerator = new PostgresqlFileGenerator;
 	val MySqlGenerator = new MysqlFileGenerator;
 	val PlantUmlGenerator = new PlantUmlFileGenerator;
+	val OcurrenceDiagramGenerator = new OcurrenceDiagramGenerator;
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 
@@ -65,6 +57,8 @@ class ErDslGenerator extends AbstractGenerator {
 				this.MySqlGenerator.doGenerate(resource, fsa, context)
 
 				this.PlantUmlGenerator.doGenerate(resource, fsa, context)
+				
+				this.OcurrenceDiagramGenerator.doGenerate(resource, fsa, context)
 			}
 
 		} catch (Exception e) {

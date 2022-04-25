@@ -37,6 +37,7 @@ import org.xtext.unipampa.erdsl.erDsl.RelationSideRight;
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationImpl#getLeftEnding <em>Left Ending</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationImpl#getRightEnding <em>Right Ending</em>}</li>
  *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationImpl#getAttributes <em>Attributes</em>}</li>
+ *   <li>{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationImpl#getOcurrence <em>Ocurrence</em>}</li>
  * </ul>
  *
  * @generated
@@ -92,6 +93,26 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
    * @ordered
    */
   protected EList<Attribute> attributes;
+
+  /**
+   * The default value of the '{@link #getOcurrence() <em>Ocurrence</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOcurrence()
+   * @generated
+   * @ordered
+   */
+  protected static final String OCURRENCE_EDEFAULT = null;
+
+  /**
+   * The cached value of the '{@link #getOcurrence() <em>Ocurrence</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOcurrence()
+   * @generated
+   * @ordered
+   */
+  protected String ocurrence = OCURRENCE_EDEFAULT;
 
   /**
    * <!-- begin-user-doc -->
@@ -260,6 +281,31 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
    * @generated
    */
   @Override
+  public String getOcurrence()
+  {
+    return ocurrence;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setOcurrence(String newOcurrence)
+  {
+    String oldOcurrence = ocurrence;
+    ocurrence = newOcurrence;
+    if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, ErDslPackage.RELATION__OCURRENCE, oldOcurrence, ocurrence));
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
   {
     switch (featureID)
@@ -292,6 +338,8 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
         return getRightEnding();
       case ErDslPackage.RELATION__ATTRIBUTES:
         return getAttributes();
+      case ErDslPackage.RELATION__OCURRENCE:
+        return getOcurrence();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -320,6 +368,9 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
         getAttributes().clear();
         getAttributes().addAll((Collection<? extends Attribute>)newValue);
         return;
+      case ErDslPackage.RELATION__OCURRENCE:
+        setOcurrence((String)newValue);
+        return;
     }
     super.eSet(featureID, newValue);
   }
@@ -346,6 +397,9 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
       case ErDslPackage.RELATION__ATTRIBUTES:
         getAttributes().clear();
         return;
+      case ErDslPackage.RELATION__OCURRENCE:
+        setOcurrence(OCURRENCE_EDEFAULT);
+        return;
     }
     super.eUnset(featureID);
   }
@@ -368,6 +422,8 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
         return rightEnding != null;
       case ErDslPackage.RELATION__ATTRIBUTES:
         return attributes != null && !attributes.isEmpty();
+      case ErDslPackage.RELATION__OCURRENCE:
+        return OCURRENCE_EDEFAULT == null ? ocurrence != null : !OCURRENCE_EDEFAULT.equals(ocurrence);
     }
     return super.eIsSet(featureID);
   }
@@ -385,9 +441,10 @@ public class RelationImpl extends MinimalEObjectImpl.Container implements Relati
 //    StringBuilder result = new StringBuilder(super.toString());
 //    result.append(" (name: ");
 //    result.append(name);
+//    result.append(", ocurrence: ");
+//    result.append(ocurrence);
 //    result.append(')');
 //    return result.toString();
-    
     return name;
   }
 

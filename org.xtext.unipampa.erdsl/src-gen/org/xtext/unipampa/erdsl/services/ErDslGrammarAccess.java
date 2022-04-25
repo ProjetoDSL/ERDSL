@@ -342,20 +342,22 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		private final Assignment cAttributesAssignment_2_2_1 = (Assignment)cGroup_2_2.eContents().get(1);
 		private final RuleCall cAttributesAttributeParserRuleCall_2_2_1_0 = (RuleCall)cAttributesAssignment_2_2_1.eContents().get(0);
 		private final Keyword cRightCurlyBracketKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
+		private final Assignment cOcurrenceAssignment_3 = (Assignment)cGroup.eContents().get(3);
+		private final Keyword cOcurrenceGenerateOcurrenceDiagramKeyword_3_0 = (Keyword)cOcurrenceAssignment_3.eContents().get(0);
 		
 		//Relation:
 		//    (name=ID) ('[' leftEnding=RelationSideLeft
 		//    'relates'
 		//    rightEnding=RelationSideRight ']')
 		//    ('{' attributes+=Attribute
-		//    (',' attributes+=Attribute)* '}')*;
+		//    (',' attributes+=Attribute)* '}')* ocurrence=('@generateOcurrenceDiagram')?;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//(name=ID) ('[' leftEnding=RelationSideLeft
 		//'relates'
 		//rightEnding=RelationSideRight ']')
 		//('{' attributes+=Attribute
-		//(',' attributes+=Attribute)* '}')*
+		//(',' attributes+=Attribute)* '}')* ocurrence=('@generateOcurrenceDiagram')?
 		public Group getGroup() { return cGroup; }
 		
 		//(name=ID)
@@ -417,6 +419,12 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 		
 		//'}'
 		public Keyword getRightCurlyBracketKeyword_2_3() { return cRightCurlyBracketKeyword_2_3; }
+		
+		//ocurrence=('@generateOcurrenceDiagram')?
+		public Assignment getOcurrenceAssignment_3() { return cOcurrenceAssignment_3; }
+		
+		//('@generateOcurrenceDiagram')
+		public Keyword getOcurrenceGenerateOcurrenceDiagramKeyword_3_0() { return cOcurrenceGenerateOcurrenceDiagramKeyword_3_0; }
 	}
 	public class RelationSideRightElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.xtext.unipampa.erdsl.ErDsl.RelationSideRight");
@@ -730,7 +738,7 @@ public class ErDslGrammarAccess extends AbstractElementFinder.AbstractGrammarEle
 	//    'relates'
 	//    rightEnding=RelationSideRight ']')
 	//    ('{' attributes+=Attribute
-	//    (',' attributes+=Attribute)* '}')*;
+	//    (',' attributes+=Attribute)* '}')* ocurrence=('@generateOcurrenceDiagram')?;
 	public RelationElements getRelationAccess() {
 		return pRelation;
 	}

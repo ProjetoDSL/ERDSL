@@ -11,6 +11,8 @@ package org.xtext.unipampa.erdsl.ide.contentassist.antlr.lexer;
 import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 }
 
+GenerateOcurrenceDiagram : '@'('G'|'g')('E'|'e')('N'|'n')('E'|'e')('R'|'r')('A'|'a')('T'|'t')('E'|'e')('O'|'o')('C'|'c')('U'|'u')('R'|'r')('R'|'r')('E'|'e')('N'|'n')('C'|'c')('E'|'e')('D'|'d')('I'|'i')('A'|'a')('G'|'g')('R'|'r')('A'|'a')('M'|'m');
+
 PartialOverlapped : ('P'|'p')('A'|'a')('R'|'r')('T'|'t')('I'|'i')('A'|'a')('L'|'l')'/'('O'|'o')('V'|'v')('E'|'e')('R'|'r')('L'|'l')('A'|'a')('P'|'p')('P'|'p')('E'|'e')('D'|'d');
 
 PartialDisjoint : ('P'|'p')('A'|'a')('R'|'r')('T'|'t')('I'|'i')('A'|'a')('L'|'l')'/'('D'|'d')('I'|'i')('S'|'s')('J'|'j')('O'|'o')('I'|'i')('N'|'n')('T'|'t');

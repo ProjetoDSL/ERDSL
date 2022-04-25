@@ -289,13 +289,22 @@ public interface ErDslPackage extends EPackage
   int RELATION__ATTRIBUTES = 3;
 
   /**
+   * The feature id for the '<em><b>Ocurrence</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int RELATION__OCURRENCE = 4;
+
+  /**
    * The number of structural features of the '<em>Relation</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int RELATION_FEATURE_COUNT = 4;
+  int RELATION_FEATURE_COUNT = 5;
 
   /**
    * The meta object id for the '{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideRightImpl <em>Relation Side Right</em>}' class.
@@ -609,6 +618,17 @@ public interface ErDslPackage extends EPackage
   EReference getRelation_Attributes();
 
   /**
+   * Returns the meta object for the attribute '{@link org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence <em>Ocurrence</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Ocurrence</em>'.
+   * @see org.xtext.unipampa.erdsl.erDsl.Relation#getOcurrence()
+   * @see #getRelation()
+   * @generated
+   */
+  EAttribute getRelation_Ocurrence();
+
+  /**
    * Returns the meta object for class '{@link org.xtext.unipampa.erdsl.erDsl.RelationSideRight <em>Relation Side Right</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -882,6 +902,14 @@ public interface ErDslPackage extends EPackage
      * @generated
      */
     EReference RELATION__ATTRIBUTES = eINSTANCE.getRelation_Attributes();
+
+    /**
+     * The meta object literal for the '<em><b>Ocurrence</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute RELATION__OCURRENCE = eINSTANCE.getRelation_Ocurrence();
 
     /**
      * The meta object literal for the '{@link org.xtext.unipampa.erdsl.erDsl.impl.RelationSideRightImpl <em>Relation Side Right</em>}' class.

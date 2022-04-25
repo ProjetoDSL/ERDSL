@@ -64,6 +64,7 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
 		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
 		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
+		tokenNameToValue.put("GenerateOcurrenceDiagram", "'@generateOcurrenceDiagram'");
 	}
 
 	public void setGrammarAccess(ErDslGrammarAccess grammarAccess) {
@@ -1572,6 +1573,7 @@ rule__Relation__Group__2
 	}
 :
 	rule__Relation__Group__2__Impl
+	rule__Relation__Group__3
 ;
 finally {
 	restoreStackSize(stackSize);
@@ -1586,6 +1588,32 @@ rule__Relation__Group__2__Impl
 	{ before(grammarAccess.getRelationAccess().getGroup_2()); }
 	(rule__Relation__Group_2__0)*
 	{ after(grammarAccess.getRelationAccess().getGroup_2()); }
+)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Relation__Group__3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	rule__Relation__Group__3__Impl
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Relation__Group__3__Impl
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+(
+	{ before(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); }
+	(rule__Relation__OcurrenceAssignment_3)?
+	{ after(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); }
 )
 ;
 finally {
@@ -2270,6 +2298,25 @@ rule__Relation__AttributesAssignment_2_2_1
 		{ before(grammarAccess.getRelationAccess().getAttributesAttributeParserRuleCall_2_2_1_0()); }
 		ruleAttribute
 		{ after(grammarAccess.getRelationAccess().getAttributesAttributeParserRuleCall_2_2_1_0()); }
+	)
+;
+finally {
+	restoreStackSize(stackSize);
+}
+
+rule__Relation__OcurrenceAssignment_3
+	@init {
+		int stackSize = keepStackSize();
+	}
+:
+	(
+		{ before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+		(
+			{ before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+			GenerateOcurrenceDiagram
+			{ after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+		)
+		{ after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
 	)
 ;
 finally {
