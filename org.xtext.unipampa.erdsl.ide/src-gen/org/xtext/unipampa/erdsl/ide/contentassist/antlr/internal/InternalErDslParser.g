@@ -64,7 +64,7 @@ import org.xtext.unipampa.erdsl.services.ErDslGrammarAccess;
 		tokenNameToValue.put("PartialDisjoint", "'partial/disjoint'");
 		tokenNameToValue.put("TotalOverlapped", "'total/overlapped'");
 		tokenNameToValue.put("PartialOverlapped", "'partial/overlapped'");
-		tokenNameToValue.put("GenerateOcurrenceDiagram", "'@generateOcurrenceDiagram'");
+		tokenNameToValue.put("GenerateOccurrenceDiagram", "'@generateOccurrenceDiagram'");
 	}
 
 	public void setGrammarAccess(ErDslGrammarAccess grammarAccess) {
@@ -1611,9 +1611,9 @@ rule__Relation__Group__3__Impl
 	}
 :
 (
-	{ before(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); }
-	(rule__Relation__OcurrenceAssignment_3)?
-	{ after(grammarAccess.getRelationAccess().getOcurrenceAssignment_3()); }
+	{ before(grammarAccess.getRelationAccess().getOccurrenceAssignment_3()); }
+	(rule__Relation__OccurrenceAssignment_3)?
+	{ after(grammarAccess.getRelationAccess().getOccurrenceAssignment_3()); }
 )
 ;
 finally {
@@ -2304,19 +2304,19 @@ finally {
 	restoreStackSize(stackSize);
 }
 
-rule__Relation__OcurrenceAssignment_3
+rule__Relation__OccurrenceAssignment_3
 	@init {
 		int stackSize = keepStackSize();
 	}
 :
 	(
-		{ before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+		{ before(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); }
 		(
-			{ before(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
-			GenerateOcurrenceDiagram
-			{ after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+			{ before(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); }
+			GenerateOccurrenceDiagram
+			{ after(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); }
 		)
-		{ after(grammarAccess.getRelationAccess().getOcurrenceGenerateOcurrenceDiagramKeyword_3_0()); }
+		{ after(grammarAccess.getRelationAccess().getOccurrenceGenerateOccurrenceDiagramKeyword_3_0()); }
 	)
 ;
 finally {

@@ -40,7 +40,7 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Relation/leftEnding"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Relation/rightEnding"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ErDsl.ecore#//Relation/attributes"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Relation/ocurrence"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//Relation/occurrence"/>
     </genClasses>
     <genClasses ecoreClass="ErDsl.ecore#//RelationSideRight">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ErDsl.ecore#//RelationSideRight/cardinality"/>

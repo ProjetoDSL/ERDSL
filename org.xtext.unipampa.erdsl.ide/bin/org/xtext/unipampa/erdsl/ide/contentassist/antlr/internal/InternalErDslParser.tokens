@@ -4,7 +4,7 @@
 '(1:N)'=25
 ','=32
 ';'=33
-'@generateOcurrenceDiagram'=4
+'@generateOccurrenceDiagram'=4
 'All'=29
 'Diagram'=16
 'Domain'=19

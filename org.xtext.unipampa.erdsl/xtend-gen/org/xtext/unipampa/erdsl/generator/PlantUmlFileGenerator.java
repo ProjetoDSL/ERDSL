@@ -41,13 +41,10 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
             byte[] _byteArray = out.toByteArray();
             ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
             ((IFileSystemAccessExtension3) fsa).generateFile(_plus, _byteArrayInputStream);
-            String _lowerCase_1 = modeloER.getDomain().getName().toLowerCase();
-            String _plus_1 = (_lowerCase_1 + "_DiagramDesc_Gen.puml");
-            fsa.generateFile(_plus_1, plantUML);
           } else {
-            String _lowerCase_2 = modeloER.getDomain().getName().toLowerCase();
-            String _plus_2 = (_lowerCase_2 + "_DiagramDesc_PartialGen.puml");
-            fsa.generateFile(_plus_2, plantUML);
+            String _lowerCase_1 = modeloER.getDomain().getName().toLowerCase();
+            String _plus_1 = (_lowerCase_1 + "_DiagramDesc_PartialGen.puml");
+            fsa.generateFile(_plus_1, plantUML);
           }
         }
       }
@@ -79,7 +76,7 @@ public class PlantUmlFileGenerator extends AbstractGenerator {
     _builder.newLine();
     _builder.append("\' skinparam titleBorderColor red");
     _builder.newLine();
-    _builder.append("scale 1.0");
+    _builder.append("scale 1.5");
     _builder.newLine();
     _builder.append("\' skinparam monochrome true");
     _builder.newLine();

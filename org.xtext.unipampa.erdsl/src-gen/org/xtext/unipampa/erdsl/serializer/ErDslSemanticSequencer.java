@@ -164,7 +164,7 @@ public class ErDslSemanticSequencer extends AbstractDelegatingSemanticSequencer 
 	 *         leftEnding=RelationSideLeft 
 	 *         rightEnding=RelationSideRight 
 	 *         (attributes+=Attribute attributes+=Attribute*)* 
-	 *         ocurrence='@generateOcurrenceDiagram'?
+	 *         occurrence='@generateOccurrenceDiagram'?
 	 *     )
 	 */
 	protected void sequence_Relation(ISerializationContext context, Relation semanticObject) {

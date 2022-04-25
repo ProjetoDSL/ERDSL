@@ -20,7 +20,7 @@ class ErDslGenerator extends AbstractGenerator {
 	val postGreSqlGenerator = new PostgresqlFileGenerator;
 	val MySqlGenerator = new MysqlFileGenerator;
 	val PlantUmlGenerator = new PlantUmlFileGenerator;
-	val OcurrenceDiagramGenerator = new OcurrenceDiagramGenerator;
+	val OcurrenceDiagramGenerator = new OccurrenceDiagramGenerator;
 
 	override void doGenerate(Resource resource, IFileSystemAccess2 fsa, IGeneratorContext context) {
 
