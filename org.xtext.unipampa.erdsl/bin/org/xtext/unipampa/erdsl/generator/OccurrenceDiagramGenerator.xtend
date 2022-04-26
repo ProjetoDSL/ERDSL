@@ -36,7 +36,7 @@ class OccurrenceDiagramGenerator extends AbstractGenerator {
 						(fsa as IFileSystemAccessExtension3).generateFile(r.name.toLowerCase + "_OccurrenceDiagram.png",
 							new ByteArrayInputStream(out.toByteArray))
 
-				fsa.generateFile(r.name.toLowerCase + "_OccurrenceDiagramDesc_Gen.puml", plantUML)
+//				fsa.generateFile(r.name.toLowerCase + "_OccurrenceDiagramDesc_Gen.puml", plantUML)
 					} else {
 
 						fsa.generateFile(r.name.toLowerCase + "_OccurrenceDiagramDesc_PartialGen.puml", plantUML)

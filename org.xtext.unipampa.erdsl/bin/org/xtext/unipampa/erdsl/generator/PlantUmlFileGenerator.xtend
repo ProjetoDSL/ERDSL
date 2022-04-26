@@ -29,7 +29,6 @@ class PlantUmlFileGenerator extends AbstractGenerator {
 				new SourceStringReader(plantUML).generateImage(out)
 		
 				(fsa as IFileSystemAccessExtension3).generateFile(modeloER.domain.name.toLowerCase+"_Diagram.png",
-		
 					new ByteArrayInputStream(out.toByteArray))
 		
 //				fsa.generateFile(modeloER.domain.name.toLowerCase+"_DiagramDesc_Gen.puml", plantUML)

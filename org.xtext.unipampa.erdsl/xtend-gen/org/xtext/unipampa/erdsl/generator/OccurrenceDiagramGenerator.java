@@ -49,13 +49,10 @@ public class OccurrenceDiagramGenerator extends AbstractGenerator {
                 byte[] _byteArray = out.toByteArray();
                 ByteArrayInputStream _byteArrayInputStream = new ByteArrayInputStream(_byteArray);
                 ((IFileSystemAccessExtension3) fsa).generateFile(_plus, _byteArrayInputStream);
-                String _lowerCase_1 = r.getName().toLowerCase();
-                String _plus_1 = (_lowerCase_1 + "_OccurrenceDiagramDesc_Gen.puml");
-                fsa.generateFile(_plus_1, plantUML);
               } else {
-                String _lowerCase_2 = r.getName().toLowerCase();
-                String _plus_2 = (_lowerCase_2 + "_OccurrenceDiagramDesc_PartialGen.puml");
-                fsa.generateFile(_plus_2, plantUML);
+                String _lowerCase_1 = r.getName().toLowerCase();
+                String _plus_1 = (_lowerCase_1 + "_OccurrenceDiagramDesc_PartialGen.puml");
+                fsa.generateFile(_plus_1, plantUML);
               }
             }
           }
