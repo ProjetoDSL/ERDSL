@@ -9,11 +9,11 @@ utils/
 # Log file
 *.log
 
-# BlueJ files
-*.ctxt
+# Xtend binary serialization file
+*.xtendbin
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+# Xtext trace files
+*.java._trace
 
 # Package Files #
 *.jar
